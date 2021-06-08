@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<Configuration>
+    <Appenders>
+        <File name = "ConnectionPoolAppender" fileName = "logs/ConnectionPoolLog.log" append = "false">
+            <PatternLayout pattern = "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1} - %m%n"/>
+        </File>
+        <File name = "DaoAppender" fileName="logs/DaoLog.log" append="false">
+            <PatternLayout pattern = "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1} - %m%n"/>
+        </File>
+    </Appenders>
+
+   <Loggers>
+       <Logger name = "by.epam.jwd.web.connectionPool" additivity = "false" level = "All">
+           <AppenderRef ref = "ConnectionPoolAppender"/>
+       </Logger>
+       <Logger name = "by.epam.jwd.web.dao" additivity="false" level="All">
+           <AppenderRef ref = "DaoAppender"/>
+       </Logger>
+   </Loggers>
+</Configuration>
