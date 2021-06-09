@@ -56,14 +56,14 @@ class OrdinaryConnectionPool implements ConnectionPool {
         if (!isInitialized.get()) {
             throw new IllegalStateException(POOL_IS_NOT_INITIALIZED_MESSAGE);
         }
-        Connection freeConnection = null;
         try {
-            freeConnection = freeConnectionsQueue.take();
+            Connection freeConnection = freeConnectionsQueue.take();
             takenConnections.add(freeConnection);
+            return freeConnection;
         } catch (InterruptedException e) {
             logger.error(e);
+            throw new ConnectionPoolActionException("Cannot take free connection", e);
         }
-        return freeConnection;
     }
 
     @Override
@@ -77,6 +77,7 @@ class OrdinaryConnectionPool implements ConnectionPool {
             takenConnections.remove(connection);
         } catch (InterruptedException e) {
             logger.error(e);
+            throw new ConnectionPoolActionException("Cannot return taken connection to connection pool", e);
         }
     }
 

@@ -12,6 +12,14 @@
     <c:when test="${not empty sessionScope.user}">
         Hello, ${sessionScope.user}
         <a href="controller?command=logout">Logout</a>
+        <c:if test="${sessionScope.user.role eq UserRole.ADMIN}">
+            <a href="controller?command=show_users">Manage users</a>
+            <a href="controller?command=show_books">Manage books</a>
+            <a href="controller?command=show_orders">Manager orders</a>
+        </c:if>
+        <c:if test="${sessionScope.user.role eq UserRole.LIBRARIAN}">
+            <a href="controller?command=show_orders">Manager orders</a>
+        </c:if>
     </c:when>
     <c:otherwise>
         <a href="controller?command=show_login">Login</a>
@@ -19,11 +27,6 @@
     </c:otherwise>
 </c:choose>
 <hr/>
-<c:if test="${not empty sessionScope.user}">
-    <c:if test="${sessionScope.user.role eq UserRole.ADMIN}">
-        <a href="controller?command=show_users">Users list</a>
-    </c:if>
-</c:if>
 <c:if test="${not empty books }" >
     <ul>
     <c:forEach var="elem" items="${books}">
@@ -32,6 +35,7 @@
          ${elem.genre.name},
          ${elem.date},
          ${elem.pagesAmount},
+         ${elem.booksAmount},
          ${elem.description}"/></li>
     </c:forEach>
     </ul>

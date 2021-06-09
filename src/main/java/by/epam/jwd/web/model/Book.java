@@ -10,20 +10,22 @@ public class Book implements DbEntity {
     private final BookGenre genre;
     private final LocalDate date;
     private final int pagesAmount;
+    private final int booksAmount;
     private final String description;
 
-    public Book(Long id, String name, BookAuthor author, BookGenre genre, LocalDate date, int pagesAmount, String description) {
+    public Book(Long id, String name, BookAuthor author, BookGenre genre, LocalDate date, int pagesAmount, int booksAmount,String description) {
         this.id = id;
         this.name = name;
         this.author = author;
         this.genre = genre;
         this.date = date;
         this.pagesAmount = pagesAmount;
+        this.booksAmount = booksAmount;
         this.description = description;
     }
 
     public Book(String name, BookAuthor author, BookGenre genre, LocalDate date, int pagesAmount, String description) {
-        this(null, name, author, genre, date, pagesAmount, description);
+        this(null, name, author, genre, date, pagesAmount, 1, description);
     }
 
     @Override
@@ -55,43 +57,51 @@ public class Book implements DbEntity {
         return description;
     }
 
+    public int getBooksAmount() {
+        return booksAmount;
+    }
+
     public Book updateName(String newName) {
         if (newName == null) {
             return this;
         }
-        return new Book(id, newName, author, genre, date, pagesAmount, description);
+        return new Book(id, newName, author, genre, date, pagesAmount, booksAmount, description);
     }
 
     public Book updateAuthor(BookAuthor newAuthor) {
         if (newAuthor == null) {
             return this;
         }
-        return new Book(id, name, newAuthor, genre, date, pagesAmount, description);
+        return new Book(id, name, newAuthor, genre, date, pagesAmount, booksAmount, description);
     }
 
     public Book updateGenre(BookGenre newGenre) {
         if (newGenre == null) {
             return this;
         }
-        return new Book(id, name, author, newGenre, date, pagesAmount, description);
+        return new Book(id, name, author, newGenre, date, pagesAmount, booksAmount, description);
     }
 
     public Book updateDate(LocalDate newDate) {
         if (newDate == null) {
             return this;
         }
-        return new Book(id, name, author, genre, newDate, pagesAmount, description);
+        return new Book(id, name, author, genre, newDate, pagesAmount, booksAmount, description);
     }
 
     public Book updatePagesAmount(int newPagesAmount) {
-        return new Book(id, name, author, genre, date, newPagesAmount, description);
+        return new Book(id, name, author, genre, date, newPagesAmount, booksAmount, description);
     }
 
     public Book updateDescription(String newDescription) {
         if (newDescription == null) {
             return this;
         }
-        return new Book(id, name, author, genre, date, pagesAmount, newDescription);
+        return new Book(id, name, author, genre, date, pagesAmount, booksAmount, newDescription);
+    }
+
+    public Book updatedBooksAmount(int newBooksAmount) {
+        return new Book(id, name, author, genre, date, pagesAmount, newBooksAmount, description);
     }
 
     @Override

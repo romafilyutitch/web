@@ -27,9 +27,10 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
     private static final String PAGES_AMOUNT_COLUMN = "pages_amount";
     private static final String DESCRIPTION_COLUMN = "description";
     private static final String SAVE_PREPARED_SQL = "insert into lib_book (name, author, genre, year, pages_amount, description) values (?, ?, ?, ?, ?, ?)";
-    private static final String FIND_ALL_SQL = "select id, name, author, genre, year, pages_amount, description from lib_book";
-    private static final String UPDATE_PREPARED_SQL = "update lib_book set name = ?, author = ?, genre = ?, year = ?, pages_amount = ?, description = ? where id = ?";
+    private static final String FIND_ALL_SQL = "select id, name, author, genre, year, pages_amount, books_amount, description from lib_book";
+    private static final String UPDATE_PREPARED_SQL = "update lib_book set name = ?, author = ?, genre = ?, year = ?, pages_amount = ?, books_amount = ?, description = ? where id = ?";
     private static final String DELETE_PREPARED_SQL = "delete from lib_book where id = ?";
+    public static final String BOOKS_AMOUNT_COLUMN = "books_amount";
 
     private MySQLBookDao() {
         super(FIND_ALL_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);
@@ -47,8 +48,9 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
         final String name = result.getString(NAME_COLUMN);
         final LocalDate date = result.getDate(YEAR_COLUMN).toLocalDate();
         final int pagesAmount = result.getInt(PAGES_AMOUNT_COLUMN);
+        final int booksAmount = result.getInt(BOOKS_AMOUNT_COLUMN);
         final String description = result.getString(DESCRIPTION_COLUMN);
-        return new Book(id, name, optionalAuthor.orElseThrow(DAOException::new), optionalBookGenre.orElseThrow(DAOException::new), date, pagesAmount, description);
+        return new Book(id, name, optionalAuthor.orElseThrow(DAOException::new), optionalBookGenre.orElseThrow(DAOException::new), date, pagesAmount, booksAmount, description);
     }
 
     @Override
@@ -70,8 +72,9 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
         updatePreparedStatement.setLong(3, entity.getGenre().getId());
         updatePreparedStatement.setDate(4, Date.valueOf(entity.getDate()));
         updatePreparedStatement.setInt(5, entity.getPagesAmount());
-        updatePreparedStatement.setString(6, entity.getDescription());
-        updatePreparedStatement.setLong(7, entity.getId());
+        updatePreparedStatement.setInt(6, entity.getBooksAmount());
+        updatePreparedStatement.setString(7, entity.getDescription());
+        updatePreparedStatement.setLong(8, entity.getId());
     }
 
     @Override
@@ -93,8 +96,6 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
     public List<Book> findBooksByYear(int year) throws DAOException {
         return findAll().stream().filter(book -> book.getDate().getYear() == year).collect(Collectors.toList());
     }
-
-
 
     private static class Singleton {
         private static final MySQLBookDao INSTANCE = new MySQLBookDao();

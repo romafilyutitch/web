@@ -25,14 +25,6 @@ public class BookAuthor implements DbEntity {
     }
 
 
-    public BookAuthor updateName(String newName) {
-        if (newName == null) {
-            return this;
-        }
-        return new BookAuthor(id, newName);
-    }
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

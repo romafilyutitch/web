@@ -51,6 +51,24 @@ public class SimpleUserService implements UserService {
         return USER_DAO.save(new User(user.getLogin(), encryptedPassword));
     }
 
+    @Override
+    public User update(User user) throws ServiceException {
+        final Optional<User> optionalUser = USER_DAO.findById(user.getId());
+        if (!optionalUser.isPresent()) {
+            throw new ServiceException("User does not exist");
+        }
+        return USER_DAO.update(user);
+    }
+
+    @Override
+    public User findById(Long id) throws ServiceException {
+        final Optional<User> optionalUser = USER_DAO.findById(id);
+        if (!optionalUser.isPresent()) {
+            throw new ServiceException(String.format("User with id %d does not exist", id));
+        }
+        return optionalUser.get();
+    }
+
     private static class Singleton {
         private static final SimpleUserService INSTANCE = new SimpleUserService();
     }

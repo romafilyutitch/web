@@ -12,4 +12,8 @@ public interface UserService {
 
     User login(User user) throws ServiceException;
 
+    User update(User user) throws ServiceException;
+
+    User findById(Long id) throws ServiceException;
+
 }

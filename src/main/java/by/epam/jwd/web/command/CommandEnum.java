@@ -14,10 +14,16 @@ public enum CommandEnum {
     LOGIN(new LoginCommand(), UserRole.UNAUTHORIZED),
     LOGOUT(new LogoutCommand(), UserRole.READER, UserRole.ADMIN, UserRole.LIBRARIAN),
     SHOW_USERS(new ShowUsersListCommand(), UserRole.ADMIN),
+    SHOW_BOOKS(new ShowBooksListCommand(), UserRole.ADMIN),
+    SHOW_ORDERS(new ShowOrdersListCommand(), UserRole.ADMIN),
     MAIN(new MainCommand(), UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
     SHOW_REGISTER(new ShowRegisterCommand(), UserRole.UNAUTHORIZED),
     REGISTER(new RegisterCommand(), UserRole.UNAUTHORIZED),
-    SHOW_ERROR_PAGE(new ShowErrorCommand(), UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN);
+    SHOW_ERROR_PAGE(new ShowErrorCommand(), UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
+    ADD_COPY(new AddCopyCommand(), UserRole.ADMIN),
+    REMOVE_COPY(new RemoveCopyCommand(), UserRole.ADMIN);
+
+
 
     private final ActionCommand command;
     private final List<UserRole> allowedRoles;
@@ -27,6 +33,7 @@ public enum CommandEnum {
         this.command = command;
         this.allowedRoles = roles != null ? Arrays.asList(roles) : UserRole.rolesAsList();
     }
+
     public List<UserRole> getAllowedRoles() {
         return allowedRoles;
     }
