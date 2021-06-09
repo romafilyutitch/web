@@ -12,10 +12,12 @@ public class ActionFactory {
 
     public ActionCommand defineCommand(HttpServletRequest request) {
         String action = request.getParameter("command");
+        if (action == null) {
+            return null;
+        }
         CommandEnum currentEnum = CommandEnum.valueOf(action.toUpperCase());
         return currentEnum.getCurrentCommand();
     }
-
 
     private static class Singleton{
         private static final ActionFactory INSTANCE = new ActionFactory();

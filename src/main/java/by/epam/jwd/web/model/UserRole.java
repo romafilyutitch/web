@@ -1,14 +1,25 @@
 package by.epam.jwd.web.model;
 
-public enum UserRole implements DbEntity {
-    READER(1L, "Reader"), LIBRARIAN(2L, "Librarian"), ADMIN(3L, "Admin");
+import java.util.Arrays;
+import java.util.List;
 
+public enum UserRole implements DbEntity {
+    READER(1L, "Reader"),
+    LIBRARIAN(2L, "Librarian"),
+    ADMIN(3L, "Admin"),
+    UNAUTHORIZED(4L, "Unauthorized");
+
+    public static final List<UserRole> LIST_OF_ROLES = Arrays.asList(values());
     private final Long id;
     private final String name;
 
-    private UserRole(Long id, String name) {
+    UserRole(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public static List<UserRole> rolesAsList() {
+        return LIST_OF_ROLES;
     }
 
     public Long getId() {

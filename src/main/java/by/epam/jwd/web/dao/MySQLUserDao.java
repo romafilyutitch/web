@@ -37,6 +37,15 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
     }
 
     @Override
+    public User save(User entity) {
+        if (UserRole.UNAUTHORIZED.equals(entity.getRole())) {
+            throw new DAOException("Save unauthorized users is forbidden");
+        } else {
+            return super.save(entity);
+        }
+    }
+
+    @Override
     protected User mapResultSet(ResultSet result) throws SQLException, DAOException {
         final Optional<UserRole> optionalUserRole = ROLE_DAO.findById(result.getLong(ROLE_COLUMN));
         final Optional<Subscription> optionalSubscription = SUBSCRIPTION_DAO.findById(result.getLong(SUBSCRIPTION_COLUMN));

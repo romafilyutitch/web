@@ -41,12 +41,12 @@ public class Controller extends HttpServlet {
             throws ServletException, IOException {
         ActionFactory client = ActionFactory.getInstance();
         ActionCommand command = client.defineCommand(request);
-        String page = command.execute(request);
-        if (page != null) {
+        if (command != null) {
+            String page = command.execute(request);
             RequestDispatcher dispatcher = request.getRequestDispatcher(page);
             dispatcher.forward(request, response);
         } else {
-            response.sendRedirect("index.jsp");
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
     }
 

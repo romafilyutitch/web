@@ -1,12 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: roma0
-  Date: 08.06.2021
-  Time: 1:10
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="by.epam.jwd.web.model.UserRole" %>
 <html>
 <head>
     <title>Welcome</title>
@@ -21,11 +15,15 @@
     </c:when>
     <c:otherwise>
         <a href="controller?command=show_login">Login</a>
+        <a href="controller?command=show_register">Register</a>
     </c:otherwise>
 </c:choose>
 <hr/>
-<a href="controller?command=show_users">Users list</a>
-<a href="controller?command=show_register">Register</a>
+<c:if test="${not empty sessionScope.user}">
+    <c:if test="${sessionScope.user.role eq UserRole.ADMIN}">
+        <a href="controller?command=show_users">Users list</a>
+    </c:if>
+</c:if>
 <c:if test="${not empty books }" >
     <ul>
     <c:forEach var="elem" items="${books}">
