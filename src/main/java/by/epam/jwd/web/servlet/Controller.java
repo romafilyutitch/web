@@ -18,15 +18,6 @@ import java.io.IOException;
 public class Controller extends HttpServlet {
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
-        try {
-            ConnectionPool.getConnectionPool().init();
-        } catch (ConnectionPoolInitializationException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         processRequest(req, resp);
     }
@@ -48,10 +39,5 @@ public class Controller extends HttpServlet {
         } else {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
-    }
-
-    @Override
-    public void destroy() {
-        ConnectionPool.getConnectionPool().destroy();
     }
 }
