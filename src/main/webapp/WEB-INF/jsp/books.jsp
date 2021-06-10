@@ -34,5 +34,6 @@
     </ul>
 </c:if>
 <a href="controller?command=show_add_book_page">Add new Book</a>
+<a href="controller?command=main">Main Page</a>
 </body>
 </html>

@@ -47,7 +47,6 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
         final Long id = result.getLong(ID_COLUMN);
         final String name = result.getString(NAME_COLUMN);
         final LocalDate date = result.getObject(YEAR_COLUMN, LocalDate.class);
-        System.out.println("GOT DATE FROM DATABASE " + date);
         final int pagesAmount = result.getInt(PAGES_AMOUNT_COLUMN);
         final int booksAmount = result.getInt(BOOKS_AMOUNT_COLUMN);
         final String description = result.getString(DESCRIPTION_COLUMN);
@@ -68,7 +67,6 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
 
     @Override
     protected void setUpdatePreparedStatementValues(Book entity, PreparedStatement updatePreparedStatement) throws SQLException {
-        System.out.println("UPDATED ENTITY DATE : " + entity.getDate());
         updatePreparedStatement.setString(1, entity.getName());
         updatePreparedStatement.setLong(2, entity.getAuthor().getId());
         updatePreparedStatement.setLong(3, entity.getGenre().getId());

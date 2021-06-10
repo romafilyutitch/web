@@ -24,7 +24,13 @@ public enum CommandEnum {
     REMOVE_COPY(new RemoveCopyCommand(), UserRole.ADMIN),
     DELETE_BOOK(new DeleteBookCommand(), UserRole.ADMIN),
     ADD_BOOK(new AddBookCommand(), UserRole.ADMIN),
+    PROMOTE_ROLE(new PromoteRoleCommand(), UserRole.ADMIN),
+    DEMOTE_ROLE(new DemoteRoleCommand(), UserRole.ADMIN),
+    DELETE_USER(new DeleteUserCommand(), UserRole.ADMIN),
+    SET_SUBSCRIPTION(new SetSubscriptionCommand(), UserRole.ADMIN),
+    SHOW_SET_SUBSCRIPTION_PAGE(new ShowSetSubscriptionPageCommand(), UserRole.ADMIN),
     SHOW_ADD_BOOK_PAGE(new ShowAddBookPageCommand(), UserRole.ADMIN);
+
 
     private final ActionCommand command;
     private final List<UserRole> allowedRoles;

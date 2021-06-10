@@ -21,5 +21,6 @@
         </c:forEach>
         </ul>
     </c:if>
+<a href="controller?command=main">Main Page</a>
 </body>
 </html>

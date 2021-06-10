@@ -48,4 +48,24 @@ public enum UserRole implements DbEntity {
         }
         throw new IllegalArgumentException("There is no rol with that id");
     }
+
+    public UserRole promote() {
+        final UserRole[] values = values();
+        int ordinal = ordinal();
+        if (ordinal == UserRole.ADMIN.ordinal()) {
+            return values[ordinal];
+        } else {
+            return values[++ordinal];
+        }
+    }
+
+    public UserRole demote() {
+        final UserRole[] values = values();
+        int ordinal = ordinal();
+        if (ordinal == 0) {
+            return values[ordinal];
+        } else {
+            return values[--ordinal];
+        }
+    }
 }

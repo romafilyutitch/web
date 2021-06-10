@@ -32,19 +32,19 @@ public class MySQLSubscriptionDao extends AbstractDao<Subscription> implements S
 
     @Override
     protected Subscription mapResultSet(ResultSet result) throws SQLException {
-        return new Subscription(result.getLong(ID_COLUMN), result.getDate(START_DATE_COLUMN).toLocalDate(), result.getDate(END_DATE_COLUMN).toLocalDate());
+        return new Subscription(result.getLong(ID_COLUMN), result.getObject(START_DATE_COLUMN, LocalDate.class), result.getObject(END_DATE_COLUMN,LocalDate.class));
     }
 
     @Override
     protected void setSavePrepareStatementValues(Subscription entity, PreparedStatement savePreparedStatement) throws SQLException {
-        savePreparedStatement.setDate(1, Date.valueOf(entity.getStartDate()));
-        savePreparedStatement.setDate(2, Date.valueOf(entity.getEndDate()));
+        savePreparedStatement.setObject(1, entity.getStartDate());
+        savePreparedStatement.setObject(2, entity.getEndDate());
     }
 
     @Override
     protected void setUpdatePreparedStatementValues(Subscription entity, PreparedStatement updatePreparedStatement) throws SQLException {
-        updatePreparedStatement.setDate(1, Date.valueOf(entity.getStartDate()));
-        updatePreparedStatement.setDate(2, Date.valueOf(entity.getEndDate()));
+        updatePreparedStatement.setObject(1, entity.getStartDate());
+        updatePreparedStatement.setObject(2, entity.getEndDate());
         updatePreparedStatement.setLong(3, entity.getId());
     }
 
