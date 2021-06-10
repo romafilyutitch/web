@@ -1,21 +1,19 @@
 package by.epam.jwd.web.command;
 
-import by.epam.jwd.web.service.BookService;
 import by.epam.jwd.web.service.ServiceException;
 import by.epam.jwd.web.service.SimpleBookService;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class AddCopyCommand implements ActionCommand {
+public class DeleteBookCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
-        final String bookId = request.getParameter("id");
-        final long parsedId = Long.parseLong(bookId);
+        final long parsedId = Long.parseLong(request.getParameter("id"));
         try {
-            SimpleBookService.getInstance().addOneCopy(parsedId);
+            SimpleBookService.getInstance().deleteBook(parsedId);
             return "controller?command=show_books";
         } catch (ServiceException e) {
-            request.setAttribute("addError", e.getMessage());
+            request.setAttribute("error", e.getMessage());
             return "controller?command=show_books";
         }
     }

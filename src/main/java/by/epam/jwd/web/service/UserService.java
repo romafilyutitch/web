@@ -8,9 +8,9 @@ public interface UserService {
 
     List<User> findAll();
 
-    User save(User user) throws ServiceException;
+    User createUser(String login, String password) throws ServiceException;
 
-    User login(User user) throws ServiceException;
+    User login(String login, String password) throws ServiceException;
 
     User update(User user) throws ServiceException;
 

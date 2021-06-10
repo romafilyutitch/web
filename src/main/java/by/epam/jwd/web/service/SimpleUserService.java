@@ -28,13 +28,16 @@ public class SimpleUserService implements UserService {
     }
 
     @Override
-    public User login(User user) throws ServiceException {
-        final Optional<User> userByLogin = USER_DAO.findUserByLogin(user.getLogin());
+    public User login(String login, String password) throws ServiceException {
+        final Optional<User> userByLogin = USER_DAO.findUserByLogin(login);
         if (!userByLogin.isPresent()) {
-            throw new ServiceException(String.format("User with login: %s does not exist", user.getLogin()));
+            throw new ServiceException(String.format("User with login: %s does not exist", login));
+        }
+        if (password == null || password.isEmpty()) {
+            throw new ServiceException("Password is empty. Enter password");
         }
         final User foundUser = userByLogin.get();
-        final BCrypt.Result verifyResult = VERIFYER.verify(user.getPassword().toCharArray(), foundUser.getPassword().toCharArray());
+        final BCrypt.Result verifyResult = VERIFYER.verify(password.toCharArray(), foundUser.getPassword().toCharArray());
         if (!verifyResult.verified) {
             throw new ServiceException("Incorrect password");
         }
@@ -42,13 +45,15 @@ public class SimpleUserService implements UserService {
     }
 
     @Override
-    public User save(User user) throws ServiceException {
-        if (USER_DAO.findUserByLogin(user.getLogin()).isPresent()) {
-            throw new ServiceException(String.format("User with login %s already exists", user.getLogin()));
+    public User createUser(String login, String password) throws ServiceException {
+        if (USER_DAO.findUserByLogin(login).isPresent()) {
+            throw new ServiceException(String.format("User with login %s already exists", login));
         }
-        final String userPassword = user.getPassword();
-        final String encryptedPassword = HASHER.hashToString(BCrypt.MIN_COST, userPassword.toCharArray());
-        return USER_DAO.save(new User(user.getLogin(), encryptedPassword));
+        if (password == null || password.isEmpty()) {
+            throw new ServiceException("Password is empty. Enter password");
+        }
+        final String encryptedPassword = HASHER.hashToString(BCrypt.MIN_COST, password.toCharArray());
+        return USER_DAO.save(new User(login, encryptedPassword));
     }
 
     @Override

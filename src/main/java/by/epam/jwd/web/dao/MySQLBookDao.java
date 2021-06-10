@@ -46,7 +46,8 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
         Optional<BookGenre> optionalBookGenre = BOOK_GENRE_DAO.findById(result.getLong(GENRE_COLUMN));
         final Long id = result.getLong(ID_COLUMN);
         final String name = result.getString(NAME_COLUMN);
-        final LocalDate date = result.getDate(YEAR_COLUMN).toLocalDate();
+        final LocalDate date = result.getObject(YEAR_COLUMN, LocalDate.class);
+        System.out.println("GOT DATE FROM DATABASE " + date);
         final int pagesAmount = result.getInt(PAGES_AMOUNT_COLUMN);
         final int booksAmount = result.getInt(BOOKS_AMOUNT_COLUMN);
         final String description = result.getString(DESCRIPTION_COLUMN);
@@ -60,17 +61,18 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
         savePreparedStatement.setString(1, entity.getName());
         savePreparedStatement.setLong(2, bookAuthor.getId());
         savePreparedStatement.setLong(3, bookGenre.getId());
-        savePreparedStatement.setDate(4, Date.valueOf(entity.getDate()));
+        savePreparedStatement.setObject(4, entity.getDate());
         savePreparedStatement.setInt(5, entity.getPagesAmount());
         savePreparedStatement.setString(6, entity.getDescription());
     }
 
     @Override
     protected void setUpdatePreparedStatementValues(Book entity, PreparedStatement updatePreparedStatement) throws SQLException {
+        System.out.println("UPDATED ENTITY DATE : " + entity.getDate());
         updatePreparedStatement.setString(1, entity.getName());
         updatePreparedStatement.setLong(2, entity.getAuthor().getId());
         updatePreparedStatement.setLong(3, entity.getGenre().getId());
-        updatePreparedStatement.setDate(4, Date.valueOf(entity.getDate()));
+        updatePreparedStatement.setObject(4, entity.getDate());
         updatePreparedStatement.setInt(5, entity.getPagesAmount());
         updatePreparedStatement.setInt(6, entity.getBooksAmount());
         updatePreparedStatement.setString(7, entity.getDescription());
@@ -78,8 +80,8 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
     }
 
     @Override
-    public List<Book> findBooksByName(String name) throws DAOException {
-        return findAll().stream().filter(book -> book.getName().equals(name)).collect(Collectors.toList());
+    public Optional<Book> findBookByName(String name) throws DAOException {
+        return findAll().stream().filter(book -> book.getName().equals(name)).findAny();
     }
 
     @Override

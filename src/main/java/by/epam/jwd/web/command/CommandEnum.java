@@ -21,9 +21,10 @@ public enum CommandEnum {
     REGISTER(new RegisterCommand(), UserRole.UNAUTHORIZED),
     SHOW_ERROR_PAGE(new ShowErrorCommand(), UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
     ADD_COPY(new AddCopyCommand(), UserRole.ADMIN),
-    REMOVE_COPY(new RemoveCopyCommand(), UserRole.ADMIN);
-
-
+    REMOVE_COPY(new RemoveCopyCommand(), UserRole.ADMIN),
+    DELETE_BOOK(new DeleteBookCommand(), UserRole.ADMIN),
+    ADD_BOOK(new AddBookCommand(), UserRole.ADMIN),
+    SHOW_ADD_BOOK_PAGE(new ShowAddBookPageCommand(), UserRole.ADMIN);
 
     private final ActionCommand command;
     private final List<UserRole> allowedRoles;

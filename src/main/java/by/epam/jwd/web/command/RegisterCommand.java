@@ -14,10 +14,9 @@ public class RegisterCommand implements ActionCommand {
     public String execute(HttpServletRequest request) {
         final String login = request.getParameter("login");
         final String password = request.getParameter("password");
-        final User user = new User(login, password);
         try {
-            USER_SERVICE.save(user);
-            request.setAttribute("user", user);
+            final User createdUser = USER_SERVICE.createUser(login, password);
+            request.setAttribute("user", createdUser);
             return "index.jsp";
         } catch (ServiceException e) {
             request.setAttribute("error", e.getMessage());

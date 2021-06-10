@@ -13,10 +13,9 @@ public class LoginCommand implements ActionCommand{
     @Override
     public String execute(HttpServletRequest request) {
         String login = request.getParameter("login");
-        String pass = request.getParameter("password");
-        final User user = new User(login, pass);
+        String password = request.getParameter("password");
         try {
-            final User savedUser = userService.login(user);
+            final User savedUser = userService.login(login, password);
             final HttpSession session = request.getSession();
             session.setAttribute("user", savedUser);
             return "index.jsp";

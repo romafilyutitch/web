@@ -13,10 +13,10 @@ public class RemoveCopyCommand implements ActionCommand {
         final long parsedId = Long.parseLong(bookId);
         try {
             SimpleBookService.getInstance().removeOneCopy(parsedId);
-            return "controller?command=main";
+            return "controller?command=show_books";
         } catch (ServiceException e) {
             request.setAttribute("removeError", e.getMessage());
-            return "controller?command=main";
+            return "controller?command=show_books";
         }
     }
 }

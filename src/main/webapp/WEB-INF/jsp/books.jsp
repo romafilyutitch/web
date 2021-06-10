@@ -23,9 +23,16 @@
          ${elem.booksAmount},
          ${elem.description}"/>
                 <a href="controller?command=add_copy&id=${elem.id}">Add copy</a>
-                <a href="controller?command=remove_copy&id=${elem.id}">Remove copy</a></li>
+                <c:if test="${elem.booksAmount gt 1}">
+                    <a href="controller?command=remove_copy&id=${elem.id}">Remove copy</a>
+                </c:if>
+                <c:if test="${elem.booksAmount eq 1}">
+                    <a href="controller?command=delete_book&id=${elem.id}">Delete book</a>
+                </c:if>
+            </li>
         </c:forEach>
     </ul>
 </c:if>
+<a href="controller?command=show_add_book_page">Add new Book</a>
 </body>
 </html>
