@@ -34,6 +34,10 @@ ${requestScope.error}
             Description
             <input type="text" name="description"/>
         </label>
+        <label>
+            Text
+            <input type="text" name="text"/>
+        </label>
         <input type="submit" value="Save new book"/>
     </form>
 <a href="controller?command=show_books">return to books</a>

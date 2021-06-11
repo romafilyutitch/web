@@ -60,9 +60,9 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
         savePreparedStatement.setString(1, entity.getLogin());
         savePreparedStatement.setString(2, entity.getPassword());
         savePreparedStatement.setLong(3, entity.getRole().getId());
-        if (entity.getUserSubscription() != null) {
-            SUBSCRIPTION_DAO.save(entity.getUserSubscription());
-            savePreparedStatement.setLong(4, entity.getUserSubscription().getId());
+        if (entity.getSubscription() != null) {
+            SUBSCRIPTION_DAO.save(entity.getSubscription());
+            savePreparedStatement.setLong(4, entity.getSubscription().getId());
         } else {
             savePreparedStatement.setNull(4, Types.INTEGER);
         }
@@ -73,8 +73,8 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
         updatePreparedStatement.setString(1, entity.getLogin());
         updatePreparedStatement.setString(2, entity.getPassword());
         updatePreparedStatement.setLong(3, entity.getRole().getId());
-        if (entity.getUserSubscription() != null) {
-            updatePreparedStatement.setLong(4, entity.getUserSubscription().getId());
+        if (entity.getSubscription() != null) {
+            updatePreparedStatement.setLong(4, entity.getSubscription().getId());
         } else {
             updatePreparedStatement.setNull(4, Types.INTEGER);
         }

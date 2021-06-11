@@ -18,10 +18,7 @@
     <ul>
     <c:forEach var="elem" items="${users}">
         <li> <c:if test="${sessionScope.user.id eq elem.id}">YOU</c:if>
-        Login : ${elem.login},
-        Role : ${elem.role.roleName},
-        Subscription start date : ${elem.userSubscription.startDate},
-        Subscription end date : ${elem.userSubscription.endDate}
+        ${elem}
             <c:if test="${elem.role ne UserRole.ADMIN}">
                 <a href = "controller?command=promote_role&id=${elem.id}">Promote user role</a>
             </c:if>

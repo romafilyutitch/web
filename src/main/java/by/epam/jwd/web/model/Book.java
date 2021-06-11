@@ -10,22 +10,24 @@ public class Book implements DbEntity {
     private final BookGenre genre;
     private final LocalDate date;
     private final int pagesAmount;
-    private final int booksAmount;
+    private final int copiesAmount;
     private final String description;
+    private final String text;
 
-    public Book(Long id, String name, BookAuthor author, BookGenre genre, LocalDate date, int pagesAmount, int booksAmount,String description) {
+    public Book(Long id, String name, BookAuthor author, BookGenre genre, LocalDate date, int pagesAmount, int copiesAmount, String description, String text) {
         this.id = id;
         this.name = name;
         this.author = author;
         this.genre = genre;
         this.date = date;
         this.pagesAmount = pagesAmount;
-        this.booksAmount = booksAmount;
+        this.copiesAmount = copiesAmount;
         this.description = description;
+        this.text = text;
     }
 
-    public Book(String name, BookAuthor author, BookGenre genre, LocalDate date, int pagesAmount, String description) {
-        this(null, name, author, genre, date, pagesAmount, 1, description);
+    public Book(String name, BookAuthor author, BookGenre genre, LocalDate date, int pagesAmount, String description, String text) {
+        this(null, name, author, genre, date, pagesAmount, 1, description, text);
     }
 
     @Override
@@ -57,64 +59,74 @@ public class Book implements DbEntity {
         return description;
     }
 
-    public int getBooksAmount() {
-        return booksAmount;
+    public int getCopiesAmount() {
+        return copiesAmount;
     }
+
+    public String getText() {return text;}
 
     public Book updateName(String newName) {
         if (newName == null) {
             return this;
         }
-        return new Book(id, newName, author, genre, date, pagesAmount, booksAmount, description);
+        return new Book(id, newName, author, genre, date, pagesAmount, copiesAmount, description, text);
     }
 
     public Book updateAuthor(BookAuthor newAuthor) {
         if (newAuthor == null) {
             return this;
         }
-        return new Book(id, name, newAuthor, genre, date, pagesAmount, booksAmount, description);
+        return new Book(id, name, newAuthor, genre, date, pagesAmount, copiesAmount, description, text);
     }
 
     public Book updateGenre(BookGenre newGenre) {
         if (newGenre == null) {
             return this;
         }
-        return new Book(id, name, author, newGenre, date, pagesAmount, booksAmount, description);
+        return new Book(id, name, author, newGenre, date, pagesAmount, copiesAmount, description, text);
     }
 
     public Book updateDate(LocalDate newDate) {
         if (newDate == null) {
             return this;
         }
-        return new Book(id, name, author, genre, newDate, pagesAmount, booksAmount, description);
+        return new Book(id, name, author, genre, newDate, pagesAmount, copiesAmount, description, text);
     }
 
     public Book updatePagesAmount(int newPagesAmount) {
-        return new Book(id, name, author, genre, date, newPagesAmount, booksAmount, description);
+        return new Book(id, name, author, genre, date, newPagesAmount, copiesAmount, description, text);
     }
 
     public Book updateDescription(String newDescription) {
         if (newDescription == null) {
             return this;
         }
-        return new Book(id, name, author, genre, date, pagesAmount, booksAmount, newDescription);
+        return new Book(id, name, author, genre, date, pagesAmount, copiesAmount, newDescription, text);
     }
 
     public Book updatedBooksAmount(int newBooksAmount) {
-        return new Book(id, name, author, genre, date, pagesAmount, newBooksAmount, description);
+        return new Book(id, name, author, genre, date, pagesAmount, newBooksAmount, description, text);
     }
+
+    public Book updateBookText(String newText) {
+        if (newText == null) {
+            return this;
+        }
+        return new Book(id, name, author, genre, date, pagesAmount, copiesAmount, description, newText);
+    }
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return pagesAmount == book.pagesAmount && Objects.equals(id, book.id) && Objects.equals(name, book.name) && Objects.equals(author, book.author) && Objects.equals(genre, book.genre) && Objects.equals(date, book.date) && Objects.equals(description, book.description);
+        return pagesAmount == book.pagesAmount && copiesAmount == book.copiesAmount && Objects.equals(id, book.id) && Objects.equals(name, book.name) && Objects.equals(author, book.author) && Objects.equals(genre, book.genre) && Objects.equals(date, book.date) && Objects.equals(description, book.description) && Objects.equals(text, book.text);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, author, genre, date, pagesAmount, description);
+        return Objects.hash(id, name, author, genre, date, pagesAmount, copiesAmount, description, text);
     }
 
     @Override
@@ -122,11 +134,13 @@ public class Book implements DbEntity {
         return "Book{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", author='" + author + '\'' +
-                ", genre='" + genre + '\'' +
+                ", author=" + author +
+                ", genre=" + genre +
                 ", date=" + date +
                 ", pagesAmount=" + pagesAmount +
+                ", booksAmount=" + copiesAmount +
                 ", description='" + description + '\'' +
+                ", text='" + text + '\'' +
                 '}';
     }
 }

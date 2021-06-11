@@ -16,8 +16,9 @@ public class AddBookCommand implements ActionCommand {
         final String date = request.getParameter("date");
         final String pages = request.getParameter("pages");
         final String description = request.getParameter("description");
+        final String text = request.getParameter("text");
         try {
-            SimpleBookService.getInstance().createBook(name, author, genre, date, pages, description);
+            SimpleBookService.getInstance().createBook(name, author, genre, date, pages, description, text);
             return "controller?command=show_books";
         } catch (ServiceException e) {
             request.setAttribute("error", e.getMessage());

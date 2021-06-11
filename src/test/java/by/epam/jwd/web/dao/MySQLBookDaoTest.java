@@ -20,7 +20,7 @@ import java.util.Optional;
 public class MySQLBookDaoTest {
     private static final ConnectionPool pool = ConnectionPool.getConnectionPool();
     private final MySQLBookDao testDao = MySQLBookDao.getInstance();
-    private Book testBook = new Book("Sherlock Holmes", new BookAuthor("A.C. Doyl"), new BookGenre("Detective"), LocalDate.now(), 100, "Detective stories");
+    private Book testBook = new Book("Sherlock Holmes", new BookAuthor("A.C. Doyl"), new BookGenre("Detective"), LocalDate.now(), 100, "Detective stories", "Book text");
 
     @BeforeClass
     public static void setUp() throws ConnectionPoolInitializationException {

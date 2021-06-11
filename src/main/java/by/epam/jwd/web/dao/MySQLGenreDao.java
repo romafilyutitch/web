@@ -54,7 +54,7 @@ public class MySQLGenreDao extends AbstractDao<BookGenre> implements GenreDao {
 
     @Override
     public Optional<BookGenre> getByName(String genreName) throws DAOException {
-        return findAll().stream().filter(genre -> genre.getName().equals(genreName)).findAny();
+        return findAll().stream().filter(genre -> genre.getName().equalsIgnoreCase(genreName)).findAny();
     }
 
     private static class Singleton {

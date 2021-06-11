@@ -6,7 +6,6 @@ import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.BookAuthor;
 import by.epam.jwd.web.model.BookGenre;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,11 +25,12 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
     private static final String YEAR_COLUMN = "year";
     private static final String PAGES_AMOUNT_COLUMN = "pages_amount";
     private static final String DESCRIPTION_COLUMN = "description";
-    private static final String SAVE_PREPARED_SQL = "insert into lib_book (name, author, genre, year, pages_amount, description) values (?, ?, ?, ?, ?, ?)";
-    private static final String FIND_ALL_SQL = "select id, name, author, genre, year, pages_amount, books_amount, description from lib_book";
-    private static final String UPDATE_PREPARED_SQL = "update lib_book set name = ?, author = ?, genre = ?, year = ?, pages_amount = ?, books_amount = ?, description = ? where id = ?";
+    private static final String SAVE_PREPARED_SQL = "insert into lib_book (name, author, genre, year, pages_amount, description, text) values (?, ?, ?, ?, ?, ?, ?)";
+    private static final String FIND_ALL_SQL = "select id, name, author, genre, year, pages_amount, copies_amount, description, text from lib_book";
+    private static final String UPDATE_PREPARED_SQL = "update lib_book set name = ?, author = ?, genre = ?, year = ?, pages_amount = ?, copies_amount = ?, description = ?, text = ? where id = ?";
     private static final String DELETE_PREPARED_SQL = "delete from lib_book where id = ?";
-    public static final String BOOKS_AMOUNT_COLUMN = "books_amount";
+    public static final String COPIES_AMOUNT_COLUMN = "copies_amount";
+    private static final String TEXT_COLUMN = "text";
 
     private MySQLBookDao() {
         super(FIND_ALL_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);
@@ -48,9 +48,10 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
         final String name = result.getString(NAME_COLUMN);
         final LocalDate date = result.getObject(YEAR_COLUMN, LocalDate.class);
         final int pagesAmount = result.getInt(PAGES_AMOUNT_COLUMN);
-        final int booksAmount = result.getInt(BOOKS_AMOUNT_COLUMN);
+        final int booksAmount = result.getInt(COPIES_AMOUNT_COLUMN);
         final String description = result.getString(DESCRIPTION_COLUMN);
-        return new Book(id, name, optionalAuthor.orElseThrow(DAOException::new), optionalBookGenre.orElseThrow(DAOException::new), date, pagesAmount, booksAmount, description);
+        final String text = result.getString(TEXT_COLUMN);
+        return new Book(id, name, optionalAuthor.orElseThrow(DAOException::new), optionalBookGenre.orElseThrow(DAOException::new), date, pagesAmount, booksAmount, description, text);
     }
 
     @Override
@@ -63,6 +64,7 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
         savePreparedStatement.setObject(4, entity.getDate());
         savePreparedStatement.setInt(5, entity.getPagesAmount());
         savePreparedStatement.setString(6, entity.getDescription());
+        savePreparedStatement.setString(7, entity.getText());
     }
 
     @Override
@@ -72,9 +74,10 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
         updatePreparedStatement.setLong(3, entity.getGenre().getId());
         updatePreparedStatement.setObject(4, entity.getDate());
         updatePreparedStatement.setInt(5, entity.getPagesAmount());
-        updatePreparedStatement.setInt(6, entity.getBooksAmount());
+        updatePreparedStatement.setInt(6, entity.getCopiesAmount());
         updatePreparedStatement.setString(7, entity.getDescription());
-        updatePreparedStatement.setLong(8, entity.getId());
+        updatePreparedStatement.setString(8, entity.getText());
+        updatePreparedStatement.setLong(9, entity.getId());
     }
 
     @Override

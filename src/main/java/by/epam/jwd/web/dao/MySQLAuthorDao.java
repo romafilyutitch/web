@@ -55,7 +55,7 @@ public class MySQLAuthorDao extends AbstractDao<BookAuthor> implements AuthorDao
 
     @Override
     public Optional<BookAuthor> getByName(String authorName) throws DAOException {
-        return findAll().stream().filter(author -> author.getName().equals(authorName)).findAny();
+        return findAll().stream().filter(author -> author.getName().equalsIgnoreCase(authorName)).findAny();
     }
 
     private static class Singleton {

@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="by.epam.jwd.web.model.UserRole" %>
+<%@ page import="java.time.LocalDate" %>
 <html>
 <head>
     <title>Welcome</title>
@@ -30,13 +31,18 @@
 <c:if test="${not empty books }" >
     <ul>
     <c:forEach var="elem" items="${books}">
-        <li><c:out value="${elem.name},
-         ${elem.author.name},
-         ${elem.genre.name},
-         ${elem.date},
-         ${elem.pagesAmount},
-         ${elem.booksAmount},
-         ${elem.description}"/></li>
+        <c:if test="${elem.copiesAmount gt 0}">
+        <li>${elem}
+            <c:if test="${not empty user}">
+                <a href = "controller?command=order_book">Order book</a>
+                <c:if test="${not empty user.subscription}">
+                    <c:if test="${LocalDate.now() ge user.subscription.startDate and LocalDate.now() le user.subscription.endDate}">
+                        <a href = "controller?command=read&id=${elem.id}">Read book</a>
+                    </c:if>
+                </c:if>
+            </c:if>
+        </li>
+        </c:if>
     </c:forEach>
     </ul>
 </c:if>

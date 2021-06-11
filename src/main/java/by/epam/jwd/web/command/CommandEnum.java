@@ -1,12 +1,8 @@
 package by.epam.jwd.web.command;
 
-import by.epam.jwd.web.command.ActionCommand;
-import by.epam.jwd.web.command.LoginCommand;
-import by.epam.jwd.web.command.LogoutCommand;
 import by.epam.jwd.web.model.UserRole;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public enum CommandEnum {
@@ -29,6 +25,8 @@ public enum CommandEnum {
     DELETE_USER(new DeleteUserCommand(), UserRole.ADMIN),
     SET_SUBSCRIPTION(new SetSubscriptionCommand(), UserRole.ADMIN),
     SHOW_SET_SUBSCRIPTION_PAGE(new ShowSetSubscriptionPageCommand(), UserRole.ADMIN),
+    READ(new ReadCommand(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
+    RETURN(new ReturnCommand(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
     SHOW_ADD_BOOK_PAGE(new ShowAddBookPageCommand(), UserRole.ADMIN);
 
 

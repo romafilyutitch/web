@@ -8,7 +8,7 @@ public interface BookService {
 
     List<Book> findAll();
 
-    Book createBook(String name, String author, String genre, String date, String pageAmount, String description) throws ServiceException;
+    Book createBook(String name, String author, String genre, String date, String pageAmount, String description, String text) throws ServiceException;
 
     void deleteBook(Long bookId) throws ServiceException;
 

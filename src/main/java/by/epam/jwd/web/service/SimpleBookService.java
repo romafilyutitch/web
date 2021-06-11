@@ -49,7 +49,7 @@ public class SimpleBookService implements BookService{
             throw new ServiceException(String.format("Book with id %d does not exist", id));
         }
         final Book savedBook = optionalBook.get();
-        int savedBookBooksAmount = savedBook.getBooksAmount();
+        int savedBookBooksAmount = savedBook.getCopiesAmount();
         return BOOK_DAO.update(savedBook.updatedBooksAmount(++savedBookBooksAmount));
     }
 
@@ -60,12 +60,12 @@ public class SimpleBookService implements BookService{
             throw new ServiceException(String.format("Book with id %d does not exist", id));
         }
         final Book savedBook = optionalBook.get();
-        int savedBooksAmount = savedBook.getBooksAmount();
+        int savedBooksAmount = savedBook.getCopiesAmount();
         return BOOK_DAO.update(savedBook.updatedBooksAmount(--savedBooksAmount));
     }
 
     @Override
-    public Book createBook(String name, String author, String genre, String date, String pagesAmount, String description) throws ServiceException {
+    public Book createBook(String name, String author, String genre, String date, String pagesAmount, String description, String text) throws ServiceException {
         final Optional<Book> optionalBook = BOOK_DAO.findBookByName(name);
         if (optionalBook.isPresent()) {
             throw new ServiceException(String.format("Book with name %s already exists. Try to add one copy if you want ", name));
@@ -85,11 +85,15 @@ public class SimpleBookService implements BookService{
         if (pagesAmount == null || pagesAmount.isEmpty()) {
             throw new ServiceException("Pages amount is empty. Enter pages amount");
         }
+        if (text == null || text.isEmpty()) {
+            throw new ServiceException("Text is empty. Enter book text");
+        }
         final int parsedPagesAmount = Integer.parseInt(pagesAmount);
         if (parsedPagesAmount <= 0) {
             throw new ServiceException("Pages amount is negative or equals 0. Enter positive pages amount");
         }
-        final Book bookForSave = new Book(name, new BookAuthor(author), new BookGenre(genre), LocalDate.parse(date), parsedPagesAmount, description);
+
+        final Book bookForSave = new Book(name, new BookAuthor(author), new BookGenre(genre), LocalDate.parse(date), parsedPagesAmount, description, text);
         System.out.println("++++++SAVING BOOK++++++" + bookForSave);
         return BOOK_DAO.save(bookForSave);
     }

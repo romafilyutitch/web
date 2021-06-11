@@ -7,14 +7,14 @@ public class User implements DbEntity {
     private final String login;
     private final String password;
     private final UserRole role;
-    private final Subscription userSubscription;
+    private final Subscription subscription;
 
     public User(Long id, String login, String password, UserRole role, Subscription subscription) {
         this.id = id;
         this.login = login;
         this.password = password;
         this.role = role;
-        this.userSubscription = subscription;
+        this.subscription = subscription;
     }
 
     public User(String login, String password) {
@@ -46,29 +46,29 @@ public class User implements DbEntity {
     }
 
 
-    public Subscription getUserSubscription() {
-        return userSubscription;
+    public Subscription getSubscription() {
+        return subscription;
     }
 
     public User updateLogin(String newLogin) {
         if (newLogin == null) {
             return this;
         }
-        return new User(id, newLogin, password, role, userSubscription);
+        return new User(id, newLogin, password, role, subscription);
     }
 
     public User updatePassword(String newPassword) {
         if (newPassword == null) {
             return this;
         }
-        return new User(id, login, newPassword, role, userSubscription);
+        return new User(id, login, newPassword, role, subscription);
     }
 
     public User updateRole(UserRole newRole) {
         if (newRole == null) {
             return this;
         }
-        return new User(id, login, password, newRole, userSubscription);
+        return new User(id, login, password, newRole, subscription);
     }
 
     public User updateSubscription(Subscription newSubscription) {
@@ -83,12 +83,12 @@ public class User implements DbEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User that = (User) o;
-        return Objects.equals(id, that.id) && Objects.equals(login, that.login) && Objects.equals(password, that.password) && role == that.role && Objects.equals(userSubscription, that.userSubscription);
+        return Objects.equals(id, that.id) && Objects.equals(login, that.login) && Objects.equals(password, that.password) && role == that.role && Objects.equals(subscription, that.subscription);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password, role, userSubscription);
+        return Objects.hash(id, login, password, role, subscription);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class User implements DbEntity {
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
-                ", userSubscription=" + userSubscription +
+                ", userSubscription=" + subscription +
                 '}';
     }
 }

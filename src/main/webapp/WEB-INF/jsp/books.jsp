@@ -15,13 +15,7 @@
 <c:if test="${not empty books }" >
     <ul>
         <c:forEach var="elem" items="${books}">
-            <li><c:out value="${elem.name},
-         ${elem.author.name},
-         ${elem.genre.name},
-         ${elem.date},
-         ${elem.pagesAmount},
-         ${elem.booksAmount},
-         ${elem.description}"/>
+            <li>${elem}
                 <a href="controller?command=add_copy&id=${elem.id}">Add copy</a>
                 <c:if test="${elem.booksAmount gt 1}">
                     <a href="controller?command=remove_copy&id=${elem.id}">Remove copy</a>
