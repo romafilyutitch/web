@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public class SimpleBookService implements BookService{
+class SimpleBookService implements BookService{
     private static final BookDao BOOK_DAO = DaoFactory.getInstance().getBookDao();
 
     private SimpleBookService() {}

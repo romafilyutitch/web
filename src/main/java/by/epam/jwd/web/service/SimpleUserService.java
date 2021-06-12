@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public class SimpleUserService implements UserService {
+class SimpleUserService implements UserService {
     private static final UserDao USER_DAO = DaoFactory.getInstance().getUserDao();
     private static final SubscriptionDao SUBSCRIPTION_DAO = DaoFactory.getInstance().getSubscriptionDao();
     private static final BCrypt.Hasher HASHER = BCrypt.withDefaults();

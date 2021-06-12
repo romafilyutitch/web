@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public class SimpleOrderService implements OrderService {
+class SimpleOrderService implements OrderService {
     private static final OrderDao ORDER_DAO = DaoFactory.getInstance().getOrderDao();
     private static final UserDao USER_DAO = DaoFactory.getInstance().getUserDao();
     private static final BookDao BOOK_DAO = DaoFactory.getInstance().getBookDao();

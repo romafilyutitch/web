@@ -17,6 +17,8 @@ import java.io.IOException;
 @WebServlet("/controller")
 public class Controller extends HttpServlet {
 
+    public static final String INDEX_JSP_PATH = "index.jsp";
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         processRequest(req, resp);
@@ -38,7 +40,7 @@ public class Controller extends HttpServlet {
                 RequestDispatcher dispatcher = request.getRequestDispatcher(page);
                 dispatcher.forward(request, response);
             } else {
-                response.sendRedirect("index.jsp");
+                response.sendRedirect(INDEX_JSP_PATH);
             }
         } else {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);

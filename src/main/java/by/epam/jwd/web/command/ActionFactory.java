@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public class ActionFactory {
 
+    public static final String COMMAND_PARAMETER_NAME = "command";
+
     private ActionFactory() {}
 
     public static ActionFactory getInstance() {
@@ -11,7 +13,7 @@ public class ActionFactory {
     }
 
     public ActionCommand defineCommand(HttpServletRequest request) {
-        String action = request.getParameter("command");
+        String action = request.getParameter(COMMAND_PARAMETER_NAME);
         if (action == null) {
             return null;
         }

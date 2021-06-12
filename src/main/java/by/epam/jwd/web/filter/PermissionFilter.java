@@ -26,6 +26,8 @@ import java.util.stream.Collectors;
 @WebFilter(urlPatterns = "/controller")
 public class PermissionFilter implements Filter {
     private static final Map<UserRole, Set<CommandEnum>> commandsByRole = new EnumMap<>(UserRole.class);
+    public static final String COMMAND = "command";
+    public static final String USER = "user";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -45,9 +47,9 @@ public class PermissionFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         final HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
         final HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
-        final CommandEnum command = CommandEnum.valueOf(httpRequest.getParameter("command").toUpperCase());
+        final CommandEnum command = CommandEnum.valueOf(httpRequest.getParameter(COMMAND).toUpperCase());
         final HttpSession session = httpRequest.getSession(false);
-        UserRole userRole = session != null && ((User) session.getAttribute("user")) != null ? ((User) session.getAttribute("user")).getRole() : UserRole.UNAUTHORIZED;
+        UserRole userRole = session != null && ((User) session.getAttribute(USER)) != null ? ((User) session.getAttribute(USER)).getRole() : UserRole.UNAUTHORIZED;
         final Set<CommandEnum> allowedCommands = commandsByRole.get(userRole);
         if (allowedCommands.contains(command)) {
             filterChain.doFilter(servletRequest, servletResponse);
