@@ -7,6 +7,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="by.epam.jwd.web.model.Status" %>
 <html>
 <head>
     <title>Orders management</title>
@@ -14,9 +15,12 @@
 <body>
     <c:if test="${not empty orders}">
         <ul>
-        <c:forEach var="elem" items="${orders}">
+        <c:forEach var="order" items="${orders}">
             <li>
-                <c:out value="${elem.id}"/>
+                ${order.user.login}, ${order.book.name}, ${order.status.name}
+                <c:if test="${order.status eq Status.ORDERED}">
+                    <a href="controller?command=approve&id=${order.id}">Approve order</a>
+                </c:if>
             </li>
         </c:forEach>
         </ul>

@@ -2,11 +2,9 @@ package by.epam.jwd.web.dao;
 
 import by.epam.jwd.web.connectionPool.ConnectionPool;
 import by.epam.jwd.web.connectionPool.ConnectionPoolInitializationException;
-import by.epam.jwd.web.dao.DAOException;
-import by.epam.jwd.web.dao.DaoFactory;
-import by.epam.jwd.web.dao.MySQLOrderDao;
 
 import by.epam.jwd.web.model.BookOrder;
+import by.epam.jwd.web.model.Status;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -26,7 +24,7 @@ public class MySQLOrderDaoTest {
     public MySQLOrderDaoTest() throws DAOException {
         testOrder = new BookOrder(DaoFactory.getInstance().getUserDao().findAll().stream().findAny().get(),
                 DaoFactory.getInstance().getBookDao().findAll().stream().findAny().get(),
-                LocalDate.now());
+                LocalDate.now(), Status.ORDERED);
     }
 
     @BeforeClass

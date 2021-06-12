@@ -10,16 +10,16 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 public class MySQLGenreDao extends AbstractDao<BookGenre> implements GenreDao {
-    private static final String SAVE_PREPARED_SQL = "insert into book_genre (name) values (?)";
-    private static final String FIND_ALL_SQL = "select id, name from book_genre";
-    private static final String UPDATE_PREPARED_SQL = "update book_genre set name = ? where id = ?";
-    private static final String DELETE_PREPARED_SQL = "delete from book_genre where id = ?";
+    private static final String SAVE_PREPARED_SQL = "insert into genre (name) values (?)";
+    private static final String FIND_ALL_SQL = "select id, name from genre";
+    private static final String UPDATE_PREPARED_SQL = "update genre set name = ? where id = ?";
+    private static final String DELETE_PREPARED_SQL = "delete from genre where id = ?";
     public static final String ID_COLUMN = "id";
     public static final String NAME_COLUMN = "name";
 
 
     private MySQLGenreDao() {
-        super(FIND_ALL_SQL, SAVE_PREPARED_SQL);
+        super(FIND_ALL_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);
     }
 
     public static MySQLGenreDao getInstance() {

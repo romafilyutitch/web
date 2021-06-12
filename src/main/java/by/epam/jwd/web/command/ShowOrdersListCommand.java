@@ -1,7 +1,7 @@
 package by.epam.jwd.web.command;
 
-import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.service.SimpleUserService;
+import by.epam.jwd.web.model.BookOrder;
+import by.epam.jwd.web.service.SimpleOrderService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -9,8 +9,8 @@ import java.util.List;
 public class ShowOrdersListCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
-        final List<User> allUsers = SimpleUserService.getInstance().findAll();
-        request.setAttribute("users", allUsers);
+        final List<BookOrder> orders = SimpleOrderService.getInstance().findAll();
+        request.setAttribute("orders", orders);
         return "WEB-INF/jsp/orders.jsp";
     }
 }

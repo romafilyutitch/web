@@ -25,12 +25,12 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
     private static final String YEAR_COLUMN = "year";
     private static final String PAGES_AMOUNT_COLUMN = "pages_amount";
     private static final String DESCRIPTION_COLUMN = "description";
-    private static final String SAVE_PREPARED_SQL = "insert into lib_book (name, author, genre, year, pages_amount, description, text) values (?, ?, ?, ?, ?, ?, ?)";
-    private static final String FIND_ALL_SQL = "select id, name, author, genre, year, pages_amount, copies_amount, description, text from lib_book";
-    private static final String UPDATE_PREPARED_SQL = "update lib_book set name = ?, author = ?, genre = ?, year = ?, pages_amount = ?, copies_amount = ?, description = ?, text = ? where id = ?";
-    private static final String DELETE_PREPARED_SQL = "delete from lib_book where id = ?";
     public static final String COPIES_AMOUNT_COLUMN = "copies_amount";
     private static final String TEXT_COLUMN = "text";
+    private static final String SAVE_PREPARED_SQL = "insert into book (name, author, genre, year, pages_amount, description, text) values (?, ?, ?, ?, ?, ?, ?)";
+    private static final String FIND_ALL_SQL = "select id, name, author, genre, year, pages_amount, copies_amount, description, text from book";
+    private static final String UPDATE_PREPARED_SQL = "update book set name = ?, author = ?, genre = ?, year = ?, pages_amount = ?, copies_amount = ?, description = ?, text = ? where id = ?";
+    private static final String DELETE_PREPARED_SQL = "delete from book where id = ?";
 
     private MySQLBookDao() {
         super(FIND_ALL_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);

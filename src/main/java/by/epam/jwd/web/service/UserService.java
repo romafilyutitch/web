@@ -24,4 +24,8 @@ public interface UserService {
     User demoteUserRole(Long userId) throws ServiceException;
 
     User setSubscription(Long userId, String startDate, String endDate) throws ServiceException;
+
+    User changeLogin(Long userId, String newLogin) throws ServiceException;
+
+    User changePassword(Long userId, String newPassword) throws ServiceException;
 }

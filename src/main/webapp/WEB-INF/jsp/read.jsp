@@ -11,7 +11,7 @@
     <title>Read book page</title>
 </head>
 <body>
-    Book info : ${book}
+    Book info : ${book.name}, ${book.author.name}, ${book.genre.name}
 <hr/>
     ${book.text}
 <hr/>

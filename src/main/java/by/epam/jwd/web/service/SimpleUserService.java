@@ -126,9 +126,42 @@ public class SimpleUserService implements UserService {
         }
         final LocalDate parsedStartDate = LocalDate.parse(startDate);
         final LocalDate parsedEndDate = LocalDate.parse(endDate);
+        if (parsedStartDate.isAfter(parsedEndDate)) {
+            throw new ServiceException("Start date is after end date. Start date must be before end date");
+        }
+        if (parsedEndDate.isBefore(parsedStartDate)) {
+            throw new ServiceException("End date is before start date. End date mus be after end date");
+        }
         final User savedUser = optionalUser.get();
         final Subscription savedSubscription = SUBSCRIPTION_DAO.save(new Subscription(parsedStartDate, parsedEndDate));
         return USER_DAO.update(savedUser.updateSubscription(savedSubscription));
+    }
+
+    @Override
+    public User changeLogin(Long userId, String newLogin) throws ServiceException {
+        final Optional<User> optionalUser = USER_DAO.findById(userId);
+        if (!optionalUser.isPresent()) {
+            throw new ServiceException(String.format("User with id %d does not exist", userId));
+        }
+        if (newLogin == null || newLogin.isEmpty()) {
+            throw new ServiceException("New login is empty. Enter new login");
+        }
+        final User user = optionalUser.get();
+        return USER_DAO.update(user.updateLogin(newLogin));
+    }
+
+    @Override
+    public User changePassword(Long userId, String newPassword) throws ServiceException {
+        final Optional<User> optionalUser = USER_DAO.findById(userId);
+        if (!optionalUser.isPresent()) {
+            throw new ServiceException(String.format("User with id %d does not exist", userId));
+        }
+        if (newPassword == null || newPassword.isEmpty()) {
+            throw new ServiceException("New password is empty. Enter new password");
+        }
+        final User user = optionalUser.get();
+        final String encryptedPassword = HASHER.hashToString(BCrypt.MIN_COST, newPassword.toCharArray());
+        return USER_DAO.update(user.updatePassword(encryptedPassword));
     }
 
     private static class Singleton {

@@ -16,17 +16,17 @@
 <h1>Users list</h1>
 <c:if test="${not empty users}">
     <ul>
-    <c:forEach var="elem" items="${users}">
-        <li> <c:if test="${sessionScope.user.id eq elem.id}">YOU</c:if>
-        ${elem}
-            <c:if test="${elem.role ne UserRole.ADMIN}">
-                <a href = "controller?command=promote_role&id=${elem.id}">Promote user role</a>
+    <c:forEach var="order" items="${users}">
+        <li> <c:if test="${sessionScope.user.id eq order.id}">YOU</c:if>
+        ${order.login} ,${order.role.name}, ${order.subscription}
+            <c:if test="${order.role ne UserRole.ADMIN}">
+                <a href = "controller?command=promote_role&id=${order.id}">Promote user role</a>
             </c:if>
-            <c:if test="${elem.role ne UserRole.READER}">
-                <a href = "controller?command=demote_role&id=${elem.id}">Demote user role</a>
+            <c:if test="${order.role ne UserRole.READER}">
+                <a href = "controller?command=demote_role&id=${order.id}">Demote user role</a>
             </c:if>
-        <a href = "controller?command=show_set_subscription_page&id=${elem.id}">Set subscription</a>
-        <a href = "controller?command=delete_user&id=${elem.id}">Delete user</a></li>
+        <a href = "controller?command=show_set_subscription_page&id=${order.id}">Set subscription</a>
+        <a href = "controller?command=delete_user&id=${order.id}">Delete user</a></li>
     </c:forEach>
     </ul>
 </c:if>

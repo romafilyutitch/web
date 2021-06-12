@@ -23,10 +23,10 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
     private static final String PASSWORD_COLUMN = "password";
     private static final String ROLE_COLUMN = "role";
     private static final String SUBSCRIPTION_COLUMN = "subscription";
-    private static final String SAVE_PREPARED_SQL = "insert into lib_user (login, password, role, subscription) values (?, ?, ?, ?) ";
-    private static final String FIND_ALL_SQL = "select id, login, password, role, subscription from lib_user";
-    private static final String UPDATE_PREPARED_SQL = "update lib_user set login = ?, password = ?, role = ?, subscription = ? where id = ?";
-    private static final String DELETE_PREPARED_SQL = "delete from lib_user where id = ?";
+    private static final String SAVE_PREPARED_SQL = "insert into user (login, password, role, subscription) values (?, ?, ?, ?) ";
+    private static final String FIND_ALL_SQL = "select id, login, password, role, subscription from user";
+    private static final String UPDATE_PREPARED_SQL = "update user set login = ?, password = ?, role = ?, subscription = ? where id = ?";
+    private static final String DELETE_PREPARED_SQL = "delete from user where id = ?";
 
     private MySQLUserDao() {
         super(FIND_ALL_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);

@@ -4,10 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum UserRole implements DbEntity {
-    READER(1L, "Reader"),
-    LIBRARIAN(2L, "Librarian"),
-    ADMIN(3L, "Admin"),
-    UNAUTHORIZED(4L, "Unauthorized");
+    READER(1L, "READER"),
+    LIBRARIAN(2L, "LIBRARIAN"),
+    ADMIN(3L, "ADMIN"),
+    UNAUTHORIZED(4L, "UNAUTHORIZED");
 
     public static final List<UserRole> LIST_OF_ROLES = Arrays.asList(values());
     private final Long id;
@@ -26,7 +26,7 @@ public enum UserRole implements DbEntity {
         return id;
     }
 
-    public String getRoleName() {
+    public String getName() {
         return name;
     }
 
@@ -42,7 +42,7 @@ public enum UserRole implements DbEntity {
 
     public static UserRole getRoleByName(String name) {
         for (UserRole userRole : values()) {
-            if (userRole.getRoleName().equals(name)) {
+            if (userRole.getName().equals(name)) {
                 return userRole;
             }
         }

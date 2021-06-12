@@ -14,16 +14,16 @@ import java.util.stream.Collectors;
 
 public class MySQLSubscriptionDao extends AbstractDao<Subscription> implements SubscriptionDao {
 
-    private static final String SAVE_PREPARED_SQL = "insert into reader_subscription (start_date, end_date) values (?, ?)";
-    private static final String FIND_ALL_SQL = "select id, start_date, end_date from reader_subscription";
-    private static final String UPDATE_PREPARED_SQL = "update reader_subscription set start_date = ?, end_date = ? where id = ?";
-    private static final String DELETE_PREPARED_SQL = "delete from reader_subscription where id = ?";
+    private static final String SAVE_PREPARED_SQL = "insert into subscription (start_date, end_date) values (?, ?)";
+    private static final String FIND_ALL_SQL = "select id, start_date, end_date from subscription";
+    private static final String UPDATE_PREPARED_SQL = "update subscription set start_date = ?, end_date = ? where id = ?";
+    private static final String DELETE_PREPARED_SQL = "delete from subscription where id = ?";
     public static final String ID_COLUMN = "id";
     public static final String START_DATE_COLUMN = "start_date";
     public static final String END_DATE_COLUMN = "end_date";
 
     private MySQLSubscriptionDao() {
-       super(FIND_ALL_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL);
+       super(FIND_ALL_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);
     }
 
     public static MySQLSubscriptionDao getInstance() {

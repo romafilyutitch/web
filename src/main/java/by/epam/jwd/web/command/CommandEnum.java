@@ -27,8 +27,13 @@ public enum CommandEnum {
     SHOW_SET_SUBSCRIPTION_PAGE(new ShowSetSubscriptionPageCommand(), UserRole.ADMIN),
     READ(new ReadCommand(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
     RETURN(new ReturnCommand(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
-    SHOW_ADD_BOOK_PAGE(new ShowAddBookPageCommand(), UserRole.ADMIN);
-
+    ORDER_BOOK(new OrderBookCommand(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
+    APPROVE(new ApproveOrderCommand(), UserRole.ADMIN, UserRole.LIBRARIAN),
+    SHOW_ADD_BOOK_PAGE(new ShowAddBookPageCommand(), UserRole.ADMIN),
+    DELETE_ORDER(new DeleteOrderCommand(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
+    SHOW_ACCOUNT(new ShowAccountCommand(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
+    CHANGE_ACCOUNT(new ChangeAccountCommand(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
+    SHOW_USER_ORDERS(new ShowUserOrdersPageCommand(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER);
 
     private final ActionCommand command;
     private final List<UserRole> allowedRoles;
