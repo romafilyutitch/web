@@ -8,19 +8,20 @@ import by.epam.jwd.web.service.SimpleOrderService;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class DeleteOrderCommand implements ActionCommand {
+public class ReturnBookCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
-        final Long orderId = Long.valueOf(request.getParameter("id"));
         try {
+            final Long orderId = Long.valueOf(request.getParameter("id"));
             final BookOrder order = SimpleOrderService.getInstance().findById(orderId);
             final Book book = order.getBook();
             SimpleBookService.getInstance().addOneCopy(book.getId());
             SimpleOrderService.getInstance().deleteOrder(order.getId());
-            return "controller?command=show_user_orders";
+            request.getSession().setAttribute("commandResult", "book was returned");
+            return null;
         } catch (ServiceException e) {
-            request.setAttribute("error", e.getMessage());
-            return "controller?command=show_user_orders";
+            request.getSession().setAttribute("commandResult", e.getMessage());
+            return null;
         }
     }
 }

@@ -19,4 +19,10 @@ public interface BookService {
     Book addOneCopy(Long id) throws ServiceException;
 
     Book removeOneCopy(Long id) throws ServiceException;
+
+    Book findByName(String name) throws ServiceException;
+
+    List<Book> findByGenre(String genre) throws ServiceException;
+
+    List<Book> findByAuthor(String author) throws ServiceException;
 }

@@ -12,10 +12,11 @@ public class PromoteRoleCommand implements ActionCommand {
         final long parsedId = Long.parseLong(id);
         try {
             SimpleUserService.getInstance().promoteUserRole(parsedId);
-            return "controller?command=show_users";
+            request.getSession().setAttribute("commandResult", "role for user was promoted");
+            return null;
         } catch (ServiceException e) {
-            request.setAttribute("error", e.getMessage());
-            return "controller?command=show_users";
+            request.getSession().setAttribute("commandResult", e.getMessage());
+            return null;
         }
     }
 }

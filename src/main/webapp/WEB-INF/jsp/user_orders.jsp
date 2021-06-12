@@ -17,10 +17,10 @@
         <ul>
             <c:forEach var="order" items="${orders}">
                 <li>
-                        ${order.book.name}
+                        ${order.book.name} ${order.status.name}
                     <c:if test="${order.status eq Status.APPROVED}">
                         <a href="controller?command=read&id=${order.book.id}">Read book</a>
-                        <a href="controller?command=delete_order&id=${order.id}">Return book</a>
+                        <a href="controller?command=return_book&id=${order.id}">Return book</a>
                     </c:if>
                 </li>
             </c:forEach>

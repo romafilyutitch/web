@@ -13,10 +13,11 @@ public class AddCopyCommand implements ActionCommand {
         final long parsedId = Long.parseLong(bookId);
         try {
             SimpleBookService.getInstance().addOneCopy(parsedId);
-            return "controller?command=show_books";
+            request.getSession().setAttribute("commandResult", "copy of book was added");
+            return null;
         } catch (ServiceException e) {
-            request.setAttribute("addError", e.getMessage());
-            return "controller?command=show_books";
+            request.getSession().setAttribute("commandResult", e.getMessage());
+            return null;
         }
     }
 }

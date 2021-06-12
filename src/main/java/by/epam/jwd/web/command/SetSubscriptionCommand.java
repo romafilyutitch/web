@@ -15,10 +15,11 @@ public class SetSubscriptionCommand implements ActionCommand {
         final long parsedLong = Long.parseLong(id);
         try {
             SimpleUserService.getInstance().setSubscription(parsedLong, startDate, end_date);
-            return "controller?command=show_users";
+            request.getSession().setAttribute("commandResult", "subscription for user was set");
+            return null;
         } catch (ServiceException e) {
-            request.setAttribute("error", e.getMessage());
-            return "controller?command=show_set_subscription_page";
+            request.getSession().setAttribute("commandResult", e.getMessage());
+            return null;
         }
     }
 }

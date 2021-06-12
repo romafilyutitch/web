@@ -30,9 +30,12 @@ public enum CommandEnum {
     ORDER_BOOK(new OrderBookCommand(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
     APPROVE(new ApproveOrderCommand(), UserRole.ADMIN, UserRole.LIBRARIAN),
     SHOW_ADD_BOOK_PAGE(new ShowAddBookPageCommand(), UserRole.ADMIN),
-    DELETE_ORDER(new DeleteOrderCommand(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
+    RETURN_BOOK(new ReturnBookCommand(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
     SHOW_ACCOUNT(new ShowAccountCommand(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
     CHANGE_ACCOUNT(new ChangeAccountCommand(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
+    FIND_BY_NAME(new FindByNameCommand(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
+    FIND_BY_AUTHOR(new FindByAuthorCommand(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
+    FIND_BY_GENRE(new FindByGenreCommand(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
     SHOW_USER_ORDERS(new ShowUserOrdersPageCommand(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER);
 
     private final ActionCommand command;

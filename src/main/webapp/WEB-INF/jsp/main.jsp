@@ -23,7 +23,6 @@
         <c:if test="${sessionScope.user.role eq UserRole.LIBRARIAN}">
             <a href="controller?command=show_orders">Manager orders</a>
         </c:if>
-
     </c:when>
     <c:otherwise>
         <a href="controller?command=show_login">Login</a>
@@ -31,31 +30,35 @@
     </c:otherwise>
 </c:choose>
 <hr/>
+${sessionScope.commandResult}
+<hr/>
+<c:if test="${not empty sessionScope.user}">
+    <form name="find_by_name" action="controller?command=find_by_name" method="POST">
+        Find book by name <input type="text" name="name">
+        <input type="submit" value="find">
+    </form>
+    <form name="find_by_author" action="controller?command=find_by_author" method="POST">
+        Find Books by author <input type="text" name="name">
+        <input type="submit" value="find">
+    </form>
+    <form name="find_by_genre" action="controller?command=find_by_genre" method="POST">
+        Find books by genre <input type="text" name="name">
+        <input type="submit" value="find">
+    </form>
+    <a href="controller?command=main">All books</a>
+</c:if>
+<hr/>
 <c:if test="${not empty books }">
-    <ul>
-        <c:forEach var="order" items="${books}">
-            <ul>
-                <c:if test="${order.copiesAmount gt 0}">
-                    <li>
-                            ${order.name}, ${order.author.name}, ${order.genre.name}, ${order.date}, ${order.pagesAmount}, ${order.copiesAmount}, ${order.description}
-                        <c:if test="${not empty user}">
-                            <c:choose>
-                                <c:when test="${empty user.subscription}">
-                                    <a href="controller?command=order_book&id=${order.id}">Order book</a>
-                                </c:when>
-                                <c:when test="${LocalDate.now() ge user.subscription.startDate and LocalDate.now() le user.subscription.endDate}">
-                                    <a href="controller?command=read&id=${order.id}">Read book</a>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="controller?command=order_book?id=${order.id}">Order book</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:if>
-                    </li>
-                </c:if>
-            </ul>
-        </c:forEach>
-    </ul>
+        <ul>
+            <c:forEach var="book" items="${books}">
+                <li>
+                        ${book}
+                    <c:if test="${not empty sessionScope.user}">
+                            <a href="controller?command=order_book&id=${book.id}">Order</a>
+                    </c:if>
+                </li>
+            </c:forEach>
+        </ul>
 </c:if>
 </body>
 </html>

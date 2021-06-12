@@ -107,6 +107,25 @@ public class SimpleBookService implements BookService{
         BOOK_DAO.delete(bookId);
     }
 
+    @Override
+    public List<Book> findByGenre(String genre) throws ServiceException {
+        return BOOK_DAO.findBooksByGenreName(genre);
+    }
+
+    @Override
+    public List<Book> findByAuthor(String author) throws ServiceException {
+        return BOOK_DAO.findBooksByAuthorName(author);
+    }
+
+    @Override
+    public Book findByName(String name) throws ServiceException {
+        final Optional<Book> optionalBook = BOOK_DAO.findBookByName(name);
+        if(!optionalBook.isPresent()) {
+            throw new ServiceException(String.format("Book with name %s does not exist", name));
+        }
+        return optionalBook.get();
+    }
+
     private static class Singleton {
         private static final SimpleBookService INSTANCE = new SimpleBookService();
     }

@@ -13,10 +13,11 @@ public class DeleteUserCommand implements ActionCommand {
         final long parsedId = Long.parseLong(id);
         try {
             SimpleUserService.getInstance().deleteUser(parsedId);
-            return "controller?command=show_users";
+            request.getSession().setAttribute("commandResult", "user was deleted");
+            return null;
         } catch (ServiceException e) {
-            request.setAttribute("error", e.getMessage());
-            return "controller?command=show_users";
+            request.getSession().setAttribute("commandResult", e.getMessage());
+            return null;
         }
     }
 }

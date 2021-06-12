@@ -12,7 +12,6 @@ public class ChangeAccountCommand implements ActionCommand {
         User user = (User) request.getSession().getAttribute("user");
         final String newLogin = request.getParameter("login");
         final String newPassword = request.getParameter("password");
-
         try {
             if (newLogin != null && !newLogin.isEmpty()) {
                 user = SimpleUserService.getInstance().changeLogin(user.getId(), newLogin);
@@ -21,10 +20,11 @@ public class ChangeAccountCommand implements ActionCommand {
                 user = SimpleUserService.getInstance().changePassword(user.getId(), newPassword);
             }
             request.getSession().setAttribute("user", user);
-            return "controller?command=show_account";
+            request.getSession().setAttribute("commandResult", "user data was changed");
+            return null;
         } catch (ServiceException e) {
-            request.setAttribute("error", e.getMessage());
-            return "controller?command=show_account";
+            request.setAttribute("commandResult", e.getMessage());
+            return null;
         }
     }
 }

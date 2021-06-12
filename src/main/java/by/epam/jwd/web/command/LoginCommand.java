@@ -18,7 +18,7 @@ public class LoginCommand implements ActionCommand{
             final User savedUser = userService.login(login, password);
             final HttpSession session = request.getSession();
             session.setAttribute("user", savedUser);
-            return "index.jsp";
+            return null;
         } catch (ServiceException e) {
             request.setAttribute("error", e.getMessage());
             return "WEB-INF/jsp/login.jsp";

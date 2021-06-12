@@ -11,10 +11,11 @@ public class ApproveOrderCommand implements ActionCommand {
         final Long id = Long.valueOf(request.getParameter("id"));
         try {
             SimpleOrderService.getInstance().approveOrder(id);
-            return "controller?command=show_orders";
+            request.getSession().setAttribute("commandResult", "order was approved");
+            return null;
         } catch (ServiceException e) {
-            request.setAttribute("error", e.getMessage());
-            return "controller?command=show_orders";
+            request.getSession().setAttribute("commandResult", e.getMessage());
+            return null;
         }
     }
 }

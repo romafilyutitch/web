@@ -12,10 +12,11 @@ public class DemoteRoleCommand implements ActionCommand {
         final long parsedLong = Long.parseLong(id);
         try {
             SimpleUserService.getInstance().demoteUserRole(parsedLong);
-            return "controller?command=show_users";
+            request.getSession().setAttribute("commandResult", "role for user was demoted");
+            return null;
         } catch (ServiceException e) {
-            request.setAttribute("error", e.getMessage());
-            return "controller?command=show_users";
+            request.getSession().setAttribute("commandResult", e.getMessage());
+            return null;
         }
     }
 }

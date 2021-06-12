@@ -10,16 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 public class OrderBookCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
-        final User user = (User) request.getSession().getAttribute("user");
-        final Long bookId = Long.valueOf(request.getParameter("id"));
-        final Long userId = user.getId();
         try {
+            final User user = (User) request.getSession().getAttribute("user");
+            final Long userId = user.getId();
+            final Long bookId = Long.valueOf(request.getParameter("id"));
             SimpleOrderService.getInstance().createOrder(userId, bookId);
             SimpleBookService.getInstance().removeOneCopy(bookId);
-            return "controller?command=main";//todo: maybe forward to MY ORDERS PAGE in future
+            request.getSession().setAttribute("commandResult", "Book was ordered. See my orders page");
+            return null;
         } catch (ServiceException e) {
-            request.setAttribute("error", e.getMessage());
-            return "controller?command=main";
+            request.getSession().setAttribute("commandResult", e.getMessage());
+            return null;
+        } catch (NumberFormatException e) {
+            request.getSession().setAttribute("commandResult", "You didn't chose book to order. Chose book");
+            return null;
         }
     }
 }

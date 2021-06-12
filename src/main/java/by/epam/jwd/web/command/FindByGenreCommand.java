@@ -5,18 +5,19 @@ import by.epam.jwd.web.service.ServiceException;
 import by.epam.jwd.web.service.SimpleBookService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
-public class ReadCommand implements ActionCommand {
+public class FindByGenreCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
-        final long id = Long.parseLong(request.getParameter("id"));
-        try {
-            final Book bookToRead = SimpleBookService.getInstance().findById(id);
-            request.setAttribute("book", bookToRead);
-            return "WEB-INF/jsp/read.jsp";
+        final String genreName = request.getParameter("name");
+        try{
+            final List<Book> byGenre = SimpleBookService.getInstance().findByGenre(genreName);
+            request.setAttribute("books", byGenre);
+            return "WEB-INF/jsp/main.jsp";
         } catch (ServiceException e) {
             request.setAttribute("error", e.getMessage());
-            return "controller?command=main";
+            return "WEB-INF/jsp/main.jsp";
         }
     }
 }

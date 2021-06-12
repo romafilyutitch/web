@@ -34,8 +34,12 @@ public class Controller extends HttpServlet {
         ActionCommand command = client.defineCommand(request);
         if (command != null) {
             String page = command.execute(request);
-            RequestDispatcher dispatcher = request.getRequestDispatcher(page);
-            dispatcher.forward(request, response);
+            if (page != null) {
+                RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+                dispatcher.forward(request, response);
+            } else {
+                response.sendRedirect("index.jsp");
+            }
         } else {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }

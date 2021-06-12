@@ -17,7 +17,7 @@ public class RegisterCommand implements ActionCommand {
         try {
             final User createdUser = USER_SERVICE.createUser(login, password);
             request.setAttribute("user", createdUser);
-            return "index.jsp";
+            return null;
         } catch (ServiceException e) {
             request.setAttribute("error", e.getMessage());
             return "WEB-INF/jsp/register.jsp";

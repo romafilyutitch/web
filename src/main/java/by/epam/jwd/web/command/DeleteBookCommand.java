@@ -11,10 +11,11 @@ public class DeleteBookCommand implements ActionCommand {
         final long parsedId = Long.parseLong(request.getParameter("id"));
         try {
             SimpleBookService.getInstance().deleteBook(parsedId);
-            return "controller?command=show_books";
+            request.getSession().setAttribute("commandResult", "book was deleted");
+            return null;
         } catch (ServiceException e) {
-            request.setAttribute("error", e.getMessage());
-            return "controller?command=show_books";
+            request.getSession().setAttribute("commandResult", e.getMessage());
+            return null;
         }
     }
 }
