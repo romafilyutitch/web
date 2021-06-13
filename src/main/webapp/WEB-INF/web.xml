@@ -15,4 +15,11 @@
         <exception-type>java.lang.RuntimeException</exception-type>
         <location>/WEB-INF/jsp/error/server.jsp</location>
     </error-page>
+
+    <jsp-config>
+        <taglib>
+            <taglib-uri>customtags</taglib-uri>
+            <taglib-location>WEB-INF/tld/custom.tld</taglib-location>
+        </taglib>
+    </jsp-config>
 </web-app>

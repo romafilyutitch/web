@@ -2,12 +2,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="by.epam.jwd.web.model.UserRole" %>
 <%@ page import="java.time.LocalDate" %>
+<%@ taglib prefix="ctg" uri="customtags" %>
 <html>
 <head>
     <title>Welcome</title>
 </head>
 <body>
 <h3>Welcome</h3>
+<h3><ctg:time/></h3>
 <hr/>
 <c:choose>
     <c:when test="${not empty sessionScope.user}">
