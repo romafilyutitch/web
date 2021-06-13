@@ -1,30 +1,29 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: roma0
-  Date: 09.06.2021
-  Time: 18:22
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="by.epam.jwd.web.model.Status" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="main"/>
 <html>
 <head>
-    <title>Orders management</title>
+    <title><fmt:message key="orders.title"/></title>
 </head>
 <body>
-    <c:if test="${not empty orders}">
+    <c:if test="${not empty requestScope.orders}">
         <ul>
-        <c:forEach var="order" items="${orders}">
+        <c:forEach var="book" items="${requestScope.orders}">
             <li>
-                ${order.user.login}, ${order.book.name}, ${order.status.name}
-                <c:if test="${order.status eq Status.ORDERED}">
-                    <a href="controller?command=approve&id=${order.id}">Approve order</a>
+                ${book.user.login}, ${book.book.name}, ${book.status.name}
+                <c:if test="${book.status eq Status.ORDERED}">
+                    <form name="approve user order" method="POST" action="controller?command=approve">
+                        <input type="hidden" name="id" value="${book.id}">
+                        <input type="submit" value="Approve order">
+                    </form>
                 </c:if>
             </li>
         </c:forEach>
         </ul>
     </c:if>
-<a href="controller?command=main">Main Page</a>
+<a href="controller?command=main"><fmt:message key="main"/></a>
 </body>
 </html>

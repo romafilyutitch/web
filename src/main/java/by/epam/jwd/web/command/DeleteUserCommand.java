@@ -20,10 +20,9 @@ public class DeleteUserCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        final String id = request.getParameter(ID);
-        final long parsedId = Long.parseLong(id);
+        final Long id = Long.valueOf(request.getParameter(ID));
         try {
-            ServiceFactory.getInstance().getUserService().deleteUser(parsedId);
+            ServiceFactory.getInstance().getUserService().deleteUser(id);
             request.getSession().invalidate();
             return null;
         } catch (ServiceException e) {

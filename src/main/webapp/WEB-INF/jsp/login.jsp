@@ -1,34 +1,26 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: roma0
-  Date: 08.06.2021
-  Time: 1:10
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="main"/>
 <html>
 <head>
-    <title>Login</title>
+    <title><fmt:message key="login.title"/></title>
 </head>
 <body>
 <c:choose>
-    <c:when test="${not empty error}">
-        <c:out value="${error}"/>
-        <a href="controller?command=show_login">Try again</a>
+    <c:when test="${not empty requestScope.error}">
+        <c:out value="${requestScope.error}"/>
+        <a href="controller?command=show_login"><fmt:message key="login.tryAgain"/></a>
     </c:when>
     <c:otherwise>
         <form name = "loginForm" method="POST" action="controller?command=login">
-            Login:<br/>
-            <input type="text" name = "login" value=""/>
-            <br/>Password:<br/>
-            <input type="password" name="password" value=""/>
-            <br/>
-                ${error}
+            <label><fmt:message key="login.login"/><input type="text" name = "login" value=""/></label>
+            <label><fmt:message key="login.password"/><input type="password" name="password" value=""/></label>
             <input type="submit" value="Log in"/>
         </form>
     </c:otherwise>
 </c:choose>
-<a href="controller?command=main">MainPage</a>
+<a href="controller?command=main"><fmt:message key="main"/></a>
 </body>
 </html>

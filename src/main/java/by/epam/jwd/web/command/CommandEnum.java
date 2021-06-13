@@ -34,6 +34,7 @@ public enum CommandEnum {
     SHOW_ACCOUNT(ShowAccountCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
     CHANGE_ACCOUNT(ChangeAccountCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
     FIND(FindBooksCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
+    SET_LOCALE(SetLocaleCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
     SHOW_USER_ORDERS(ShowUserOrdersPageCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER);
 
     private final ActionCommand command;

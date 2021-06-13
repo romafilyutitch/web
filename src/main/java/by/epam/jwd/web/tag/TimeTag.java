@@ -12,6 +12,7 @@ import java.time.format.FormatStyle;
 public class TimeTag extends TagSupport {
     @Override
     public int doStartTag() throws JspException {
+
         final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
         final String currentDateTime = "<b>Current date and time " + dateTimeFormatter.format(LocalDateTime.now()) + "</b>";
         final JspWriter out = pageContext.getOut();

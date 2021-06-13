@@ -1,22 +1,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: roma0
-  Date: 11.06.2021
-  Time: 2:33
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.time.LocalDate" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="main"/>
 <html>
 <head>
-    <title>Read book page</title>
+    <title><fmt:message key="read.title"/></title>
 </head>
 <body>
-Book info : ${book.name}, ${book.author.name}, ${book.genre.name}
+<fmt:message key="read.info"/>${requestScope.book.name}, ${requestScope.book.author.name}, ${requestScope.book.genre.name}
 <hr/>
-${book.text}
+<a href="controller?command=show_user_orders">
 <hr/>
-<a href="controller?command=show_user_orders">My Orders</a>
+${requestScope.book.text}
+<fmt:message key="myOrders"/></a>
+<hr/>
 </body>
 </html>

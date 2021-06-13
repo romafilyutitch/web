@@ -1,39 +1,25 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: roma0
-  Date: 12.06.2021
-  Time: 1:27
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="main"/>
 <html>
 <head>
-    <title>My account</title>
+    <title><fmt:message key="account.title"/></title>
 </head>
 <body>
   <c:if test="${not empty sessionScope.user}">
-    ${user.login}
-    <hr/>
-    ${user.password}
-    <hr/>
-    ${user.role.name}
-    <hr/>
-    ${user.subscription}
-    <hr/>
+    ${sessionScope.user}
     <form name="changeForm" method="Post" action="controller?command=change_account">
-      <label>
-        Change login:
-        <input type="text" name="login">
-      </label>
-      <label>
-        Change password:
-        <input type="password" name="password">
-      </label>
+      <label><fmt:message key="account.changeLogin"/><input type="text" name="login"></label>
+      <label><fmt:message key="account.changePassword"/><input type="password" name="password"></label>
       <input type="submit" name="submit" value="change account">
     </form>
-    <a href = "controller?command=delete_user&id=${order.id}">Delete Account</a>
+    <form name="delete account" method="POST" action="controller?command=delete_user">
+      <input type="hidden" name="id" value="${sessionScope.user.id}">
+      <input type="submit" value="Delete account">
+    </form>
   </c:if>
-<a href="controller?command=main">Main page</a>
+  <a href="controller?command=main"><fmt:message key="main"/></a>
 </body>
 </html>
