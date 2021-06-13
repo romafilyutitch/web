@@ -1,7 +1,7 @@
 package by.epam.jwd.web.service;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import by.epam.jwd.web.dao.DaoFactory;
+import by.epam.jwd.web.dao.DAOFactory;
 import by.epam.jwd.web.dao.SubscriptionDao;
 import by.epam.jwd.web.dao.UserDao;
 import by.epam.jwd.web.exception.ServiceException;
@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Optional;
 
 class SimpleUserService implements UserService {
-    private static final UserDao USER_DAO = DaoFactory.getInstance().getUserDao();
-    private static final SubscriptionDao SUBSCRIPTION_DAO = DaoFactory.getInstance().getSubscriptionDao();
+    private static final UserDao USER_DAO = DAOFactory.getInstance().getUserDao();
+    private static final SubscriptionDao SUBSCRIPTION_DAO = DAOFactory.getInstance().getSubscriptionDao();
     private static final BCrypt.Hasher HASHER = BCrypt.withDefaults();
     private static final BCrypt.Verifyer VERIFYER = BCrypt.verifyer();
 

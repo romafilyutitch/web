@@ -16,18 +16,22 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class MySQLUserDao extends AbstractDao<User> implements UserDao {
-    private static final MySQLSubscriptionDao SUBSCRIPTION_DAO = MySQLSubscriptionDao.getInstance();
-    private static final MySQLRoleDao ROLE_DAO = MySQLRoleDao.getInstance();
 
+    private static final String TABLE_NAME = "user";
     private static final String ID_COLUMN = "id";
     private static final String LOGIN_COLUMN = "login";
     private static final String PASSWORD_COLUMN = "password";
     private static final String ROLE_COLUMN = "role";
     private static final String SUBSCRIPTION_COLUMN = "subscription";
-    private static final String SAVE_PREPARED_SQL = "insert into user (login, password, role, subscription) values (?, ?, ?, ?) ";
-    private static final String FIND_ALL_SQL = "select id, login, password, role, subscription from user";
-    private static final String UPDATE_PREPARED_SQL = "update user set login = ?, password = ?, role = ?, subscription = ? where id = ?";
-    private static final String DELETE_PREPARED_SQL = "delete from user where id = ?";
+
+    private static final String SAVE_PREPARED_SQL = String.format("insert into %S (%s, %s, %s, %s) values (?, ?, ?, ?)",
+            TABLE_NAME, LOGIN_COLUMN, PASSWORD_COLUMN, ROLE_COLUMN, SUBSCRIPTION_COLUMN);
+    private static final String FIND_ALL_SQL = String.format("select %s, %s, %s, %s, %s from %s",
+            ID_COLUMN, LOGIN_COLUMN, PASSWORD_COLUMN, ROLE_COLUMN, SUBSCRIPTION_COLUMN, TABLE_NAME);
+    private static final String UPDATE_PREPARED_SQL = String.format("update %s set %s = ?, %s = ?, %s = ?, %s = ? where %s = ?",
+            TABLE_NAME, LOGIN_COLUMN, PASSWORD_COLUMN, ROLE_COLUMN, SUBSCRIPTION_COLUMN, ID_COLUMN);
+    private static final String DELETE_PREPARED_SQL = String.format("delete from %s where %s = ?", TABLE_NAME, ID_COLUMN);
+    public static final String USER_ROLE_NOT_FOUND_MESSAGE = "Saved user role not found by id";
 
     private MySQLUserDao() {
         super(FIND_ALL_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);
@@ -38,22 +42,16 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
     }
 
     @Override
-    public User save(User entity) {
-        if (UserRole.UNAUTHORIZED.equals(entity.getRole())) {
-            throw new DAOException("Save unauthorized users is forbidden");
-        } else {
-            return super.save(entity);
-        }
-    }
-
-    @Override
     protected User mapResultSet(ResultSet result) throws SQLException, DAOException {
-        final Optional<UserRole> optionalUserRole = ROLE_DAO.findById(result.getLong(ROLE_COLUMN));
-        final Optional<Subscription> optionalSubscription = SUBSCRIPTION_DAO.findById(result.getLong(SUBSCRIPTION_COLUMN));
+        final Optional<UserRole> optionalUserRole = DAOFactory.getInstance().getRoleDao().findById(result.getLong(ROLE_COLUMN));
+        final Optional<Subscription> optionalSubscription = DAOFactory.getInstance().getSubscriptionDao().findById(result.getLong(SUBSCRIPTION_COLUMN));
+        if (!optionalUserRole.isPresent()) {
+            throw new DAOException(USER_ROLE_NOT_FOUND_MESSAGE);
+        }
         final Long id = result.getLong(ID_COLUMN);
         final String login = result.getString(LOGIN_COLUMN);
         final String password = result.getString(PASSWORD_COLUMN);
-        return new User(id, login, password, optionalUserRole.orElseThrow(DAOException::new), optionalSubscription.orElse(null));
+        return new User(id, login, password, optionalUserRole.get(), optionalSubscription.orElse(null));
     }
 
     @Override
@@ -62,7 +60,7 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
         savePreparedStatement.setString(2, entity.getPassword());
         savePreparedStatement.setLong(3, entity.getRole().getId());
         if (entity.getSubscription() != null) {
-            SUBSCRIPTION_DAO.save(entity.getSubscription());
+            DAOFactory.getInstance().getSubscriptionDao().save(entity.getSubscription());
             savePreparedStatement.setLong(4, entity.getSubscription().getId());
         } else {
             savePreparedStatement.setNull(4, Types.INTEGER);

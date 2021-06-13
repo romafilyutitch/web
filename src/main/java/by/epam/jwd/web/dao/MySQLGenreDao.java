@@ -11,12 +11,13 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 public class MySQLGenreDao extends AbstractDao<BookGenre> implements GenreDao {
-    private static final String SAVE_PREPARED_SQL = "insert into genre (name) values (?)";
-    private static final String FIND_ALL_SQL = "select id, name from genre";
-    private static final String UPDATE_PREPARED_SQL = "update genre set name = ? where id = ?";
-    private static final String DELETE_PREPARED_SQL = "delete from genre where id = ?";
-    public static final String ID_COLUMN = "id";
-    public static final String NAME_COLUMN = "name";
+    private static final String TABLE_NAME = "genre";
+    private static final String ID_COLUMN = "id";
+    private static final String NAME_COLUMN = "name";
+    private static final String SAVE_PREPARED_SQL = String.format("insert into %s (%s) values (?)", TABLE_NAME, NAME_COLUMN);
+    private static final String FIND_ALL_SQL = String.format("select %s, %s from %s", ID_COLUMN, NAME_COLUMN, TABLE_NAME);
+    private static final String UPDATE_PREPARED_SQL = String.format("update %s set %s = ? where %s = ?", TABLE_NAME, NAME_COLUMN, ID_COLUMN);
+    private static final String DELETE_PREPARED_SQL = String.format("delete from %s where %s = ?", TABLE_NAME, ID_COLUMN);
 
 
     private MySQLGenreDao() {
@@ -30,11 +31,7 @@ public class MySQLGenreDao extends AbstractDao<BookGenre> implements GenreDao {
     @Override
     public BookGenre save(BookGenre entity) throws DAOException {
         Optional<BookGenre> optionalBookGenre = getByName(entity.getName());
-        if (optionalBookGenre.isPresent()) {
-            return optionalBookGenre.get();
-        } else {
-            return super.save(entity);
-        }
+        return optionalBookGenre.orElseGet(() -> super.save(entity));
     }
 
     @Override

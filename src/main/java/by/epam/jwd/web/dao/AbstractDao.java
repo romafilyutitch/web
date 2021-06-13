@@ -20,10 +20,15 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     private static final Logger logger = LogManager.getLogger(AbstractDao.class);
 
     private static final String GENERATED_KEY_COLUMN = "GENERATED_KEY";
-    public static final String SAVE_OPERATION_UNSUPPORTED_MESSAGE = "Save entity operation is unsupported for this service";
-    public static final String FIND_OPERATION_UNSUPPORTED_MESSAGE = "Find entities operation is unsupported for this service";
-    public static final String UPDATE_OPERATION_UNSUPPORTED_MESSAGE = "Update entity operation is unsupported for this service";
-    public static final String DELETE_OPERATION_UNSUPPORTED_MESSAGE = "Delete entity operation is unsupported for this service";
+    private static final String SAVE_OPERATION_UNSUPPORTED_MESSAGE = "Save entity operation is unsupported for this service";
+    private static final String FIND_OPERATION_UNSUPPORTED_MESSAGE = "Find entities operation is unsupported for this service";
+    private static final String UPDATE_OPERATION_UNSUPPORTED_MESSAGE = "Update entity operation is unsupported for this service";
+    private static final String DELETE_OPERATION_UNSUPPORTED_MESSAGE = "Delete entity operation is unsupported for this service";
+    private static final String SAVED_ENTITY_WAS_NOT_FOUND_BY_ID_MESSAGE = "Entity was saved, but was not found by id %s";
+    private static final String COULD_NOT_SAVE_ENTITY_MESSAGES = "Could not save entity %s, Exception: %s";
+    private static final String COULD_NOT_FIND_ALL_ENTITIES_MESSAGE = "Could not find all entities, Exception : %s";
+    private static final String COULD_NOT_UPDATE_ENTITY_MESSAGE = "Could not update entity %s, Exception: %s";
+    private static final String COULD_NOT_DELETE_ENTITY_MESSAGE = "Could not delete entity with id %d, Exception : %s";
     private final String deleteSql;
     private final String findAllSql;
     private final String saveSql;
@@ -34,22 +39,6 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
         this.saveSql = saveSql;
         this.updateSql = updateSql;
         this.deleteSql = deleteSql;
-    }
-
-    public AbstractDao(String findAllSql, String saveSql, String updateSql) {
-        this(findAllSql, saveSql, updateSql, null);
-    }
-
-    public AbstractDao(String findAllSql, String saveSql) {
-        this(findAllSql, saveSql, null, null);
-    }
-
-    public AbstractDao(String findAllSql) {
-        this(findAllSql, null, null, null);
-    }
-
-    public AbstractDao() {
-        this(null, null, null, null);
     }
 
 
@@ -69,12 +58,15 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
             ResultSet generatedKeyResultSet = saveStatement.getGeneratedKeys();
             generatedKeyResultSet.next();
             Long id = generatedKeyResultSet.getLong(GENERATED_KEY_COLUMN);
-            final T savedEntity = findById(id).orElseThrow(DAOException::new);
-            logger.info("Entity was saved " + savedEntity);
-            return savedEntity;
+            final Optional<T> optionalEntity = findById(id);
+            if(!optionalEntity.isPresent()) {
+                logger.error(String.format(SAVED_ENTITY_WAS_NOT_FOUND_BY_ID_MESSAGE, entity));
+                throw new DAOException(String.format(SAVED_ENTITY_WAS_NOT_FOUND_BY_ID_MESSAGE, entity));
+            }
+            return optionalEntity.get();
         } catch (SQLException e) {
-            logger.error("Error with in saving entity " + entity);
-            throw new DAOException("Could not save entity ", e);
+            logger.error(String.format(COULD_NOT_SAVE_ENTITY_MESSAGES, entity, e));
+            throw new DAOException(e);
         }
     }
 
@@ -83,7 +75,19 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
         if (findAllSql == null) {
             throw new UnsupportedOperationException(FIND_OPERATION_UNSUPPORTED_MESSAGE);
         }
-        return findEntities(findAllSql);
+        final ArrayList<T> entities = new ArrayList<>();
+        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
+        Statement findAllStatement = connection.createStatement();
+        ResultSet result = findAllStatement.executeQuery(findAllSql)) {
+            while(result.next()) {
+                T entity = mapResultSet(result);
+                entities.add(entity);
+            }
+            return entities;
+        } catch (SQLException e) {
+            logger.error(String.format(COULD_NOT_FIND_ALL_ENTITIES_MESSAGE, e));
+            throw new DAOException(e);
+        }
     }
 
     @Override
@@ -100,11 +104,10 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
              PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
             setUpdatePreparedStatementValues(entity, updateStatement);
             updateStatement.executeUpdate();
-            logger.info("Entity was updated " + entity);
             return entity;
         } catch (SQLException e) {
-            logger.error("Error with updating entity" + entity);
-            throw new DAOException("Could not update entity", e);
+            logger.error(String.format(COULD_NOT_UPDATE_ENTITY_MESSAGE, entity, e));
+            throw new DAOException(e);
         }
     }
 
@@ -117,25 +120,8 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
              PreparedStatement deleteStatement = connection.prepareStatement(deleteSql)) {
             deleteStatement.setLong(1, id);
             deleteStatement.executeUpdate();
-            logger.info("Entity with id " + id + " was deleted");
         } catch (SQLException e) {
-            logger.error("Error with deleting entity with id" + id);
-            throw new DAOException("Could not delete entity", e);
-        }
-    }
-
-    protected List<T> findEntities(String sql){
-        try (final Connection conn = ConnectionPool.getConnectionPool().takeFreeConnection();
-             final Statement statement = conn.createStatement()) {
-            try (final ResultSet resultSet = statement.executeQuery(sql)) {
-                List<T> entities = new ArrayList<>();
-                while (resultSet.next()) {
-                    final T entity = mapResultSet(resultSet);
-                    entities.add(entity);
-                }
-                return entities;
-            }
-        } catch (SQLException e) {
+            logger.error(String.format(COULD_NOT_DELETE_ENTITY_MESSAGE, id, e));
             throw new DAOException(e);
         }
     }

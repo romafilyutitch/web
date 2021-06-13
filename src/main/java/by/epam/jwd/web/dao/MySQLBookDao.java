@@ -16,22 +16,26 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
-    private static final MySQLAuthorDao BOOK_AUTHOR_DAO = MySQLAuthorDao.getInstance();
-    private static final MySQLGenreDao BOOK_GENRE_DAO = MySQLGenreDao.getInstance();
 
+    private static final String TABLE_NAME = "book";
     private static final String ID_COLUMN = "id";
     private static final String NAME_COLUMN = "name";
     private static final String AUTHOR_COLUMN = "author";
     private static final String GENRE_COLUMN = "genre";
     private static final String YEAR_COLUMN = "year";
     private static final String PAGES_AMOUNT_COLUMN = "pages_amount";
+    private static final String COPIES_AMOUNT_COLUMN = "copies_amount";
     private static final String DESCRIPTION_COLUMN = "description";
-    public static final String COPIES_AMOUNT_COLUMN = "copies_amount";
     private static final String TEXT_COLUMN = "text";
-    private static final String SAVE_PREPARED_SQL = "insert into book (name, author, genre, year, pages_amount, description, text) values (?, ?, ?, ?, ?, ?, ?)";
-    private static final String FIND_ALL_SQL = "select id, name, author, genre, year, pages_amount, copies_amount, description, text from book";
-    private static final String UPDATE_PREPARED_SQL = "update book set name = ?, author = ?, genre = ?, year = ?, pages_amount = ?, copies_amount = ?, description = ?, text = ? where id = ?";
-    private static final String DELETE_PREPARED_SQL = "delete from book where id = ?";
+    private static final String SAVE_PREPARED_SQL = String.format("insert into %s (%s, %s, %s, %s, %s, %s, %s) values (?, ?, ?, ?, ?, ?, ?)",
+            TABLE_NAME, NAME_COLUMN, AUTHOR_COLUMN, GENRE_COLUMN, YEAR_COLUMN, PAGES_AMOUNT_COLUMN, DESCRIPTION_COLUMN, TEXT_COLUMN);
+    private static final String FIND_ALL_SQL = String.format("select %s, %s, %s, %s, %s, %s, %s, %s, %s from %s",
+            ID_COLUMN, NAME_COLUMN, AUTHOR_COLUMN, GENRE_COLUMN, YEAR_COLUMN, PAGES_AMOUNT_COLUMN,COPIES_AMOUNT_COLUMN, DESCRIPTION_COLUMN, TEXT_COLUMN, TABLE_NAME);
+    private static final String UPDATE_PREPARED_SQL = String.format("update %s set %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ? where %s = ?",
+            TABLE_NAME, NAME_COLUMN, AUTHOR_COLUMN, GENRE_COLUMN, YEAR_COLUMN, PAGES_AMOUNT_COLUMN, COPIES_AMOUNT_COLUMN, DESCRIPTION_COLUMN, TEXT_COLUMN, ID_COLUMN);
+    private static final String DELETE_PREPARED_SQL = String.format("delete from %s where %s = ?", TABLE_NAME, ID_COLUMN);
+    private static final String BOOK_AUTHOR_WAS_NOT_FOUND_MESSAGE = "Saved book author was not found by id ";
+    private static final String BOOK_GENRE_WAS_NOT_FOUND_MESSAGE = "Saved book genre was not found by id";
 
     private MySQLBookDao() {
         super(FIND_ALL_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);
@@ -43,8 +47,14 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
 
     @Override
     protected Book mapResultSet(ResultSet result) throws SQLException, DAOException {
-        Optional<BookAuthor> optionalAuthor = BOOK_AUTHOR_DAO.findById(result.getLong(AUTHOR_COLUMN));
-        Optional<BookGenre> optionalBookGenre = BOOK_GENRE_DAO.findById(result.getLong(GENRE_COLUMN));
+        Optional<BookAuthor> optionalAuthor = DAOFactory.getInstance().getAuthorDao().findById(result.getLong(AUTHOR_COLUMN));
+        Optional<BookGenre> optionalBookGenre = DAOFactory.getInstance().getGenreDao().findById(result.getLong(GENRE_COLUMN));
+        if (!optionalAuthor.isPresent()) {
+            throw new DAOException(BOOK_AUTHOR_WAS_NOT_FOUND_MESSAGE);
+        }
+        if (!optionalBookGenre.isPresent()) {
+            throw new DAOException(BOOK_GENRE_WAS_NOT_FOUND_MESSAGE);
+        }
         final Long id = result.getLong(ID_COLUMN);
         final String name = result.getString(NAME_COLUMN);
         final LocalDate date = result.getObject(YEAR_COLUMN, LocalDate.class);
@@ -52,13 +62,13 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
         final int booksAmount = result.getInt(COPIES_AMOUNT_COLUMN);
         final String description = result.getString(DESCRIPTION_COLUMN);
         final String text = result.getString(TEXT_COLUMN);
-        return new Book(id, name, optionalAuthor.orElseThrow(DAOException::new), optionalBookGenre.orElseThrow(DAOException::new), date, pagesAmount, booksAmount, description, text);
+        return new Book(id, name, optionalAuthor.get(), optionalBookGenre.get(), date, pagesAmount, booksAmount, description, text);
     }
 
     @Override
     protected void setSavePrepareStatementValues(Book entity, PreparedStatement savePreparedStatement) throws SQLException, DAOException {
-        final BookAuthor bookAuthor = BOOK_AUTHOR_DAO.save(entity.getAuthor());
-        final BookGenre bookGenre = BOOK_GENRE_DAO.save(entity.getGenre());
+        final BookAuthor bookAuthor = DAOFactory.getInstance().getAuthorDao().save(entity.getAuthor());
+        final BookGenre bookGenre = DAOFactory.getInstance().getGenreDao().save(entity.getGenre());
         savePreparedStatement.setString(1, entity.getName());
         savePreparedStatement.setLong(2, bookAuthor.getId());
         savePreparedStatement.setLong(3, bookGenre.getId());

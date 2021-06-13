@@ -1,6 +1,6 @@
 package by.epam.jwd.web.dao;
 
-public interface DaoFactory {
+public interface DAOFactory {
 
     UserDao getUserDao();
 
@@ -14,9 +14,11 @@ public interface DaoFactory {
 
     RoleDao getRoleDao();
 
+    StatusDao getStatusDao();
+
     SubscriptionDao getSubscriptionDao();
 
-    static DaoFactory getInstance() {
-        return MySQLDaoFactory.getInstance();
+    static DAOFactory getInstance() {
+        return MySQLDAOFactory.getInstance();
     }
 }

@@ -22,7 +22,7 @@ public enum CommandEnum {
     ADD_BOOK(AddBookCommand.getInstance(), UserRole.ADMIN),
     PROMOTE_ROLE(PromoteRoleCommand.getInstance(), UserRole.ADMIN),
     DEMOTE_ROLE(DemoteRoleCommand.getInstance(), UserRole.ADMIN),
-    DELETE_USER(DeleteUserCommand.getInstance(), UserRole.ADMIN),
+    DELETE_USER(DeleteUserCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
     SET_SUBSCRIPTION(SetSubscriptionCommand.getInstance(), UserRole.ADMIN),
     SHOW_SET_SUBSCRIPTION_PAGE(ShowSetSubscriptionPageCommand.getInstance(), UserRole.ADMIN),
     READ(ReadCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),

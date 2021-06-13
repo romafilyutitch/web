@@ -14,7 +14,7 @@ public class ApplicationLifecycleListener implements ServletContextListener {
         try {
             ConnectionPool.getConnectionPool().init();
         } catch (ConnectionPoolInitializationException e) {
-            e.printStackTrace();
+            sce.getServletContext().log("Connection Pool was not initialized", e);
         }
     }
 

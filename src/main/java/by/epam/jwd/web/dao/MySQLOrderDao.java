@@ -17,19 +17,22 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class MySQLOrderDao extends AbstractDao<BookOrder> implements OrderDao {
-    private static final MySQLBookDao BOOK_DAO_SERVICE = MySQLBookDao.getInstance();
-    private static final MySQLUserDao USER_DAO_SERVICE = MySQLUserDao.getInstance();
-    private static final MySQLStatusDao STATUS_DAO = MySQLStatusDao.getInstance();
 
+    private static final String TABLE_NAME = "book_order";
     private static final String ID_COLUMN = "id";
     private static final String READER_COLUMN = "reader";
     private static final String BOOK_COLUMN = "book";
     private static final String ORDER_DATE_COLUMN = "date";
     public static final String STATUS_COLUMN = "status";
-    private static final String SAVE_PREPARED_SQL = "insert into `order` (reader, book) values (?, ?)";
-    private static final String FIND_ALL_SQL = "select id, reader, book, date, status from `order`";//todo mysql does not see table order table change in future
-    private static final String UPDATE_PREPARED_SQL = "update `order` set reader = ?, book = ?, date = ?, status = ? where id = ?";
-    private static final String DELETE_PREPARED_SQL = "delete from `order` where id = ?";
+    private static final String SAVE_PREPARED_SQL = String.format("insert into %s (%s, %s) values (?, ?)", TABLE_NAME, READER_COLUMN, BOOK_COLUMN);
+    private static final String FIND_ALL_SQL = String.format("select %s, %s, %s, %s, %s from %s",
+            ID_COLUMN, READER_COLUMN, BOOK_COLUMN, ORDER_DATE_COLUMN, STATUS_COLUMN, TABLE_NAME);//todo mysql does not see table order table change in future
+    private static final String UPDATE_PREPARED_SQL = String.format("update %s set %s = ?, %s = ?, %s = ?, %s = ? where %s = ?",
+            TABLE_NAME, READER_COLUMN, BOOK_COLUMN, ORDER_DATE_COLUMN, STATUS_COLUMN, ID_COLUMN);
+    private static final String DELETE_PREPARED_SQL = String.format("delete from %s where %s = ?", TABLE_NAME, ID_COLUMN);
+    private static final String USER_WAS_NOT_FOUND_MESSAGE = "Saved order user was not found by id";
+    private static final String BOOK_WAS_NOT_FOUND_MESSAGE = "Saved order book was not found by id";
+    private static final String ORDER_STATUS_WAS_NOT_FOUND_MESSAGE = "Saved order status was not found by id";
 
     private MySQLOrderDao() {
         super(FIND_ALL_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);
@@ -41,17 +44,26 @@ public class MySQLOrderDao extends AbstractDao<BookOrder> implements OrderDao {
 
     @Override
     protected BookOrder mapResultSet(ResultSet result) throws SQLException, DAOException {
-        final Optional<User> optionalLibraryUser = USER_DAO_SERVICE.findById(result.getLong(READER_COLUMN));
-        final Optional<Book> optionalBook = BOOK_DAO_SERVICE.findById(result.getLong(BOOK_COLUMN));
+        final Optional<User> optionalLibraryUser = DAOFactory.getInstance().getUserDao().findById(result.getLong(READER_COLUMN));
+        final Optional<Book> optionalBook = DAOFactory.getInstance().getBookDao().findById(result.getLong(BOOK_COLUMN));
+        final Optional<Status> optionalStatus = DAOFactory.getInstance().getStatusDao().findById(result.getLong(STATUS_COLUMN));
+        if(!optionalLibraryUser.isPresent()) {
+            throw new DAOException(USER_WAS_NOT_FOUND_MESSAGE);
+        }
+        if (!optionalBook.isPresent()) {
+            throw new DAOException(BOOK_WAS_NOT_FOUND_MESSAGE);
+        }
+        if (!optionalStatus.isPresent()) {
+            throw new DAOException(ORDER_STATUS_WAS_NOT_FOUND_MESSAGE);
+        }
         final LocalDate orderDate = result.getObject(ORDER_DATE_COLUMN, LocalDate.class);
-        final Optional<Status> optionalStatus = STATUS_DAO.findById(result.getLong(STATUS_COLUMN));
-        return new BookOrder(result.getLong(ID_COLUMN), optionalLibraryUser.orElseThrow(DAOException::new), optionalBook.orElseThrow(DAOException::new), orderDate, optionalStatus.orElseThrow(DAOException::new));
+        return new BookOrder(result.getLong(ID_COLUMN), optionalLibraryUser.get(), optionalBook.get(), orderDate, optionalStatus.get());
     }
 
     @Override
     protected void setSavePrepareStatementValues(BookOrder entity, PreparedStatement savePreparedStatement) throws SQLException, DAOException {
-        savePreparedStatement.setLong(1, USER_DAO_SERVICE.save(entity.getUser()).getId());
-        savePreparedStatement.setLong(2, BOOK_DAO_SERVICE.save(entity.getBook()).getId());
+        savePreparedStatement.setLong(1, DAOFactory.getInstance().getUserDao().save(entity.getUser()).getId());
+        savePreparedStatement.setLong(2, DAOFactory.getInstance().getBookDao().save(entity.getBook()).getId());
 
     }
 

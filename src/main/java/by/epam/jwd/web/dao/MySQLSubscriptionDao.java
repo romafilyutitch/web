@@ -13,14 +13,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class MySQLSubscriptionDao extends AbstractDao<Subscription> implements SubscriptionDao {
-
-    private static final String SAVE_PREPARED_SQL = "insert into subscription (start_date, end_date) values (?, ?)";
-    private static final String FIND_ALL_SQL = "select id, start_date, end_date from subscription";
-    private static final String UPDATE_PREPARED_SQL = "update subscription set start_date = ?, end_date = ? where id = ?";
-    private static final String DELETE_PREPARED_SQL = "delete from subscription where id = ?";
+    private static final String TABLE_NAME = "subscription";
     public static final String ID_COLUMN = "id";
     public static final String START_DATE_COLUMN = "start_date";
     public static final String END_DATE_COLUMN = "end_date";
+
+    private static final String SAVE_PREPARED_SQL = String.format("insert into %s (%s, %s) values (?, ?)", TABLE_NAME, START_DATE_COLUMN, END_DATE_COLUMN);
+    private static final String FIND_ALL_SQL = String.format("select %s, %s, %s from %s", ID_COLUMN, START_DATE_COLUMN, END_DATE_COLUMN, TABLE_NAME);
+    private static final String UPDATE_PREPARED_SQL = String.format("update %s set %s = ?, %s = ? where %s = ?", TABLE_NAME, START_DATE_COLUMN, END_DATE_COLUMN, ID_COLUMN);
+    private static final String DELETE_PREPARED_SQL = String.format("delete from %s where %s = ?", TABLE_NAME, ID_COLUMN);
 
     private MySQLSubscriptionDao() {
        super(FIND_ALL_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);

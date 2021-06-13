@@ -1,7 +1,7 @@
 package by.epam.jwd.web.service;
 
 import by.epam.jwd.web.dao.BookDao;
-import by.epam.jwd.web.dao.DaoFactory;
+import by.epam.jwd.web.dao.DAOFactory;
 import by.epam.jwd.web.dao.OrderDao;
 import by.epam.jwd.web.dao.UserDao;
 import by.epam.jwd.web.exception.ServiceException;
@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.Optional;
 
 class SimpleOrderService implements OrderService {
-    private static final OrderDao ORDER_DAO = DaoFactory.getInstance().getOrderDao();
-    private static final UserDao USER_DAO = DaoFactory.getInstance().getUserDao();
-    private static final BookDao BOOK_DAO = DaoFactory.getInstance().getBookDao();
+    private static final OrderDao ORDER_DAO = DAOFactory.getInstance().getOrderDao();
+    private static final UserDao USER_DAO = DAOFactory.getInstance().getUserDao();
+    private static final BookDao BOOK_DAO = DAOFactory.getInstance().getBookDao();
 
     private SimpleOrderService() {
     }

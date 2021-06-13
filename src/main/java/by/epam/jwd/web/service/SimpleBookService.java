@@ -1,7 +1,7 @@
 package by.epam.jwd.web.service;
 
 import by.epam.jwd.web.dao.BookDao;
-import by.epam.jwd.web.dao.DaoFactory;
+import by.epam.jwd.web.dao.DAOFactory;
 import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.BookAuthor;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 class SimpleBookService implements BookService{
-    private static final BookDao BOOK_DAO = DaoFactory.getInstance().getBookDao();
+    private static final BookDao BOOK_DAO = DAOFactory.getInstance().getBookDao();
 
     private SimpleBookService() {}
 

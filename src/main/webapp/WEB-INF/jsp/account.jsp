@@ -32,6 +32,7 @@
       </label>
       <input type="submit" name="submit" value="change account">
     </form>
+    <a href = "controller?command=delete_user&id=${order.id}">Delete Account</a>
   </c:if>
 <a href="controller?command=main">Main page</a>
 </body>

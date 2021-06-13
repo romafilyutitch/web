@@ -11,12 +11,13 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 public class MySQLAuthorDao extends AbstractDao<BookAuthor> implements AuthorDao{
-    private static final String SAVE_PREPARED_SQL = "insert into author (name) values (?)";
-    private static final String FIND_ALL_PREPARED_SQL = "select id, name from author";
-    private static final String UPDATE_PREPARED_SQL = "update author set name = ? where id = ?";
-    private static final String DELETE_PREPARED_SQL = "delete from author where id = ?";
-    public static final String ID_COLUMN = "id";
-    public static final String NAME_COLUMN = "name";
+    private static final String TABLE_NAME = "author";
+    private static final String ID_COLUMN = "id";
+    private static final String NAME_COLUMN = "name";
+    private static final String SAVE_PREPARED_SQL = String.format("insert into %s (%s) values (?)", TABLE_NAME, NAME_COLUMN);
+    private static final String FIND_ALL_PREPARED_SQL = String.format("select %s, %s from %s", ID_COLUMN, NAME_COLUMN, TABLE_NAME);
+    private static final String UPDATE_PREPARED_SQL = String.format("update %s set %s = ? where %s = ?", TABLE_NAME, NAME_COLUMN, ID_COLUMN);
+    private static final String DELETE_PREPARED_SQL = String.format("delete from %s where %s = ?", TABLE_NAME, ID_COLUMN);
 
     private MySQLAuthorDao() {
         super(FIND_ALL_PREPARED_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);
@@ -29,11 +30,7 @@ public class MySQLAuthorDao extends AbstractDao<BookAuthor> implements AuthorDao
     @Override
     public BookAuthor save(BookAuthor entity) {
         Optional<BookAuthor> optionalBookAuthor = getByName(entity.getName());
-        if (optionalBookAuthor.isPresent()) {
-            return optionalBookAuthor.get();
-        } else {
-            return super.save(entity);
-        }
+        return optionalBookAuthor.orElseGet(() -> super.save(entity));
     }
 
     @Override

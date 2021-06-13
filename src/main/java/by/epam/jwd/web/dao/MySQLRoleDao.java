@@ -11,11 +11,13 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 public class MySQLRoleDao extends AbstractDao<UserRole> implements RoleDao {
-    private static final String FIND_ALL_SQL = "select id, name from role";
-    private static final String SAVE_PREPARED_SQL = "insert into role (name) values (?)";
-    private static final String UPDATE_PREPARED_SQL = "update role set name = ? where id = ?";
-    private static final String DELETE_PREPARED_SQL = "delete from role where id = ?";
-    public static final String NAME_COLUMN = "name";
+    private static final String TABLE_NAME = "role";
+    private static final String NAME_COLUMN = "name";
+    private static final String ID_COLUMN = "id";
+    private static final String SAVE_PREPARED_SQL = String.format("insert into %s (%s) values (?)", TABLE_NAME, NAME_COLUMN);
+    private static final String FIND_ALL_SQL = String.format("select %s, %s from %s", ID_COLUMN, NAME_COLUMN, TABLE_NAME);
+    private static final String DELETE_PREPARED_SQL = String.format("delete from %s where %s = ?", TABLE_NAME, ID_COLUMN);
+    private static final String UPDATE_PREPARED_SQL = String.format("update %s set %s = ? where %s = ?", TABLE_NAME, NAME_COLUMN, ID_COLUMN);
 
     private MySQLRoleDao() {
         super(FIND_ALL_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);

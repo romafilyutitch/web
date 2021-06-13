@@ -1,10 +1,10 @@
 package by.epam.jwd.web.dao;
 
-public class MySQLDaoFactory implements DaoFactory {
-    private MySQLDaoFactory() {
+public class MySQLDAOFactory implements DAOFactory {
+    private MySQLDAOFactory() {
     }
 
-    public static MySQLDaoFactory getInstance() {
+    public static MySQLDAOFactory getInstance() {
         return Singleton.INSTANCE;
     }
 
@@ -43,7 +43,12 @@ public class MySQLDaoFactory implements DaoFactory {
         return MySQLSubscriptionDao.getInstance();
     }
 
+    @Override
+    public StatusDao getStatusDao() {
+        return MySQLStatusDao.getInstance();
+    }
+
     private static class Singleton {
-        private static final MySQLDaoFactory INSTANCE = new MySQLDaoFactory();
+        private static final MySQLDAOFactory INSTANCE = new MySQLDAOFactory();
     }
 }

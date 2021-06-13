@@ -25,8 +25,7 @@
             <c:if test="${order.role ne UserRole.READER}">
                 <a href = "controller?command=demote_role&id=${order.id}">Demote user role</a>
             </c:if>
-        <a href = "controller?command=show_set_subscription_page&id=${order.id}">Set subscription</a>
-        <a href = "controller?command=delete_user&id=${order.id}">Delete user</a></li>
+        <a href = "controller?command=show_set_subscription_page&id=${order.id}">Set subscription</a></li>
     </c:forEach>
     </ul>
 </c:if>

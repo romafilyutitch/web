@@ -3,7 +3,6 @@ package by.epam.jwd.web.connectionPool;
 
 import by.epam.jwd.web.exception.ConnectionPoolActionException;
 import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
-import by.epam.jwd.web.properties.ConnectionPoolProperties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,16 +29,19 @@ class OrdinaryConnectionPool implements ConnectionPool {
     private static final String CONNECTION_IS_NULL_MESSAGE = "Connection is null";
     private static final String RETURNED_CONNECTION_IS_NOT_TAKEN_CONNECTION_MESSAGE = "Returned connection is not taken connection";
     private static final String DRIVERS_REGISTRATION_FAILED_MESSAGE = "Driver registration failed";
+    public static final String COULD_NOT_TAKE_FREE_CONNECTION_MESSAGE = "Could not take free connection";
+    public static final String COULD_NOT_RETURN_CONNECTION_MESSAGE = "Could not return taken connection to connection pool";
 
-    private static final String DATABASE_URL = ConnectionPoolProperties.getUrl();
-    private static final String DATABASE_USERNAME = ConnectionPoolProperties.getUserName();
-    private static final String DATABASE_PASSWORD = ConnectionPoolProperties.getPassword();
-    private static final int MINIMUM_POOL_SIZE = ConnectionPoolProperties.getMinimalPoolSize();
-    private static final int MAXIMUM_POOL_SIZE = ConnectionPoolProperties.getMaximalPoolSize();
-    private static final int RESIZE_QUANTITY = ConnectionPoolProperties.getResizeQuantity();
-    private static final int POOL_RESIZE_CHECK_DELAY_TIME = ConnectionPoolProperties.getPoolResizeTimerTaskCheckDelayTime();
-    private static final int POOL_RESIZE_CHECK_PERIOD_TIME = ConnectionPoolProperties.getPoolResizeTimerTaskCheckPeriodTime();
-    private static final double RESIZE_FACTOR = ConnectionPoolProperties.getPoolResizeTimerTaskResizeFactor();
+
+    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/librarydb?serverTimezone=GMT%2B8";
+    private static final String DATABASE_USERNAME = "root";
+    private static final String DATABASE_PASSWORD = "050399";
+    private static final int MINIMUM_POOL_SIZE = 10;
+    private static final int MAXIMUM_POOL_SIZE = 30;
+    private static final int RESIZE_QUANTITY = 5;
+    private static final int POOL_RESIZE_CHECK_DELAY_TIME = 1000;
+    private static final int POOL_RESIZE_CHECK_PERIOD_TIME = 5000;
+    private static final double RESIZE_FACTOR = 0.25;
 
     private final BlockingQueue<Connection> freeConnectionsQueue = new ArrayBlockingQueue<>(MAXIMUM_POOL_SIZE);
     private final CopyOnWriteArraySet<Connection> takenConnections = new CopyOnWriteArraySet<>();
@@ -47,7 +49,8 @@ class OrdinaryConnectionPool implements ConnectionPool {
     private final Timer timer = new Timer(true);
     private final PoolResizeTimerTask poolResizeTimerTask = new PoolResizeTimerTask();
 
-    private OrdinaryConnectionPool() {}
+    private OrdinaryConnectionPool() {
+    }
 
     public static OrdinaryConnectionPool getInstance() {
         return ConnectionPoolSingleton.INSTANCE;
@@ -64,7 +67,7 @@ class OrdinaryConnectionPool implements ConnectionPool {
             return freeConnection;
         } catch (InterruptedException e) {
             logger.error(e);
-            throw new ConnectionPoolActionException("Could not take free connection", e);
+            throw new ConnectionPoolActionException(COULD_NOT_TAKE_FREE_CONNECTION_MESSAGE, e);
         }
     }
 
@@ -79,7 +82,7 @@ class OrdinaryConnectionPool implements ConnectionPool {
             takenConnections.remove(connection);
         } catch (InterruptedException e) {
             logger.error(e);
-            throw new ConnectionPoolActionException("Could not return taken connection to connection pool", e);
+            throw new ConnectionPoolActionException(COULD_NOT_RETURN_CONNECTION_MESSAGE, e);
         }
     }
 
@@ -186,17 +189,20 @@ class OrdinaryConnectionPool implements ConnectionPool {
     }
 
     private class PoolResizeTimerTask extends TimerTask {
+
+        public static final String RESIZE_INFO = "Free connections = %d, taken connections = %d, total connections amount = %d";
+        public static final String GROW_POOL_MESSAGE = "Action is grow pool";
+        public static final String TRIM_POOL_MESSAGE = "Action is trim pool";
+
         @Override
         public void run() {
-            logger.info("Free connections = " + freeConnectionsQueue.size() +
-                    ", taken connections = " + takenConnections.size() +
-                    ", total connections amount = " + (freeConnectionsQueue.size() + takenConnections.size()));
+            logger.info(String.format(RESIZE_INFO, freeConnectionsQueue.size(), takenConnections.size(), freeConnectionsQueue.size() + takenConnections.size()));
             try {
                 if (isNeedToGrowPool()) {
-                    logger.info("Action is grow pool");
+                    logger.info(GROW_POOL_MESSAGE);
                     addFreeConnectionsToPool(RESIZE_QUANTITY);
                 } else if (isNeedToTrimPool()) {
-                    logger.info("Action is trim pool");
+                    logger.info(TRIM_POOL_MESSAGE);
                     removeFreeConnectionsFromPool();
                 }
             } catch (SQLException | InterruptedException e) {

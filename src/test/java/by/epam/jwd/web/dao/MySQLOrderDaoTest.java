@@ -23,8 +23,8 @@ public class MySQLOrderDaoTest {
     private BookOrder testOrder;
 
     public MySQLOrderDaoTest() throws DAOException {
-        testOrder = new BookOrder(DaoFactory.getInstance().getUserDao().findAll().stream().findAny().get(),
-                DaoFactory.getInstance().getBookDao().findAll().stream().findAny().get(),
+        testOrder = new BookOrder(DAOFactory.getInstance().getUserDao().findAll().stream().findAny().get(),
+                DAOFactory.getInstance().getBookDao().findAll().stream().findAny().get(),
                 LocalDate.now(), Status.ORDERED);
     }
 
