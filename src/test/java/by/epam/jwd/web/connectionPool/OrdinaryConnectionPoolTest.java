@@ -1,8 +1,6 @@
 package by.epam.jwd.web.connectionPool;
 
-import by.epam.jwd.web.connectionPool.ConnectionPoolInitializationException;
-import by.epam.jwd.web.connectionPool.OrdinaryConnectionPool;
-import by.epam.jwd.web.connectionPool.ProxyConnection;
+import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;

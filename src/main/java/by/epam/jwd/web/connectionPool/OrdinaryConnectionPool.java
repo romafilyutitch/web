@@ -1,6 +1,8 @@
 package by.epam.jwd.web.connectionPool;
 
 
+import by.epam.jwd.web.exception.ConnectionPoolActionException;
+import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
 import by.epam.jwd.web.properties.ConnectionPoolProperties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -62,7 +64,7 @@ class OrdinaryConnectionPool implements ConnectionPool {
             return freeConnection;
         } catch (InterruptedException e) {
             logger.error(e);
-            throw new ConnectionPoolActionException("Cannot take free connection", e);
+            throw new ConnectionPoolActionException("Could not take free connection", e);
         }
     }
 
@@ -77,7 +79,7 @@ class OrdinaryConnectionPool implements ConnectionPool {
             takenConnections.remove(connection);
         } catch (InterruptedException e) {
             logger.error(e);
-            throw new ConnectionPoolActionException("Cannot return taken connection to connection pool", e);
+            throw new ConnectionPoolActionException("Could not return taken connection to connection pool", e);
         }
     }
 

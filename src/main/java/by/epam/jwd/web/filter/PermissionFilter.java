@@ -54,7 +54,7 @@ public class PermissionFilter implements Filter {
         if (allowedCommands.contains(command)) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
-            httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
+            httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Entered request is forbidden according to your role");
         }
     }
 }

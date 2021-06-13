@@ -33,14 +33,11 @@ public enum CommandEnum {
     RETURN_BOOK(ReturnBookCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
     SHOW_ACCOUNT(ShowAccountCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
     CHANGE_ACCOUNT(ChangeAccountCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
-    FIND_BY_NAME(FindByNameCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
-    FIND_BY_AUTHOR(FindByAuthorCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
-    FIND_BY_GENRE(FindByGenreCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
+    FIND(FindBooksCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
     SHOW_USER_ORDERS(ShowUserOrdersPageCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER);
 
     private final ActionCommand command;
     private final List<UserRole> allowedRoles;
-
 
     CommandEnum(ActionCommand command, UserRole... roles) {
         this.command = command;

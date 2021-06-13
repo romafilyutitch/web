@@ -2,6 +2,7 @@ package by.epam.jwd.web.dao;
 
 
 
+import by.epam.jwd.web.exception.DAOException;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.model.UserRole;

@@ -4,6 +4,7 @@ import by.epam.jwd.web.dao.BookDao;
 import by.epam.jwd.web.dao.DaoFactory;
 import by.epam.jwd.web.dao.OrderDao;
 import by.epam.jwd.web.dao.UserDao;
+import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.BookOrder;
 import by.epam.jwd.web.model.Status;

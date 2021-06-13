@@ -2,11 +2,8 @@ package by.epam.jwd.web.servlet;
 
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.command.ActionFactory;
-import by.epam.jwd.web.connectionPool.ConnectionPool;
-import by.epam.jwd.web.connectionPool.ConnectionPoolInitializationException;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,7 +40,7 @@ public class Controller extends HttpServlet {
                 response.sendRedirect(INDEX_JSP_PATH);
             }
         } else {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Page was not found");
         }
     }
 }

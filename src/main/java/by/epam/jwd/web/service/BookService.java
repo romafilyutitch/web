@@ -1,5 +1,6 @@
 package by.epam.jwd.web.service;
 
+import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.model.Book;
 
 import java.util.List;

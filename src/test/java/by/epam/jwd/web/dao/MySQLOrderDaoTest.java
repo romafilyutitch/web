@@ -1,8 +1,9 @@
 package by.epam.jwd.web.dao;
 
 import by.epam.jwd.web.connectionPool.ConnectionPool;
-import by.epam.jwd.web.connectionPool.ConnectionPoolInitializationException;
+import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
 
+import by.epam.jwd.web.exception.DAOException;
 import by.epam.jwd.web.model.BookOrder;
 import by.epam.jwd.web.model.Status;
 import org.junit.After;

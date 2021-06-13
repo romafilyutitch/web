@@ -1,7 +1,7 @@
 package by.epam.jwd.web.listener;
 
 import by.epam.jwd.web.connectionPool.ConnectionPool;
-import by.epam.jwd.web.connectionPool.ConnectionPoolInitializationException;
+import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

@@ -2,7 +2,7 @@ package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.BookOrder;
-import by.epam.jwd.web.service.ServiceException;
+import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;

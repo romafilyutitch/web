@@ -2,9 +2,9 @@ package by.epam.jwd.web.service;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import by.epam.jwd.web.dao.DaoFactory;
-import by.epam.jwd.web.dao.MySQLSubscriptionDao;
 import by.epam.jwd.web.dao.SubscriptionDao;
 import by.epam.jwd.web.dao.UserDao;
+import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.model.UserRole;

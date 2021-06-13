@@ -1,5 +1,7 @@
 package by.epam.jwd.web.connectionPool;
 
+import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
+
 import java.sql.Connection;
 
 public interface ConnectionPool {

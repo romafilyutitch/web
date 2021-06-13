@@ -1,6 +1,6 @@
-package by.epam.jwd.web.dao;
+package by.epam.jwd.web.exception;
 
-class DAOException extends RuntimeException{
+public class DAOException extends RuntimeException{
     public DAOException() {
 
     }

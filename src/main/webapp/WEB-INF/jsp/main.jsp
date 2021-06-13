@@ -35,17 +35,12 @@
 ${sessionScope.commandResult}
 <hr/>
 <c:if test="${not empty sessionScope.user}">
-    <form name="find_by_name" action="controller?command=find_by_name" method="POST">
-        Find book by name <input type="text" name="name">
-        <input type="submit" value="find">
-    </form>
-    <form name="find_by_author" action="controller?command=find_by_author" method="POST">
-        Find Books by author <input type="text" name="name">
-        <input type="submit" value="find">
-    </form>
-    <form name="find_by_genre" action="controller?command=find_by_genre" method="POST">
-        Find books by genre <input type="text" name="name">
-        <input type="submit" value="find">
+    <form name="find" method="post" action="controller?command=find">
+        <input type="text" name="name">
+        <input type="radio" name="criteria" value="name">Find by name
+        <input type="radio" name="criteria" value="author">Find by author
+        <input type="radio" name="criteria" value="genre">Find by genre
+        <input type="submit" name="find" value="find">
     </form>
     <a href="controller?command=main">All books</a>
 </c:if>

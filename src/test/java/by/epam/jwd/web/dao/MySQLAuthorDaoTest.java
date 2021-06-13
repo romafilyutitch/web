@@ -1,10 +1,9 @@
 package by.epam.jwd.web.dao;
 
 import by.epam.jwd.web.connectionPool.ConnectionPool;
-import by.epam.jwd.web.connectionPool.ConnectionPoolInitializationException;
-import by.epam.jwd.web.dao.DAOException;
-import by.epam.jwd.web.dao.MySQLAuthorDao;
+import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
 
+import by.epam.jwd.web.exception.DAOException;
 import by.epam.jwd.web.model.BookAuthor;
 import org.junit.AfterClass;
 import org.junit.Assert;
