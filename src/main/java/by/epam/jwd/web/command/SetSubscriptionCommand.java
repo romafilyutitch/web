@@ -1,6 +1,7 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.exception.ServiceException;
+import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +12,7 @@ public class SetSubscriptionCommand implements ActionCommand {
     public static final String START_DATE = "start_date";
     public static final String END_DATE = "end_date";
     public static final String COMMAND_RESULT = "commandResult";
-    public static final String RESULT_MESSAGE = "subscription for user was set";
+    public static final String RESULT_MESSAGE = "subscription for user %s was set";
 
     private SetSubscriptionCommand() {
     }
@@ -27,13 +28,12 @@ public class SetSubscriptionCommand implements ActionCommand {
         final String end_date = request.getParameter(END_DATE);
         final long parsedLong = Long.parseLong(id);
         try {
-            ServiceFactory.getInstance().getUserService().setSubscription(parsedLong, startDate, end_date);
-            request.getSession().setAttribute(COMMAND_RESULT, RESULT_MESSAGE);
-            return null;
+            final User user = ServiceFactory.getInstance().getUserService().setSubscription(parsedLong, startDate, end_date);
+            request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, user.getLogin()));
         } catch (ServiceException e) {
             request.getSession().setAttribute(COMMAND_RESULT, e.getMessage());
-            return null;
         }
+        return null;
     }
 
     private static class Singleton {

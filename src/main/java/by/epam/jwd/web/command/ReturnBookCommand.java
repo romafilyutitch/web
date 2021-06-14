@@ -11,7 +11,7 @@ public class ReturnBookCommand implements ActionCommand {
 
     public static final String ID = "id";
     public static final String COMMAND_RESULT = "commandResult";
-    public static final String RESULT_MESSAGE = "book was returned";
+    public static final String RESULT_MESSAGE = "book %s was returned";
 
     private ReturnBookCommand() {
     }
@@ -28,12 +28,11 @@ public class ReturnBookCommand implements ActionCommand {
             final Book book = order.getBook();
             ServiceFactory.getInstance().getBookService().addOneCopy(book.getId());
             ServiceFactory.getInstance().getOrderService().deleteOrder(order.getId());
-            request.getSession().setAttribute(COMMAND_RESULT, RESULT_MESSAGE);
-            return null;
+            request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, book.getName()));
         } catch (ServiceException e) {
             request.getSession().setAttribute(COMMAND_RESULT, e.getMessage());
-            return null;
         }
+        return null;
     }
 
     private static class Singleton {

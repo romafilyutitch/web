@@ -10,10 +10,8 @@
 </head>
 <body>
     <c:if test="${not empty requestScope.orders}">
-        <ul>
             <c:forEach var="book" items="${requestScope.orders}">
-                <li>
-                        ${book.book.name} ${book.status.name}
+                <div> ${book.book.name} ${book.status.name}
                     <c:if test="${book.status eq Status.APPROVED}">
                         <a href="controller?command=read&id=${book.book.id}"><fmt:message key="myorders.readBook"/></a>
                         <form name="return" action="controller?return_book" method="POST">
@@ -21,10 +19,9 @@
                             <input type="submit" value="Return book">
                         </form>
                     </c:if>
-                </li>
+                </div>
             </c:forEach>
-        </ul>
     </c:if>
-<a href="controller?command=main">Main page</a>
+<a href="controller?command=main"><fmt:message key="main"/></a>
 </body>
 </html>

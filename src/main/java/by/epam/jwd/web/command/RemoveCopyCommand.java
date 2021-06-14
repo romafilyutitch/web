@@ -1,6 +1,7 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.exception.ServiceException;
+import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,7 +10,7 @@ public class RemoveCopyCommand implements ActionCommand {
 
     public static final String ID = "id";
     public static final String COMMAND_RESULT = "commandResult";
-    public static final String RESULT_MESSAGE = "copy book was removed";
+    public static final String RESULT_MESSAGE = "copy of book %s was removed";
 
     private RemoveCopyCommand() {
     }
@@ -20,16 +21,14 @@ public class RemoveCopyCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        final String bookId = request.getParameter(ID);
-        final long parsedId = Long.parseLong(bookId);
+        final Long id = Long.valueOf(request.getParameter(ID));
         try {
-            ServiceFactory.getInstance().getBookService().removeOneCopy(parsedId);
-            request.getSession().setAttribute(COMMAND_RESULT, RESULT_MESSAGE);
-            return null;
+            final Book book = ServiceFactory.getInstance().getBookService().removeOneCopy(id);
+            request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, book.getName()));
         } catch (ServiceException e) {
             request.getSession().setAttribute(COMMAND_RESULT, e.getMessage());
-            return null;
         }
+        return null;
     }
 
     private static class Singleton {

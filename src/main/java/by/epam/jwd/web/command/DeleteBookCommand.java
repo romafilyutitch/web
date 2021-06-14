@@ -21,15 +21,14 @@ public class DeleteBookCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        final long parsedId = Long.parseLong(request.getParameter(ID));
+        final Long id = Long.valueOf(request.getParameter(ID));
         try {
-            ServiceFactory.getInstance().getBookService().deleteBook(parsedId);
+            ServiceFactory.getInstance().getBookService().deleteBook(id);
             request.getSession().setAttribute(COMMAND_RESULT, RESULT_MESSAGE);
-            return null;
         } catch (ServiceException e) {
             request.getSession().setAttribute(COMMAND_RESULT, e.getMessage());
-            return null;
         }
+        return null;
     }
 
     private static class Singleton {

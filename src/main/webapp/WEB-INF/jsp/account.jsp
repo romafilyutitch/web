@@ -9,7 +9,10 @@
 </head>
 <body>
   <c:if test="${not empty sessionScope.user}">
+    <div>
     ${sessionScope.user}
+    </div>
+    <div>
     <form name="changeForm" method="Post" action="controller?command=change_account">
       <label><fmt:message key="account.changeLogin"/><input type="text" name="login"></label>
       <label><fmt:message key="account.changePassword"/><input type="password" name="password"></label>
@@ -19,6 +22,7 @@
       <input type="hidden" name="id" value="${sessionScope.user.id}">
       <input type="submit" value="Delete account">
     </form>
+    </div>
   </c:if>
   <a href="controller?command=main"><fmt:message key="main"/></a>
 </body>

@@ -5,19 +5,23 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Locale;
 
 public class TimeTag extends TagSupport {
+    private static final Locale RUSSIAN_LOCALE = new Locale("ru", "RU");
+    private static final Locale ENGLISH_LOCALE = new Locale("en", "US");
+
     @Override
     public int doStartTag() throws JspException {
 
-        final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
-        final String currentDateTime = "<b>Current date and time " + dateTimeFormatter.format(LocalDateTime.now()) + "</b>";
+        final DateTimeFormatter englishFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(RUSSIAN_LOCALE);
+        final DateTimeFormatter russianFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(ENGLISH_LOCALE);
+        final String currentDate =  englishFormatter.format(LocalDate.now()) + "<br/>" + russianFormatter.format(LocalDate.now()) + "<br/>";
         final JspWriter out = pageContext.getOut();
         try {
-            out.println(currentDateTime);
+            out.println(currentDate);
         } catch (IOException e) {
             throw new JspException(e.getMessage());
         }

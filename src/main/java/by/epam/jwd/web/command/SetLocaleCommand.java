@@ -14,7 +14,7 @@ public class SetLocaleCommand implements ActionCommand {
     public String execute(HttpServletRequest request) {
         final String locale = request.getParameter("locale");
         request.getSession().setAttribute("locale", locale);
-        return "WEB-INF/jsp/main.jsp";
+        return null;
     }
     
     private static class Singleton {

@@ -10,13 +10,18 @@
     <title><fmt:message key="welcome"/></title>
 </head>
 <body>
+<div>
 <h3><fmt:message key="welcome"/></h3>
+<ctg:time/>
+</div>
+<div>
 <form name="locale choose" action="controller?command=set_locale" method="POST">
     <label><fmt:message key="russian"/><input type="radio" name="locale" value="ru_RU"></label>
     <label><fmt:message key="english"/><input type="radio" name="locale" value="en_US"></label>
     <input type="submit" value="choose language">
 </form>
-<hr/>
+</div>
+<div>
 <c:choose>
     <c:when test="${not empty sessionScope.user}">
         <fmt:message key="hello"/> ${sessionScope.user.login}
@@ -37,9 +42,11 @@
         <a href="controller?command=show_register"><fmt:message key="register"/></a>
     </c:otherwise>
 </c:choose>
-<hr/>
+</div>
+<div>
 ${sessionScope.commandResult}
-<hr/>
+</div>
+<div>
 <c:if test="${not empty sessionScope.user}">
     <form name="find" method="POST" action="controller?command=find">
         <label><fmt:message key="findBooks"/><input type="text" name="name"></label>
@@ -50,21 +57,27 @@ ${sessionScope.commandResult}
     </form>
     <a href="controller?command=main"><fmt:message key="allBooks"/></a>
 </c:if>
-<hr/>
+</div>
 <c:if test="${not empty requestScope.books }">
-        <ul>
             <c:forEach var="book" items="${requestScope.books}">
-                <li>
-                        ${book}
+                <div>
+                        <fmt:message key="bookName"/> ${book.name} <br/>
+                        <fmt:message key="authorName"/> ${book.author.name}<br/>
+                        <fmt:message key="genreName"/> ${book.genre.name}<br/>
+                        <fmt:message key="dateName"/>
+                    <fmt:parseDate var="parsed" value="${book.date}" type="date" pattern="yyyy-MM-dd"/>
+                    <fmt:formatDate value="${parsed}"/><br/>
+                        <fmt:message key="pagesName"/> <fmt:formatNumber value="${book.pagesAmount}"/><br/>
+                        <fmt:message key="copiesName"/> <fmt:formatNumber value="${book.copiesAmount}"/><br/>
+                        <fmt:message key="descriptionName"/> ${book.description}<br/>
                     <c:if test="${not empty sessionScope.user}">
                         <form name="order" method="POST" action="controller?command=order_book">
                             <input type="hidden" name="id" value="${book.id}">
                             <input type="submit" value="Order book">
                         </form>
                     </c:if>
-                </li>
+                </div>
             </c:forEach>
-        </ul>
 </c:if>
 </body>
 </html>

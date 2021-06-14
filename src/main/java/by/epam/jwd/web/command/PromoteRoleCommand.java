@@ -20,16 +20,14 @@ public class PromoteRoleCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        final String id = request.getParameter(ID);
-        final long parsedId = Long.parseLong(id);
+        final Long id = Long.valueOf(request.getParameter(ID));
         try {
-            ServiceFactory.getInstance().getUserService().promoteUserRole(parsedId);
+            ServiceFactory.getInstance().getUserService().promoteUserRole(id);
             request.getSession().setAttribute(COMMAND_RESULT, RESULT_MESSAGE);
-            return null;
         } catch (ServiceException e) {
             request.getSession().setAttribute(COMMAND_RESULT, e.getMessage());
-            return null;
         }
+        return null;
     }
 
     private static class Singleton {

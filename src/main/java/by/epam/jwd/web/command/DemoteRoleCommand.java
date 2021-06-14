@@ -20,10 +20,9 @@ public class DemoteRoleCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        final String id = request.getParameter(ID);
-        final long parsedLong = Long.parseLong(id);
+        final Long id = Long.valueOf(request.getParameter(ID));
         try {
-            ServiceFactory.getInstance().getUserService().demoteUserRole(parsedLong);
+            ServiceFactory.getInstance().getUserService().demoteUserRole(id);
             request.getSession().setAttribute(COMMAND_RESULT, RESULT_MESSAGE);
             return null;
         } catch (ServiceException e) {

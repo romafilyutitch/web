@@ -10,8 +10,8 @@ public class ReadCommand implements ActionCommand {
 
     public static final String ID = "id";
     public static final String BOOK = "book";
-    public static final String READ_JSP_PATH = "WEB-INF/jsp/read.jsp";
     public static final String ERROR = "error";
+    public static final String READ_JSP_PATH = "WEB-INF/jsp/read.jsp";
     public static final String MAIN_COMMAND_CONTROLLER = "controller?command=main";
 
     private ReadCommand() {
@@ -23,7 +23,7 @@ public class ReadCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        final long id = Long.parseLong(request.getParameter(ID));
+        final Long id = Long.valueOf(request.getParameter(ID));
         try {
             final Book bookToRead = ServiceFactory.getInstance().getBookService().findById(id);
             request.setAttribute(BOOK, bookToRead);

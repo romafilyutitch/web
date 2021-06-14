@@ -12,7 +12,7 @@ public class ShowSetSubscriptionPageCommand implements ActionCommand {
     public static final String USER = "user";
     public static final String SUBSCRIPTION_JSP_PATH = "WEB-INF/jsp/subscription.jsp";
     public static final String ERROR = "error";
-    public static final String SHOW_USERS_CONTROLLER = "controller?command=show_users";
+    public static final String SHOW_USERS_CONTROLLER = "WEB-INF/jsp/users.jsp";
 
     private ShowSetSubscriptionPageCommand() {
     }

@@ -1,5 +1,6 @@
 package by.epam.jwd.web.command;
 
+import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.service.ServiceFactory;
@@ -11,8 +12,7 @@ public class OrderBookCommand implements ActionCommand {
     public static final String USER = "user";
     public static final String ID = "id";
     public static final String COMMAND_RESULT = "commandResult";
-    public static final String RESULT_MESSAGE = "Book was ordered. See my orders page";
-    public static final String DID_NOT_CHOOSE_BOOK_MESSAGE = "You didn't chose book to order. Chose book";
+    public static final String RESULT_MESSAGE = "Book %s was ordered. See my orders page";
 
     private OrderBookCommand() {
     }
@@ -23,21 +23,17 @@ public class OrderBookCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
+        final Long bookId = Long.valueOf(request.getParameter(ID));
         try {
             final User user = (User) request.getSession().getAttribute(USER);
             final Long userId = user.getId();
-            final Long bookId = Long.valueOf(request.getParameter(ID));
             ServiceFactory.getInstance().getOrderService().createOrder(userId, bookId);
-            ServiceFactory.getInstance().getBookService().removeOneCopy(bookId);
-            request.getSession().setAttribute(COMMAND_RESULT, RESULT_MESSAGE);
-            return null;
+            final Book orderedBook = ServiceFactory.getInstance().getBookService().removeOneCopy(bookId);
+            request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, orderedBook.getName()));
         } catch (ServiceException e) {
             request.getSession().setAttribute(COMMAND_RESULT, e.getMessage());
-            return null;
-        } catch (NumberFormatException e) {
-            request.getSession().setAttribute(COMMAND_RESULT, DID_NOT_CHOOSE_BOOK_MESSAGE);
-            return null;
         }
+        return null;
     }
 
     private static class Singleton {

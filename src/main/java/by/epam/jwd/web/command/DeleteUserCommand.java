@@ -24,11 +24,10 @@ public class DeleteUserCommand implements ActionCommand {
         try {
             ServiceFactory.getInstance().getUserService().deleteUser(id);
             request.getSession().invalidate();
-            return null;
         } catch (ServiceException e) {
             request.getSession().setAttribute(COMMAND_RESULT, e.getMessage());
-            return null;
         }
+        return null;
     }
 
     private static class Singleton {

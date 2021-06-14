@@ -15,7 +15,7 @@ public class AddBookCommand implements ActionCommand {
     public static final String DESCRIPTION = "description";
     public static final String TEXT = "text";
     public static final String COMMAND_RESULT = "commandResult";
-    public static final String RESULT_MESSAGE = "book was added";
+    public static final String RESULT_MESSAGE = "book %s was added";
 
     private AddBookCommand() {
     }
@@ -35,12 +35,11 @@ public class AddBookCommand implements ActionCommand {
         final String text = request.getParameter(TEXT);
         try {
             ServiceFactory.getInstance().getBookService().createBook(name, author, genre, date, pages, description, text);
-            request.getSession().setAttribute(COMMAND_RESULT, RESULT_MESSAGE);
-            return null;
+            request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, name));
         } catch (ServiceException e) {
             request.getSession().setAttribute(COMMAND_RESULT, e.getMessage());
-            return null;
         }
+        return null;
     }
 
     private static class Singleton {

@@ -36,11 +36,10 @@ public class ChangeAccountCommand implements ActionCommand {
             }
             request.getSession().setAttribute(USER, user);
             request.getSession().setAttribute(COMMAND_RESULT, RESULT_MESSAGE);
-            return null;
         } catch (ServiceException e) {
             request.setAttribute(COMMAND_RESULT, e.getMessage());
-            return null;
         }
+        return null;
     }
 
     private static class Singleton {
