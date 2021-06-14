@@ -20,7 +20,7 @@ public class MainCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        final List<Book> all = ServiceFactory.getInstance().getBookService().findAll();
+        final List<Book> all = ServiceFactory.getInstance().getBookService().findAllBooks();
         request.setAttribute(BOOKS, all);
         return MAIN_JSP_PATH;
     }

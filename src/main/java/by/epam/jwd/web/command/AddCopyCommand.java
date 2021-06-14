@@ -22,12 +22,8 @@ public class AddCopyCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
         final Long id = Long.valueOf(request.getParameter(ID));
-        try {
-            final Book book = ServiceFactory.getInstance().getBookService().addOneCopy(id);
-            request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, book.getName()));
-        } catch (ServiceException e) {
-            request.getSession().setAttribute(COMMAND_RESULT, e.getMessage());
-        }
+        final Book book = ServiceFactory.getInstance().getBookService().addOneCopy(id);
+        request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, book.getName()));
         return null;
     }
 

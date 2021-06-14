@@ -21,14 +21,9 @@ public class DemoteRoleCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
         final Long id = Long.valueOf(request.getParameter(ID));
-        try {
-            ServiceFactory.getInstance().getUserService().demoteUserRole(id);
-            request.getSession().setAttribute(COMMAND_RESULT, RESULT_MESSAGE);
-            return null;
-        } catch (ServiceException e) {
-            request.getSession().setAttribute(COMMAND_RESULT, e.getMessage());
-            return null;
-        }
+        ServiceFactory.getInstance().getUserService().demoteUserRole(id);
+        request.getSession().setAttribute(COMMAND_RESULT, RESULT_MESSAGE);
+        return null;
     }
 
     private static class Singleton {

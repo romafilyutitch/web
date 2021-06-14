@@ -24,14 +24,9 @@ public class ReadCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
         final Long id = Long.valueOf(request.getParameter(ID));
-        try {
-            final Book bookToRead = ServiceFactory.getInstance().getBookService().findById(id);
-            request.setAttribute(BOOK, bookToRead);
-            return READ_JSP_PATH;
-        } catch (ServiceException e) {
-            request.setAttribute(ERROR, e.getMessage());
-            return MAIN_COMMAND_CONTROLLER;
-        }
+        final Book bookToRead = ServiceFactory.getInstance().getBookService().findById(id);
+        request.setAttribute(BOOK, bookToRead);
+        return READ_JSP_PATH;
     }
 
     private static class Singleton {

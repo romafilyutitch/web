@@ -1,9 +1,16 @@
 package by.epam.jwd.web.command;
 
+import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.exception.ServiceException;
+import by.epam.jwd.web.exception.ValidationException;
+import by.epam.jwd.web.model.Book;
+import by.epam.jwd.web.model.BookAuthor;
+import by.epam.jwd.web.model.BookGenre;
 import by.epam.jwd.web.service.ServiceFactory;
+import by.epam.jwd.web.validator.BookValidator;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 
 public class AddBookCommand implements ActionCommand {
 
@@ -33,14 +40,17 @@ public class AddBookCommand implements ActionCommand {
         final String pages = request.getParameter(PAGES);
         final String description = request.getParameter(DESCRIPTION);
         final String text = request.getParameter(TEXT);
+        final Book book = new Book(name, new BookAuthor(author), new BookGenre(genre), LocalDate.parse(date), Integer.parseInt(pages), description, text);
         try {
-            ServiceFactory.getInstance().getBookService().createBook(name, author, genre, date, pages, description, text);
+            BookValidator.getInstance().validate(book);
+            ServiceFactory.getInstance().getBookService().registerBook(book);
             request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, name));
-        } catch (ServiceException e) {
+        } catch (ValidationException | RegisterException e) {
             request.getSession().setAttribute(COMMAND_RESULT, e.getMessage());
         }
         return null;
     }
+
 
     private static class Singleton {
         private static final AddBookCommand INSTANCE = new AddBookCommand();

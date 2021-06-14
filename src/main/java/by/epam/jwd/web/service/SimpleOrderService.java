@@ -5,11 +5,9 @@ import by.epam.jwd.web.dao.DAOFactory;
 import by.epam.jwd.web.dao.OrderDao;
 import by.epam.jwd.web.dao.UserDao;
 import by.epam.jwd.web.exception.ServiceException;
-import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.BookOrder;
 import by.epam.jwd.web.model.Status;
 import by.epam.jwd.web.model.Subscription;
-import by.epam.jwd.web.model.User;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -28,27 +26,14 @@ class SimpleOrderService implements OrderService {
     }
 
     @Override
-    public List<BookOrder> findAll() {
+    public List<BookOrder> findAllOrders() {
         return ORDER_DAO.findAll();
     }
 
     @Override
-    public BookOrder createOrder(Long readerId, Long bookId) throws ServiceException {
-        final Optional<User> optionalUser = USER_DAO.findById(readerId);
-        final Optional<Book> optionalBook = BOOK_DAO.findById(bookId);
-        if (!optionalUser.isPresent()) {
-            throw new ServiceException(String.format("User with id %d does not exist", readerId));
-        }
-        if (!optionalBook.isPresent()) {
-            throw new ServiceException(String.format("Book with id %d does not exist", bookId));
-        }
-        if (optionalBook.get().getCopiesAmount() == 0) {
-            throw new ServiceException("All copies are given. Try to order this book in other time");
-        }
-        final User user = optionalUser.get();
-        final Subscription subscription = user.getSubscription();
-        final BookOrder bookOrder = new BookOrder(user, optionalBook.get());
-        final BookOrder savedOrder = ORDER_DAO.save(bookOrder);
+    public BookOrder registerBookOrder(BookOrder order) {
+        final Subscription subscription = order.getUser().getSubscription();
+        final BookOrder savedOrder = ORDER_DAO.save(order);
         if (subscription != null) {
             if (subscription.getStartDate().isBefore(LocalDate.now()) && subscription.getEndDate().isAfter(LocalDate.now())) {
                 return ORDER_DAO.update(savedOrder.updateOrderStatus(Status.APPROVED));
@@ -59,11 +44,7 @@ class SimpleOrderService implements OrderService {
 
     @Override
     public BookOrder approveOrder(Long orderId) throws ServiceException {
-        final Optional<BookOrder> optionalBookOrder = ORDER_DAO.findById(orderId);
-        if (!optionalBookOrder.isPresent()) {
-            throw new ServiceException(String.format("Order with id %d does not exist", orderId));
-        }
-        final BookOrder bookOrder = optionalBookOrder.get();
+        final BookOrder bookOrder = findById(orderId);
         return ORDER_DAO.update(bookOrder.updateOrderStatus(Status.APPROVED));
     }
 
@@ -78,10 +59,10 @@ class SimpleOrderService implements OrderService {
     }
 
     @Override
-    public BookOrder findById(Long orderId) throws ServiceException {
+    public BookOrder findById(Long orderId) {
         final Optional<BookOrder> optionalBookOrder = ORDER_DAO.findById(orderId);
         if (!optionalBookOrder.isPresent()) {
-            throw new ServiceException(String.format("order with id %d does not exist", orderId));
+            throw new ServiceException(String.format("Saved order with id %d was not found", orderId));
         }
         return optionalBookOrder.get();
     }

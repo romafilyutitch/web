@@ -37,25 +37,21 @@ public class FindBooksCommand implements ActionCommand {
             request.setAttribute(BOOKS, books);
             return MAIN_JSP_PATH;
         }
-        try {
-            switch (criteria) {
-                case BOOK_NAME_CRITERIA:
-                    final Book oneBook = ServiceFactory.getInstance().getBookService().findByName(findName);
-                    books = Collections.singletonList(oneBook);
-                    break;
-                case AUTHOR_NAME_CRITERIA:
-                    books = ServiceFactory.getInstance().getBookService().findByAuthor(findName);
-                    break;
-                case GENRE_NAME_CRITERIA:
-                    books = ServiceFactory.getInstance().getBookService().findByGenre(findName);
-                    break;
-                default:
-                    books = Collections.emptyList();
-            }
-            request.setAttribute(BOOKS, books);
-        } catch (ServiceException e) {
-            request.setAttribute(ERROR, ERROR_MESSAGE);
+        switch (criteria) {
+            case BOOK_NAME_CRITERIA:
+                final Book oneBook = ServiceFactory.getInstance().getBookService().findByName(findName);
+                books = Collections.singletonList(oneBook);
+                break;
+            case AUTHOR_NAME_CRITERIA:
+                books = ServiceFactory.getInstance().getBookService().findByAuthor(findName);
+                break;
+            case GENRE_NAME_CRITERIA:
+                books = ServiceFactory.getInstance().getBookService().findByGenre(findName);
+                break;
+            default:
+                books = Collections.emptyList();
         }
+        request.setAttribute(BOOKS, books);
         return MAIN_JSP_PATH;
     }
 

@@ -1,5 +1,6 @@
 package by.epam.jwd.web.service;
 
+import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.model.Book;
 
@@ -7,25 +8,23 @@ import java.util.List;
 
 public interface BookService {
 
-    List<Book> findAll();
+    List<Book> findAllBooks();
 
-    Book createBook(String name, String author, String genre, String date, String pageAmount, String description, String text) throws ServiceException;
+    Book registerBook(Book book) throws RegisterException ;
 
-    void deleteBook(Long bookId) throws ServiceException;
+    void deleteBook(Long bookId);
 
-    Book update(Book book) throws ServiceException;
+    Book findById(Long bookId);
 
-    Book findById(Long id) throws ServiceException;
+    Book addOneCopy(Long bookId);
 
-    Book addOneCopy(Long id) throws ServiceException;
+    Book removeOneCopy(Long bookId);
 
-    Book removeOneCopy(Long id) throws ServiceException;
+    Book findByName(String name);
 
-    Book findByName(String name) throws ServiceException;
+    List<Book> findByGenre(String genre);
 
-    List<Book> findByGenre(String genre) throws ServiceException;
-
-    List<Book> findByAuthor(String author) throws ServiceException;
+    List<Book> findByAuthor(String author);
 
 
 }

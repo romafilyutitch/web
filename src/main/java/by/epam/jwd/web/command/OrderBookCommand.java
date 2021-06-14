@@ -1,9 +1,12 @@
 package by.epam.jwd.web.command;
 
+import by.epam.jwd.web.exception.ValidationException;
 import by.epam.jwd.web.model.Book;
+import by.epam.jwd.web.model.BookOrder;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.service.ServiceFactory;
+import by.epam.jwd.web.validator.OrderValidator;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,13 +27,15 @@ public class OrderBookCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
         final Long bookId = Long.valueOf(request.getParameter(ID));
+        final Book book = ServiceFactory.getInstance().getBookService().findById(bookId);
+        final User user = (User) request.getSession().getAttribute(USER);
+        final BookOrder order = new BookOrder(user, book);
         try {
-            final User user = (User) request.getSession().getAttribute(USER);
-            final Long userId = user.getId();
-            ServiceFactory.getInstance().getOrderService().createOrder(userId, bookId);
+            OrderValidator.getInstance().validate(order);
+            ServiceFactory.getInstance().getOrderService().registerBookOrder(order);
             final Book orderedBook = ServiceFactory.getInstance().getBookService().removeOneCopy(bookId);
             request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, orderedBook.getName()));
-        } catch (ServiceException e) {
+        } catch (ValidationException e) {
             request.getSession().setAttribute(COMMAND_RESULT, e.getMessage());
         }
         return null;

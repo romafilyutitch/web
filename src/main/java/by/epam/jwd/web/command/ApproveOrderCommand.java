@@ -21,12 +21,8 @@ public class ApproveOrderCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
         final Long id = Long.valueOf(request.getParameter(ID));
-        try {
-            ServiceFactory.getInstance().getOrderService().approveOrder(id);
-            request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, id));
-        } catch (ServiceException e) {
-            request.getSession().setAttribute(COMMAND_RESULT, e.getMessage());
-        }
+        ServiceFactory.getInstance().getOrderService().approveOrder(id);
+        request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, id));
         return null;
     }
 

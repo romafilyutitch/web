@@ -1,31 +1,34 @@
 package by.epam.jwd.web.service;
 
-import by.epam.jwd.web.exception.ServiceException;
+import by.epam.jwd.web.exception.ChangeLoginException;
+import by.epam.jwd.web.exception.LoginUserException;
+import by.epam.jwd.web.exception.RegisterException;
+import by.epam.jwd.web.exception.SubscriptionException;
+import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface UserService {
 
-    List<User> findAll();
+    List<User> findAllUsers();
 
-    User createUser(String login, String password) throws ServiceException;
+    User registerUser(User user) throws RegisterException;
 
-    void deleteUser(Long userId) throws ServiceException;
+    User loginUser(User user) throws LoginUserException;
 
-    User login(String login, String password) throws ServiceException;
+    void deleteUser(Long userId);
 
-    User update(User user) throws ServiceException;
+    User findById(Long userId);
 
-    User findById(Long id) throws ServiceException;
+    User promoteUserRole(Long userId);
 
-    User promoteUserRole(Long userId) throws ServiceException;
+    User demoteUserRole(Long userId);
 
-    User demoteUserRole(Long userId) throws ServiceException;
+    User setSubscription(Long userId, Subscription newSubscription);
 
-    User setSubscription(Long userId, String startDate, String endDate) throws ServiceException;
+    User changeLogin(Long userId, String newLogin);
 
-    User changeLogin(Long userId, String newLogin) throws ServiceException;
-
-    User changePassword(Long userId, String newPassword) throws ServiceException;
+    User changePassword(Long userId, String newPassword);
 }

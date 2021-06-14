@@ -1,10 +1,14 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.exception.ServiceException;
+import by.epam.jwd.web.exception.ValidationException;
+import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.service.ServiceFactory;
+import by.epam.jwd.web.validator.SubscriptionValidator;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 
 public class SetSubscriptionCommand implements ActionCommand {
 
@@ -23,14 +27,15 @@ public class SetSubscriptionCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        final String id = request.getParameter(ID);
+        final Long id = Long.valueOf(request.getParameter(ID));
         final String startDate = request.getParameter(START_DATE);
-        final String end_date = request.getParameter(END_DATE);
-        final long parsedLong = Long.parseLong(id);
+        final String endDate = request.getParameter(END_DATE);
+        final Subscription subscription = new Subscription(LocalDate.parse(startDate), LocalDate.parse(endDate));
         try {
-            final User user = ServiceFactory.getInstance().getUserService().setSubscription(parsedLong, startDate, end_date);
+            SubscriptionValidator.getInstance().validate(subscription);
+            final User user = ServiceFactory.getInstance().getUserService().setSubscription(id, subscription);
             request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, user.getLogin()));
-        } catch (ServiceException e) {
+        } catch (ValidationException e) {
             request.getSession().setAttribute(COMMAND_RESULT, e.getMessage());
         }
         return null;

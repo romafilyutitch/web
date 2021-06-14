@@ -22,16 +22,12 @@ public class ReturnBookCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        try {
-            final Long orderId = Long.valueOf(request.getParameter(ID));
-            final BookOrder order = ServiceFactory.getInstance().getOrderService().findById(orderId);
-            final Book book = order.getBook();
-            ServiceFactory.getInstance().getBookService().addOneCopy(book.getId());
-            ServiceFactory.getInstance().getOrderService().deleteOrder(order.getId());
-            request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, book.getName()));
-        } catch (ServiceException e) {
-            request.getSession().setAttribute(COMMAND_RESULT, e.getMessage());
-        }
+        final Long orderId = Long.valueOf(request.getParameter(ID));
+        final BookOrder order = ServiceFactory.getInstance().getOrderService().findById(orderId);
+        final Book book = order.getBook();
+        ServiceFactory.getInstance().getBookService().addOneCopy(book.getId());
+        ServiceFactory.getInstance().getOrderService().deleteOrder(order.getId());
+        request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, book.getName()));
         return null;
     }
 

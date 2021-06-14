@@ -27,18 +27,14 @@ public class ChangeAccountCommand implements ActionCommand {
         User user = (User) request.getSession().getAttribute(USER);
         final String newLogin = request.getParameter(LOGIN);
         final String newPassword = request.getParameter(PASSWORD);
-        try {
-            if (newLogin != null && !newLogin.isEmpty()) {
-                user = ServiceFactory.getInstance().getUserService().changeLogin(user.getId(), newLogin);
-            }
-            if (newPassword != null && !newPassword.isEmpty()) {
-                user = ServiceFactory.getInstance().getUserService().changePassword(user.getId(), newPassword);
-            }
-            request.getSession().setAttribute(USER, user);
-            request.getSession().setAttribute(COMMAND_RESULT, RESULT_MESSAGE);
-        } catch (ServiceException e) {
-            request.setAttribute(COMMAND_RESULT, e.getMessage());
+        if (newLogin != null && !newLogin.isEmpty()) {
+            user = ServiceFactory.getInstance().getUserService().changeLogin(user.getId(), newLogin);
         }
+        if (newPassword != null && !newPassword.isEmpty()) {
+            user = ServiceFactory.getInstance().getUserService().changePassword(user.getId(), newPassword);
+        }
+        request.getSession().setAttribute(USER, user);
+        request.getSession().setAttribute(COMMAND_RESULT, RESULT_MESSAGE);
         return null;
     }
 
