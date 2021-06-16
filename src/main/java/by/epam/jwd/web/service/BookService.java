@@ -3,6 +3,7 @@ package by.epam.jwd.web.service;
 import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.model.Book;
+import by.epam.jwd.web.model.Genre;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public interface BookService {
 
     Book findByName(String name);
 
-    List<Book> findByGenre(String genre);
+    List<Book> findByGenre(Genre genre);
 
     List<Book> findByAuthor(String author);
 

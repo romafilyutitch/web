@@ -1,9 +1,8 @@
 package by.epam.jwd.web.command;
 
-import by.epam.jwd.web.exception.LoginUserException;
+import by.epam.jwd.web.exception.LoginException;
 import by.epam.jwd.web.exception.ValidationException;
 import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.service.ServiceFactory;
 import by.epam.jwd.web.validator.UserValidator;
 
@@ -36,7 +35,7 @@ public class LoginCommand implements ActionCommand {
             final HttpSession session = request.getSession();
             session.setAttribute(USER, savedUser);
             return null;
-        } catch (ValidationException | LoginUserException e) {
+        } catch (ValidationException | LoginException e) {
             request.setAttribute(ERROR, e.getMessage());
             return LOGIN_JSP_PATH;
         }

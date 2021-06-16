@@ -10,9 +10,9 @@ public interface OrderDao extends Dao<Order> {
 
     List<Order> findOrdersByUserId(Long userId);
 
-    List<Order> findOrdersByUserLogin(String userLogin);
+    List<Order> findOrdersByBookId(Long bookId);
 
-    List<Order> findOrdersByBookName(String bookName);
+    List<Order> findOrdersByUserLogin(String userLogin);
 
     List<Order> findOrdersByOrderDate(LocalDate orderDate);
 }

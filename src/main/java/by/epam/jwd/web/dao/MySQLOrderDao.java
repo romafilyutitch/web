@@ -77,8 +77,8 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
     }
 
     @Override
-    public List<Order> findOrdersByBookName(String bookName) throws DAOException {
-        return findAll().stream().filter(bookOrder -> bookOrder.getBook().getName().equalsIgnoreCase(bookName)).collect(Collectors.toList());
+    public List<Order> findOrdersByBookId(Long bookId) throws DAOException {
+        return findAll().stream().filter(bookOrder -> bookOrder.getBook().getId().equals(bookId)).collect(Collectors.toList());
     }
 
     @Override

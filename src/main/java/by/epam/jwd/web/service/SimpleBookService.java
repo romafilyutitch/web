@@ -5,9 +5,11 @@ import by.epam.jwd.web.dao.DAOFactory;
 import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.model.Book;
+import by.epam.jwd.web.model.Genre;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 class SimpleBookService implements BookService {
     private static final BookDao BOOK_DAO = DAOFactory.getInstance().getBookDao();
@@ -36,15 +38,15 @@ class SimpleBookService implements BookService {
     @Override
     public Book addOneCopy(Long bookId) {
         final Book savedBook = findById(bookId);
-        int savedBookBooksAmount = savedBook.getCopiesAmount();
-        return BOOK_DAO.update(savedBook.updatedBooksAmount(++savedBookBooksAmount));
+        final AtomicInteger copiesAmount = new AtomicInteger(savedBook.getCopiesAmount());
+        return BOOK_DAO.update(savedBook.updatedBooksAmount(copiesAmount.incrementAndGet()));
     }
 
     @Override
     public Book removeOneCopy(Long bookId) {
         final Book savedBook = findById(bookId);
-        int savedBooksAmount = savedBook.getCopiesAmount();
-        return BOOK_DAO.update(savedBook.updatedBooksAmount(--savedBooksAmount));
+        final AtomicInteger copiesAmount = new AtomicInteger(savedBook.getCopiesAmount());
+        return BOOK_DAO.update(savedBook.updatedBooksAmount(copiesAmount.decrementAndGet()));
     }
 
     @Override
@@ -58,12 +60,12 @@ class SimpleBookService implements BookService {
 
     @Override
     public void deleteBook(Long bookId) throws ServiceException {
-        BOOK_DAO.delete(findById(bookId).getId());
+        BOOK_DAO.delete(bookId);
     }
 
     @Override
-    public List<Book> findByGenre(String genre) throws ServiceException {
-        return null;
+    public List<Book> findByGenre(Genre genre) throws ServiceException {
+        return BOOK_DAO.findBooksByGenre(genre);
     }
 
     @Override

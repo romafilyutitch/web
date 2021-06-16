@@ -23,7 +23,7 @@ public class ShowUserOrdersPageCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
         final User user = (User) request.getSession().getAttribute(USER);
-        final List<Order> userOrders = ServiceFactory.getInstance().getOrderService().findByUserId(user.getId());
+        final List<Order> userOrders = ServiceFactory.getInstance().getOrderService().findByReaderId(user.getId());
         request.setAttribute(ORDERS, userOrders);
         return USER_ORDER_JSP_PATH;
     }

@@ -49,13 +49,18 @@ class SimpleOrderService implements OrderService {
     }
 
     @Override
-    public void deleteOrder(Long orderId) throws ServiceException {
+    public void deleteOrder(Long orderId) {
         ORDER_DAO.delete(orderId);
     }
 
     @Override
-    public List<Order> findByUserId(Long userId) {
-        return ORDER_DAO.findOrdersByUserId(userId);
+    public List<Order> findByReaderId(Long readerId) {
+        return ORDER_DAO.findOrdersByUserId(readerId);
+    }
+
+    @Override
+    public List<Order> findByBookId(Long bookId) {
+        return ORDER_DAO.findOrdersByBookId(bookId);
     }
 
     @Override

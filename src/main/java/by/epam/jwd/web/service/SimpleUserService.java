@@ -4,8 +4,7 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import by.epam.jwd.web.dao.DAOFactory;
 import by.epam.jwd.web.dao.SubscriptionDao;
 import by.epam.jwd.web.dao.UserDao;
-import by.epam.jwd.web.exception.ChangeLoginException;
-import by.epam.jwd.web.exception.LoginUserException;
+import by.epam.jwd.web.exception.LoginException;
 import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.model.Subscription;
@@ -29,22 +28,21 @@ class SimpleUserService implements UserService {
         return Singleton.INSTANCE;
     }
 
-
     @Override
     public List<User> findAllUsers() {
         return USER_DAO.findAll();
     }
 
     @Override
-    public User loginUser(User user) throws LoginUserException {
+    public User loginUser(User user) throws LoginException {
         final Optional<User> optionalUser = USER_DAO.findUserByLogin(user.getLogin());
         if (!optionalUser.isPresent()) {
-            throw new LoginUserException(String.format("User with login: %s does not exist", user.getLogin()));
+            throw new LoginException(String.format("User with login: %s does not exist", user.getLogin()));
         }
         final User foundUser = optionalUser.get();
         final BCrypt.Result verifyResult = VERIFYER.verify(user.getPassword().toCharArray(), foundUser.getPassword().toCharArray());
         if (!verifyResult.verified) {
-            throw new LoginUserException("Incorrect password");
+            throw new LoginException("Incorrect password");
         }
         return foundUser;
     }
@@ -96,7 +94,11 @@ class SimpleUserService implements UserService {
     }
 
     @Override
-    public User changeLogin(Long userId, String newLogin) {
+    public User changeLogin(Long userId, String newLogin) throws LoginException {
+        final Optional<User> optionalUser = USER_DAO.findUserByLogin(newLogin);
+        if (optionalUser.isPresent()) {
+            throw new LoginException(String.format("User with login %s already exists", newLogin));
+        }
         final User user = findById(userId);
         return USER_DAO.update(user.updateLogin(newLogin));
     }
