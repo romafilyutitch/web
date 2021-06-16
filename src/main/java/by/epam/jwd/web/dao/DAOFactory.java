@@ -10,12 +10,6 @@ public interface DAOFactory {
 
     AuthorDao getAuthorDao();
 
-    GenreDao getGenreDao();
-
-    RoleDao getRoleDao();
-
-    StatusDao getStatusDao();
-
     SubscriptionDao getSubscriptionDao();
 
     static DAOFactory getInstance() {

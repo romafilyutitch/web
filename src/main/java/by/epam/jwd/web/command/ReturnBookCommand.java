@@ -1,8 +1,7 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.model.Book;
-import by.epam.jwd.web.model.BookOrder;
-import by.epam.jwd.web.exception.ServiceException;
+import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +22,7 @@ public class ReturnBookCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
         final Long orderId = Long.valueOf(request.getParameter(ID));
-        final BookOrder order = ServiceFactory.getInstance().getOrderService().findById(orderId);
+        final Order order = ServiceFactory.getInstance().getOrderService().findById(orderId);
         final Book book = order.getBook();
         ServiceFactory.getInstance().getBookService().addOneCopy(book.getId());
         ServiceFactory.getInstance().getOrderService().deleteOrder(order.getId());

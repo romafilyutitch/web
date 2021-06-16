@@ -1,6 +1,6 @@
 package by.epam.jwd.web.command;
 
-import by.epam.jwd.web.model.BookOrder;
+import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.service.ServiceFactory;
 
@@ -23,7 +23,7 @@ public class ShowUserOrdersPageCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
         final User user = (User) request.getSession().getAttribute(USER);
-        final List<BookOrder> userOrders = ServiceFactory.getInstance().getOrderService().findByUserId(user.getId());
+        final List<Order> userOrders = ServiceFactory.getInstance().getOrderService().findByUserId(user.getId());
         request.setAttribute(ORDERS, userOrders);
         return USER_ORDER_JSP_PATH;
     }

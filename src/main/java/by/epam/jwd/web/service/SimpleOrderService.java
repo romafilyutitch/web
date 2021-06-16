@@ -5,7 +5,7 @@ import by.epam.jwd.web.dao.DAOFactory;
 import by.epam.jwd.web.dao.OrderDao;
 import by.epam.jwd.web.dao.UserDao;
 import by.epam.jwd.web.exception.ServiceException;
-import by.epam.jwd.web.model.BookOrder;
+import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.model.Status;
 import by.epam.jwd.web.model.Subscription;
 
@@ -26,14 +26,14 @@ class SimpleOrderService implements OrderService {
     }
 
     @Override
-    public List<BookOrder> findAllOrders() {
+    public List<Order> findAllOrders() {
         return ORDER_DAO.findAll();
     }
 
     @Override
-    public BookOrder registerBookOrder(BookOrder order) {
+    public Order registerBookOrder(Order order) {
         final Subscription subscription = order.getUser().getSubscription();
-        final BookOrder savedOrder = ORDER_DAO.save(order);
+        final Order savedOrder = ORDER_DAO.save(order);
         if (subscription != null) {
             if (subscription.getStartDate().isBefore(LocalDate.now()) && subscription.getEndDate().isAfter(LocalDate.now())) {
                 return ORDER_DAO.update(savedOrder.updateOrderStatus(Status.APPROVED));
@@ -43,9 +43,9 @@ class SimpleOrderService implements OrderService {
     }
 
     @Override
-    public BookOrder approveOrder(Long orderId) throws ServiceException {
-        final BookOrder bookOrder = findById(orderId);
-        return ORDER_DAO.update(bookOrder.updateOrderStatus(Status.APPROVED));
+    public Order approveOrder(Long orderId) throws ServiceException {
+        final Order order = findById(orderId);
+        return ORDER_DAO.update(order.updateOrderStatus(Status.APPROVED));
     }
 
     @Override
@@ -54,13 +54,13 @@ class SimpleOrderService implements OrderService {
     }
 
     @Override
-    public List<BookOrder> findByUserId(Long userId) {
+    public List<Order> findByUserId(Long userId) {
         return ORDER_DAO.findOrdersByUserId(userId);
     }
 
     @Override
-    public BookOrder findById(Long orderId) {
-        final Optional<BookOrder> optionalBookOrder = ORDER_DAO.findById(orderId);
+    public Order findById(Long orderId) {
+        final Optional<Order> optionalBookOrder = ORDER_DAO.findById(orderId);
         if (!optionalBookOrder.isPresent()) {
             throw new ServiceException(String.format("Saved order with id %d was not found", orderId));
         }

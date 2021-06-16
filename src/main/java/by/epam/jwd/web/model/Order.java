@@ -3,14 +3,14 @@ package by.epam.jwd.web.model;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class BookOrder implements DbEntity {
+public class Order implements DbEntity {
     private final Long id;
     private final User user;
     private final Book book;
     private final LocalDate orderDate;
     private final Status status;
 
-    public BookOrder(Long id, User user, Book book, LocalDate orderDate, Status status) {
+    public Order(Long id, User user, Book book, LocalDate orderDate, Status status) {
         this.id = id;
         this.user = user;
         this.book = book;
@@ -18,11 +18,11 @@ public class BookOrder implements DbEntity {
         this.status = status;
     }
 
-    public BookOrder(User user, Book book, LocalDate orderDate, Status status) {
+    public Order(User user, Book book, LocalDate orderDate, Status status) {
         this(null, user, book, orderDate, status);
     }
 
-    public BookOrder(User user, Book book) {
+    public Order(User user, Book book) {
         this(null, user,book, null, null);
     }
 
@@ -46,40 +46,40 @@ public class BookOrder implements DbEntity {
     public Status getStatus() {return status;}
 
 
-    public BookOrder updateUser(User newUser) {
+    public Order updateUser(User newUser) {
         if (newUser == null) {
             return this;
         }
-        return new BookOrder(id, newUser, book, orderDate, status);
+        return new Order(id, newUser, book, orderDate, status);
     }
 
-    public BookOrder updateBook(Book newBook) {
+    public Order updateBook(Book newBook) {
         if(newBook == null) {
             return this;
         }
-        return new BookOrder(id, user, newBook, orderDate, status);
+        return new Order(id, user, newBook, orderDate, status);
     }
 
-    public BookOrder updateOrderDate(LocalDate newDate) {
+    public Order updateOrderDate(LocalDate newDate) {
         if (newDate == null) {
             return this;
         }
-        return new BookOrder(id, user, book, newDate, status);
+        return new Order(id, user, book, newDate, status);
     }
 
-    public BookOrder updateOrderStatus(Status newStatus) {
+    public Order updateOrderStatus(Status newStatus) {
         if (status == null) {
             return this;
         }
-        return new BookOrder(id, user, book, orderDate, newStatus);
+        return new Order(id, user, book, orderDate, newStatus);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BookOrder bookOrder = (BookOrder) o;
-        return Objects.equals(id, bookOrder.id) && Objects.equals(user, bookOrder.user) && Objects.equals(book, bookOrder.book) && Objects.equals(orderDate, bookOrder.orderDate) && status == bookOrder.status;
+        Order order = (Order) o;
+        return Objects.equals(id, order.id) && Objects.equals(user, order.user) && Objects.equals(book, order.book) && Objects.equals(orderDate, order.orderDate) && status == order.status;
     }
 
     @Override

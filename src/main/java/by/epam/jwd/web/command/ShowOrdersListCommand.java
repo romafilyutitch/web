@@ -1,6 +1,6 @@
 package by.epam.jwd.web.command;
 
-import by.epam.jwd.web.model.BookOrder;
+import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +20,7 @@ public class ShowOrdersListCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        final List<BookOrder> orders = ServiceFactory.getInstance().getOrderService().findAll();
+        final List<Order> orders = ServiceFactory.getInstance().getOrderService().findAllOrders();
         request.setAttribute(ORDERS, orders);
         return ORDERS_JSP_PATH;
     }

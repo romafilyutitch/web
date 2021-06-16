@@ -1,23 +1,19 @@
 package by.epam.jwd.web.model;
 
 public enum Status implements DbEntity{
-    ORDERED(1L, "ORDERED"),
-    APPROVED(2L, "APPROVED");
+    ORDERED(1L),
+    APPROVED(2L),
+    RETURNED(3L);
 
 
     private Long id;
-    private String name;
 
-    private Status(Long id, String name) {
+    Status(Long id) {
         this.id = id;
-        this.name = name;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
 }

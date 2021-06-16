@@ -1,11 +1,10 @@
 package by.epam.jwd.web.dao;
 
 
-
-import by.epam.jwd.web.model.BookAuthor;
+import by.epam.jwd.web.model.Author;
 
 import java.util.Optional;
 
-public interface AuthorDao extends Dao<BookAuthor>{
-    Optional<BookAuthor> getByName(String authorName);
+public interface AuthorDao extends Dao<Author> {
+    Optional<Author> getByName(String authorName);
 }

@@ -2,16 +2,16 @@ package by.epam.jwd.web.model;
 
 import java.util.Objects;
 
-public class BookGenre implements DbEntity {
+public class Author implements DbEntity {
     private final Long id;
     private final String name;
 
-    public BookGenre(Long id, String name) {
+    public Author(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public BookGenre(String name) {
+    public Author(String name) {
         this(null, name);
     }
 
@@ -24,12 +24,13 @@ public class BookGenre implements DbEntity {
         return name;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BookGenre bookGenre = (BookGenre) o;
-        return Objects.equals(id, bookGenre.id) && Objects.equals(name, bookGenre.name);
+        Author that = (Author) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name);
     }
 
     @Override
@@ -39,7 +40,7 @@ public class BookGenre implements DbEntity {
 
     @Override
     public String toString() {
-        return "BookGenre{" +
+        return "BookAuthor{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

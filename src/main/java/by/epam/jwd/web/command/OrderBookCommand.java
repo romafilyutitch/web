@@ -2,9 +2,8 @@ package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.exception.ValidationException;
 import by.epam.jwd.web.model.Book;
-import by.epam.jwd.web.model.BookOrder;
+import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.service.ServiceFactory;
 import by.epam.jwd.web.validator.OrderValidator;
 
@@ -29,7 +28,7 @@ public class OrderBookCommand implements ActionCommand {
         final Long bookId = Long.valueOf(request.getParameter(ID));
         final Book book = ServiceFactory.getInstance().getBookService().findById(bookId);
         final User user = (User) request.getSession().getAttribute(USER);
-        final BookOrder order = new BookOrder(user, book);
+        final Order order = new Order(user, book);
         try {
             OrderValidator.getInstance().validate(order);
             ServiceFactory.getInstance().getOrderService().registerBookOrder(order);

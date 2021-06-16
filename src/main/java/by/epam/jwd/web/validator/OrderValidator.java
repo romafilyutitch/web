@@ -1,9 +1,9 @@
 package by.epam.jwd.web.validator;
 
 import by.epam.jwd.web.exception.ValidationException;
-import by.epam.jwd.web.model.BookOrder;
+import by.epam.jwd.web.model.Order;
 
-public class OrderValidator implements Validator<BookOrder> {
+public class OrderValidator implements Validator<Order> {
 
     private OrderValidator() {}
 
@@ -12,7 +12,7 @@ public class OrderValidator implements Validator<BookOrder> {
     }
 
     @Override
-    public void validate(BookOrder validatedObject) throws ValidationException {
+    public void validate(Order validatedObject) throws ValidationException {
         if (validatedObject.getUser().getId() == null) {
             throw new ValidationException("User doesn't exist");
         }

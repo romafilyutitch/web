@@ -20,7 +20,7 @@ public class ShowUsersListCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        final List<User> allUsers = ServiceFactory.getInstance().getUserService().findAll();
+        final List<User> allUsers = ServiceFactory.getInstance().getUserService().findAllUsers();
         request.setAttribute(USERS, allUsers);
         return USERS_JSP_PATH;
     }

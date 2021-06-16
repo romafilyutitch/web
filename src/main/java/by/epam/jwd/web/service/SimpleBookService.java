@@ -63,7 +63,7 @@ class SimpleBookService implements BookService {
 
     @Override
     public List<Book> findByGenre(String genre) throws ServiceException {
-        return BOOK_DAO.findBooksByGenreName(genre);
+        return null;
     }
 
     @Override

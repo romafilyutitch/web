@@ -1,11 +1,10 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.exception.RegisterException;
-import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.exception.ValidationException;
 import by.epam.jwd.web.model.Book;
-import by.epam.jwd.web.model.BookAuthor;
-import by.epam.jwd.web.model.BookGenre;
+import by.epam.jwd.web.model.Author;
+import by.epam.jwd.web.model.Genre;
 import by.epam.jwd.web.service.ServiceFactory;
 import by.epam.jwd.web.validator.BookValidator;
 
@@ -33,21 +32,21 @@ public class AddBookCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        final String name = request.getParameter(BOOK_NAME);
-        final String author = request.getParameter(AUTHOR_NAME);
-        final String genre = request.getParameter(GENRE_NAME);
-        final String date = request.getParameter(DATE);
-        final String pages = request.getParameter(PAGES);
-        final String description = request.getParameter(DESCRIPTION);
-        final String text = request.getParameter(TEXT);
-        final Book book = new Book(name, new BookAuthor(author), new BookGenre(genre), LocalDate.parse(date), Integer.parseInt(pages), description, text);
-        try {
-            BookValidator.getInstance().validate(book);
-            ServiceFactory.getInstance().getBookService().registerBook(book);
-            request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, name));
-        } catch (ValidationException | RegisterException e) {
-            request.getSession().setAttribute(COMMAND_RESULT, e.getMessage());
-        }
+//        final String name = request.getParameter(BOOK_NAME);
+//        final String author = request.getParameter(AUTHOR_NAME);
+//        final String genre = request.getParameter(GENRE_NAME);
+//        final String date = request.getParameter(DATE);
+//        final String pages = request.getParameter(PAGES);
+//        final String description = request.getParameter(DESCRIPTION);
+//        final String text = request.getParameter(TEXT);
+//        final Book book = new Book(name, new Author(author), Genre.FANTASY, LocalDate.parse(date), Integer.parseInt(pages), description, text);
+//        try {
+//            BookValidator.getInstance().validate(book);
+//            ServiceFactory.getInstance().getBookService().registerBook(book);
+//            request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, name));
+//        } catch (ValidationException | RegisterException e) {
+//            request.getSession().setAttribute(COMMAND_RESULT, e.getMessage());
+//        }
         return null;
     }
 

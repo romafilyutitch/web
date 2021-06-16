@@ -1,19 +1,18 @@
 package by.epam.jwd.web.dao;
 
 
-
-import by.epam.jwd.web.model.BookOrder;
+import by.epam.jwd.web.model.Order;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public interface OrderDao extends Dao<BookOrder> {
+public interface OrderDao extends Dao<Order> {
 
-    List<BookOrder> findOrdersByUserId(Long userId);
+    List<Order> findOrdersByUserId(Long userId);
 
-    List<BookOrder> findOrdersByUserLogin(String userLogin);
+    List<Order> findOrdersByUserLogin(String userLogin);
 
-    List<BookOrder> findOrdersByBookName(String bookName);
+    List<Order> findOrdersByBookName(String bookName);
 
-    List<BookOrder> findOrdersByOrderDate(LocalDate orderDate);
+    List<Order> findOrdersByOrderDate(LocalDate orderDate);
 }

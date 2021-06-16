@@ -20,7 +20,7 @@ public class ShowBooksListCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        final List<Book> allBooks = ServiceFactory.getInstance().getBookService().findAll();
+        final List<Book> allBooks = ServiceFactory.getInstance().getBookService().findAllBooks();
         request.setAttribute(BOOKS, allBooks);
         return BOOKS_JSP_PATH;
     }

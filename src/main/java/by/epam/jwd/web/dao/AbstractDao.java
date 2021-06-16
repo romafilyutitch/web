@@ -47,10 +47,6 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
         if (saveSql == null) {
             throw new UnsupportedOperationException(SAVE_OPERATION_UNSUPPORTED_MESSAGE);
         }
-        final Optional<T> byId = findById(entity.getId());
-        if (byId.isPresent()) {
-            return byId.get();
-        }
         try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
              PreparedStatement saveStatement = connection.prepareStatement(saveSql, Statement.RETURN_GENERATED_KEYS)) {
             setSavePrepareStatementValues(entity, saveStatement);

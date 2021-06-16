@@ -12,6 +12,6 @@ public interface SubscriptionDao extends Dao<Subscription> {
 
     List<Subscription> findByEndDate(LocalDate endDate);
 
-    List<Subscription> findBetween(LocalDate startDate, LocalDate endDate);
+    List<Subscription> findInRange(LocalDate startDate, LocalDate endDate);
 
 }

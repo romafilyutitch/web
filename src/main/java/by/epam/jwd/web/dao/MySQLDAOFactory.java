@@ -29,23 +29,8 @@ public class MySQLDAOFactory implements DAOFactory {
     }
 
     @Override
-    public GenreDao getGenreDao() {
-        return MySQLGenreDao.getInstance();
-    }
-
-    @Override
-    public RoleDao getRoleDao() {
-        return MySQLRoleDao.getInstance();
-    }
-
-    @Override
     public SubscriptionDao getSubscriptionDao() {
         return MySQLSubscriptionDao.getInstance();
-    }
-
-    @Override
-    public StatusDao getStatusDao() {
-        return MySQLStatusDao.getInstance();
     }
 
     private static class Singleton {

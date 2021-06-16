@@ -2,36 +2,29 @@ package by.epam.jwd.web.dao;
 
 
 
+import by.epam.jwd.web.connectionPool.ConnectionPool;
+import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
 import by.epam.jwd.web.exception.DAOException;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.model.UserRole;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class MySQLUserDao extends AbstractDao<User> implements UserDao {
 
-    private static final String TABLE_NAME = "user";
-    private static final String ID_COLUMN = "id";
-    private static final String LOGIN_COLUMN = "login";
-    private static final String PASSWORD_COLUMN = "password";
-    private static final String ROLE_COLUMN = "role";
-    private static final String SUBSCRIPTION_COLUMN = "subscription";
-
-    private static final String SAVE_PREPARED_SQL = String.format("insert into %S (%s, %s, %s, %s) values (?, ?, ?, ?)",
-            TABLE_NAME, LOGIN_COLUMN, PASSWORD_COLUMN, ROLE_COLUMN, SUBSCRIPTION_COLUMN);
-    private static final String FIND_ALL_SQL = String.format("select %s, %s, %s, %s, %s from %s",
-            ID_COLUMN, LOGIN_COLUMN, PASSWORD_COLUMN, ROLE_COLUMN, SUBSCRIPTION_COLUMN, TABLE_NAME);
-    private static final String UPDATE_PREPARED_SQL = String.format("update %s set %s = ?, %s = ?, %s = ?, %s = ? where %s = ?",
-            TABLE_NAME, LOGIN_COLUMN, PASSWORD_COLUMN, ROLE_COLUMN, SUBSCRIPTION_COLUMN, ID_COLUMN);
-    private static final String DELETE_PREPARED_SQL = String.format("delete from %s where %s = ?", TABLE_NAME, ID_COLUMN);
-    public static final String USER_ROLE_NOT_FOUND_MESSAGE = "Saved user role not found by id";
+    private static final String FIND_ALL_SQL = "select user.id, user.login, user.password, role.name, subscription.id, subscription.start_date, subscription.end_date from user inner join role on user.role = role.id left outer join subscription on user.subscription = subscription.id";
+    private static final String SAVE_PREPARED_SQL = "insert into user (login, password, role, subscription) value (?, ?, ?, ?)";
+    private static final String UPDATE_PREPARED_SQL = "update user set login = ?, password = ?, role = ?, subscription = ? where id = ?";
+    private static final String DELETE_PREPARED_SQL = "delete user where id = ?";
 
     private MySQLUserDao() {
         super(FIND_ALL_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);
@@ -43,15 +36,14 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
 
     @Override
     protected User mapResultSet(ResultSet result) throws SQLException, DAOException {
-        final Optional<UserRole> optionalUserRole = DAOFactory.getInstance().getRoleDao().findById(result.getLong(ROLE_COLUMN));
-        final Optional<Subscription> optionalSubscription = DAOFactory.getInstance().getSubscriptionDao().findById(result.getLong(SUBSCRIPTION_COLUMN));
-        if (!optionalUserRole.isPresent()) {
-            throw new DAOException(USER_ROLE_NOT_FOUND_MESSAGE);
-        }
-        final Long id = result.getLong(ID_COLUMN);
-        final String login = result.getString(LOGIN_COLUMN);
-        final String password = result.getString(PASSWORD_COLUMN);
-        return new User(id, login, password, optionalUserRole.get(), optionalSubscription.orElse(null));
+        final long id = result.getLong("user.id");
+        final String login = result.getString("user.login");
+        final String password = result.getString("user.password");
+        final UserRole role = UserRole.valueOf(result.getString("role.name"));
+        final long subscriptionId = result.getLong("subscription.id");
+        final LocalDate startDate = result.getObject("subscription.start_date", LocalDate.class);
+        final LocalDate endDate = result.getObject("subscription.end_date", LocalDate.class);
+        return new User(id, login, password, role, subscriptionId != 0 ? new Subscription(subscriptionId, startDate, endDate) : null);
     }
 
     @Override
@@ -60,7 +52,6 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
         savePreparedStatement.setString(2, entity.getPassword());
         savePreparedStatement.setLong(3, entity.getRole().getId());
         if (entity.getSubscription() != null) {
-            DAOFactory.getInstance().getSubscriptionDao().save(entity.getSubscription());
             savePreparedStatement.setLong(4, entity.getSubscription().getId());
         } else {
             savePreparedStatement.setNull(4, Types.INTEGER);

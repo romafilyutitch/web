@@ -19,9 +19,6 @@ public class BookValidator implements Validator<Book> {
         if (validatedObject.getAuthor().getName().isEmpty()) {
             throw new ValidationException("Author is empty");
         }
-        if (validatedObject.getGenre().getName().isEmpty()) {
-            throw new ValidationException("Genre is empty");
-        }
         if (validatedObject.getDate() == null) {
             throw new ValidationException("Date id empty");
         }
@@ -33,9 +30,6 @@ public class BookValidator implements Validator<Book> {
         }
         if (validatedObject.getDescription().isEmpty()) {
             throw new ValidationException("Description is empty");
-        }
-        if (validatedObject.getText().isEmpty()) {
-            throw new ValidationException("Text is empty");
         }
     }
 

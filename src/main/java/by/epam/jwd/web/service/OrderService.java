@@ -1,21 +1,19 @@
 package by.epam.jwd.web.service;
 
-import by.epam.jwd.web.exception.RegisterException;
-import by.epam.jwd.web.exception.ServiceException;
-import by.epam.jwd.web.model.BookOrder;
+import by.epam.jwd.web.model.Order;
 
 import java.util.List;
 
 public interface OrderService {
-    List<BookOrder> findAllOrders();
+    List<Order> findAllOrders();
 
-    BookOrder registerBookOrder(BookOrder order);
+    Order registerBookOrder(Order order);
 
-    BookOrder approveOrder(Long orderId);
+    Order approveOrder(Long orderId);
 
-    BookOrder findById(Long orderId);
+    Order findById(Long orderId);
 
     void deleteOrder(Long orderId);
 
-    List<BookOrder> findByUserId(Long userId);
+    List<Order> findByUserId(Long userId);
 }
