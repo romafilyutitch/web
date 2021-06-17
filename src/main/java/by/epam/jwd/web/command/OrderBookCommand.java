@@ -1,5 +1,6 @@
 package by.epam.jwd.web.command;
 
+import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.exception.ValidationException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Order;
@@ -34,7 +35,7 @@ public class OrderBookCommand implements ActionCommand {
             ServiceFactory.getInstance().getOrderService().registerBookOrder(order);
             final Book orderedBook = ServiceFactory.getInstance().getBookService().removeOneCopy(bookId);
             request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, orderedBook.getName()));
-        } catch (ValidationException e) {
+        } catch (ValidationException | RegisterException e) {
             request.getSession().setAttribute(COMMAND_RESULT, e.getMessage());
         }
         return null;

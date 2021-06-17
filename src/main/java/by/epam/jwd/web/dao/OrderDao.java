@@ -12,7 +12,6 @@ public interface OrderDao extends Dao<Order> {
 
     List<Order> findOrdersByBookId(Long bookId);
 
-    List<Order> findOrdersByUserLogin(String userLogin);
 
     List<Order> findOrdersByOrderDate(LocalDate orderDate);
 }

@@ -14,7 +14,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     private static final Logger logger = LogManager.getLogger(AbstractDao.class);
@@ -29,13 +31,16 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     private static final String COULD_NOT_FIND_ALL_ENTITIES_MESSAGE = "Could not find all entities, Exception : %s";
     private static final String COULD_NOT_UPDATE_ENTITY_MESSAGE = "Could not update entity %s, Exception: %s";
     private static final String COULD_NOT_DELETE_ENTITY_MESSAGE = "Could not delete entity with id %d, Exception : %s";
-    private final String deleteSql;
+
     private final String findAllSql;
+    private final String findByIdSql;
+    private final String deleteSql;
     private final String saveSql;
     private final String updateSql;
 
     public AbstractDao(String findAllSql, String saveSql, String updateSql, String deleteSql) {
         this.findAllSql = findAllSql;
+        this.findByIdSql = String.format("%s where id = ?", findAllSql);
         this.saveSql = saveSql;
         this.updateSql = updateSql;
         this.deleteSql = deleteSql;
@@ -71,24 +76,13 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
         if (findAllSql == null) {
             throw new UnsupportedOperationException(FIND_OPERATION_UNSUPPORTED_MESSAGE);
         }
-        final ArrayList<T> entities = new ArrayList<>();
-        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
-        Statement findAllStatement = connection.createStatement();
-        ResultSet result = findAllStatement.executeQuery(findAllSql)) {
-            while(result.next()) {
-                T entity = mapResultSet(result);
-                entities.add(entity);
-            }
-            return entities;
-        } catch (SQLException e) {
-            logger.error(String.format(COULD_NOT_FIND_ALL_ENTITIES_MESSAGE, e));
-            throw new DAOException(e);
-        }
+        return findEntities(findAllSql);
     }
 
     @Override
     public Optional<T> findById(Long id) {
-        return findAll().stream().filter(entity -> entity.getId().equals(id)).findAny();
+        final List<T> foundEntities = findPreparedEntities(findByIdSql, statement -> statement.setLong(1, id));
+        return foundEntities.stream().findAny();
     }
 
     @Override
@@ -118,6 +112,37 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
             deleteStatement.executeUpdate();
         } catch (SQLException e) {
             logger.error(String.format(COULD_NOT_DELETE_ENTITY_MESSAGE, id, e));
+            throw new DAOException(e);
+        }
+    }
+
+    protected List<T> findEntities(String sql) {
+        final List<T> foundEntities = new ArrayList<>();
+        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
+        Statement findAllStatement = connection.createStatement();
+        ResultSet resultSet = findAllStatement.executeQuery(sql)) {
+            while (resultSet.next()) {
+                final T foundEntity = mapResultSet(resultSet);
+                foundEntities.add(foundEntity);
+            }
+            return foundEntities;
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+    }
+
+    protected List<T> findPreparedEntities(String sql, SQLConsumer<PreparedStatement> preparedStatementConsumer) {
+        final List<T> foundEntities = new ArrayList<>();
+        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatementConsumer.accept(preparedStatement);
+            final ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                final T foundEntity = mapResultSet(resultSet);
+                foundEntities.add(foundEntity);
+            }
+            return foundEntities;
+        } catch (SQLException e) {
             throw new DAOException(e);
         }
     }

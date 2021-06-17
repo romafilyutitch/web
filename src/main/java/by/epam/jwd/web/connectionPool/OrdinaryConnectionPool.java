@@ -169,7 +169,7 @@ class OrdinaryConnectionPool implements ConnectionPool {
 
     private void registerDrivers() throws ConnectionPoolInitializationException {
         try {
-            DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
+            DriverManager.registerDriver(DriverManager.getDriver(DATABASE_URL));
         } catch (SQLException e) {
             logger.error(e);
             isInitialized.set(false);

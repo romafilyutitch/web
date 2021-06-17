@@ -31,26 +31,7 @@ public class FindBooksCommand implements ActionCommand {
     public String execute(HttpServletRequest request) {
         final String findName = request.getParameter(NAME);
         final String criteria = request.getParameter(FIND_CRITERIA);
-        List<Book> books;
-        if (criteria == null) {
-            books = Collections.emptyList();
-            request.setAttribute(BOOKS, books);
-            return MAIN_JSP_PATH;
-        }
-        switch (criteria) {
-            case BOOK_NAME_CRITERIA:
-                final Book oneBook = ServiceFactory.getInstance().getBookService().findByName(findName);
-                books = Collections.singletonList(oneBook);
-                break;
-            case AUTHOR_NAME_CRITERIA:
-                books = ServiceFactory.getInstance().getBookService().findByAuthor(findName);
-                break;
-            case GENRE_NAME_CRITERIA:
-                books = ServiceFactory.getInstance().getBookService().findByGenre(findName);
-                break;
-            default:
-                books = Collections.emptyList();
-        }
+        List<Book> books = ServiceFactory.getInstance().getBookService().findAllBooks();
         request.setAttribute(BOOKS, books);
         return MAIN_JSP_PATH;
     }

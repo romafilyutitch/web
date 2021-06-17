@@ -19,7 +19,6 @@ public class AddBookCommand implements ActionCommand {
     public static final String DATE = "date";
     public static final String PAGES = "pages";
     public static final String DESCRIPTION = "description";
-    public static final String TEXT = "text";
     public static final String COMMAND_RESULT = "commandResult";
     public static final String RESULT_MESSAGE = "book %s was added";
 
@@ -32,21 +31,20 @@ public class AddBookCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-//        final String name = request.getParameter(BOOK_NAME);
-//        final String author = request.getParameter(AUTHOR_NAME);
-//        final String genre = request.getParameter(GENRE_NAME);
-//        final String date = request.getParameter(DATE);
-//        final String pages = request.getParameter(PAGES);
-//        final String description = request.getParameter(DESCRIPTION);
-//        final String text = request.getParameter(TEXT);
-//        final Book book = new Book(name, new Author(author), Genre.FANTASY, LocalDate.parse(date), Integer.parseInt(pages), description, text);
-//        try {
-//            BookValidator.getInstance().validate(book);
-//            ServiceFactory.getInstance().getBookService().registerBook(book);
-//            request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, name));
-//        } catch (ValidationException | RegisterException e) {
-//            request.getSession().setAttribute(COMMAND_RESULT, e.getMessage());
-//        }
+        final String name = request.getParameter(BOOK_NAME);
+        final String author = request.getParameter(AUTHOR_NAME);
+        final Genre genre = Genre.valueOf(request.getParameter(GENRE_NAME));
+        final String date = request.getParameter(DATE);
+        final String pages = request.getParameter(PAGES);
+        final String description = request.getParameter(DESCRIPTION);
+        final Book book = new Book(name, new Author(author), genre, LocalDate.parse(date), Integer.parseInt(pages), description);
+        try {
+            BookValidator.getInstance().validate(book);
+            ServiceFactory.getInstance().getBookService().registerBook(book);
+            request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, name));
+        } catch (ValidationException | RegisterException e) {
+            request.getSession().setAttribute(COMMAND_RESULT, e.getMessage());
+        }
         return null;
     }
 

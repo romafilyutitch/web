@@ -5,12 +5,12 @@
 <fmt:setBundle basename="main"/>
 <html>
 <head>
-    <title><fmt:message key="register.title"/></title>
+    <title>Register page</title>
 </head>
 <body>
 <c:choose>
     <c:when test="${not empty requestScope.error}">
-        <c:out value="${requestScope.error}"/>
+        ${requestScope.error}
         <a href="controller?command=show_register"><fmt:message key="register.tryAgain"/></a>
     </c:when>
     <c:otherwise>
@@ -21,6 +21,6 @@
         </form>
     </c:otherwise>
 </c:choose>
-<a href ="controller?command=main"><fmt:message key="main"/></a>
+<a href ="controller?command=main">Main page</a>
 </body>
 </html>

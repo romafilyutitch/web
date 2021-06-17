@@ -6,10 +6,10 @@
 <fmt:setBundle basename="main"/>
 <html>
 <head>
-    <title><fmt:message key="users.title"/></title>
+    <title>Users page</title>
 </head>
 <body>
-<h1><fmt:message key="users.list"/></h1>
+<h1>Users list</h1>
 <c:if test="${not empty requestScope.users}">
     <ul>
     <c:forEach var="book" items="${requestScope.users}">
@@ -27,11 +27,16 @@
                     <input type="submit" value="Demote user role">
                 </form>
             </c:if>
-        <a href = "controller?command=show_set_subscription_page&id=${book.id}"><fmt:message key="users.setSubscription"/></a>
+            <form action="controller" method="post">
+                <input type="hidden" name="command" value="set_subscription">
+                <input type="date" name="start_date">
+                <input type="date" name="end_date">
+                <input type="submit" value="Set subscription">
+            </form>
         </div>
     </c:forEach>
     </ul>
 </c:if>
-<a href="controller?command=main"><fmt:message key="main"/></a>
+<a href="controller?command=main">Main page</a>
 </body>
 </html>

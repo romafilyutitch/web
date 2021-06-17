@@ -4,6 +4,7 @@ import by.epam.jwd.web.dao.BookDao;
 import by.epam.jwd.web.dao.DAOFactory;
 import by.epam.jwd.web.dao.OrderDao;
 import by.epam.jwd.web.dao.UserDao;
+import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.model.Status;
@@ -31,7 +32,10 @@ class SimpleOrderService implements OrderService {
     }
 
     @Override
-    public Order registerBookOrder(Order order) {
+    public Order registerBookOrder(Order order) throws RegisterException {
+        if (order.getBook().getCopiesAmount() == 0) {
+            throw new RegisterException("There is not free copies of this book");
+        }
         final Subscription subscription = order.getUser().getSubscription();
         final Order savedOrder = ORDER_DAO.save(order);
         if (subscription != null) {
@@ -51,6 +55,12 @@ class SimpleOrderService implements OrderService {
     @Override
     public void deleteOrder(Long orderId) {
         ORDER_DAO.delete(orderId);
+    }
+
+    @Override
+    public Order returnOrder(Long orderId) {
+        final Order order = findById(orderId);
+        return ORDER_DAO.update(order.updateOrderStatus(Status.RETURNED));
     }
 
     @Override

@@ -24,18 +24,7 @@ public class ChangeAccountCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute(USER);
-        final String newLogin = request.getParameter(LOGIN);
-        final String newPassword = request.getParameter(PASSWORD);
-        if (newLogin != null && !newLogin.isEmpty()) {
-            user = ServiceFactory.getInstance().getUserService().changeLogin(user.getId(), newLogin);
-        }
-        if (newPassword != null && !newPassword.isEmpty()) {
-            user = ServiceFactory.getInstance().getUserService().changePassword(user.getId(), newPassword);
-        }
-        request.getSession().setAttribute(USER, user);
-        request.getSession().setAttribute(COMMAND_RESULT, RESULT_MESSAGE);
-        return null;
+       return null;
     }
 
     private static class Singleton {

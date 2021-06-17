@@ -5,18 +5,18 @@
 <fmt:setBundle basename="main"/>
 <html>
 <head>
-    <title><fmt:message key="login.title"/></title>
+    <title>Login page</title>
 </head>
 <body>
 <c:choose>
     <c:when test="${not empty requestScope.error}">
         <c:out value="${requestScope.error}"/>
-        <a href="controller?command=show_login"><fmt:message key="login.tryAgain"/></a>
+        <a href="controller?command=show_login">Try again</a>
     </c:when>
     <c:otherwise>
         <form name = "loginForm" method="POST" action="controller?command=login">
-            <label><fmt:message key="login.login"/><input type="text" name = "login" value=""/></label>
-            <label><fmt:message key="login.password"/><input type="password" name="password" value=""/></label>
+            <label>Login<input type="text" name = "login" value=""/></label>
+            <label>Password<input type="password" name="password" value=""/></label>
             <input type="submit" value="Log in"/>
         </form>
     </c:otherwise>

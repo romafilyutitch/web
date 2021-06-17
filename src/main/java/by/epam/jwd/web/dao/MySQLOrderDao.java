@@ -13,14 +13,17 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
 
-    private static final String FIND_ALL_SQL = "select id, reader, book, date, status.name from from book_order inner join status on book_order.status = status.id";
+    private static final String FIND_ALL_SQL = "select book_order.id, book_order.reader, book_order.book, book_order.date, status.name from book_order inner join status on book_order.status = status.id";
     private static final String SAVE_PREPARED_SQL = "insert into book_order (reader, book) value (?, ?)";
     private static final String UPDATE_PREPARED_SQL = "update book_order set reader = ?, book = ?, date = ?, status = ? where id = ?";
     private static final String DELETE_PREPARED_SQL = "delete from book_order where id = ?";
+    private static final String FIND_BY_USER_ID_PREPARED_SQL = String.format("%s where book_order.reader = ?", FIND_ALL_SQL);
+    private static final String FIND_BY_BOOK_ID_PREPARED_SQL = String.format("%s where book_order.book = ?", FIND_ALL_SQL);
+    private static final String FIND_BY_DATE_PREPARED_SQL = String.format("%s where book_order.date = ?", FIND_ALL_SQL);
+
 
     private MySQLOrderDao() {
         super(FIND_ALL_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);
@@ -72,23 +75,18 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
     }
 
     @Override
-    public List<Order> findOrdersByUserLogin(String userLogin) throws DAOException {
-        return findAll().stream().filter(bookOrder -> bookOrder.getUser().getLogin().equalsIgnoreCase(userLogin)).collect(Collectors.toList());
-    }
-
-    @Override
     public List<Order> findOrdersByBookId(Long bookId) throws DAOException {
-        return findAll().stream().filter(bookOrder -> bookOrder.getBook().getId().equals(bookId)).collect(Collectors.toList());
+        return findPreparedEntities(FIND_BY_BOOK_ID_PREPARED_SQL, preparedStatement -> preparedStatement.setLong(1, bookId));
     }
 
     @Override
     public List<Order> findOrdersByOrderDate(LocalDate orderDate) throws DAOException {
-        return findAll().stream().filter(bookOrder -> bookOrder.getOrderDate().equals(orderDate)).collect(Collectors.toList());
+        return findPreparedEntities(FIND_BY_DATE_PREPARED_SQL, preparedStatement -> preparedStatement.setObject(1, orderDate));
     }
 
     @Override
     public List<Order> findOrdersByUserId(Long userId) {
-        return findAll().stream().filter(bookOrder -> bookOrder.getUser().getId().equals(userId)).collect(Collectors.toList());
+        return findPreparedEntities(FIND_BY_USER_ID_PREPARED_SQL, preparedStatement -> preparedStatement.setLong(1, userId));
     }
 
     private static class Singleton {

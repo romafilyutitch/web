@@ -15,10 +15,14 @@ public class ActionFactory {
     public ActionCommand defineCommand(HttpServletRequest request) {
         String action = request.getParameter(COMMAND_PARAMETER_NAME);
         if (action == null) {
+            return MainCommand.getInstance();
+        }
+        try {
+            CommandEnum currentEnum = CommandEnum.valueOf(action.toUpperCase());
+            return currentEnum.getCurrentCommand();
+        } catch (IllegalArgumentException e) {
             return null;
         }
-        CommandEnum currentEnum = CommandEnum.valueOf(action.toUpperCase());
-        return currentEnum.getCurrentCommand();
     }
 
     private static class Singleton{

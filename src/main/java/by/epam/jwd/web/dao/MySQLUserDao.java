@@ -25,6 +25,8 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
     private static final String SAVE_PREPARED_SQL = "insert into user (login, password, role, subscription) value (?, ?, ?, ?)";
     private static final String UPDATE_PREPARED_SQL = "update user set login = ?, password = ?, role = ?, subscription = ? where id = ?";
     private static final String DELETE_PREPARED_SQL = "delete user where id = ?";
+    private static final String FIND_BY_LOGIN_PREPARED_SQL = String.format("%s where user.login = ?", FIND_ALL_SQL);
+    private static final String FIND_BY_ROLE_PREPARED_SQL = String.format("%s where role.id = ?", FIND_ALL_SQL);
 
     private MySQLUserDao() {
         super(FIND_ALL_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);
@@ -73,12 +75,13 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
 
     @Override
     public Optional<User> findUserByLogin(String login) throws DAOException {
-        return findAll().stream().filter(libraryUser -> libraryUser.getLogin().equals(login)).findAny();
+        final List<User> foundUsers = findPreparedEntities(FIND_BY_LOGIN_PREPARED_SQL, preparedStatement -> preparedStatement.setString(1, login));
+        return foundUsers.stream().findAny();
     }
 
     @Override
     public List<User> findUsersByRole(UserRole role) throws DAOException {
-        return findAll().stream().filter(libraryUser -> libraryUser.getRole().equals(role)).collect(Collectors.toList());
+        return findPreparedEntities(FIND_BY_ROLE_PREPARED_SQL, preparedStatement -> preparedStatement.setLong(1, role.getId()));
     }
 
     private static class Singleton {

@@ -83,12 +83,8 @@ class SimpleBookService implements BookService {
     }
 
     @Override
-    public Book findByName(String name) throws ServiceException {
-        final Optional<Book> optionalBook = BOOK_DAO.findBookByName(name);
-        if (!optionalBook.isPresent()) {
-            throw new ServiceException(String.format("Book with name %s does not exist", name));
-        }
-        return optionalBook.get();
+    public Optional<Book> findByName(String name) throws ServiceException {
+        return BOOK_DAO.findBookByName(name);
     }
 
     private static class Singleton {

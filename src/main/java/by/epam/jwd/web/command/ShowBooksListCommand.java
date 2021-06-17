@@ -1,6 +1,7 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.model.Book;
+import by.epam.jwd.web.model.Genre;
 import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,8 @@ public class ShowBooksListCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
         final List<Book> allBooks = ServiceFactory.getInstance().getBookService().findAllBooks();
+        final Genre[] genres = Genre.values();
+        request.setAttribute("genres", genres);
         request.setAttribute(BOOKS, allBooks);
         return BOOKS_JSP_PATH;
     }

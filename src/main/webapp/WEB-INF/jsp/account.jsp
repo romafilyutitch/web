@@ -5,7 +5,7 @@
 <fmt:setBundle basename="main"/>
 <html>
 <head>
-    <title><fmt:message key="account.title"/></title>
+    <title>Account page</title>
 </head>
 <body>
   <c:if test="${not empty sessionScope.user}">
@@ -13,10 +13,15 @@
     ${sessionScope.user}
     </div>
     <div>
-    <form name="changeForm" method="Post" action="controller?command=change_account">
-      <label><fmt:message key="account.changeLogin"/><input type="text" name="login"></label>
-      <label><fmt:message key="account.changePassword"/><input type="password" name="password"></label>
-      <input type="submit" name="submit" value="change account">
+    <form method="post" action="controller">
+      <input type="hidden" name="command" value="change_login">
+      <label>Change Login<input type="text" name="login"></label>
+      <input type="submit" name="submit" value="change login">
+    </form>
+    <form method="post" action="controller">
+      <input type="hidden" name="command" value="change_password">
+      <label>Change password<input type="password" name="password"></label>
+      <input type="submit" value="change password">
     </form>
     <form name="delete account" method="POST" action="controller?command=delete_user">
       <input type="hidden" name="id" value="${sessionScope.user.id}">
@@ -24,6 +29,6 @@
     </form>
     </div>
   </c:if>
-  <a href="controller?command=main"><fmt:message key="main"/></a>
+  <a href="controller?command=main">Main Page</a>
 </body>
 </html>

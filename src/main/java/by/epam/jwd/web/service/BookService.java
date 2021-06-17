@@ -6,6 +6,7 @@ import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookService {
 
@@ -21,7 +22,7 @@ public interface BookService {
 
     Book removeOneCopy(Long bookId);
 
-    Book findByName(String name);
+    Optional<Book> findByName(String name);
 
     List<Book> findByGenre(Genre genre);
 

@@ -40,7 +40,7 @@ public class Controller extends HttpServlet {
                 response.sendRedirect(INDEX_JSP_PATH);
             }
         } else {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Page was not found");
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
     }
 }

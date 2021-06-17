@@ -6,15 +6,15 @@
 <fmt:setBundle basename="main"/>
 <html>
 <head>
-    <title><fmt:message key="myorders.title"/></title>
+    <title>My orders</title>
 </head>
 <body>
     <c:if test="${not empty requestScope.orders}">
             <c:forEach var="book" items="${requestScope.orders}">
-                <div> ${book.book.name} ${book.status.name}
+                <div> ${book}
                     <c:if test="${book.status eq Status.APPROVED}">
-                        <a href="controller?command=read&id=${book.book.id}"><fmt:message key="myorders.readBook"/></a>
-                        <form name="return" action="controller?return_book" method="POST">
+                        <form name="return" action="controller" method="POST">
+                            <input type="hidden" name="command" value="return_book">
                             <input type="hidden" name="id" value="${book.id}">
                             <input type="submit" value="Return book">
                         </form>
@@ -22,6 +22,6 @@
                 </div>
             </c:forEach>
     </c:if>
-<a href="controller?command=main"><fmt:message key="main"/></a>
+<a href="controller?command=main">Main page</a>
 </body>
 </html>
