@@ -1,9 +1,11 @@
 package by.epam.jwd.web.service;
 
+import by.epam.jwd.web.dao.AuthorDao;
 import by.epam.jwd.web.dao.BookDao;
 import by.epam.jwd.web.dao.DAOFactory;
 import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.exception.ServiceException;
+import by.epam.jwd.web.model.Author;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
 
@@ -13,6 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 class SimpleBookService implements BookService {
     private static final BookDao BOOK_DAO = DAOFactory.getInstance().getBookDao();
+    private static final AuthorDao AUTHOR_DAO = DAOFactory.getInstance().getAuthorDao();
 
     private SimpleBookService() {
     }
@@ -55,7 +58,13 @@ class SimpleBookService implements BookService {
         if (optionalBook.isPresent()) {
             throw new RegisterException(String.format("Book with name %s already exists.", book.getName()));
         }
-        return BOOK_DAO.save(book);
+        final Optional<Author> optionalAuthor = AUTHOR_DAO.getByName(book.getAuthor().getName());
+        if (!optionalAuthor.isPresent()) {
+            final Author savedAuthor = AUTHOR_DAO.save(book.getAuthor());
+            return BOOK_DAO.save(book.updateAuthor(savedAuthor));
+        } else {
+            return BOOK_DAO.save(book);
+        }
     }
 
     @Override
