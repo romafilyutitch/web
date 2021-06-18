@@ -28,7 +28,7 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     private static final String ENTITY_WAS_UPDATED_MESSAGE = "Entity %s was updated";
     private static final String COULD_NOT_UPDATE_ENTITY_MESSAGE = "Could not update entity %s ";
     private static final String TRYING_TO_DELETE_ENTITY_MESSAGE = "Trying to delete entity with id %d";
-    private static final String ENTITY_WAS_DELETE_MESSAGE = "Entity with id %d was deleted";
+    private static final String ENTITY_WAS_DELETED_MESSAGE = "Entity with id %d was deleted";
     private static final String COULD_NOT_DELETE_ENTITY_MESSAGE = "Could not delete entity with id %d";
     private static final String TRYING_TO_FIND_ENTITIES_BY_SQL_MESSAGE = "Trying to find entities by sql %s";
     private static final String ENTITIES_BY_SQL_WAS_FOUND_MESSAGE = "Entities by sql was found %s";
@@ -51,10 +51,9 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
         this.deleteSql = deleteSql;
     }
 
-
     @Override
     public T save(T entity) {
-        logger.info(String.format(TRYING_TO_SAVE_ENTITY_MESSAGE, entity));
+        logger.trace(String.format(TRYING_TO_SAVE_ENTITY_MESSAGE, entity));
         try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
              PreparedStatement saveStatement = connection.prepareStatement(saveSql, Statement.RETURN_GENERATED_KEYS)) {
             setSavePrepareStatementValues(entity, saveStatement);
@@ -88,7 +87,7 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
 
     @Override
     public T update(T entity) {
-        logger.info(String.format(TRYING_TO_UPDATE_ENTITY_MESSAGE, entity));
+        logger.trace(String.format(TRYING_TO_UPDATE_ENTITY_MESSAGE, entity));
         try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
              PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
             setUpdatePreparedStatementValues(entity, updateStatement);
@@ -103,12 +102,12 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
 
     @Override
     public void delete(Long id) {
-        logger.info(String.format(TRYING_TO_DELETE_ENTITY_MESSAGE, id));
+        logger.trace(String.format(TRYING_TO_DELETE_ENTITY_MESSAGE, id));
         try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
              PreparedStatement deleteStatement = connection.prepareStatement(deleteSql)) {
             deleteStatement.setLong(1, id);
             deleteStatement.executeUpdate();
-            logger.info(String.format(ENTITY_WAS_DELETE_MESSAGE, id));
+            logger.info(String.format(ENTITY_WAS_DELETED_MESSAGE, id));
         } catch (SQLException e) {
             logger.error(String.format(COULD_NOT_DELETE_ENTITY_MESSAGE, id), e);
             throw new DAOException(String.format(COULD_NOT_DELETE_ENTITY_MESSAGE, id), e);
@@ -116,8 +115,8 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     }
 
     protected List<T> findEntities(String sql) {
+        logger.trace(String.format(TRYING_TO_FIND_ENTITIES_BY_SQL_MESSAGE, sql));
         final List<T> foundEntities = new ArrayList<>();
-        logger.info(String.format(TRYING_TO_FIND_ENTITIES_BY_SQL_MESSAGE, sql));
         try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
              Statement findAllStatement = connection.createStatement();
              ResultSet resultSet = findAllStatement.executeQuery(sql)) {
@@ -134,8 +133,8 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     }
 
     protected List<T> findPreparedEntities(String preparedSql, SQLConsumer<PreparedStatement> preparedStatementConsumer) {
+        logger.trace(String.format(TRYING_TO_FIND_ENTITIES_BY_PREPARED_SQL_MESSAGE, preparedSql));
         final List<T> foundEntities = new ArrayList<>();
-        logger.info(String.format(TRYING_TO_FIND_ENTITIES_BY_PREPARED_SQL_MESSAGE, preparedSql));
         try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(preparedSql)) {
             preparedStatementConsumer.accept(preparedStatement);

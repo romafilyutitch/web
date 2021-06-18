@@ -23,14 +23,20 @@ class OrdinaryConnectionPool implements ConnectionPool {
     private static final Logger logger = LogManager.getLogger(OrdinaryConnectionPool.class);
 
     private static final String POOL_IS_NOT_INITIALIZED_MESSAGE = "Pool is not initialized";
-    private static final String CONNECTION_IS_NOT_PROXY_CONNECTION_MESSAGE = "Connection is not proxy connection";
     private static final String FAILED_TO_INIT_CONNECTION_POOL_MESSAGE = "failed to make connection pool initialization";
-    private static final String NEGATIVE_ARGUMENT_MESSAGE = "negative argument";
-    private static final String CONNECTION_IS_NULL_MESSAGE = "Connection is null";
     private static final String RETURNED_CONNECTION_IS_NOT_TAKEN_CONNECTION_MESSAGE = "Returned connection is not taken connection";
     private static final String DRIVERS_REGISTRATION_FAILED_MESSAGE = "Driver registration failed";
-    public static final String COULD_NOT_TAKE_FREE_CONNECTION_MESSAGE = "Could not take free connection";
-    public static final String COULD_NOT_RETURN_CONNECTION_MESSAGE = "Could not return taken connection to connection pool";
+    private static final String COULD_NOT_TAKE_FREE_CONNECTION_MESSAGE = "Could not take free connection";
+    private static final String COULD_NOT_RETURN_CONNECTION_MESSAGE = "Could not return taken connection to connection pool";
+    private static final String FREE_CONNECTION_WAS_TAKEN_MESSAGE = "Free connection was taken %s";
+    private static final String TAKEN_CONNECTION_WAS_RETURNED_MESSAGE = "Taken connection was returned %s";
+    private static final String POOL_WAS_INITIALIZED_MESSAGE = "Connection pool was initialized";
+    private static final String POOL_WAS_NOT_INITIALIZED_MESSAGE = "Connection pool was not initialized";
+    private static final String POOL_WAS_DESTROYED_MESSAGE = "Connection pool was destroyed";
+    private static final String COULD_NOT_CLOSE_TAKEN_CONNECTION_MESSAGE = "Could not close taken connection";
+    private static final String COULD_NOT_CLOSE_FREE_CONNECTION_MESSAGE = "Could not close free connection";
+    private static final String COULD_NOT_REGISTER_DRIVER_MESSAGE = "Could not register driver";
+    private static final String COULD_NOT_DEREGISTER_DRIVER_MESSAGE = "Could not deregister driver";
 
 
     private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/librarydb?serverTimezone=GMT%2B8";
@@ -64,9 +70,10 @@ class OrdinaryConnectionPool implements ConnectionPool {
         try {
             Connection freeConnection = freeConnectionsQueue.take();
             takenConnections.add(freeConnection);
+            logger.info(String.format(FREE_CONNECTION_WAS_TAKEN_MESSAGE, freeConnection));
             return freeConnection;
         } catch (InterruptedException e) {
-            logger.error(e);
+            logger.error(COULD_NOT_TAKE_FREE_CONNECTION_MESSAGE, e);
             throw new ConnectionPoolActionException(COULD_NOT_TAKE_FREE_CONNECTION_MESSAGE, e);
         }
     }
@@ -80,8 +87,9 @@ class OrdinaryConnectionPool implements ConnectionPool {
         try {
             freeConnectionsQueue.put(connection);
             takenConnections.remove(connection);
+            logger.info(String.format(TAKEN_CONNECTION_WAS_RETURNED_MESSAGE, connection));
         } catch (InterruptedException e) {
-            logger.error(e);
+            logger.error(COULD_NOT_RETURN_CONNECTION_MESSAGE, e);
             throw new ConnectionPoolActionException(COULD_NOT_RETURN_CONNECTION_MESSAGE, e);
         }
     }
@@ -93,10 +101,11 @@ class OrdinaryConnectionPool implements ConnectionPool {
             try {
                 addFreeConnectionsToPool(MINIMUM_POOL_SIZE);
                 timer.schedule(poolResizeTimerTask, POOL_RESIZE_CHECK_DELAY_TIME, POOL_RESIZE_CHECK_PERIOD_TIME);
+                logger.info(POOL_WAS_INITIALIZED_MESSAGE);
             } catch (SQLException | InterruptedException e) {
-                logger.error(e);
                 isInitialized.set(false);
                 deregisterDrivers();
+                logger.error(POOL_WAS_NOT_INITIALIZED_MESSAGE, e);
                 throw new ConnectionPoolInitializationException(FAILED_TO_INIT_CONNECTION_POOL_MESSAGE, e);
             }
         }
@@ -111,13 +120,11 @@ class OrdinaryConnectionPool implements ConnectionPool {
             closeTakenConnections();
             takenConnections.clear();
             deregisterDrivers();
+            logger.info(POOL_WAS_DESTROYED_MESSAGE);
         }
     }
 
     private void addFreeConnectionsToPool(int amountOfAddedConnections) throws SQLException, InterruptedException {
-        if (amountOfAddedConnections < 0) {
-            throw new IllegalArgumentException(NEGATIVE_ARGUMENT_MESSAGE);
-        }
         for (int i = 0; i < amountOfAddedConnections; i++) {
             final Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD);
             final ProxyConnection proxyConnection = new ProxyConnection(connection);
@@ -133,15 +140,8 @@ class OrdinaryConnectionPool implements ConnectionPool {
     }
 
     private void checkReturnedConnection(Connection connection) {
-        if (connection == null) {
-            throw new IllegalArgumentException(CONNECTION_IS_NULL_MESSAGE);
-        }
-        if (connection instanceof ProxyConnection) {
-            if (!takenConnections.contains(connection)) {
-                throw new IllegalArgumentException(RETURNED_CONNECTION_IS_NOT_TAKEN_CONNECTION_MESSAGE);
-            }
-        } else {
-            throw new IllegalArgumentException(CONNECTION_IS_NOT_PROXY_CONNECTION_MESSAGE);
+        if (!takenConnections.contains(connection)) {
+            throw new IllegalArgumentException(RETURNED_CONNECTION_IS_NOT_TAKEN_CONNECTION_MESSAGE);
         }
     }
 
@@ -151,7 +151,7 @@ class OrdinaryConnectionPool implements ConnectionPool {
                 ProxyConnection proxyConnection = (ProxyConnection) connection;
                 proxyConnection.getConnection().close();
             } catch (SQLException e) {
-                logger.error(e);
+                logger.error(COULD_NOT_CLOSE_TAKEN_CONNECTION_MESSAGE, e);
             }
         }
     }
@@ -162,7 +162,7 @@ class OrdinaryConnectionPool implements ConnectionPool {
                 ProxyConnection proxyConnection = (ProxyConnection) connection;
                 proxyConnection.getConnection().close();
             } catch (SQLException e) {
-                logger.error(e);
+                logger.error(COULD_NOT_CLOSE_FREE_CONNECTION_MESSAGE, e);
             }
         }
     }
@@ -171,8 +171,8 @@ class OrdinaryConnectionPool implements ConnectionPool {
         try {
             DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
         } catch (SQLException e) {
-            logger.error(e);
             isInitialized.set(false);
+            logger.error(COULD_NOT_REGISTER_DRIVER_MESSAGE, e);
             throw new ConnectionPoolInitializationException(DRIVERS_REGISTRATION_FAILED_MESSAGE, e);
         }
     }
@@ -183,30 +183,35 @@ class OrdinaryConnectionPool implements ConnectionPool {
             try {
                 DriverManager.deregisterDriver(iterator.nextElement());
             } catch (SQLException e) {
-                logger.error(e);
+                logger.error(COULD_NOT_DEREGISTER_DRIVER_MESSAGE, e);
             }
         }
     }
 
     private class PoolResizeTimerTask extends TimerTask {
 
-        public static final String RESIZE_INFO = "Free connections = %d, taken connections = %d, total connections amount = %d";
-        public static final String GROW_POOL_MESSAGE = "Action is grow pool";
-        public static final String TRIM_POOL_MESSAGE = "Action is trim pool";
+        private static final String RESIZE_INFO = "Check connection pool state. Free connections = %d, taken connections = %d, total connections amount = %d";
+        private static final String GROW_POOL_MESSAGE = "Trying to add %d new free connections to connection pool";
+        private static final String TRIM_POOL_MESSAGE = "Trying to remove %d free connections from connection pool";
+        private static final String COULD_NOT_PERFORM_RESIZE_POOL_MESSAGE = "Could not perform resize connection pool action";
+        private static final String FREE_CONNECTIONS_WAS_ADDED_MESSAGE = "New %d free connections was added to connection pool";
+        private static final String FREE_CONNECTIONS_WAS_REMOVED_MESSAGE = "%d free connections was removed from connection pool";
 
         @Override
         public void run() {
             logger.info(String.format(RESIZE_INFO, freeConnectionsQueue.size(), takenConnections.size(), freeConnectionsQueue.size() + takenConnections.size()));
             try {
                 if (isNeedToGrowPool()) {
-                    logger.info(GROW_POOL_MESSAGE);
+                    logger.info(String.format(GROW_POOL_MESSAGE, RESIZE_QUANTITY));
                     addFreeConnectionsToPool(RESIZE_QUANTITY);
+                    logger.info(String.format(FREE_CONNECTIONS_WAS_ADDED_MESSAGE, RESIZE_QUANTITY));
                 } else if (isNeedToTrimPool()) {
-                    logger.info(TRIM_POOL_MESSAGE);
+                    logger.info(String.format(TRIM_POOL_MESSAGE, RESIZE_QUANTITY));
                     removeFreeConnectionsFromPool();
+                    logger.info(String.format(FREE_CONNECTIONS_WAS_REMOVED_MESSAGE, RESIZE_QUANTITY));
                 }
             } catch (SQLException | InterruptedException e) {
-                logger.error(e);
+                logger.error(COULD_NOT_PERFORM_RESIZE_POOL_MESSAGE, e);
             }
         }
 
