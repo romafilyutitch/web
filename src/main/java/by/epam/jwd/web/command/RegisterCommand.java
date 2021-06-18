@@ -25,18 +25,38 @@ public class RegisterCommand implements ActionCommand {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
-        final String login = request.getParameter(LOGIN);
-        final String password = request.getParameter(PASSWORD);
+    public CommandResult execute(HttpServletRequest request) {
+        final String login = request.getParameter("login");
+        final String password = request.getParameter("password");
         final User user = new User(login, password);
         try {
             UserValidator.getInstance().validate(user);
-            final User createdUser = ServiceFactory.getInstance().getUserService().registerUser(user);
-            request.setAttribute(USER, createdUser);
-            return null;
+            final User registeredUser = ServiceFactory.getInstance().getUserService().registerUser(user);
+            request.getSession().setAttribute("user", registeredUser);
+            return new CommandResult() {
+                @Override
+                public String getResultPath() {
+                    return "index.jsp";
+                }
+
+                @Override
+                public boolean isRedirect() {
+                    return true;
+                }
+            };
         } catch (ValidationException | RegisterException e) {
             request.setAttribute(ERROR, e.getMessage());
-            return REGISTER_JSP_PATH;
+            return new CommandResult() {
+                @Override
+                public String getResultPath() {
+                    return "WEB-INF/jsp/register.jsp";
+                }
+
+                @Override
+                public boolean isRedirect() {
+                    return false;
+                }
+            };
         }
     }
 

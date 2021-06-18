@@ -19,10 +19,20 @@ public class ShowUsersListCommand implements ActionCommand {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public CommandResult execute(HttpServletRequest request) {
         final List<User> allUsers = ServiceFactory.getInstance().getUserService().findAllUsers();
-        request.setAttribute(USERS, allUsers);
-        return USERS_JSP_PATH;
+        request.setAttribute("users", allUsers);
+        return new CommandResult() {
+            @Override
+            public String getResultPath() {
+                return "WEB-INF/jsp/users.jsp";
+            }
+
+            @Override
+            public boolean isRedirect() {
+                return false;
+            }
+        };
     }
 
     private static class Singleton {

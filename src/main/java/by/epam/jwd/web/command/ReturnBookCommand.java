@@ -20,13 +20,23 @@ public class ReturnBookCommand implements ActionCommand {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
-        final Long orderId = Long.valueOf(request.getParameter(ID));
+    public CommandResult execute(HttpServletRequest request) {
+        final Long orderId = Long.valueOf(request.getParameter("id"));
         final Order order = ServiceFactory.getInstance().getOrderService().findById(orderId);
         final Book book = order.getBook();
         ServiceFactory.getInstance().getOrderService().returnOrder(order.getId());
-        request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, book.getName()));
-        return null;
+        request.getSession().setAttribute("success", String.format("Book %s was returned", book.getName()));
+        return new CommandResult() {
+            @Override
+            public String getResultPath() {
+                return "index.jsp";
+            }
+
+            @Override
+            public boolean isRedirect() {
+                return true;
+            }
+        };
     }
 
     private static class Singleton {

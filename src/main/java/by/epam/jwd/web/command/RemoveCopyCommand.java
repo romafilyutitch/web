@@ -20,11 +20,21 @@ public class RemoveCopyCommand implements ActionCommand {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
-        final Long id = Long.valueOf(request.getParameter(ID));
+    public CommandResult execute(HttpServletRequest request) {
+        final Long id = Long.valueOf(request.getParameter("id"));
         final Book book = ServiceFactory.getInstance().getBookService().removeOneCopy(id);
-        request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, book.getName()));
-        return null;
+        request.getSession().setAttribute("success", String.format("copy of book %s was removed", book.getName()));
+        return new CommandResult() {
+            @Override
+            public String getResultPath() {
+                return "index.jsp";
+            }
+
+            @Override
+            public boolean isRedirect() {
+                return true;
+            }
+        };
     }
 
     private static class Singleton {

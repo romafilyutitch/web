@@ -25,20 +25,30 @@ public class OrderBookCommand implements ActionCommand {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
-        final Long bookId = Long.valueOf(request.getParameter(ID));
+    public CommandResult execute(HttpServletRequest request) {
+        final Long bookId = Long.valueOf(request.getParameter("id"));
         final Book book = ServiceFactory.getInstance().getBookService().findById(bookId);
-        final User user = (User) request.getSession().getAttribute(USER);
+        final User user = (User) request.getSession().getAttribute("user");
         final Order order = new Order(user, book);
         try {
             OrderValidator.getInstance().validate(order);
             ServiceFactory.getInstance().getOrderService().registerBookOrder(order);
             final Book orderedBook = ServiceFactory.getInstance().getBookService().removeOneCopy(bookId);
-            request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, orderedBook.getName()));
+            request.getSession().setAttribute("success", String.format("Book %s was ordered. See my orders page", orderedBook.getName()));
         } catch (ValidationException | RegisterException e) {
-            request.getSession().setAttribute(COMMAND_RESULT, e.getMessage());
+            request.getSession().setAttribute("fail", e.getMessage());
         }
-        return null;
+        return new CommandResult() {
+            @Override
+            public String getResultPath() {
+                return "index.jsp";
+            }
+
+            @Override
+            public boolean isRedirect() {
+                return true;
+            }
+        };
     }
 
     private static class Singleton {

@@ -81,6 +81,9 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
 
     @Override
     public Optional<T> findById(Long id) {
+        if (findByIdSql == null) {
+            throw new UnsupportedOperationException("Find by id operation is unsupported");
+        }
         final List<T> foundEntities = findPreparedEntities(findByIdSql, statement -> statement.setLong(1, id));
         return foundEntities.stream().findAny();
     }

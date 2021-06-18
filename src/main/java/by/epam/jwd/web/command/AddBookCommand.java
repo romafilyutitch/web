@@ -30,22 +30,32 @@ public class AddBookCommand implements ActionCommand {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
-        final String name = request.getParameter(BOOK_NAME);
-        final String author = request.getParameter(AUTHOR_NAME);
-        final Genre genre = Genre.valueOf(request.getParameter(GENRE_NAME));
-        final String date = request.getParameter(DATE);
-        final String pages = request.getParameter(PAGES);
-        final String description = request.getParameter(DESCRIPTION);
-        final Book book = new Book(name, new Author(author), genre, LocalDate.parse(date), Integer.parseInt(pages), description);
+    public CommandResult execute(HttpServletRequest request) {
+        final String name = request.getParameter("bookName");
+        final String author = request.getParameter("authorName");
+        final Genre genre = Genre.valueOf(request.getParameter("genreName"));
+        final LocalDate date = LocalDate.parse(request.getParameter("date"));
+        final int pages = Integer.parseInt(request.getParameter("pages"));
+        final String description = request.getParameter("description");
+        final Book book = new Book(name, new Author(author), genre, date, pages, description);
         try {
             BookValidator.getInstance().validate(book);
             ServiceFactory.getInstance().getBookService().registerBook(book);
-            request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, name));
+            request.getSession().setAttribute("success", String.format("book %s was added", name));
         } catch (ValidationException | RegisterException e) {
-            request.getSession().setAttribute(COMMAND_RESULT, e.getMessage());
+            request.getSession().setAttribute("fail", e.getMessage());
         }
-        return null;
+        return new CommandResult() {
+            @Override
+            public String getResultPath() {
+                return "index.jsp";
+            }
+
+            @Override
+            public boolean isRedirect() {
+                return true;
+            }
+        };
     }
 
 

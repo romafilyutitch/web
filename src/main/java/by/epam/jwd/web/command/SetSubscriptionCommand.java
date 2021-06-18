@@ -26,19 +26,29 @@ public class SetSubscriptionCommand implements ActionCommand {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
-        final Long id = Long.valueOf(request.getParameter(ID));
-        final String startDate = request.getParameter(START_DATE);
-        final String endDate = request.getParameter(END_DATE);
+    public CommandResult execute(HttpServletRequest request) {
+        final Long id = Long.valueOf(request.getParameter("id"));
+        final String startDate = request.getParameter("start_date");
+        final String endDate = request.getParameter("end_date");
         final Subscription subscription = new Subscription(LocalDate.parse(startDate), LocalDate.parse(endDate));
         try {
             SubscriptionValidator.getInstance().validate(subscription);
             final User user = ServiceFactory.getInstance().getUserService().setSubscription(id, subscription);
-            request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, user.getLogin()));
+            request.getSession().setAttribute("success", String.format("Subscription for user %s was set", user.getLogin()));
         } catch (ValidationException e) {
-            request.getSession().setAttribute(COMMAND_RESULT, e.getMessage());
+            request.getSession().setAttribute("fail", e.getMessage());
         }
-        return null;
+        return new CommandResult() {
+            @Override
+            public String getResultPath() {
+                return "index.jsp";
+            }
+
+            @Override
+            public boolean isRedirect() {
+                return true;
+            }
+        };
     }
 
     private static class Singleton {

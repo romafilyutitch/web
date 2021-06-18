@@ -19,11 +19,21 @@ public class DeleteUserCommand implements ActionCommand {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
-        final Long id = Long.valueOf(request.getParameter(ID));
+    public CommandResult execute(HttpServletRequest request) {
+        final Long id = Long.valueOf(request.getParameter("id"));
         ServiceFactory.getInstance().getUserService().deleteUser(id);
         request.getSession().invalidate();
-        return null;
+        return new CommandResult() {
+            @Override
+            public String getResultPath() {
+                return "index.jsp";
+            }
+
+            @Override
+            public boolean isRedirect() {
+                return true;
+            }
+        };
     }
 
     private static class Singleton {

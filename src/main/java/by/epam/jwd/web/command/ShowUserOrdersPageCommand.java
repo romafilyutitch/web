@@ -21,11 +21,21 @@ public class ShowUserOrdersPageCommand implements ActionCommand {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
-        final User user = (User) request.getSession().getAttribute(USER);
+    public CommandResult execute(HttpServletRequest request) {
+        final User user = (User) request.getSession().getAttribute("user");
         final List<Order> userOrders = ServiceFactory.getInstance().getOrderService().findByReaderId(user.getId());
-        request.setAttribute(ORDERS, userOrders);
-        return USER_ORDER_JSP_PATH;
+        request.setAttribute("orders", userOrders);
+        return new CommandResult() {
+            @Override
+            public String getResultPath() {
+                return "WEB-INF/jsp/user_orders.jsp";
+            }
+
+            @Override
+            public boolean isRedirect() {
+                return false;
+            }
+        };
     }
 
     private static class Singleton {

@@ -21,12 +21,22 @@ public class DeleteBookCommand implements ActionCommand {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
-        final Long id = Long.valueOf(request.getParameter(ID));
+    public CommandResult execute(HttpServletRequest request) {
+        final Long id = Long.valueOf(request.getParameter("id"));
         final Book book = ServiceFactory.getInstance().getBookService().findById(id);
         ServiceFactory.getInstance().getBookService().deleteBook(id);
-        request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, book.getName()));
-        return null;
+        request.getSession().setAttribute("success", String.format("book %s was deleted", book.getName()));
+        return new CommandResult() {
+            @Override
+            public String getResultPath() {
+                return "index.jsp";
+            }
+
+            @Override
+            public boolean isRedirect() {
+                return true;
+            }
+        };
     }
 
     private static class Singleton {

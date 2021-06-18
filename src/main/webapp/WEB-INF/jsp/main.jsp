@@ -41,7 +41,10 @@
 </c:choose>
 </div>
 <div>
-${sessionScope.commandResult}
+${sessionScope.success}
+</div>
+<div>
+${sessionScope.fail}
 </div>
 <div>
 <c:if test="${not empty sessionScope.user}">
@@ -55,6 +58,9 @@ ${sessionScope.commandResult}
     <a href="controller?command=find_science">SCIENCE</a>
     <a href="controller?command=main">All books</a>
 </c:if>
+</div>
+<div>
+    ${requestScope.findResult}
 </div>
 <c:if test="${not empty requestScope.books }">
             <c:forEach var="book" items="${requestScope.books}">

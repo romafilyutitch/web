@@ -19,10 +19,20 @@ public class MainCommand implements ActionCommand {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public CommandResult execute(HttpServletRequest request) {
         final List<Book> all = ServiceFactory.getInstance().getBookService().findAllBooks();
         request.setAttribute(BOOKS, all);
-        return MAIN_JSP_PATH;
+        return new CommandResult() {
+            @Override
+            public String getResultPath() {
+                return "WEB-INF/jsp/main.jsp";
+            }
+
+            @Override
+            public boolean isRedirect() {
+                return false;
+            }
+        };
     }
 
     private static class Singleton {

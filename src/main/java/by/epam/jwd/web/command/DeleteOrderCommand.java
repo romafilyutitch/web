@@ -14,13 +14,23 @@ public class DeleteOrderCommand implements ActionCommand {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public CommandResult execute(HttpServletRequest request) {
         final Long orderId = Long.valueOf(request.getParameter("id"));
         final Order order = ServiceFactory.getInstance().getOrderService().findById(orderId);
         ServiceFactory.getInstance().getBookService().addOneCopy(order.getBook().getId());
         ServiceFactory.getInstance().getOrderService().deleteOrder(orderId);
-        request.getSession().setAttribute("commandResult", String.format("Order %d was deleted", orderId));
-        return null;
+        request.getSession().setAttribute("success", String.format("Order %d was deleted", orderId));
+        return new CommandResult() {
+            @Override
+            public String getResultPath() {
+                return "index.jsp";
+            }
+
+            @Override
+            public boolean isRedirect() {
+                return true;
+            }
+        };
     }
 
     private static class Singleton {

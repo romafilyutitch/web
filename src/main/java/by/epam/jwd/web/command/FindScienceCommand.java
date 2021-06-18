@@ -16,10 +16,21 @@ public class FindScienceCommand implements ActionCommand {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public CommandResult execute(HttpServletRequest request) {
         final List<Book> scienceBooks = ServiceFactory.getInstance().getBookService().findByGenre(Genre.SCIENCE);
         request.setAttribute("books", scienceBooks);
-        return "WEB-INF/jsp/main.jsp";
+        request.setAttribute("findResult", String.format("%d books was found", scienceBooks.size()));
+        return new CommandResult() {
+            @Override
+            public String getResultPath() {
+                return "WEB-INF/jsp/main.jsp";
+            }
+
+            @Override
+            public boolean isRedirect() {
+                return false;
+            }
+        };
     }
 
     private static class Singleton {

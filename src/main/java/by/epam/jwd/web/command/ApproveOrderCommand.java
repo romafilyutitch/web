@@ -19,11 +19,21 @@ public class ApproveOrderCommand implements ActionCommand {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
-        final Long id = Long.valueOf(request.getParameter(ID));
+    public CommandResult execute(HttpServletRequest request) {
+        final Long id = Long.valueOf(request.getParameter("id"));
         ServiceFactory.getInstance().getOrderService().approveOrder(id);
-        request.getSession().setAttribute(COMMAND_RESULT, String.format(RESULT_MESSAGE, id));
-        return null;
+        request.getSession().setAttribute("success", String.format("order %s was approved", id));
+        return new CommandResult() {
+            @Override
+            public String getResultPath() {
+                return "index.jsp";
+            }
+
+            @Override
+            public boolean isRedirect() {
+                return true;
+            }
+        };
     }
 
     private static class Singleton {

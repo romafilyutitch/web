@@ -25,19 +25,39 @@ public class LoginCommand implements ActionCommand {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
-        String login = request.getParameter(LOGIN);
-        String password = request.getParameter(PASSWORD);
+    public CommandResult execute(HttpServletRequest request) {
+        String login = request.getParameter("login");
+        String password = request.getParameter("password");
         final User user = new User(login ,password);
         try {
             UserValidator.getInstance().validate(user);
             final User savedUser = ServiceFactory.getInstance().getUserService().loginUser(user);
             final HttpSession session = request.getSession();
             session.setAttribute(USER, savedUser);
-            return null;
+            return new CommandResult() {
+                @Override
+                public String getResultPath() {
+                    return "index.jsp";
+                }
+
+                @Override
+                public boolean isRedirect() {
+                    return true;
+                }
+            };
         } catch (ValidationException | LoginException e) {
             request.setAttribute(ERROR, e.getMessage());
-            return LOGIN_JSP_PATH;
+            return new CommandResult() {
+                @Override
+                public String getResultPath() {
+                    return "WEB-INF/jsp/login.jsp";
+                }
+
+                @Override
+                public boolean isRedirect() {
+                    return false;
+                }
+            };
         }
     }
 

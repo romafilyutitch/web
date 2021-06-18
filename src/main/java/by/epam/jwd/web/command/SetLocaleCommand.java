@@ -11,10 +11,20 @@ public class SetLocaleCommand implements ActionCommand {
     }
     
     @Override
-    public String execute(HttpServletRequest request) {
+    public CommandResult execute(HttpServletRequest request) {
         final String locale = request.getParameter("locale");
         request.getSession().setAttribute("locale", locale);
-        return null;
+        return new CommandResult() {
+            @Override
+            public String getResultPath() {
+                return "index.jsp";
+            }
+
+            @Override
+            public boolean isRedirect() {
+                return true;
+            }
+        };
     }
     
     private static class Singleton {

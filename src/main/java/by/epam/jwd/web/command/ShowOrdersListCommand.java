@@ -19,10 +19,20 @@ public class ShowOrdersListCommand implements ActionCommand {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public CommandResult execute(HttpServletRequest request) {
         final List<Order> orders = ServiceFactory.getInstance().getOrderService().findAllOrders();
-        request.setAttribute(ORDERS, orders);
-        return ORDERS_JSP_PATH;
+        request.setAttribute("orders", orders);
+        return new CommandResult() {
+            @Override
+            public String getResultPath() {
+                return "WEB-INF/jsp/orders.jsp";
+            }
+
+            @Override
+            public boolean isRedirect() {
+                return false;
+            }
+        };
     }
 
     private static class Singleton {

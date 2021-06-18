@@ -1,6 +1,7 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.exception.ServiceException;
+import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,11 +20,21 @@ public class DemoteRoleCommand implements ActionCommand {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
-        final Long id = Long.valueOf(request.getParameter(ID));
-        ServiceFactory.getInstance().getUserService().demoteUserRole(id);
-        request.getSession().setAttribute(COMMAND_RESULT, RESULT_MESSAGE);
-        return null;
+    public CommandResult execute(HttpServletRequest request) {
+        final Long id = Long.valueOf(request.getParameter("id"));
+        final User user = ServiceFactory.getInstance().getUserService().demoteUserRole(id);
+        request.getSession().setAttribute("success", String.format("role for user %s was demoted", user.getLogin()));
+        return new CommandResult() {
+            @Override
+            public String getResultPath() {
+                return "index.jsp";
+            }
+
+            @Override
+            public boolean isRedirect() {
+                return true;
+            }
+        };
     }
 
     private static class Singleton {

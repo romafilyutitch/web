@@ -14,8 +14,18 @@ public class ShowRegisterCommand implements ActionCommand {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
-        return REGISTER_JSP_PATH;
+    public CommandResult execute(HttpServletRequest request) {
+        return new CommandResult() {
+            @Override
+            public String getResultPath() {
+                return "WEB-INF/jsp/register.jsp";
+            }
+
+            @Override
+            public boolean isRedirect() {
+                return false;
+            }
+        };
     }
 
     private static class Singleton {
