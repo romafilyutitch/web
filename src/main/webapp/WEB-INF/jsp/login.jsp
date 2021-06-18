@@ -14,9 +14,10 @@
         <a href="controller?command=show_login">Try again</a>
     </c:when>
     <c:otherwise>
-        <form name = "loginForm" method="POST" action="controller?command=login">
-            <label>Login<input type="text" name = "login" value=""/></label>
-            <label>Password<input type="password" name="password" value=""/></label>
+        <form name = "loginForm" method="POST" action="controller">
+            <input type="hidden" name="command" value="login">
+            <label>Login<input type="text" required name = "login" value=""/></label>
+            <label>Password<input type="password" required name="password" value=""/></label>
             <input type="submit" value="Log in"/>
         </form>
     </c:otherwise>

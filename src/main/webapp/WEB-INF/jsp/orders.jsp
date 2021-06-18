@@ -6,7 +6,7 @@
 <fmt:setBundle basename="main"/>
 <html>
 <head>
-    <title>Ordes page</title>
+    <title>Orders page</title>
 </head>
 <body>
     <c:if test="${not empty requestScope.orders}">

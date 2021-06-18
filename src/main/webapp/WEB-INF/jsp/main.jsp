@@ -49,8 +49,8 @@ ${sessionScope.fail}
 <div>
 <c:if test="${not empty sessionScope.user}">
     <form name="find" method="get" action="controller">
-        <input type="hidden" name="command" value="find_book_by_name">
-        <label>Book name <input type="text" name="name"></label>
+        <input type="hidden"  name="command"  value="find_book_by_name">
+        <label>Book name <input type="text" required name="name"></label>
         <input type="submit" name="find" value="find">
     </form>
     <a href="controller?command=find_fiction">FICTION</a>

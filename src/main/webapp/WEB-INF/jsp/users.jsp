@@ -16,21 +16,23 @@
         <div> <c:if test="${sessionScope.user.id eq book.id}">YOU</c:if>
         ${book.login} ,${book.role.name}, ${book.subscription}
             <c:if test="${book.role ne UserRole.ADMIN}">
-                <form name="promote role" method="POST" action="controller?command=promote_role">
+                <form name="promote role" method="POST" action="controller">
+                    <input type="hidden" name="command" value="promote_role">
                     <input type="hidden" name="id" value="${book.id}">
                     <input type="submit" value="Promote user role">
                 </form>
             </c:if>
             <c:if test="${book.role ne UserRole.READER}">
                 <form name="demote role" method="POST" action="controller?command=demote_role">
+                    <input type="hidden" name="command" value="demote_role">
                     <input type="hidden" name="id" value="${book.id}">
                     <input type="submit" value="Demote user role">
                 </form>
             </c:if>
             <form action="controller" method="post">
                 <input type="hidden" name="command" value="set_subscription">
-                <input type="date" name="start_date">
-                <input type="date" name="end_date">
+                <label>Start date<input type="date" required name="start_date"></label>
+                <label>End date<input type="date" required name="end_date"></label>
                 <input type="submit" value="Set subscription">
             </form>
         </div>

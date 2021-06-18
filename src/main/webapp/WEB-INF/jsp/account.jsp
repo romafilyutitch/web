@@ -8,27 +8,36 @@
     <title>Account page</title>
 </head>
 <body>
-  <c:if test="${not empty sessionScope.user}">
+<c:choose>
+  <c:when test="${not empty requestScope.error}">
+    <c:out value="${requestScope.error}"/>
+    <a href="controller?command=show_account">Account</a>
+  </c:when>
+  <c:otherwise>
     <div>
-    ${sessionScope.user}
+        ${sessionScope.user}
     </div>
     <div>
-    <form method="post" action="controller">
-      <input type="hidden" name="command" value="change_login">
-      <label>Change Login<input type="text" name="login"></label>
-      <input type="submit" name="submit" value="change login">
-    </form>
-    <form method="post" action="controller">
-      <input type="hidden" name="command" value="change_password">
-      <label>Change password<input type="password" name="password"></label>
-      <input type="submit" value="change password">
-    </form>
-    <form name="delete account" method="POST" action="controller?command=delete_user">
-      <input type="hidden" name="id" value="${sessionScope.user.id}">
-      <input type="submit" value="Delete account">
-    </form>
+      <form method="post" action="controller">
+        <input type="hidden" name="command" value="change_login">
+        <input type="hidden" name="id" value="${sessionScope.user.id}">
+        <label>Change Login<input type="text" required name="login"></label>
+        <input type="submit" name="submit" value="change login">
+      </form>
+      <form method="post" action="controller">
+        <input type="hidden" name="command" value="change_password">
+        <input type="hidden" name="id" value="${sessionScope.user.id}"
+        <label>Change password<input type="password" required name="password"></label>
+        <input type="submit" value="change password">
+      </form>
+      <form name="delete account" method="POST" action="controller">
+        <input type="hidden" name="command" value="delete_user">
+        <input type="hidden" name="id" value="${sessionScope.user.id}">
+        <input type="submit" value="Delete account">
+      </form>
     </div>
-  </c:if>
+  </c:otherwise>
+</c:choose>
   <a href="controller?command=main">Main Page</a>
 </body>
 </html>
