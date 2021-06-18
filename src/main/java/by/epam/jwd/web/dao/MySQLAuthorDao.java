@@ -16,13 +16,14 @@ public class MySQLAuthorDao extends AbstractDao<Author> implements AuthorDao {
     private static final String NAME_COLUMN = "name";
 
     private static final String FIND_ALL_SQL = "select id, name from author";
+    private static final String FIND_BY_ID_PREPARED_SQL = String.format("%s where id = ?", FIND_ALL_SQL);
     private static final String SAVE_PREPARED_SQL = "insert into author (name) value (?)";
     private static final String UPDATE_PREPARED_SQL = "update author set name = ? where id = ?";
     private static final String DELETE_PREPARED_SQL = "delete from author where id = ?";
     public static final String SELECT_BY_NAME_PREPARED_SQL = String.format("%s where name = ?", FIND_ALL_SQL);
 
     private MySQLAuthorDao() {
-        super(FIND_ALL_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);
+        super(FIND_ALL_SQL,FIND_BY_ID_PREPARED_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);
     }
 
     public static MySQLAuthorDao getInstance() {

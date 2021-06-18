@@ -38,9 +38,9 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     private final String saveSql;
     private final String updateSql;
 
-    public AbstractDao(String findAllSql, String saveSql, String updateSql, String deleteSql) {
+    public AbstractDao(String findAllSql, String findByIdSql, String saveSql, String updateSql, String deleteSql) {
         this.findAllSql = findAllSql;
-        this.findByIdSql = String.format("%s where id = ?", findAllSql);
+        this.findByIdSql = findByIdSql;
         this.saveSql = saveSql;
         this.updateSql = updateSql;
         this.deleteSql = deleteSql;

@@ -17,6 +17,7 @@ import java.util.Optional;
 public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
 
     private static final String FIND_ALL_SQL = "select book_order.id, book_order.reader, book_order.book, book_order.date, status.name from book_order inner join status on book_order.status = status.id";
+    private static final String FIND_BY_ID_PREPARED_SQL = String.format("%s where book_order.id = ?", FIND_ALL_SQL);
     private static final String SAVE_PREPARED_SQL = "insert into book_order (reader, book) value (?, ?)";
     private static final String UPDATE_PREPARED_SQL = "update book_order set reader = ?, book = ?, date = ?, status = ? where id = ?";
     private static final String DELETE_PREPARED_SQL = "delete from book_order where id = ?";
@@ -26,7 +27,7 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
 
 
     private MySQLOrderDao() {
-        super(FIND_ALL_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);
+        super(FIND_ALL_SQL,FIND_BY_ID_PREPARED_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);
     }
 
     public static MySQLOrderDao getInstance() {

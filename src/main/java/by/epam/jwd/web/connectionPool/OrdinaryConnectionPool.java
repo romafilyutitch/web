@@ -134,7 +134,7 @@ class OrdinaryConnectionPool implements ConnectionPool {
 
     private void checkReturnedConnection(Connection connection) {
         if (connection == null) {
-            throw new NullPointerException(CONNECTION_IS_NULL_MESSAGE);
+            throw new IllegalArgumentException(CONNECTION_IS_NULL_MESSAGE);
         }
         if (connection instanceof ProxyConnection) {
             if (!takenConnections.contains(connection)) {
@@ -169,7 +169,7 @@ class OrdinaryConnectionPool implements ConnectionPool {
 
     private void registerDrivers() throws ConnectionPoolInitializationException {
         try {
-            DriverManager.registerDriver(DriverManager.getDriver(DATABASE_URL));
+            DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
         } catch (SQLException e) {
             logger.error(e);
             isInitialized.set(false);

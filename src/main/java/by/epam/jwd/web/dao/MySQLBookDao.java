@@ -16,6 +16,7 @@ import java.util.Optional;
 public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
 
     private static final String FIND_ALL_SQL = "select book.id, book.name, author.id, author.name, genre.name, book.date, book.pages_amount, book.copies_amount, book.description from book inner join author on book.author = author.id inner join genre on book.genre = genre.id";
+    private static final String FIND_BY_ID_PREPARED_SQL = String.format("%s where book.id = ?", FIND_ALL_SQL);
     private static final String SAVE_PREPARED_SQL = "insert into book (name, author, genre, date, pages_amount, copies_amount, description) value (?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_PREPARED_SQL = "update book set name = ?, author = ?, genre = ?, date = ?, pages_amount = ?, copies_amount = ?, description = ? where id = ?";
     private static final String DELETE_PREPARED_SQL = "delete from book where id = ?";
@@ -24,7 +25,7 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
     private static final String FIND_BY_GENRE_NAME_PREPARED_SQL = String.format("%s where genre.id = ?", FIND_ALL_SQL);
 
     private MySQLBookDao() {
-        super(FIND_ALL_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);
+        super(FIND_ALL_SQL, FIND_BY_ID_PREPARED_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);
     }
 
     public static MySQLBookDao getInstance() {

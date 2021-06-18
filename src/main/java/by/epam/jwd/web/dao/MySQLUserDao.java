@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 public class MySQLUserDao extends AbstractDao<User> implements UserDao {
 
     private static final String FIND_ALL_SQL = "select user.id, user.login, user.password, role.name, subscription.id, subscription.start_date, subscription.end_date from user inner join role on user.role = role.id left outer join subscription on user.subscription = subscription.id";
+    private static final String FIND_BY_ID_PREPARED_SQL = String.format("%s where user.id = ?", FIND_ALL_SQL);
     private static final String SAVE_PREPARED_SQL = "insert into user (login, password, role, subscription) value (?, ?, ?, ?)";
     private static final String UPDATE_PREPARED_SQL = "update user set login = ?, password = ?, role = ?, subscription = ? where id = ?";
     private static final String DELETE_PREPARED_SQL = "delete user where id = ?";
@@ -29,7 +30,7 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
     private static final String FIND_BY_ROLE_PREPARED_SQL = String.format("%s where role.id = ?", FIND_ALL_SQL);
 
     private MySQLUserDao() {
-        super(FIND_ALL_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);
+        super(FIND_ALL_SQL, FIND_BY_ID_PREPARED_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);
     }
 
     public static MySQLUserDao getInstance() {
