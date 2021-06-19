@@ -30,13 +30,16 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     private static final String TRYING_TO_DELETE_ENTITY_MESSAGE = "Trying to delete entity with id %d";
     private static final String ENTITY_WAS_DELETED_MESSAGE = "Entity with id %d was deleted";
     private static final String COULD_NOT_DELETE_ENTITY_MESSAGE = "Could not delete entity with id %d";
-    private static final String TRYING_TO_FIND_ENTITIES_BY_SQL_MESSAGE = "Trying to find entities by sql %s";
-    private static final String ENTITIES_BY_SQL_WAS_FOUND_MESSAGE = "Entities by sql was found %s";
-    private static final String COULD_NOT_FIND_ENTITIES_BY_SQL_MESSAGE = "Could not find entities by sql %s";
     private static final String TRYING_TO_FIND_ENTITIES_BY_PREPARED_SQL_MESSAGE = "Trying to find entities by prepared sql %s";
     private static final String ENTITIES_BY_PREPARED_SQL_WAS_FOUND_MESSAGE = "Entities by prepared sql was found %s";
     private static final String COULD_NOT_FIND_ENTITIES_BY_PREPARED_SQL_MESSAGE = "Entities by prepared sql was found %s";
+    private static final String TRYING_TO_FIND_ALL_ENTITIES_MESSAGE = "Trying to find all entities";
+    private static final String ALL_ENTITIES_WAS_FOUND_MESSAGE = "All entities was found";
+    private static final String ALL_ENTITIES_WAS_NOT_FOUND_MESSAGE = "All entities was not found";
+    private static final String TRYING_TO_FIND_ENTITIES_WITH_OFFSET_MESSAGE = "Trying to find entities with offset %d";
+    private static final String ENTITIES_WITH_OFFSET_WAS_FOUND_MESSAGE = "%d entities was found with offset";
 
+    private static final String FIND_ENTITY_WITH_OFFSET_PREPARED_SQL = "%s order by id limit ?, 10 ";
     private final String findAllSql;
     private final String findByIdSql;
     private final String deleteSql;
@@ -58,16 +61,17 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
              PreparedStatement saveStatement = connection.prepareStatement(saveSql, Statement.RETURN_GENERATED_KEYS)) {
             setSavePrepareStatementValues(entity, saveStatement);
             saveStatement.executeUpdate();
-            ResultSet generatedKeyResultSet = saveStatement.getGeneratedKeys();
-            generatedKeyResultSet.next();
-            Long id = generatedKeyResultSet.getLong(GENERATED_KEY_COLUMN);
-            final Optional<T> optionalEntity = findById(id);
-            if (!optionalEntity.isPresent()) {
-                logger.error(String.format(SAVED_ENTITY_WAS_NOT_FOUND_BY_ID_MESSAGE, entity));
-                throw new DAOException(String.format(SAVED_ENTITY_WAS_NOT_FOUND_BY_ID_MESSAGE, entity));
+            try (ResultSet generatedKeyResultSet = saveStatement.getGeneratedKeys()) {
+                generatedKeyResultSet.next();
+                Long id = generatedKeyResultSet.getLong(GENERATED_KEY_COLUMN);
+                final Optional<T> optionalEntity = findById(id);
+                if (!optionalEntity.isPresent()) {
+                    logger.error(String.format(SAVED_ENTITY_WAS_NOT_FOUND_BY_ID_MESSAGE, entity));
+                    throw new DAOException(String.format(SAVED_ENTITY_WAS_NOT_FOUND_BY_ID_MESSAGE, entity));
+                }
+                logger.info(String.format(ENTITY_WAS_SAVED_MESSAGE, entity));
+                return optionalEntity.get();
             }
-            logger.info(String.format(ENTITY_WAS_SAVED_MESSAGE, entity));
-            return optionalEntity.get();
         } catch (SQLException e) {
             logger.error(String.format(COULD_NOT_SAVE_ENTITY_MESSAGE, entity), e);
             throw new DAOException(String.format(COULD_NOT_SAVE_ENTITY_MESSAGE, entity), e);
@@ -76,7 +80,21 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
 
     @Override
     public List<T> findAll() {
-        return findEntities(findAllSql);
+        logger.trace(TRYING_TO_FIND_ALL_ENTITIES_MESSAGE);
+        final List<T> foundEntities = new ArrayList<>();
+        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
+        Statement findAllStatement = connection.createStatement();
+        ResultSet resultSet = findAllStatement.executeQuery(findAllSql)) {
+            while (resultSet.next()) {
+                final T foundEntity = mapResultSet(resultSet);
+                foundEntities.add(foundEntity);
+            }
+            logger.info(ALL_ENTITIES_WAS_FOUND_MESSAGE);
+            return foundEntities;
+        } catch (SQLException e) {
+            logger.error(ALL_ENTITIES_WAS_NOT_FOUND_MESSAGE, e);
+            throw new DAOException(ALL_ENTITIES_WAS_FOUND_MESSAGE, e);
+        }
     }
 
     @Override
@@ -114,22 +132,12 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
         }
     }
 
-    protected List<T> findEntities(String sql) {
-        logger.trace(String.format(TRYING_TO_FIND_ENTITIES_BY_SQL_MESSAGE, sql));
-        final List<T> foundEntities = new ArrayList<>();
-        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
-             Statement findAllStatement = connection.createStatement();
-             ResultSet resultSet = findAllStatement.executeQuery(sql)) {
-            while (resultSet.next()) {
-                final T foundEntity = mapResultSet(resultSet);
-                foundEntities.add(foundEntity);
-            }
-            logger.info(String.format(ENTITIES_BY_SQL_WAS_FOUND_MESSAGE, sql));
-            return foundEntities;
-        } catch (SQLException e) {
-            logger.error(String.format(COULD_NOT_FIND_ENTITIES_BY_SQL_MESSAGE, sql), e);
-            throw new DAOException(String.format(COULD_NOT_FIND_ENTITIES_BY_SQL_MESSAGE, sql), e);
-        }
+    @Override
+    public List<T> findWithOffset(int offset) {
+        logger.trace(String.format(TRYING_TO_FIND_ENTITIES_WITH_OFFSET_MESSAGE, offset));
+        final List<T> foundEntitiesByOffset = findPreparedEntities(String.format(FIND_ENTITY_WITH_OFFSET_PREPARED_SQL, findAllSql), preparedSql -> preparedSql.setInt(1, offset));
+        logger.info(String.format(ENTITIES_WITH_OFFSET_WAS_FOUND_MESSAGE, foundEntitiesByOffset.size()));
+        return foundEntitiesByOffset;
     }
 
     protected List<T> findPreparedEntities(String preparedSql, SQLConsumer<PreparedStatement> preparedStatementConsumer) {

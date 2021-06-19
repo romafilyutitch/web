@@ -14,6 +14,8 @@ public interface Dao<T extends DbEntity> {
 
     Optional<T> findById(Long id);
 
+    List<T> findWithOffset(int offset);
+
     T update(T entity);
 
     void delete(Long id);
