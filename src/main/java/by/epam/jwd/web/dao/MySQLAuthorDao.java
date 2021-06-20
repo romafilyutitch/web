@@ -16,14 +16,14 @@ public class MySQLAuthorDao extends AbstractDao<Author> implements AuthorDao {
     private static final String NAME_COLUMN = "name";
 
     private static final String FIND_ALL_SQL = "select id, name from author";
-    private static final String FIND_BY_ID_PREPARED_SQL = String.format("%s where id = ?", FIND_ALL_SQL);
-    private static final String SAVE_PREPARED_SQL = "insert into author (name) value (?)";
-    private static final String UPDATE_PREPARED_SQL = "update author set name = ? where id = ?";
-    private static final String DELETE_PREPARED_SQL = "delete from author where id = ?";
-    public static final String SELECT_BY_NAME_PREPARED_SQL = String.format("%s where name = ?", FIND_ALL_SQL);
+    private static final String FIND_BY_ID_SQL = String.format("%s where id = ?", FIND_ALL_SQL);
+    private static final String FIND_BY_NAME_SQL = String.format("%s where name = ?", FIND_ALL_SQL);
+    private static final String SAVE_SQL = "insert into author (name) value (?)";
+    private static final String UPDATE_SQL = "update author set name = ? where id = ?";
+    private static final String DELETE_SQL = "delete from author where id = ?";
 
     private MySQLAuthorDao() {
-        super(FIND_ALL_SQL,FIND_BY_ID_PREPARED_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);
+        super(TABLE_NAME, FIND_ALL_SQL, FIND_BY_ID_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
     }
 
     public static MySQLAuthorDao getInstance() {
@@ -50,7 +50,7 @@ public class MySQLAuthorDao extends AbstractDao<Author> implements AuthorDao {
 
     @Override
     public Optional<Author> getByName(String authorName) {
-        final List<Author> foundEntities = findPreparedEntities(SELECT_BY_NAME_PREPARED_SQL, preparedStatement -> preparedStatement.setString(1, authorName));
+        final List<Author> foundEntities = findPreparedEntities(FIND_BY_NAME_SQL, preparedStatement -> preparedStatement.setString(1, authorName));
         return foundEntities.stream().findAny();
     }
 

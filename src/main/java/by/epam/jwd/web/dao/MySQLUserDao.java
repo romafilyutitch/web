@@ -2,14 +2,11 @@ package by.epam.jwd.web.dao;
 
 
 
-import by.epam.jwd.web.connectionPool.ConnectionPool;
-import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
 import by.epam.jwd.web.exception.DAOException;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.model.UserRole;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,20 +14,20 @@ import java.sql.Types;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class MySQLUserDao extends AbstractDao<User> implements UserDao {
+    private static final String TABLE_NAME = "user";
 
     private static final String FIND_ALL_SQL = "select user.id, user.login, user.password, role.name, subscription.id, subscription.start_date, subscription.end_date from user inner join role on user.role = role.id left outer join subscription on user.subscription = subscription.id";
-    private static final String FIND_BY_ID_PREPARED_SQL = String.format("%s where user.id = ?", FIND_ALL_SQL);
-    private static final String SAVE_PREPARED_SQL = "insert into user (login, password, role, subscription) value (?, ?, ?, ?)";
-    private static final String UPDATE_PREPARED_SQL = "update user set login = ?, password = ?, role = ?, subscription = ? where id = ?";
-    private static final String DELETE_PREPARED_SQL = "delete user where id = ?";
-    private static final String FIND_BY_LOGIN_PREPARED_SQL = String.format("%s where user.login = ?", FIND_ALL_SQL);
-    private static final String FIND_BY_ROLE_PREPARED_SQL = String.format("%s where role.id = ?", FIND_ALL_SQL);
+    private static final String FIND_BY_ID_SQL = String.format("%s where user.id = ?", FIND_ALL_SQL);
+    private static final String FIND_BY_LOGIN_SQL = String.format("%s where user.login = ?", FIND_ALL_SQL);
+    private static final String FIND_BY_ROLE_SQL = String.format("%s where role.id = ?", FIND_ALL_SQL);
+    private static final String SAVE_SQL = "insert into user (login, password, role, subscription) value (?, ?, ?, ?)";
+    private static final String UPDATE_SQL = "update user set login = ?, password = ?, role = ?, subscription = ? where id = ?";
+    private static final String DELETE_SQL = "delete user where id = ?";
 
     private MySQLUserDao() {
-        super(FIND_ALL_SQL, FIND_BY_ID_PREPARED_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);
+        super(TABLE_NAME, FIND_ALL_SQL, FIND_BY_ID_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
     }
 
     public static MySQLUserDao getInstance() {
@@ -76,13 +73,13 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
 
     @Override
     public Optional<User> findUserByLogin(String login) throws DAOException {
-        final List<User> foundUsers = findPreparedEntities(FIND_BY_LOGIN_PREPARED_SQL, preparedStatement -> preparedStatement.setString(1, login));
+        final List<User> foundUsers = findPreparedEntities(FIND_BY_LOGIN_SQL, preparedStatement -> preparedStatement.setString(1, login));
         return foundUsers.stream().findAny();
     }
 
     @Override
     public List<User> findUsersByRole(UserRole role) throws DAOException {
-        return findPreparedEntities(FIND_BY_ROLE_PREPARED_SQL, preparedStatement -> preparedStatement.setLong(1, role.getId()));
+        return findPreparedEntities(FIND_BY_ROLE_SQL, preparedStatement -> preparedStatement.setLong(1, role.getId()));
     }
 
     private static class Singleton {

@@ -20,43 +20,46 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     private static final Logger logger = LogManager.getLogger(AbstractDao.class);
 
     private static final String GENERATED_KEY_COLUMN = "GENERATED_KEY";
-    private static final String TRYING_TO_SAVE_ENTITY_MESSAGE = "Trying to save entity %s ";
     private static final String SAVED_ENTITY_WAS_NOT_FOUND_BY_ID_MESSAGE = "Saved entity was not found by id %s";
     private static final String ENTITY_WAS_SAVED_MESSAGE = "Entity %s was saved";
     private static final String COULD_NOT_SAVE_ENTITY_MESSAGE = "Could not save entity %s ";
-    private static final String TRYING_TO_UPDATE_ENTITY_MESSAGE = "Trying to update entity %s";
     private static final String ENTITY_WAS_UPDATED_MESSAGE = "Entity %s was updated";
     private static final String COULD_NOT_UPDATE_ENTITY_MESSAGE = "Could not update entity %s ";
-    private static final String TRYING_TO_DELETE_ENTITY_MESSAGE = "Trying to delete entity with id %d";
     private static final String ENTITY_WAS_DELETED_MESSAGE = "Entity with id %d was deleted";
     private static final String COULD_NOT_DELETE_ENTITY_MESSAGE = "Could not delete entity with id %d";
-    private static final String TRYING_TO_FIND_ENTITIES_BY_PREPARED_SQL_MESSAGE = "Trying to find entities by prepared sql %s";
     private static final String ENTITIES_BY_PREPARED_SQL_WAS_FOUND_MESSAGE = "Entities by prepared sql was found %s";
     private static final String COULD_NOT_FIND_ENTITIES_BY_PREPARED_SQL_MESSAGE = "Entities by prepared sql was found %s";
-    private static final String TRYING_TO_FIND_ALL_ENTITIES_MESSAGE = "Trying to find all entities";
     private static final String ALL_ENTITIES_WAS_FOUND_MESSAGE = "All entities was found";
     private static final String ALL_ENTITIES_WAS_NOT_FOUND_MESSAGE = "All entities was not found";
-    private static final String TRYING_TO_FIND_ENTITIES_WITH_OFFSET_MESSAGE = "Trying to find entities with offset %d";
-    private static final String ENTITIES_WITH_OFFSET_WAS_FOUND_MESSAGE = "%d entities was found with offset";
+    private static final String ENTITIES_ON_PAGE_WAS_FOUND_MESSAGE = "Entities on page %d was found";
+    private static final String COULD_NOT_FIND_NUMBER_OF_ROWS_MESSAGE = "Could not find number of rows";
 
-    private static final String FIND_ENTITY_WITH_OFFSET_PREPARED_SQL = "%s order by id limit ?, 10 ";
+    private static final String FIND_PAGE_SQL_TEMPLATE = "%s limit ?, ?";
+    private static final String COUNT_SQL_TEMPLATE = "select count(*) from %s";
+    private static final int RECORDS_PER_PAGE = 5;
+
+    private final String tableName;
     private final String findAllSql;
     private final String findByIdSql;
+    private final String findPageSql;
     private final String deleteSql;
     private final String saveSql;
     private final String updateSql;
+    private final String countSql;
 
-    public AbstractDao(String findAllSql, String findByIdSql, String saveSql, String updateSql, String deleteSql) {
+    public AbstractDao(String tableName, String findAllSql, String findByIdSql, String saveSql, String updateSql, String deleteSql) {
+        this.tableName = tableName;
         this.findAllSql = findAllSql;
-        this.findByIdSql = findByIdSql;
         this.saveSql = saveSql;
         this.updateSql = updateSql;
         this.deleteSql = deleteSql;
+        this.findByIdSql = findByIdSql;
+        this.findPageSql = String.format(FIND_PAGE_SQL_TEMPLATE, findAllSql);
+        this.countSql = String.format(COUNT_SQL_TEMPLATE, tableName);
     }
 
     @Override
     public T save(T entity) {
-        logger.trace(String.format(TRYING_TO_SAVE_ENTITY_MESSAGE, entity));
         try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
              PreparedStatement saveStatement = connection.prepareStatement(saveSql, Statement.RETURN_GENERATED_KEYS)) {
             setSavePrepareStatementValues(entity, saveStatement);
@@ -80,7 +83,6 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
 
     @Override
     public List<T> findAll() {
-        logger.trace(TRYING_TO_FIND_ALL_ENTITIES_MESSAGE);
         final List<T> foundEntities = new ArrayList<>();
         try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
         Statement findAllStatement = connection.createStatement();
@@ -105,7 +107,6 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
 
     @Override
     public T update(T entity) {
-        logger.trace(String.format(TRYING_TO_UPDATE_ENTITY_MESSAGE, entity));
         try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
              PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
             setUpdatePreparedStatementValues(entity, updateStatement);
@@ -120,7 +121,6 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
 
     @Override
     public void delete(Long id) {
-        logger.trace(String.format(TRYING_TO_DELETE_ENTITY_MESSAGE, id));
         try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
              PreparedStatement deleteStatement = connection.prepareStatement(deleteSql)) {
             deleteStatement.setLong(1, id);
@@ -133,15 +133,35 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     }
 
     @Override
-    public List<T> findWithOffset(int offset) {
-        logger.trace(String.format(TRYING_TO_FIND_ENTITIES_WITH_OFFSET_MESSAGE, offset));
-        final List<T> foundEntitiesByOffset = findPreparedEntities(String.format(FIND_ENTITY_WITH_OFFSET_PREPARED_SQL, findAllSql), preparedSql -> preparedSql.setInt(1, offset));
-        logger.info(String.format(ENTITIES_WITH_OFFSET_WAS_FOUND_MESSAGE, foundEntitiesByOffset.size()));
-        return foundEntitiesByOffset;
+    public List<T> findPage(int currentPage) {
+        final int start = currentPage * RECORDS_PER_PAGE - RECORDS_PER_PAGE;
+        final List<T> entitiesInCurrentPage = findPreparedEntities(findPageSql, preparedStatement -> {
+            preparedStatement.setInt(1, start);
+            preparedStatement.setInt(2, RECORDS_PER_PAGE);
+        });
+        logger.info(String.format(ENTITIES_ON_PAGE_WAS_FOUND_MESSAGE, currentPage));
+        return entitiesInCurrentPage;
+    }
+
+    @Override
+    public int getNumberOfRows() {
+        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
+        Statement countStatement = connection.createStatement();
+        ResultSet resultSet = countStatement.executeQuery(countSql)) {
+        resultSet.next();
+            return resultSet.getInt(1);
+        }  catch (SQLException e) {
+            logger.error(COULD_NOT_FIND_NUMBER_OF_ROWS_MESSAGE, e);
+            throw new DAOException(COULD_NOT_FIND_NUMBER_OF_ROWS_MESSAGE, e);
+        }
+    }
+
+    @Override
+    public int getNumberOfPages() {
+        return getNumberOfRows() / RECORDS_PER_PAGE;
     }
 
     protected List<T> findPreparedEntities(String preparedSql, SQLConsumer<PreparedStatement> preparedStatementConsumer) {
-        logger.trace(String.format(TRYING_TO_FIND_ENTITIES_BY_PREPARED_SQL_MESSAGE, preparedSql));
         final List<T> foundEntities = new ArrayList<>();
         try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(preparedSql)) {

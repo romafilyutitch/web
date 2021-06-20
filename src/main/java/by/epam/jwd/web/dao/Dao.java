@@ -14,7 +14,11 @@ public interface Dao<T extends DbEntity> {
 
     Optional<T> findById(Long id);
 
-    List<T> findWithOffset(int offset);
+    List<T> findPage(int currentPage);
+
+    int getNumberOfRows();
+
+    int getNumberOfPages();
 
     T update(T entity);
 

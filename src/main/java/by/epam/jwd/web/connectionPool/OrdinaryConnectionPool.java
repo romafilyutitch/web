@@ -191,8 +191,6 @@ class OrdinaryConnectionPool implements ConnectionPool {
     private class PoolResizeTimerTask extends TimerTask {
 
         private static final String RESIZE_INFO = "Check connection pool state. Free connections = %d, taken connections = %d, total connections amount = %d";
-        private static final String GROW_POOL_MESSAGE = "Trying to add %d new free connections to connection pool";
-        private static final String TRIM_POOL_MESSAGE = "Trying to remove %d free connections from connection pool";
         private static final String COULD_NOT_PERFORM_RESIZE_POOL_MESSAGE = "Could not perform resize connection pool action";
         private static final String FREE_CONNECTIONS_WAS_ADDED_MESSAGE = "New %d free connections was added to connection pool";
         private static final String FREE_CONNECTIONS_WAS_REMOVED_MESSAGE = "%d free connections was removed from connection pool";
@@ -202,11 +200,9 @@ class OrdinaryConnectionPool implements ConnectionPool {
             logger.info(String.format(RESIZE_INFO, freeConnectionsQueue.size(), takenConnections.size(), freeConnectionsQueue.size() + takenConnections.size()));
             try {
                 if (isNeedToGrowPool()) {
-                    logger.info(String.format(GROW_POOL_MESSAGE, RESIZE_QUANTITY));
                     addFreeConnectionsToPool(RESIZE_QUANTITY);
                     logger.info(String.format(FREE_CONNECTIONS_WAS_ADDED_MESSAGE, RESIZE_QUANTITY));
                 } else if (isNeedToTrimPool()) {
-                    logger.info(String.format(TRIM_POOL_MESSAGE, RESIZE_QUANTITY));
                     removeFreeConnectionsFromPool();
                     logger.info(String.format(FREE_CONNECTIONS_WAS_REMOVED_MESSAGE, RESIZE_QUANTITY));
                 }

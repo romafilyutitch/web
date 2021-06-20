@@ -1,7 +1,6 @@
 package by.epam.jwd.web.dao;
 
 
-
 import by.epam.jwd.web.exception.DAOException;
 import by.epam.jwd.web.model.Subscription;
 
@@ -10,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MySQLSubscriptionDao extends AbstractDao<Subscription> implements SubscriptionDao {
     private static final String TABLE_NAME = "subscription";
@@ -19,16 +17,16 @@ public class MySQLSubscriptionDao extends AbstractDao<Subscription> implements S
     private static final String END_DATE_COLUMN = "end_date";
 
     private static final String FIND_ALL_SQL = "select id, start_date, end_date from subscription";
-    private static final String FIND_BY_ID_PREPARED_SQL = String.format("%s where id = ?", FIND_ALL_SQL);
-    private static final String SAVE_PREPARED_SQL = "insert into subscription (start_date, end_date) values (?, ?)";
-    private static final String UPDATE_PREPARED_SQL = "update subscription set start_date = ?, end_date = ? where id = ?";
-    private static final String DELETE_PREPARED_SQL = "delete from subscription where id = ?";
-    private static final String FIND_BY_START_DATE_PREPARED_SQL = String.format("%s where start_date = ?", FIND_ALL_SQL);
-    private static final String FIND_BY_END_DATE_PREPARED_SQL = String.format("%s where end_date = ?", FIND_ALL_SQL);
-    private static final String FIND_IN_RANGE_PREPARED_SQL = String.format("%s where start_date >= ? and end_date <= ?", FIND_ALL_SQL);
+    private static final String FIND_BY_ID_SQL = String.format("%s where id = ?", FIND_ALL_SQL);
+    private static final String FIND_BY_START_DATE_SQL = String.format("%s where start_date = ?", FIND_ALL_SQL);
+    private static final String FIND_BY_END_DATE_SQL = String.format("%s where end_date = ?", FIND_ALL_SQL);
+    private static final String FIND_IN_RANGE_SQL = String.format("%s where start_date >= ? and end_date <= ?", FIND_ALL_SQL);
+    private static final String SAVE_SQL = "insert into subscription (start_date, end_date) values (?, ?)";
+    private static final String UPDATE_SQL = "update subscription set start_date = ?, end_date = ? where id = ?";
+    private static final String DELETE_SQL = "delete from subscription where id = ?";
 
     private MySQLSubscriptionDao() {
-       super(FIND_ALL_SQL, FIND_BY_ID_PREPARED_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);
+        super(TABLE_NAME, FIND_ALL_SQL, FIND_BY_ID_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
     }
 
     public static MySQLSubscriptionDao getInstance() {
@@ -58,17 +56,17 @@ public class MySQLSubscriptionDao extends AbstractDao<Subscription> implements S
 
     @Override
     public List<Subscription> findByStartDate(LocalDate startDate) throws DAOException {
-        return findPreparedEntities(FIND_BY_START_DATE_PREPARED_SQL, preparedStatement -> preparedStatement.setObject(1, startDate));
+        return findPreparedEntities(FIND_BY_START_DATE_SQL, preparedStatement -> preparedStatement.setObject(1, startDate));
     }
 
     @Override
     public List<Subscription> findByEndDate(LocalDate endDate) throws DAOException {
-        return findPreparedEntities(FIND_BY_END_DATE_PREPARED_SQL, preparedStatement -> preparedStatement.setObject(1, endDate));
+        return findPreparedEntities(FIND_BY_END_DATE_SQL, preparedStatement -> preparedStatement.setObject(1, endDate));
     }
 
     @Override
     public List<Subscription> findInRange(LocalDate startDate, LocalDate endDate) throws DAOException {
-        return findPreparedEntities(FIND_IN_RANGE_PREPARED_SQL, preparedStatement -> {
+        return findPreparedEntities(FIND_IN_RANGE_SQL, preparedStatement -> {
             preparedStatement.setObject(1, startDate);
             preparedStatement.setObject(2, endDate);
         });

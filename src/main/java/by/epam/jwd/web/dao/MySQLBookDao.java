@@ -14,18 +14,19 @@ import java.util.List;
 import java.util.Optional;
 
 public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
+    private static final String TABLE_NAME = "book";
 
     private static final String FIND_ALL_SQL = "select book.id, book.name, author.id, author.name, genre.name, book.date, book.pages_amount, book.copies_amount, book.description from book inner join author on book.author = author.id inner join genre on book.genre = genre.id";
-    private static final String FIND_BY_ID_PREPARED_SQL = String.format("%s where book.id = ?", FIND_ALL_SQL);
-    private static final String SAVE_PREPARED_SQL = "insert into book (name, author, genre, date, pages_amount, copies_amount, description) value (?, ?, ?, ?, ?, ?)";
-    private static final String UPDATE_PREPARED_SQL = "update book set name = ?, author = ?, genre = ?, date = ?, pages_amount = ?, copies_amount = ?, description = ? where id = ?";
-    private static final String DELETE_PREPARED_SQL = "delete from book where id = ?";
+    private static final String FIND_BY_ID_SQL = String.format("%s where book.id = ?", FIND_ALL_SQL);
     private static final String FIND_BY_NAME_SQL = String.format("%s where book.name = ?", FIND_ALL_SQL);
-    private static final String FIND_BY_AUTHOR_NAME_PREPARED_SQL = String.format("%s where author.name = ?", FIND_ALL_SQL);
-    private static final String FIND_BY_GENRE_NAME_PREPARED_SQL = String.format("%s where genre.id = ?", FIND_ALL_SQL);
+    private static final String FIND_BY_AUTHOR_NAME_SQL = String.format("%s where author.name = ?", FIND_ALL_SQL);
+    private static final String FIND_BY_GENRE_NAME_SQL = String.format("%s where genre.id = ?", FIND_ALL_SQL);
+    private static final String SAVE_SQL = "insert into book (name, author, genre, date, pages_amount, copies_amount, description) value (?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE_SQL = "update book set name = ?, author = ?, genre = ?, date = ?, pages_amount = ?, copies_amount = ?, description = ? where id = ?";
+    private static final String DELETE_SQL = "delete from book where id = ?";
 
     private MySQLBookDao() {
-        super(FIND_ALL_SQL, FIND_BY_ID_PREPARED_SQL, SAVE_PREPARED_SQL, UPDATE_PREPARED_SQL, DELETE_PREPARED_SQL);
+        super(TABLE_NAME, FIND_ALL_SQL, FIND_BY_ID_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
     }
 
     public static MySQLBookDao getInstance() {
@@ -77,12 +78,12 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
 
     @Override
     public List<Book> findBooksByAuthorName(String authorName) throws DAOException {
-        return findPreparedEntities(FIND_BY_AUTHOR_NAME_PREPARED_SQL, preparedStatement -> preparedStatement.setString(1, authorName));
+        return findPreparedEntities(FIND_BY_AUTHOR_NAME_SQL, preparedStatement -> preparedStatement.setString(1, authorName));
     }
 
     @Override
     public List<Book> findBooksByGenre(Genre genre) throws DAOException {
-        return findPreparedEntities(FIND_BY_GENRE_NAME_PREPARED_SQL, preparedStatement -> preparedStatement.setLong(1, genre.getId()));
+        return findPreparedEntities(FIND_BY_GENRE_NAME_SQL, preparedStatement -> preparedStatement.setLong(1, genre.getId()));
     }
 
     private static class Singleton {
