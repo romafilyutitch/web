@@ -8,15 +8,7 @@ import by.epam.jwd.web.model.Genre;
 import java.util.List;
 import java.util.Optional;
 
-public interface BookService {
-
-    List<Book> findAllBooks();
-
-    Book registerBook(Book book) throws RegisterException ;
-
-    void deleteBook(Long bookId);
-
-    Book findById(Long bookId);
+public interface BookService extends Service<Book> {
 
     Book addOneCopy(Long bookId);
 
@@ -27,6 +19,5 @@ public interface BookService {
     List<Book> findByGenre(Genre genre);
 
     List<Book> findByAuthor(String author);
-
 
 }

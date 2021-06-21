@@ -5,18 +5,11 @@ import by.epam.jwd.web.model.Order;
 
 import java.util.List;
 
-public interface OrderService {
-    List<Order> findAllOrders();
-
-    Order registerBookOrder(Order order) throws RegisterException;
+public interface OrderService extends Service<Order> {
 
     Order approveOrder(Long orderId);
 
     Order returnOrder(Long orderId);
-
-    Order findById(Long orderId);
-
-    void deleteOrder(Long orderId);
 
     List<Order> findByBookId(Long readerId);
 

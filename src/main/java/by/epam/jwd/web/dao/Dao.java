@@ -14,11 +14,11 @@ public interface Dao<T extends DbEntity> {
 
     Optional<T> findById(Long id);
 
-    List<T> findPage(int currentPage);
+    List<T> findPage(int pageNumber);
 
-    int getNumberOfRows();
+    int getRowsAmount();
 
-    int getNumberOfPages();
+    int getPagesAmount();
 
     T update(T entity);
 

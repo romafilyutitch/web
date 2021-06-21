@@ -7,17 +7,9 @@ import by.epam.jwd.web.model.User;
 
 import java.util.List;
 
-public interface UserService {
-
-    List<User> findAllUsers();
-
-    User registerUser(User user) throws RegisterException;
+public interface UserService extends Service<User> {
 
     User loginUser(User user) throws LoginException;
-
-    void deleteUser(Long userId);
-
-    User findById(Long userId);
 
     User promoteUserRole(Long userId);
 

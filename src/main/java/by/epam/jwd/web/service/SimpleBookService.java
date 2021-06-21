@@ -3,6 +3,7 @@ package by.epam.jwd.web.service;
 import by.epam.jwd.web.dao.AuthorDao;
 import by.epam.jwd.web.dao.BookDao;
 import by.epam.jwd.web.dao.DAOFactory;
+import by.epam.jwd.web.exception.PaginationException;
 import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.model.Author;
@@ -29,8 +30,23 @@ class SimpleBookService implements BookService {
     }
 
     @Override
-    public List<Book> findAllBooks() {
+    public List<Book> findAll() {
         return BOOK_DAO.findAll();
+    }
+
+    @Override
+    public List<Book> findPage(int pageNumber) throws PaginationException {
+        if (pageNumber < 1 || pageNumber > getPagesAmount()) {
+            throw new PaginationException("There is no such page");
+        }
+        final List<Book> foundPage = BOOK_DAO.findPage(pageNumber);
+        logger.info(String.format("Page of books number %s was found", pageNumber));
+        return foundPage;
+    }
+
+    @Override
+    public int getPagesAmount() {
+        return BOOK_DAO.getPagesAmount();
     }
 
     @Override
@@ -64,7 +80,7 @@ class SimpleBookService implements BookService {
     }
 
     @Override
-    public Book registerBook(Book book) throws RegisterException {
+    public Book register(Book book) throws RegisterException {
         final Optional<Book> optionalBook = BOOK_DAO.findBookByName(book.getName());
         if (optionalBook.isPresent()) {
             logger.info(String.format("Book with name %s already exists. Cannot register book", book.getName()));
@@ -82,7 +98,7 @@ class SimpleBookService implements BookService {
     }
 
     @Override
-    public void deleteBook(Long bookId) throws ServiceException {
+    public void delete(Long bookId) throws ServiceException {
         BOOK_DAO.delete(bookId);
         logger.info(String.format("Book with id %d was deleted", bookId));
     }
@@ -111,6 +127,8 @@ class SimpleBookService implements BookService {
         }
         return optionalBook;
     }
+
+
 
 
     private static class Singleton {

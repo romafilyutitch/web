@@ -133,18 +133,18 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     }
 
     @Override
-    public List<T> findPage(int currentPage) {
-        final int start = currentPage * RECORDS_PER_PAGE - RECORDS_PER_PAGE;
+    public List<T> findPage(int pageNumber) {
+        final int offset = pageNumber * RECORDS_PER_PAGE - RECORDS_PER_PAGE;
         final List<T> entitiesInCurrentPage = findPreparedEntities(findPageSql, preparedStatement -> {
-            preparedStatement.setInt(1, start);
+            preparedStatement.setInt(1, offset);
             preparedStatement.setInt(2, RECORDS_PER_PAGE);
         });
-        logger.info(String.format(ENTITIES_ON_PAGE_WAS_FOUND_MESSAGE, currentPage));
+        logger.info(String.format(ENTITIES_ON_PAGE_WAS_FOUND_MESSAGE, pageNumber));
         return entitiesInCurrentPage;
     }
 
     @Override
-    public int getNumberOfRows() {
+    public int getRowsAmount() {
         try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
         Statement countStatement = connection.createStatement();
         ResultSet resultSet = countStatement.executeQuery(countSql)) {
@@ -157,8 +157,12 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     }
 
     @Override
-    public int getNumberOfPages() {
-        return getNumberOfRows() / RECORDS_PER_PAGE;
+    public int getPagesAmount() {
+        int numberOfPages = getRowsAmount() / RECORDS_PER_PAGE;
+        if (numberOfPages % RECORDS_PER_PAGE > 0) {
+            numberOfPages++;
+        }
+        return numberOfPages;
     }
 
     protected List<T> findPreparedEntities(String preparedSql, SQLConsumer<PreparedStatement> preparedStatementConsumer) {
