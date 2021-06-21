@@ -17,11 +17,10 @@ public enum CommandEnum {
     LOGIN( LoginCommand.getInstance(), UserRole.UNAUTHORIZED),
     LOGOUT(LogoutCommand.getInstance(), UserRole.READER, UserRole.ADMIN, UserRole.LIBRARIAN),
     REGISTER(RegisterCommand.getInstance(), UserRole.UNAUTHORIZED),
-    READ_BOOKS(ReadBooksCommand.getInstance(), UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
-    FIND_BOOK_BY_NAME(FindBookByNameCommand.getInstance(), UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
-    FIND_FICTION(FindFictionCommand.getInstance(), UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
-    FIND_FANTASY(FindFantasyCommand.getInstance(), UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
-    FIND_SCIENCE(FindScienceCommand.getInstance(), UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
+    FIND_BOOK_BY_NAME(FindBookByNameCommand.getInstance(),UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
+    FIND_FICTION(FindFictionCommand.getInstance(), UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
+    FIND_FANTASY(FindFantasyCommand.getInstance(), UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
+    FIND_SCIENCE(FindScienceCommand.getInstance(), UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
     ADD_COPY(AddCopyCommand.getInstance(), UserRole.ADMIN),
     REMOVE_COPY(RemoveCopyCommand.getInstance(), UserRole.ADMIN),
     ADD_BOOK(AddBookCommand.getInstance(), UserRole.ADMIN),
@@ -36,7 +35,7 @@ public enum CommandEnum {
     ORDER_BOOK(OrderBookCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
     APPROVE_ORDER(ApproveOrderCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN),
     RETURN_BOOK(ReturnBookCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
-    SET_LOCALE(SetLocaleCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER);
+    SET_LOCALE(SetLocaleCommand.getInstance(),UserRole.UNAUTHORIZED, UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER);
 
     private final ActionCommand command;
     private final List<UserRole> allowedRoles;

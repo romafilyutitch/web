@@ -20,7 +20,7 @@ public class ReadBooksCommand implements ActionCommand {
         final List<Book> currentPage = ServiceFactory.getInstance().getBookService().findPage(currentPageNumber);
         final int pagesAmount = ServiceFactory.getInstance().getBookService().getPagesAmount();
         request.setAttribute("books", currentPage);
-        request.setAttribute("currentPage", currentPageNumber);
+        request.setAttribute("currentPageNumber", currentPageNumber);
         request.setAttribute("pagesAmount", pagesAmount);
         return new CommandResult() {
             @Override

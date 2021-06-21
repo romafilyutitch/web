@@ -21,10 +21,18 @@ public class ShowBooksListCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        final List<Book> allBooks = ServiceFactory.getInstance().getBookService().findAll();
+        int currentPageNumber = 1;
+        final String pageParameter = request.getParameter("page");
+        if (pageParameter != null) {
+            currentPageNumber = Integer.parseInt(pageParameter);
+        }
+        final List<Book> currentPage = ServiceFactory.getInstance().getBookService().findPage(currentPageNumber);
+        final int pagesAmount = ServiceFactory.getInstance().getBookService().getPagesAmount();
         final Genre[] genres = Genre.values();
         request.setAttribute("genres", genres);
-        request.setAttribute("books", allBooks);
+        request.setAttribute("books", currentPage);
+        request.setAttribute("pagesAmount", pagesAmount);
+        request.setAttribute("currentPageNumber", currentPageNumber);
         return new CommandResult() {
             @Override
             public String getResultPath() {

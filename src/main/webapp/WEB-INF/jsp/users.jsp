@@ -11,7 +11,6 @@
 <body>
 <h1>Users list</h1>
 <c:if test="${not empty requestScope.users}">
-    <ul>
     <c:forEach var="book" items="${requestScope.users}">
         <div> <c:if test="${sessionScope.user.id eq book.id}">YOU</c:if>
         ${book.login} ,${book.role.name}, ${book.subscription}
@@ -37,7 +36,15 @@
             </form>
         </div>
     </c:forEach>
-    </ul>
+    <c:if test="${requestScope.currentPageNumber ne 1}">
+        <a href="controller?command=show_users&page=${requestScope.currentPageNumber - 1}">Previous</a>
+    </c:if>
+    <c:forEach begin="1" end="${requestScope.pagesAmount}" var="i">
+        <a href="controller?command=show_users&page=${i}">${i}</a>
+    </c:forEach>
+    <c:if test="${requestScope.currentPageNumber lt requestScope.pagesAmount}">
+        <a href="controller?command=show_users&page=${requestScope.currentPageNumber + 1}">Next</a>
+    </c:if>
 </c:if>
 <a href="controller?command=main">Main page</a>
 </body>

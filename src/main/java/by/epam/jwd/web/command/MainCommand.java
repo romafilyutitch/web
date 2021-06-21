@@ -20,10 +20,15 @@ public class MainCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        final List<Book> firstPage = ServiceFactory.getInstance().getBookService().findPage(1);
+        int currentPageNumber = 1;
+        final String pageParameter = request.getParameter("page");
+        if (pageParameter != null) {
+            currentPageNumber = Integer.parseInt(pageParameter);
+        }
+        final List<Book> currentPage = ServiceFactory.getInstance().getBookService().findPage(currentPageNumber);
         final int pagesAmount = ServiceFactory.getInstance().getBookService().getPagesAmount();
-        request.setAttribute(BOOKS, firstPage);
-        request.setAttribute("currentPage", 1);
+        request.setAttribute(BOOKS, currentPage);
+        request.setAttribute("currentPageNumber", currentPageNumber);
         request.setAttribute("pagesAmount", pagesAmount);
         return new CommandResult() {
             @Override

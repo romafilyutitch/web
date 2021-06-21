@@ -20,8 +20,17 @@ public class ShowUsersListCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        final List<User> allUsers = ServiceFactory.getInstance().getUserService().findAll();
-        request.setAttribute("users", allUsers);
+        int currentPageNumber = 1;
+        final String pageParameter = request.getParameter("page");
+        if (pageParameter != null) {
+            currentPageNumber = Integer.parseInt(pageParameter);
+        }
+
+        final List<User> currentPage = ServiceFactory.getInstance().getUserService().findPage(currentPageNumber);
+        final int pagesAmount = ServiceFactory.getInstance().getUserService().getPagesAmount();
+        request.setAttribute("users", currentPage);
+        request.setAttribute("currentPageNumber", currentPageNumber);
+        request.setAttribute("pagesAmount", pagesAmount);
         return new CommandResult() {
             @Override
             public String getResultPath() {
