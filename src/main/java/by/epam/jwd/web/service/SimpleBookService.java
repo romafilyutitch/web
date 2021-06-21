@@ -35,11 +35,15 @@ class SimpleBookService implements BookService {
     }
 
     @Override
-    public List<Book> findPage(int pageNumber) throws PaginationException {
-        if (pageNumber < 1 || pageNumber > getPagesAmount()) {
-            throw new PaginationException("There is no such page");
+    public List<Book> findPage(int pageNumber) {
+        List<Book> foundPage;
+        if (pageNumber < 1) {
+            foundPage = BOOK_DAO.findPage(1);
+        } else if (pageNumber > getPagesAmount()) {
+            foundPage = BOOK_DAO.findPage(getPagesAmount());
+        } else {
+            foundPage = BOOK_DAO.findPage(pageNumber);
         }
-        final List<Book> foundPage = BOOK_DAO.findPage(pageNumber);
         logger.info(String.format("Page of books number %s was found", pageNumber));
         return foundPage;
     }

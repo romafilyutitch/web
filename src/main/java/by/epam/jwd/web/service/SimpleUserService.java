@@ -55,11 +55,15 @@ class SimpleUserService implements UserService {
     }
 
     @Override
-    public List<User> findPage(int currentPage) throws PaginationException {
-        if (currentPage < 1 || currentPage > getPagesAmount()) {
-            throw new PaginationException("There is no such page");
+    public List<User> findPage(int currentPage) {
+        List<User> foundPage;
+        if (currentPage < 1) {
+            foundPage = USER_DAO.findPage(1);
+        } else if (currentPage > getPagesAmount()) {
+            foundPage = USER_DAO.findPage(getPagesAmount());
+        } else {
+            foundPage = USER_DAO.findPage(currentPage);
         }
-        final List<User> foundPage = USER_DAO.findPage(currentPage);
         logger.info(String.format("Page of users number %s was found", currentPage));
         return foundPage;
     }

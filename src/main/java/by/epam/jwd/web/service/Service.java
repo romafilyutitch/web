@@ -9,7 +9,7 @@ public interface Service<T extends DbEntity> {
 
     List<T> findAll();
 
-    List<T> findPage(int currentPage) throws PaginationException;
+    List<T> findPage(int currentPage);
 
     T findById(Long entityId);
 

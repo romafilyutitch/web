@@ -17,6 +17,7 @@ public enum CommandEnum {
     LOGIN( LoginCommand.getInstance(), UserRole.UNAUTHORIZED),
     LOGOUT(LogoutCommand.getInstance(), UserRole.READER, UserRole.ADMIN, UserRole.LIBRARIAN),
     REGISTER(RegisterCommand.getInstance(), UserRole.UNAUTHORIZED),
+    READ_BOOKS(ReadBooksCommand.getInstance(), UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
     FIND_BOOK_BY_NAME(FindBookByNameCommand.getInstance(), UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
     FIND_FICTION(FindFictionCommand.getInstance(), UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
     FIND_FANTASY(FindFantasyCommand.getInstance(), UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),

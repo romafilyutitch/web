@@ -6,24 +6,21 @@ import by.epam.jwd.web.service.ServiceFactory;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-public class MainCommand implements ActionCommand {
+public class ReadBooksCommand implements ActionCommand {
 
-    public static final String BOOKS = "books";
-    public static final String MAIN_JSP_PATH = "WEB-INF/jsp/main.jsp";
+    private ReadBooksCommand() {}
 
-    private MainCommand() {
-    }
-
-    public static MainCommand getInstance() {
+    public static ReadBooksCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        final List<Book> firstPage = ServiceFactory.getInstance().getBookService().findPage(1);
+        final int currentPageNumber = Integer.parseInt(request.getParameter("page"));
+        final List<Book> currentPage = ServiceFactory.getInstance().getBookService().findPage(currentPageNumber);
         final int pagesAmount = ServiceFactory.getInstance().getBookService().getPagesAmount();
-        request.setAttribute(BOOKS, firstPage);
-        request.setAttribute("currentPage", 1);
+        request.setAttribute("books", currentPage);
+        request.setAttribute("currentPage", currentPageNumber);
         request.setAttribute("pagesAmount", pagesAmount);
         return new CommandResult() {
             @Override
@@ -39,6 +36,6 @@ public class MainCommand implements ActionCommand {
     }
 
     private static class Singleton {
-        private static final MainCommand INSTANCE = new MainCommand();
+        private static final ReadBooksCommand INSTANCE = new ReadBooksCommand();
     }
 }

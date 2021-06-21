@@ -81,6 +81,15 @@ ${sessionScope.fail}
                     </c:if>
                 </div>
             </c:forEach>
+    <c:if test="${requestScope.currentPage ne 1}">
+        <a href="controller?command=read_books&page=${requestScope.currentPage - 1}">Previous</a>
+    </c:if>
+    <c:forEach begin="1" end="${requestScope.pagesAmount}" var="i">
+        <a href="controller?command=read_books&page=${i}">${i}</a>
+    </c:forEach>
+    <c:if test="${requestScope.currentPage lt requestScope.pagesAmount}">
+        <a href="controller?command=read_books&page=${requestScope.currentPage + 1}">Next</a>
+    </c:if>
 </c:if>
 </body>
 </html>

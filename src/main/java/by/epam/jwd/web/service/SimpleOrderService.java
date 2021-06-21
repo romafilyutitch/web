@@ -56,12 +56,15 @@ class SimpleOrderService implements OrderService {
     }
 
     @Override
-    public List<Order> findPage(int currentPage) throws PaginationException {
-        if (currentPage < 1 || currentPage > getPagesAmount()) {
-            logger.info("Trying to find orders page but page does not exist");
-            throw new PaginationException("There is no such page");
+    public List<Order> findPage(int currentPage) {
+        List<Order> foundPage;
+        if (currentPage < 1) {
+            foundPage = ORDER_DAO.findPage(1);
+        } else if (currentPage > getPagesAmount()) {
+            foundPage = ORDER_DAO.findPage(getPagesAmount());
+        } else {
+            foundPage = ORDER_DAO.findPage(currentPage);
         }
-        final List<Order> foundPage = ORDER_DAO.findPage(currentPage);
         logger.info(String.format("Page of orders number %d was found", currentPage));
         return foundPage;
     }
