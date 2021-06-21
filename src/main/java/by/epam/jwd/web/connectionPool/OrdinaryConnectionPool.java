@@ -11,6 +11,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Enumeration;
+import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -38,16 +39,17 @@ class OrdinaryConnectionPool implements ConnectionPool {
     private static final String COULD_NOT_REGISTER_DRIVER_MESSAGE = "Could not register driver";
     private static final String COULD_NOT_DEREGISTER_DRIVER_MESSAGE = "Could not deregister driver";
 
+    private static final Properties POOL_PROPERTIES = ConnectionPoolProperties.getConnectionPoolData();
 
-    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/librarydb?serverTimezone=GMT%2B8";
-    private static final String DATABASE_USERNAME = "root";
-    private static final String DATABASE_PASSWORD = "050399";
-    private static final int MINIMUM_POOL_SIZE = 10;
-    private static final int MAXIMUM_POOL_SIZE = 30;
-    private static final int RESIZE_QUANTITY = 5;
-    private static final int POOL_RESIZE_CHECK_DELAY_TIME = 1000;
-    private static final int POOL_RESIZE_CHECK_PERIOD_TIME = 5000;
-    private static final double RESIZE_FACTOR = 0.25;
+    private static final String DATABASE_URL = POOL_PROPERTIES.getProperty("url");
+    private static final String DATABASE_USERNAME = POOL_PROPERTIES.getProperty("user");
+    private static final String DATABASE_PASSWORD = POOL_PROPERTIES.getProperty("password");
+    private static final int MINIMUM_POOL_SIZE = Integer.parseInt(POOL_PROPERTIES.getProperty("minPoolSize"));
+    private static final int MAXIMUM_POOL_SIZE = Integer.parseInt(POOL_PROPERTIES.getProperty("maxPoolSize"));
+    private static final int RESIZE_QUANTITY = Integer.parseInt(POOL_PROPERTIES.getProperty("resizeQuantity"));
+    private static final int POOL_RESIZE_CHECK_DELAY_TIME = Integer.parseInt(POOL_PROPERTIES.getProperty("checkResizeDelayTime"));
+    private static final int POOL_RESIZE_CHECK_PERIOD_TIME = Integer.parseInt(POOL_PROPERTIES.getProperty("checkResizePeriodTime"));
+    private static final double RESIZE_FACTOR = Integer.parseInt(POOL_PROPERTIES.getProperty("resizeFactor"));
 
     private final BlockingQueue<Connection> freeConnectionsQueue = new ArrayBlockingQueue<>(MAXIMUM_POOL_SIZE);
     private final CopyOnWriteArraySet<Connection> takenConnections = new CopyOnWriteArraySet<>();
@@ -56,6 +58,7 @@ class OrdinaryConnectionPool implements ConnectionPool {
     private final PoolResizeTimerTask poolResizeTimerTask = new PoolResizeTimerTask();
 
     private OrdinaryConnectionPool() {
+
     }
 
     public static OrdinaryConnectionPool getInstance() {
