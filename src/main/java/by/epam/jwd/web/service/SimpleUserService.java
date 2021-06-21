@@ -59,7 +59,7 @@ class SimpleUserService implements UserService {
         List<User> foundPage;
         if (currentPage < 1) {
             foundPage = USER_DAO.findPage(1);
-        } else if (currentPage > getPagesAmount()) {
+        } else if (currentPage >= getPagesAmount()) {
             foundPage = USER_DAO.findPage(getPagesAmount());
         } else {
             foundPage = USER_DAO.findPage(currentPage);

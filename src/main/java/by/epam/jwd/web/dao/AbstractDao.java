@@ -28,7 +28,7 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     private static final String ENTITY_WAS_DELETED_MESSAGE = "Entity with id %d was deleted";
     private static final String COULD_NOT_DELETE_ENTITY_MESSAGE = "Could not delete entity with id %d";
     private static final String ENTITIES_BY_PREPARED_SQL_WAS_FOUND_MESSAGE = "Entities by prepared sql was found %s";
-    private static final String COULD_NOT_FIND_ENTITIES_BY_PREPARED_SQL_MESSAGE = "Entities by prepared sql was found %s";
+    private static final String COULD_NOT_FIND_ENTITIES_BY_PREPARED_SQL_MESSAGE = "Could not find entities by prepared sql was found %s";
     private static final String ALL_ENTITIES_WAS_FOUND_MESSAGE = "All entities was found";
     private static final String ALL_ENTITIES_WAS_NOT_FOUND_MESSAGE = "All entities was not found";
     private static final String ENTITIES_ON_PAGE_WAS_FOUND_MESSAGE = "Entities on page %d was found";
@@ -159,7 +159,7 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     @Override
     public int getPagesAmount() {
         int numberOfPages = getRowsAmount() / RECORDS_PER_PAGE;
-        if (numberOfPages % RECORDS_PER_PAGE > 0) {
+        if (numberOfPages == 0 || numberOfPages % RECORDS_PER_PAGE > 0) {
             numberOfPages++;
         }
         return numberOfPages;

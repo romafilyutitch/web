@@ -47,7 +47,6 @@ ${sessionScope.success}
 ${sessionScope.fail}
 </div>
 <div>
-<c:if test="${not empty sessionScope.user}">
     <form name="find" method="get" action="controller">
         <input type="hidden"  name="command"  value="find_book_by_name">
         <label>Book name <input type="text" required name="name"></label>
@@ -57,7 +56,6 @@ ${sessionScope.fail}
     <a href="controller?command=find_fantasy">FANTASY</a>
     <a href="controller?command=find_science">SCIENCE</a>
     <a href="controller?command=main">All books</a>
-</c:if>
 </div>
 <div>
     ${requestScope.findResult}
@@ -81,13 +79,13 @@ ${sessionScope.fail}
                     </c:if>
                 </div>
             </c:forEach>
-    <c:if test="${requestScope.currentPageNumber ne 1}">
+    <c:if test="${not empty requestScope.currentPageNumber and requestScope.currentPageNumber ne 1}">
         <a href="controller?command=main&page=${requestScope.currentPageNumber - 1}">Previous</a>
     </c:if>
     <c:forEach begin="1" end="${requestScope.pagesAmount}" var="i">
         <a href="controller?command=main&page=${i}">${i}</a>
     </c:forEach>
-    <c:if test="${requestScope.currentPageNumber lt requestScope.pagesAmount}">
+    <c:if test="${not empty requestScope.currentPageNumber and requestScope.currentPageNumber lt requestScope.pagesAmount}">
         <a href="controller?command=main&page=${requestScope.currentPageNumber + 1}">Next</a>
     </c:if>
 </c:if>

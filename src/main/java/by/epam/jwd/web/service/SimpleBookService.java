@@ -39,7 +39,7 @@ class SimpleBookService implements BookService {
         List<Book> foundPage;
         if (pageNumber < 1) {
             foundPage = BOOK_DAO.findPage(1);
-        } else if (pageNumber > getPagesAmount()) {
+        } else if (pageNumber >= getPagesAmount()) {
             foundPage = BOOK_DAO.findPage(getPagesAmount());
         } else {
             foundPage = BOOK_DAO.findPage(pageNumber);

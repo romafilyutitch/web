@@ -60,7 +60,7 @@ class SimpleOrderService implements OrderService {
         List<Order> foundPage;
         if (currentPage < 1) {
             foundPage = ORDER_DAO.findPage(1);
-        } else if (currentPage > getPagesAmount()) {
+        } else if (currentPage >= getPagesAmount()) {
             foundPage = ORDER_DAO.findPage(getPagesAmount());
         } else {
             foundPage = ORDER_DAO.findPage(currentPage);
