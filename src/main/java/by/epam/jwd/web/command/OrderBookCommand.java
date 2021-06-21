@@ -32,7 +32,7 @@ public class OrderBookCommand implements ActionCommand {
         final Order order = new Order(user, book);
         try {
             OrderValidator.getInstance().validate(order);
-            ServiceFactory.getInstance().getOrderService().registerBookOrder(order);
+            ServiceFactory.getInstance().getOrderService().register(order);
             final Book orderedBook = ServiceFactory.getInstance().getBookService().removeOneCopy(bookId);
             request.getSession().setAttribute("success", String.format("Book %s was ordered. See my orders page", orderedBook.getName()));
         } catch (ValidationException | RegisterException e) {

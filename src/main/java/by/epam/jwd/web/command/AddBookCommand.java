@@ -40,7 +40,7 @@ public class AddBookCommand implements ActionCommand {
         final Book book = new Book(name, new Author(author), genre, date, pages, description);
         try {
             BookValidator.getInstance().validate(book);
-            ServiceFactory.getInstance().getBookService().registerBook(book);
+            ServiceFactory.getInstance().getBookService().register(book);
             request.getSession().setAttribute("success", String.format("book %s was added", name));
         } catch (ValidationException | RegisterException e) {
             request.getSession().setAttribute("fail", e.getMessage());

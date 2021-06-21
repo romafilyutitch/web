@@ -18,7 +18,7 @@ public class DeleteOrderCommand implements ActionCommand {
         final Long orderId = Long.valueOf(request.getParameter("id"));
         final Order order = ServiceFactory.getInstance().getOrderService().findById(orderId);
         ServiceFactory.getInstance().getBookService().addOneCopy(order.getBook().getId());
-        ServiceFactory.getInstance().getOrderService().deleteOrder(orderId);
+        ServiceFactory.getInstance().getOrderService().delete(orderId);
         request.getSession().setAttribute("success", String.format("Order %d was deleted", orderId));
         return new CommandResult() {
             @Override

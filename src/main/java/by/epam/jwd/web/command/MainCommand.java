@@ -20,7 +20,7 @@ public class MainCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        final List<Book> all = ServiceFactory.getInstance().getBookService().findAllBooks();
+        final List<Book> all = ServiceFactory.getInstance().getBookService().findAll();
         request.setAttribute(BOOKS, all);
         return new CommandResult() {
             @Override

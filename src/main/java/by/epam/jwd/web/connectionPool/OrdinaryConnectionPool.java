@@ -39,7 +39,7 @@ class OrdinaryConnectionPool implements ConnectionPool {
     private static final String COULD_NOT_REGISTER_DRIVER_MESSAGE = "Could not register driver";
     private static final String COULD_NOT_DEREGISTER_DRIVER_MESSAGE = "Could not deregister driver";
 
-    private static final Properties POOL_PROPERTIES = ConnectionPoolProperties.getConnectionPoolData();
+    private static final Properties POOL_PROPERTIES = ConnectionPoolProperties.getInstance().getConnectionPoolData();
 
     private static final String DATABASE_URL = POOL_PROPERTIES.getProperty("url");
     private static final String DATABASE_USERNAME = POOL_PROPERTIES.getProperty("user");
@@ -49,7 +49,7 @@ class OrdinaryConnectionPool implements ConnectionPool {
     private static final int RESIZE_QUANTITY = Integer.parseInt(POOL_PROPERTIES.getProperty("resizeQuantity"));
     private static final int POOL_RESIZE_CHECK_DELAY_TIME = Integer.parseInt(POOL_PROPERTIES.getProperty("checkResizeDelayTime"));
     private static final int POOL_RESIZE_CHECK_PERIOD_TIME = Integer.parseInt(POOL_PROPERTIES.getProperty("checkResizePeriodTime"));
-    private static final double RESIZE_FACTOR = Integer.parseInt(POOL_PROPERTIES.getProperty("resizeFactor"));
+    private static final double RESIZE_FACTOR = Double.parseDouble(POOL_PROPERTIES.getProperty("resizeFactor"));
 
     private final BlockingQueue<Connection> freeConnectionsQueue = new ArrayBlockingQueue<>(MAXIMUM_POOL_SIZE);
     private final CopyOnWriteArraySet<Connection> takenConnections = new CopyOnWriteArraySet<>();

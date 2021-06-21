@@ -21,7 +21,7 @@ public class ShowBooksListCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        final List<Book> allBooks = ServiceFactory.getInstance().getBookService().findAllBooks();
+        final List<Book> allBooks = ServiceFactory.getInstance().getBookService().findAll();
         final Genre[] genres = Genre.values();
         request.setAttribute("genres", genres);
         request.setAttribute("books", allBooks);

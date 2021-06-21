@@ -20,7 +20,7 @@ public class ShowUsersListCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        final List<User> allUsers = ServiceFactory.getInstance().getUserService().findAllUsers();
+        final List<User> allUsers = ServiceFactory.getInstance().getUserService().findAll();
         request.setAttribute("users", allUsers);
         return new CommandResult() {
             @Override

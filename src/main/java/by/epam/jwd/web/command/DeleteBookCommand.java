@@ -24,7 +24,7 @@ public class DeleteBookCommand implements ActionCommand {
     public CommandResult execute(HttpServletRequest request) {
         final Long id = Long.valueOf(request.getParameter("id"));
         final Book book = ServiceFactory.getInstance().getBookService().findById(id);
-        ServiceFactory.getInstance().getBookService().deleteBook(id);
+        ServiceFactory.getInstance().getBookService().delete(id);
         request.getSession().setAttribute("success", String.format("book %s was deleted", book.getName()));
         return new CommandResult() {
             @Override

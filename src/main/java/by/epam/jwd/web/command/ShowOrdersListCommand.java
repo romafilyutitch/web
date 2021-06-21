@@ -20,7 +20,7 @@ public class ShowOrdersListCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        final List<Order> orders = ServiceFactory.getInstance().getOrderService().findAllOrders();
+        final List<Order> orders = ServiceFactory.getInstance().getOrderService().findAll();
         request.setAttribute("orders", orders);
         return new CommandResult() {
             @Override

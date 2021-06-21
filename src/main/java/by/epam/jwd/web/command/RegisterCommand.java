@@ -31,7 +31,7 @@ public class RegisterCommand implements ActionCommand {
         final User user = new User(login, password);
         try {
             UserValidator.getInstance().validate(user);
-            final User registeredUser = ServiceFactory.getInstance().getUserService().registerUser(user);
+            final User registeredUser = ServiceFactory.getInstance().getUserService().register(user);
             request.getSession().setAttribute("user", registeredUser);
             return new CommandResult() {
                 @Override

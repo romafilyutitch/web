@@ -21,7 +21,7 @@ public class DeleteUserCommand implements ActionCommand {
     @Override
     public CommandResult execute(HttpServletRequest request) {
         final Long id = Long.valueOf(request.getParameter("id"));
-        ServiceFactory.getInstance().getUserService().deleteUser(id);
+        ServiceFactory.getInstance().getUserService().delete(id);
         request.getSession().invalidate();
         return new CommandResult() {
             @Override
