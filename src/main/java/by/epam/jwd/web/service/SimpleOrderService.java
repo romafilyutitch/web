@@ -1,10 +1,7 @@
 package by.epam.jwd.web.service;
 
-import by.epam.jwd.web.dao.BookDao;
 import by.epam.jwd.web.dao.DAOFactory;
 import by.epam.jwd.web.dao.OrderDao;
-import by.epam.jwd.web.dao.UserDao;
-import by.epam.jwd.web.exception.PaginationException;
 import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.model.Order;
@@ -21,8 +18,18 @@ class SimpleOrderService implements OrderService {
     private static final Logger logger = LogManager.getLogger(SimpleOrderService.class);
 
     private static final OrderDao ORDER_DAO = DAOFactory.getInstance().getOrderDao();
-    private static final UserDao USER_DAO = DAOFactory.getInstance().getUserDao();
-    private static final BookDao BOOK_DAO = DAOFactory.getInstance().getBookDao();
+
+    private static final String ALL_ORDERS_WERE_FOUND_MESSAGE = "All orders were found";
+    private static final String NO_FREE_COPY_MESSAGE = "There is no free copy of ordered book %s";
+    private static final String ORDER_WAS_REGISTERED_MESSAGE = "Order was register %s";
+    private static final String PAGE_OF_ORDERS_WAS_FOUND_MESSAGE = "Page of orders number %d was found";
+    private static final String ORDER_WAS_APPROVED_MESSAGE = "Order %s was approved";
+    private static final String ORDER_WAS_DELETED_MESSAGE = "Order with id %d was deleted";
+    private static final String ORDER_WAS_RETURNED_MESSAGE = "Order was returned %s";
+    private static final String ORDERS_BY_READER_ID_WERE_FOUND_MESSAGE = "Orders by reader id %d was found";
+    private static final String ORDERS_BY_BOOK_WERE_FOUND_MESSAGE = "Orders by book id %d was found";
+    private static final String ORDER_BY_ID_WAS_NOT_FOUND_MESSAGE = "Saved order with id %d was not found";
+    private static final String ORDER_BY_ID_WAS_FOUND_MESSAGE = "Order by id was found %s";
 
     private SimpleOrderService() {
     }
@@ -34,15 +41,15 @@ class SimpleOrderService implements OrderService {
     @Override
     public List<Order> findAll() {
         final List<Order> foundAllOrders = ORDER_DAO.findAll();
-        logger.info("All orders was found");
+        logger.info(ALL_ORDERS_WERE_FOUND_MESSAGE);
         return foundAllOrders;
     }
 
     @Override
     public Order register(Order order) throws RegisterException {
         if (order.getBook().getCopiesAmount() == 0) {
-            logger.info("Trying to order book but there is no free copy");
-            throw new RegisterException("There is no free copy of this book");
+            logger.info(String.format(NO_FREE_COPY_MESSAGE, order.getBook().getName()));
+            throw new RegisterException(String.format(NO_FREE_COPY_MESSAGE, order.getBook().getName()));
         }
         final Subscription subscription = order.getUser().getSubscription();
         final Order savedOrder = ORDER_DAO.save(order);
@@ -51,7 +58,7 @@ class SimpleOrderService implements OrderService {
                 return ORDER_DAO.update(savedOrder.updateOrderStatus(Status.APPROVED));
             }
         }
-        logger.info(String.format("Order was register %s", order));
+        logger.info(String.format(ORDER_WAS_REGISTERED_MESSAGE, order));
         return savedOrder;
     }
 
@@ -65,7 +72,7 @@ class SimpleOrderService implements OrderService {
         } else {
             foundPage = ORDER_DAO.findPage(currentPage);
         }
-        logger.info(String.format("Page of orders number %d was found", currentPage));
+        logger.info(String.format(PAGE_OF_ORDERS_WAS_FOUND_MESSAGE, currentPage));
         return foundPage;
     }
 
@@ -78,35 +85,35 @@ class SimpleOrderService implements OrderService {
     public Order approveOrder(Long orderId) throws ServiceException {
         final Order order = findById(orderId);
         final Order approvedOrder = ORDER_DAO.update(order.updateOrderStatus(Status.APPROVED));
-        logger.info(String.format("Order %s was approved", approvedOrder));
+        logger.info(String.format(ORDER_WAS_APPROVED_MESSAGE, approvedOrder));
         return approvedOrder;
     }
 
     @Override
     public void delete(Long orderId) {
         ORDER_DAO.delete(orderId);
-        logger.info(String.format("Order with id %d was deleted", orderId));
+        logger.info(String.format(ORDER_WAS_DELETED_MESSAGE, orderId));
     }
 
     @Override
     public Order returnOrder(Long orderId) {
         final Order order = findById(orderId);
         final Order returnedOrder = ORDER_DAO.update(order.updateOrderStatus(Status.RETURNED));
-        logger.info(String.format("Order was returned %s", returnedOrder));
+        logger.info(String.format(ORDER_WAS_RETURNED_MESSAGE, returnedOrder));
         return returnedOrder;
     }
 
     @Override
     public List<Order> findByReaderId(Long readerId) {
         final List<Order> foundOrdersByReaderId = ORDER_DAO.findOrdersByUserId(readerId);
-        logger.info(String.format("Orders by reader id %d was found", readerId));
+        logger.info(String.format(ORDERS_BY_READER_ID_WERE_FOUND_MESSAGE, readerId));
         return foundOrdersByReaderId;
     }
 
     @Override
     public List<Order> findByBookId(Long bookId) {
         final List<Order> foundOrdersByBookId = ORDER_DAO.findOrdersByBookId(bookId);
-        logger.info(String.format("Orders by book id %d was found", bookId));
+        logger.info(String.format(ORDERS_BY_BOOK_WERE_FOUND_MESSAGE, bookId));
         return foundOrdersByBookId;
     }
 
@@ -114,11 +121,11 @@ class SimpleOrderService implements OrderService {
     public Order findById(Long orderId) {
         final Optional<Order> optionalBookOrder = ORDER_DAO.findById(orderId);
         if (!optionalBookOrder.isPresent()) {
-            logger.error(String.format("Saved order with id %d was not found", orderId));
-            throw new ServiceException(String.format("Saved order with id %d was not found", orderId));
+            logger.error(String.format(ORDER_BY_ID_WAS_NOT_FOUND_MESSAGE, orderId));
+            throw new ServiceException(String.format(ORDER_BY_ID_WAS_NOT_FOUND_MESSAGE, orderId));
         }
         final Order foundByIdOrder = optionalBookOrder.get();
-        logger.info(String.format("Order by id was found %s", foundByIdOrder));
+        logger.info(String.format(ORDER_BY_ID_WAS_FOUND_MESSAGE, foundByIdOrder));
         return foundByIdOrder;
     }
 
