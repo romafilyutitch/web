@@ -17,8 +17,16 @@ import java.util.Optional;
 
 public class MySQLUserDao extends AbstractDao<User> implements UserDao {
     private static final String TABLE_NAME = "user";
+    private static final String ID_COLUMN = "user.id";
+    private static final String LOGIN_COLUMN = "user.login";
+    private static final String PASSWORD_COLUMN = "user.password";
+    private static final String ROLE_NAME_COLUMN = "role.name";
+    private static final String SUBSCRIPTION_ID_COLUMN = "subscription.id";
+    private static final String SUBSCRIPTION_START_DATE_COLUMN = "subscription.start_date";
+    private static final String SUBSCRIPTION_END_DATE_COLUMN = "subscription.end_date";
 
-    private static final String FIND_ALL_SQL = "select user.id, user.login, user.password, role.name, subscription.id, subscription.start_date, subscription.end_date from user inner join role on user.role = role.id left outer join subscription on user.subscription = subscription.id";
+    private static final String FIND_ALL_SQL = "select user.id, user.login, user.password, role.name, subscription.id, subscription.start_date, subscription.end_date from user inner " +
+            "join role on user.role = role.id left outer join subscription on user.subscription = subscription.id";
     private static final String FIND_BY_ID_SQL = String.format("%s where user.id = ?", FIND_ALL_SQL);
     private static final String FIND_BY_LOGIN_SQL = String.format("%s where user.login = ?", FIND_ALL_SQL);
     private static final String FIND_BY_ROLE_SQL = String.format("%s where role.id = ?", FIND_ALL_SQL);
@@ -36,13 +44,13 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
 
     @Override
     protected User mapResultSet(ResultSet result) throws SQLException, DAOException {
-        final long id = result.getLong("user.id");
-        final String login = result.getString("user.login");
-        final String password = result.getString("user.password");
-        final UserRole role = UserRole.valueOf(result.getString("role.name"));
-        final long subscriptionId = result.getLong("subscription.id");
-        final LocalDate startDate = result.getObject("subscription.start_date", LocalDate.class);
-        final LocalDate endDate = result.getObject("subscription.end_date", LocalDate.class);
+        final long id = result.getLong(ID_COLUMN);
+        final String login = result.getString(LOGIN_COLUMN);
+        final String password = result.getString(PASSWORD_COLUMN);
+        final UserRole role = UserRole.valueOf(result.getString(ROLE_NAME_COLUMN));
+        final long subscriptionId = result.getLong(SUBSCRIPTION_ID_COLUMN);
+        final LocalDate startDate = result.getObject(SUBSCRIPTION_START_DATE_COLUMN, LocalDate.class);
+        final LocalDate endDate = result.getObject(SUBSCRIPTION_END_DATE_COLUMN, LocalDate.class);
         return new User(id, login, password, role, subscriptionId != 0 ? new Subscription(subscriptionId, startDate, endDate) : null);
     }
 

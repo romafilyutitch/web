@@ -15,8 +15,18 @@ import java.util.Optional;
 
 public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
     private static final String TABLE_NAME = "book";
+    private static final String BOOK_ID_COLUMN = "book.id";
+    private static final String BOOK_NAME_COLUMN = "book.name";
+    private static final String AUTHOR_ID_COLUMN = "author.id";
+    private static final String AUTHOR_NAME_COLUMN = "author.name";
+    private static final String GENRE_NAME_COLUMN = "genre.name";
+    private static final String BOOK_DATE_COLUMN = "book.date";
+    private static final String BOOK_PAGES_AMOUNT_COLUMN = "book.pages_amount";
+    private static final String BOOK_COPIES_AMOUNT_COLUMN = "book.copies_amount";
+    private static final String BOOK_DESCRIPTION_COLUMN = "book.description";
 
-    private static final String FIND_ALL_SQL = "select book.id, book.name, author.id, author.name, genre.name, book.date, book.pages_amount, book.copies_amount, book.description from book inner join author on book.author = author.id inner join genre on book.genre = genre.id";
+    private static final String FIND_ALL_SQL = "select book.id, book.name, author.id, author.name, genre.name, book.date, book.pages_amount, book.copies_amount, book.description from book " +
+            "inner join author on book.author = author.id inner join genre on book.genre = genre.id";
     private static final String FIND_BY_ID_SQL = String.format("%s where book.id = ?", FIND_ALL_SQL);
     private static final String FIND_BY_NAME_SQL = String.format("%s where book.name = ?", FIND_ALL_SQL);
     private static final String FIND_BY_AUTHOR_NAME_SQL = String.format("%s where author.name = ?", FIND_ALL_SQL);
@@ -35,15 +45,15 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
 
     @Override
     protected Book mapResultSet(ResultSet result) throws SQLException, DAOException {
-        final long id = result.getLong("book.id");
-        final String name = result.getString("book.name");
-        final long authorId = result.getLong("author.id");
-        final String authorName = result.getString("author.name");
-        final Genre genre = Genre.valueOf(result.getString("genre.name"));
-        final LocalDate date = result.getObject("book.date", LocalDate.class);
-        final int pagesAmount = result.getInt("book.pages_amount");
-        final int copiesAmount = result.getInt("book.copies_amount");
-        final String description = result.getString("book.description");
+        final long id = result.getLong(BOOK_ID_COLUMN);
+        final String name = result.getString(BOOK_NAME_COLUMN);
+        final long authorId = result.getLong(AUTHOR_ID_COLUMN);
+        final String authorName = result.getString(AUTHOR_NAME_COLUMN);
+        final Genre genre = Genre.valueOf(result.getString(GENRE_NAME_COLUMN));
+        final LocalDate date = result.getObject(BOOK_DATE_COLUMN, LocalDate.class);
+        final int pagesAmount = result.getInt(BOOK_PAGES_AMOUNT_COLUMN);
+        final int copiesAmount = result.getInt(BOOK_COPIES_AMOUNT_COLUMN);
+        final String description = result.getString(BOOK_DESCRIPTION_COLUMN);
         return new Book(id, name, new Author(authorId, authorName), genre, date, pagesAmount, copiesAmount, description);
     }
 

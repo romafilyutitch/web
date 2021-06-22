@@ -6,8 +6,11 @@ import by.epam.jwd.web.model.Author;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.StringJoiner;
 
 public class MySQLAuthorDao extends AbstractDao<Author> implements AuthorDao {
 
@@ -18,7 +21,7 @@ public class MySQLAuthorDao extends AbstractDao<Author> implements AuthorDao {
     private static final String FIND_ALL_SQL = "select id, name from author";
     private static final String FIND_BY_ID_SQL = String.format("%s where id = ?", FIND_ALL_SQL);
     private static final String FIND_BY_NAME_SQL = String.format("%s where name = ?", FIND_ALL_SQL);
-    private static final String SAVE_SQL = "insert into author (name) value (?)";
+    private static final String SAVE_SQL = "insert into author (%s) value (?)";
     private static final String UPDATE_SQL = "update author set name = ? where id = ?";
     private static final String DELETE_SQL = "delete from author where id = ?";
 
@@ -32,8 +35,8 @@ public class MySQLAuthorDao extends AbstractDao<Author> implements AuthorDao {
 
     @Override
     protected Author mapResultSet(ResultSet result) throws SQLException {
-        final long id = result.getLong("id");
-        final String name = result.getString("name");
+        final long id = result.getLong(ID_COLUMN);
+        final String name = result.getString(NAME_COLUMN);
         return new Author(id, name);
     }
 
