@@ -38,7 +38,6 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     private static final String COUNT_SQL_TEMPLATE = "select count(*) from %s";
     private static final int RECORDS_PER_PAGE = 5;
 
-    private final String tableName;
     private final String findAllSql;
     private final String findByIdSql;
     private final String findPageSql;
@@ -48,7 +47,6 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     private final String countSql;
 
     public AbstractDao(String tableName, String findAllSql, String findByIdSql, String saveSql, String updateSql, String deleteSql) {
-        this.tableName = tableName;
         this.findAllSql = findAllSql;
         this.saveSql = saveSql;
         this.updateSql = updateSql;
@@ -60,24 +58,34 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
 
     @Override
     public T save(T entity) {
-        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
-             PreparedStatement saveStatement = connection.prepareStatement(saveSql, Statement.RETURN_GENERATED_KEYS)) {
-            setSavePrepareStatementValues(entity, saveStatement);
-            saveStatement.executeUpdate();
-            try (ResultSet generatedKeyResultSet = saveStatement.getGeneratedKeys()) {
-                generatedKeyResultSet.next();
-                Long id = generatedKeyResultSet.getLong(GENERATED_KEY_COLUMN);
-                final Optional<T> optionalEntity = findById(id);
-                if (!optionalEntity.isPresent()) {
-                    logger.error(String.format(SAVED_ENTITY_WAS_NOT_FOUND_BY_ID_MESSAGE, entity));
-                    throw new DAOException(String.format(SAVED_ENTITY_WAS_NOT_FOUND_BY_ID_MESSAGE, entity));
+        long savedEntityId;
+        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection()) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement saveStatement = connection.prepareStatement(saveSql, Statement.RETURN_GENERATED_KEYS)) {
+                setSavePrepareStatementValues(entity, saveStatement);
+                saveStatement.executeUpdate();
+                connection.commit();
+                try (ResultSet generatedKeyResultSet = saveStatement.getGeneratedKeys()) {
+                    generatedKeyResultSet.first();
+                    savedEntityId = generatedKeyResultSet.getLong(GENERATED_KEY_COLUMN);
                 }
-                logger.info(String.format(ENTITY_WAS_SAVED_MESSAGE, entity));
-                return optionalEntity.get();
+            } catch (SQLException e) {
+                connection.rollback();
+                throw e;
+            } finally {
+                connection.setAutoCommit(true);
             }
         } catch (SQLException e) {
             logger.error(String.format(COULD_NOT_SAVE_ENTITY_MESSAGE, entity), e);
             throw new DAOException(String.format(COULD_NOT_SAVE_ENTITY_MESSAGE, entity), e);
+        }
+        Optional<T> savedEntity = findById(savedEntityId);
+        if (!savedEntity.isPresent()) {
+            logger.error(String.format(SAVED_ENTITY_WAS_NOT_FOUND_BY_ID_MESSAGE, entity));
+            throw new DAOException(String.format(SAVED_ENTITY_WAS_NOT_FOUND_BY_ID_MESSAGE, entity));
+        } else {
+            logger.info(String.format(ENTITY_WAS_SAVED_MESSAGE, entity));
+            return savedEntity.get();
         }
     }
 
@@ -107,10 +115,18 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
 
     @Override
     public T update(T entity) {
-        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
-             PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
-            setUpdatePreparedStatementValues(entity, updateStatement);
-            updateStatement.executeUpdate();
+        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection()) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
+                setUpdatePreparedStatementValues(entity, updateStatement);
+                updateStatement.executeUpdate();
+                connection.commit();
+            } catch (SQLException e) {
+                connection.rollback();
+                throw e;
+            } finally {
+                connection.setAutoCommit(true);
+            }
             logger.info(String.format(ENTITY_WAS_UPDATED_MESSAGE, entity));
             return entity;
         } catch (SQLException e) {
@@ -121,10 +137,18 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
 
     @Override
     public void delete(Long id) {
-        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
-             PreparedStatement deleteStatement = connection.prepareStatement(deleteSql)) {
-            deleteStatement.setLong(1, id);
-            deleteStatement.executeUpdate();
+        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection()) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement deleteStatement = connection.prepareStatement(deleteSql)) {
+                deleteStatement.setLong(1, id);
+                deleteStatement.executeUpdate();
+                connection.commit();
+            } catch (SQLException e) {
+                connection.rollback();
+                throw e;
+            } finally {
+                connection.setAutoCommit(true);
+            }
             logger.info(String.format(ENTITY_WAS_DELETED_MESSAGE, id));
         } catch (SQLException e) {
             logger.error(String.format(COULD_NOT_DELETE_ENTITY_MESSAGE, id), e);
