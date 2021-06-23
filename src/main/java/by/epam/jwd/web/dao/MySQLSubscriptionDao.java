@@ -8,7 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class MySQLSubscriptionDao extends AbstractDao<Subscription> implements SubscriptionDao {
     private static final String TABLE_NAME = "subscription";
@@ -16,17 +18,17 @@ public class MySQLSubscriptionDao extends AbstractDao<Subscription> implements S
     private static final String START_DATE_COLUMN = "start_date";
     private static final String END_DATE_COLUMN = "end_date";
 
-    private static final String FIND_ALL_SQL = "select id, start_date, end_date from subscription";
-    private static final String FIND_BY_ID_SQL = String.format("%s where id = ?", FIND_ALL_SQL);
-    private static final String FIND_BY_START_DATE_SQL = String.format("%s where start_date = ?", FIND_ALL_SQL);
-    private static final String FIND_BY_END_DATE_SQL = String.format("%s where end_date = ?", FIND_ALL_SQL);
-    private static final String FIND_IN_RANGE_SQL = String.format("%s where start_date >= ? and end_date <= ?", FIND_ALL_SQL);
-    private static final String SAVE_SQL = "insert into subscription (start_date, end_date) values (?, ?)";
-    private static final String UPDATE_SQL = "update subscription set start_date = ?, end_date = ? where id = ?";
-    private static final String DELETE_SQL = "delete from subscription where id = ?";
+    private static final List<String> COLUMNS = Arrays.asList(ID_COLUMN, START_DATE_COLUMN, END_DATE_COLUMN);
+
+    private final String findByStartDateSql;
+    private final String findByEndDateSql;
 
     private MySQLSubscriptionDao() {
-        super(TABLE_NAME, FIND_ALL_SQL, FIND_BY_ID_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
+        super(TABLE_NAME, COLUMNS);
+        final StringJoiner joiner = new StringJoiner(",");
+        COLUMNS.forEach(joiner::add);
+        findByStartDateSql = String.format(FIND_BY_COLUMN_SQL_TEMPLATE, joiner, TABLE_NAME, START_DATE_COLUMN);
+        findByEndDateSql = String.format(FIND_BY_COLUMN_SQL_TEMPLATE, joiner, TABLE_NAME, END_DATE_COLUMN);
     }
 
     public static MySQLSubscriptionDao getInstance() {
@@ -56,20 +58,12 @@ public class MySQLSubscriptionDao extends AbstractDao<Subscription> implements S
 
     @Override
     public List<Subscription> findByStartDate(LocalDate startDate) throws DAOException {
-        return findPreparedEntities(FIND_BY_START_DATE_SQL, preparedStatement -> preparedStatement.setObject(1, startDate));
+        return findPreparedEntities(findByStartDateSql, preparedStatement -> preparedStatement.setObject(1, startDate));
     }
 
     @Override
     public List<Subscription> findByEndDate(LocalDate endDate) throws DAOException {
-        return findPreparedEntities(FIND_BY_END_DATE_SQL, preparedStatement -> preparedStatement.setObject(1, endDate));
-    }
-
-    @Override
-    public List<Subscription> findInRange(LocalDate startDate, LocalDate endDate) throws DAOException {
-        return findPreparedEntities(FIND_IN_RANGE_SQL, preparedStatement -> {
-            preparedStatement.setObject(1, startDate);
-            preparedStatement.setObject(2, endDate);
-        });
+        return findPreparedEntities(findByEndDateSql, preparedStatement -> preparedStatement.setObject(1, endDate));
     }
 
     private static class Singleton {

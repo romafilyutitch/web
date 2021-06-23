@@ -10,33 +10,35 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.StringJoiner;
 
 public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
     private static final String TABLE_NAME = "book";
-    private static final String BOOK_ID_COLUMN = "book.id";
-    private static final String BOOK_NAME_COLUMN = "book.name";
-    private static final String AUTHOR_ID_COLUMN = "author.id";
-    private static final String AUTHOR_NAME_COLUMN = "author.name";
-    private static final String GENRE_NAME_COLUMN = "genre.name";
-    private static final String BOOK_DATE_COLUMN = "book.date";
-    private static final String BOOK_PAGES_AMOUNT_COLUMN = "book.pages_amount";
-    private static final String BOOK_COPIES_AMOUNT_COLUMN = "book.copies_amount";
-    private static final String BOOK_DESCRIPTION_COLUMN = "book.description";
+    private static final String ID_COLUMN = "id";
+    private static final String NAME_COLUMN = "name";
+    private static final String AUTHOR_COLUMN = "author";
+    private static final String GENRE_COLUMN = "genre";
+    private static final String DATE_COLUMN = "date";
+    private static final String PAGES_AMOUNT_COLUMN = "pages_amount";
+    private static final String COPIES_AMOUNT_COLUMN = "copies_amount";
+    private static final String DESCRIPTION_COLUMN = "description";
 
-    private static final String FIND_ALL_SQL = "select book.id, book.name, author.id, author.name, genre.name, book.date, book.pages_amount, book.copies_amount, book.description from book " +
-            "inner join author on book.author = author.id inner join genre on book.genre = genre.id";
-    private static final String FIND_BY_ID_SQL = String.format("%s where book.id = ?", FIND_ALL_SQL);
-    private static final String FIND_BY_NAME_SQL = String.format("%s where book.name = ?", FIND_ALL_SQL);
-    private static final String FIND_BY_AUTHOR_NAME_SQL = String.format("%s where author.name = ?", FIND_ALL_SQL);
-    private static final String FIND_BY_GENRE_NAME_SQL = String.format("%s where genre.id = ?", FIND_ALL_SQL);
-    private static final String SAVE_SQL = "insert into book (name, author, genre, date, pages_amount, copies_amount, description) value (?, ?, ?, ?, ?, ?)";
-    private static final String UPDATE_SQL = "update book set name = ?, author = ?, genre = ?, date = ?, pages_amount = ?, copies_amount = ?, description = ? where id = ?";
-    private static final String DELETE_SQL = "delete from book where id = ?";
+    private static final List<String> COLUMNS = Arrays.asList(ID_COLUMN, NAME_COLUMN, AUTHOR_COLUMN, GENRE_COLUMN, DATE_COLUMN, PAGES_AMOUNT_COLUMN, COPIES_AMOUNT_COLUMN, DESCRIPTION_COLUMN);
+
+    private final String findByNameSql;
+    private final String findByAuthorSql;
+    private final String findByGenreSql;
 
     private MySQLBookDao() {
-        super(TABLE_NAME, FIND_ALL_SQL, FIND_BY_ID_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
+        super(TABLE_NAME, COLUMNS);
+        final StringJoiner joiner = new StringJoiner(",");
+        COLUMNS.forEach(joiner::add);
+        findByNameSql = String.format(FIND_BY_COLUMN_SQL_TEMPLATE, joiner, TABLE_NAME, NAME_COLUMN);
+        findByAuthorSql = String.format(FIND_BY_COLUMN_SQL_TEMPLATE, joiner, TABLE_NAME, AUTHOR_COLUMN);
+        findByGenreSql = String.format(FIND_BY_COLUMN_SQL_TEMPLATE, joiner, TABLE_NAME, GENRE_COLUMN);
     }
 
     public static MySQLBookDao getInstance() {
@@ -45,16 +47,15 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
 
     @Override
     protected Book mapResultSet(ResultSet result) throws SQLException, DAOException {
-        final long id = result.getLong(BOOK_ID_COLUMN);
-        final String name = result.getString(BOOK_NAME_COLUMN);
-        final long authorId = result.getLong(AUTHOR_ID_COLUMN);
-        final String authorName = result.getString(AUTHOR_NAME_COLUMN);
-        final Genre genre = Genre.valueOf(result.getString(GENRE_NAME_COLUMN));
-        final LocalDate date = result.getObject(BOOK_DATE_COLUMN, LocalDate.class);
-        final int pagesAmount = result.getInt(BOOK_PAGES_AMOUNT_COLUMN);
-        final int copiesAmount = result.getInt(BOOK_COPIES_AMOUNT_COLUMN);
-        final String description = result.getString(BOOK_DESCRIPTION_COLUMN);
-        return new Book(id, name, new Author(authorId, authorName), genre, date, pagesAmount, copiesAmount, description);
+        final long id = result.getLong(ID_COLUMN);
+        final String name = result.getString(NAME_COLUMN);
+        final long authorId = result.getLong(AUTHOR_COLUMN);
+        final Genre genre = Genre.getInstance(result.getLong(GENRE_COLUMN));
+        final LocalDate date = result.getObject(DATE_COLUMN, LocalDate.class);
+        final int pagesAmount = result.getInt(PAGES_AMOUNT_COLUMN);
+        final int copiesAmount = result.getInt(COPIES_AMOUNT_COLUMN);
+        final String description = result.getString(DESCRIPTION_COLUMN);
+        return new Book(id, name, new Author(authorId), genre, date, pagesAmount, copiesAmount, description);
     }
 
     @Override
@@ -81,19 +82,19 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
     }
 
     @Override
-    public Optional<Book> findBookByName(String name) throws DAOException {
-        final List<Book> foundBooks = findPreparedEntities(FIND_BY_NAME_SQL, preparedStatement -> preparedStatement.setString(1, name));
+    public Optional<Book> findByName(String name) throws DAOException {
+        final List<Book> foundBooks = findPreparedEntities(findByNameSql, preparedStatement -> preparedStatement.setString(1, name));
         return foundBooks.stream().findAny();
     }
 
     @Override
-    public List<Book> findBooksByAuthorName(String authorName) throws DAOException {
-        return findPreparedEntities(FIND_BY_AUTHOR_NAME_SQL, preparedStatement -> preparedStatement.setString(1, authorName));
+    public List<Book> findByAuthorId(Long authorId) throws DAOException {
+        return findPreparedEntities(findByAuthorSql, preparedStatement -> preparedStatement.setLong(1, authorId));
     }
 
     @Override
-    public List<Book> findBooksByGenre(Genre genre) throws DAOException {
-        return findPreparedEntities(FIND_BY_GENRE_NAME_SQL, preparedStatement -> preparedStatement.setLong(1, genre.getId()));
+    public List<Book> findByGenreId(Long genreId) throws DAOException {
+        return findPreparedEntities(findByGenreSql, preparedStatement -> preparedStatement.setLong(1, genreId));
     }
 
     private static class Singleton {

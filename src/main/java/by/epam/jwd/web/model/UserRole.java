@@ -31,22 +31,13 @@ public enum UserRole implements DbEntity {
     }
 
 
-    public static UserRole getRoleById(Long id) {
+    public static UserRole getInstance(Long id) {
         for (UserRole userRole : values()) {
             if (userRole.getId().equals(id)) {
                 return userRole;
             }
         }
         throw new IllegalArgumentException("There is no role with that id");
-    }
-
-    public static UserRole getRoleByName(String name) {
-        for (UserRole userRole : values()) {
-            if (userRole.getName().equals(name)) {
-                return userRole;
-            }
-        }
-        throw new IllegalArgumentException("There is no rol with that id");
     }
 
     public UserRole promote() {

@@ -12,30 +12,30 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.StringJoiner;
 
 public class MySQLUserDao extends AbstractDao<User> implements UserDao {
     private static final String TABLE_NAME = "user";
-    private static final String ID_COLUMN = "user.id";
-    private static final String LOGIN_COLUMN = "user.login";
-    private static final String PASSWORD_COLUMN = "user.password";
-    private static final String ROLE_NAME_COLUMN = "role.name";
-    private static final String SUBSCRIPTION_ID_COLUMN = "subscription.id";
-    private static final String SUBSCRIPTION_START_DATE_COLUMN = "subscription.start_date";
-    private static final String SUBSCRIPTION_END_DATE_COLUMN = "subscription.end_date";
+    private static final String ID_COLUMN = "id";
+    private static final String LOGIN_COLUMN = "login";
+    private static final String PASSWORD_COLUMN = "password";
+    private static final String ROLE_COLUMN = "role";
+    private static final String SUBSCRIPTION_COLUMN = "subscription";
 
-    private static final String FIND_ALL_SQL = "select user.id, user.login, user.password, role.name, subscription.id, subscription.start_date, subscription.end_date from user inner " +
-            "join role on user.role = role.id left outer join subscription on user.subscription = subscription.id";
-    private static final String FIND_BY_ID_SQL = String.format("%s where user.id = ?", FIND_ALL_SQL);
-    private static final String FIND_BY_LOGIN_SQL = String.format("%s where user.login = ?", FIND_ALL_SQL);
-    private static final String FIND_BY_ROLE_SQL = String.format("%s where role.id = ?", FIND_ALL_SQL);
-    private static final String SAVE_SQL = "insert into user (login, password, role, subscription) value (?, ?, ?, ?)";
-    private static final String UPDATE_SQL = "update user set login = ?, password = ?, role = ?, subscription = ? where id = ?";
-    private static final String DELETE_SQL = "delete user where id = ?";
+    private static final List<String> COLUMNS = Arrays.asList(ID_COLUMN, LOGIN_COLUMN, PASSWORD_COLUMN, ROLE_COLUMN, SUBSCRIPTION_COLUMN);
+
+    private final String findByLoginSql;
+    private final String findByRoleSql;
 
     private MySQLUserDao() {
-        super(TABLE_NAME, FIND_ALL_SQL, FIND_BY_ID_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
+        super(TABLE_NAME, COLUMNS);
+        final StringJoiner joiner = new StringJoiner(",");
+        COLUMNS.forEach(joiner::add);
+        findByLoginSql = String.format(FIND_BY_COLUMN_SQL_TEMPLATE, joiner, TABLE_NAME, LOGIN_COLUMN);
+        findByRoleSql = String.format(FIND_BY_COLUMN_SQL_TEMPLATE, joiner, TABLE_NAME, ROLE_COLUMN);
     }
 
     public static MySQLUserDao getInstance() {
@@ -47,11 +47,9 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
         final long id = result.getLong(ID_COLUMN);
         final String login = result.getString(LOGIN_COLUMN);
         final String password = result.getString(PASSWORD_COLUMN);
-        final UserRole role = UserRole.valueOf(result.getString(ROLE_NAME_COLUMN));
-        final long subscriptionId = result.getLong(SUBSCRIPTION_ID_COLUMN);
-        final LocalDate startDate = result.getObject(SUBSCRIPTION_START_DATE_COLUMN, LocalDate.class);
-        final LocalDate endDate = result.getObject(SUBSCRIPTION_END_DATE_COLUMN, LocalDate.class);
-        return new User(id, login, password, role, subscriptionId != 0 ? new Subscription(subscriptionId, startDate, endDate) : null);
+        final UserRole role = UserRole.getInstance(result.getLong(ROLE_COLUMN));
+        final long subscriptionId = result.getLong(SUBSCRIPTION_COLUMN);
+        return new User(id, login, password, role, subscriptionId != 0 ? new Subscription(subscriptionId) : null);
     }
 
     @Override
@@ -81,13 +79,13 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
 
     @Override
     public Optional<User> findUserByLogin(String login) throws DAOException {
-        final List<User> foundUsers = findPreparedEntities(FIND_BY_LOGIN_SQL, preparedStatement -> preparedStatement.setString(1, login));
+        final List<User> foundUsers = findPreparedEntities(findByLoginSql, preparedStatement -> preparedStatement.setString(1, login));
         return foundUsers.stream().findAny();
     }
 
     @Override
     public List<User> findUsersByRole(UserRole role) throws DAOException {
-        return findPreparedEntities(FIND_BY_ROLE_SQL, preparedStatement -> preparedStatement.setLong(1, role.getId()));
+        return findPreparedEntities(findByRoleSql, preparedStatement -> preparedStatement.setLong(1, role.getId()));
     }
 
     private static class Singleton {

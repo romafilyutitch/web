@@ -47,17 +47,20 @@
     </div>
 </c:if>
 <form action="controller" method="post">
-    <input type="text" name="name">
-    <input type="text" name="author">
-    <select name="genre" required >
-        <c:forEach var="genre" items="${requestScope.genres}">
-            <option value="${genre}">${genre}</option>
-        </c:forEach>
-    </select>
-    <input type="date" name="date">
-    <input type="number" name="pages_amount">
-    <input type="text" name="description">
-    <input type="submit" value="add new book">
+    <input type="hidden" name="command" value="add_book">
+    <label>Name<input type="text" required name="name"></label>
+    <label>Author<input type="text" required name="author"></label>
+    <label>Genre
+        <select name="genre" required >
+            <c:forEach var="genre" items="${requestScope.genres}">
+                <option value="${genre}">${genre}</option>
+            </c:forEach>
+        </select>
+    </label>
+    <label>Date<input type="date" required name="date"></label>
+    <label>Pages<input type="number" required name="pages"></label>
+    <label>Description<input type="text" required name="description"></label>
+    <input type="submit" required value="add new book">
 </form>
 <a href="controller?command=main">Main page</a>
 </body>

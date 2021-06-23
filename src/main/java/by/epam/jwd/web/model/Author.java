@@ -11,6 +11,10 @@ public class Author implements DbEntity {
         this.name = name;
     }
 
+    public Author(Long id) {
+        this(id, null);
+    }
+
     public Author(String name) {
         this(null, name);
     }

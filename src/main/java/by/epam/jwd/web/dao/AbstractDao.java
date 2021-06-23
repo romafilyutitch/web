@@ -15,6 +15,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.StringJoiner;
 
 public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     private static final Logger logger = LogManager.getLogger(AbstractDao.class);
@@ -34,8 +35,14 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     private static final String ENTITIES_ON_PAGE_WAS_FOUND_MESSAGE = "Entities on page %d was found";
     private static final String COULD_NOT_FIND_NUMBER_OF_ROWS_MESSAGE = "Could not find number of rows";
 
-    private static final String FIND_PAGE_SQL_TEMPLATE = "%s limit ?, ?";
+    private static final String FIND_ALL_SQL_TEMPLATE = "select %s from %s";
+    protected static final String FIND_BY_COLUMN_SQL_TEMPLATE = "select %s from %s where %s = ?";
+    private static final String FIND_PAGE_SQL_TEMPLATE = "select %s from %s limit ?, ?";
+    private static final String SAVE_SQL_TEMPLATE = "insert into %s %s values %s";
+    private static final String UPDATE_SQL_TEMPLATE = "update %s set %s where %s = ?";
+    private static final String DELETE_SQL_TEMPLATE = "delete from %s where %s = ?";
     private static final String COUNT_SQL_TEMPLATE = "select count(*) from %s";
+
     private static final int RECORDS_PER_PAGE = 5;
 
     private final String findAllSql;
@@ -46,14 +53,46 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     private final String updateSql;
     private final String countSql;
 
-    public AbstractDao(String tableName, String findAllSql, String findByIdSql, String saveSql, String updateSql, String deleteSql) {
-        this.findAllSql = findAllSql;
-        this.saveSql = saveSql;
-        this.updateSql = updateSql;
-        this.deleteSql = deleteSql;
-        this.findByIdSql = findByIdSql;
-        this.findPageSql = String.format(FIND_PAGE_SQL_TEMPLATE, findAllSql);
+    public AbstractDao(String tableName, List<String> columns) {
+        final String id = columns.get(0);
+        final String findAllColumns = buildFindAllColumns(columns);
+        final String saveColumns = buildSaveColumns(columns);
+        final String questionMarks = buildQuestionMarks(columns);
+        final String updateColumns = buildUpdateColumns(columns);
+        this.findAllSql = String.format(FIND_ALL_SQL_TEMPLATE, findAllColumns, tableName);
+        this.findByIdSql = String.format(FIND_BY_COLUMN_SQL_TEMPLATE, findAllColumns, tableName, id);
+        this.findPageSql = String.format(FIND_PAGE_SQL_TEMPLATE, findAllColumns, tableName);
+        this.saveSql = String.format(SAVE_SQL_TEMPLATE, tableName, saveColumns, questionMarks);
+        this.updateSql = String.format(UPDATE_SQL_TEMPLATE, tableName, updateColumns, id);
+        this.deleteSql = String.format(DELETE_SQL_TEMPLATE, tableName, id);
         this.countSql = String.format(COUNT_SQL_TEMPLATE, tableName);
+    }
+
+    private String buildUpdateColumns(List<String> columns) {
+        final StringJoiner joiner = new StringJoiner(" = ?,",""," = ?");
+        final List<String> subList = columns.subList(1, columns.size());
+        subList.forEach(joiner::add);
+        return joiner.toString();
+    }
+
+    private String buildFindAllColumns(List<String> columns) {
+        final StringJoiner joiner = new StringJoiner(",");
+        columns.forEach(joiner::add);
+        return joiner.toString();
+    }
+
+    private String buildSaveColumns(List<String> columns) {
+        final StringJoiner joiner = new StringJoiner(",", "(", ")");
+        final List<String> subList = columns.subList(1, columns.size());
+        subList.forEach(joiner::add);
+        return joiner.toString();
+    }
+
+    private String buildQuestionMarks(List<String> columns) {
+        final StringJoiner joiner = new StringJoiner(",", "(", ")");
+        final List<String> subList = columns.subList(1, columns.size());
+        subList.forEach(column -> joiner.add("?"));
+        return joiner.toString();
     }
 
     @Override

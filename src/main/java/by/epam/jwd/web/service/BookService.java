@@ -2,6 +2,7 @@ package by.epam.jwd.web.service;
 
 import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.exception.ServiceException;
+import by.epam.jwd.web.model.Author;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
 
@@ -18,6 +19,6 @@ public interface BookService extends Service<Book> {
 
     List<Book> findByGenre(Genre genre);
 
-    List<Book> findByAuthor(String author);
+    List<Book> findByAuthor(Author author);
 
 }

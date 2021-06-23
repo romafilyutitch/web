@@ -23,7 +23,11 @@ public class Order implements DbEntity {
     }
 
     public Order(User user, Book book) {
-        this(null, user,book, null, null);
+        this(user, book, LocalDate.now(), Status.ORDERED);
+    }
+
+    public Order(Long id) {
+        this(id, null, null, null, null);
     }
 
     @Override

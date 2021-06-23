@@ -9,11 +9,11 @@ public class Book implements DbEntity {
     private final Author author;
     private final Genre genre;
     private final LocalDate date;
-    private final int pagesAmount;
-    private final int copiesAmount;
+    private final Integer pagesAmount;
+    private final Integer copiesAmount;
     private final String description;
 
-    public Book(Long id, String name, Author author, Genre genre, LocalDate date, int pagesAmount, int copiesAmount, String description) {
+    public Book(Long id, String name, Author author, Genre genre, LocalDate date, Integer pagesAmount, Integer copiesAmount, String description) {
         this.id = id;
         this.name = name;
         this.author = author;
@@ -22,6 +22,10 @@ public class Book implements DbEntity {
         this.pagesAmount = pagesAmount;
         this.copiesAmount = copiesAmount;
         this.description = description;
+    }
+
+    public Book(Long id) {
+        this(id, null, null, null,null, null, null, null);
     }
 
     public Book(String name, Author author, Genre genre, LocalDate date, int pagesAmount, String description) {

@@ -15,12 +15,14 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 class SimpleUserService implements UserService {
     private static final Logger logger = LogManager.getLogger(SimpleUserService.class);
 
     private static final UserDao USER_DAO = DAOFactory.getInstance().getUserDao();
     private static final SubscriptionDao SUBSCRIPTION_DAO = DAOFactory.getInstance().getSubscriptionDao();
+
     private static final BCrypt.Hasher HASHER = BCrypt.withDefaults();
     private static final BCrypt.Verifyer VERIFYER = BCrypt.verifyer();
 
@@ -48,7 +50,8 @@ class SimpleUserService implements UserService {
 
     @Override
     public List<User> findAll() {
-        final List<User> allUsers = USER_DAO.findAll();
+        List<User> allUsers = USER_DAO.findAll();
+        allUsers = fillWithSubscription(allUsers);
         logger.info(ALL_USERS_WERE_FOUND_MESSAGE);
         return allUsers;
     }
@@ -79,6 +82,7 @@ class SimpleUserService implements UserService {
         } else {
             foundPage = USER_DAO.findPage(currentPage);
         }
+        foundPage = fillWithSubscription(foundPage);
         logger.info(String.format(PAGE_OF_USERS_WAS_FOUND_MESSAGE, currentPage));
         return foundPage;
     }
@@ -108,7 +112,8 @@ class SimpleUserService implements UserService {
             logger.error(String.format(USER_BY_ID_WAS_NOT_FOUND_MESSAGE, userId));
             throw new ServiceException(String.format(USER_BY_ID_WAS_NOT_FOUND_MESSAGE, userId));
         }
-        final User foundUser = optionalUser.get();
+        User foundUser = optionalUser.get();
+        foundUser = fillWithSubscription(foundUser);
         logger.info(String.format(USER_BY_ID_WAS_FOUND_MESSAGE, foundUser));
         return foundUser;
     }
@@ -165,6 +170,21 @@ class SimpleUserService implements UserService {
         final User updatedUser = USER_DAO.update(user.updatePassword(encryptedPassword));
         logger.info(String.format(PASSWORD_WAS_CHANGED_MESSAGE, updatedUser));
         return updatedUser;
+    }
+
+    private List<User> fillWithSubscription(List<User> users) {
+        return users.stream().map(this::fillWithSubscription).collect(Collectors.toList());
+    }
+
+    private User fillWithSubscription(User user) {
+        if (user.getSubscription() == null) {
+            return user;
+        }
+        final Optional<Subscription> optionalSubscription = SUBSCRIPTION_DAO.findById(user.getSubscription().getId());
+        if (!optionalSubscription.isPresent()) {
+            throw new ServiceException(String.format("Saved subscription with id %d was not found", user.getSubscription().getId()));
+        }
+        return user.updateSubscription(optionalSubscription.get());
     }
 
     private static class Singleton {

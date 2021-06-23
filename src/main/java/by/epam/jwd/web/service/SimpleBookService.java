@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 class SimpleBookService implements BookService {
     private static final Logger logger = LogManager.getLogger(SimpleBookService.class);
@@ -45,7 +46,8 @@ class SimpleBookService implements BookService {
 
     @Override
     public List<Book> findAll() {
-        final List<Book> allBooks = BOOK_DAO.findAll();
+        List<Book> allBooks = BOOK_DAO.findAll();
+        allBooks = fillWithAuthor(allBooks);
         logger.info(ALL_BOOKS_WERE_FOUND_MESSAGE);
         return allBooks;
     }
@@ -60,6 +62,7 @@ class SimpleBookService implements BookService {
         } else {
             foundPage = BOOK_DAO.findPage(pageNumber);
         }
+        foundPage = fillWithAuthor(foundPage);
         logger.info(String.format(PAGE_WAS_FOUND_MESSAGE, pageNumber));
         return foundPage;
     }
@@ -76,7 +79,8 @@ class SimpleBookService implements BookService {
             logger.error(String.format(SAVED_BOOK_WAS_NOT_FOUND_BY_ID_MESSAGE, id));
             throw new ServiceException(String.format(SAVED_BOOK_WAS_NOT_FOUND_BY_ID_MESSAGE, id));
         }
-        final Book foundBook = optionalBook.get();
+        Book foundBook = optionalBook.get();
+        foundBook = fillWithAuthor(foundBook);
         logger.info(String.format(BOOK_WAS_FOUND_BY_ID_MESSAGE, foundBook));
         return foundBook;
     }
@@ -101,7 +105,7 @@ class SimpleBookService implements BookService {
 
     @Override
     public Book register(Book book) throws RegisterException {
-        final Optional<Book> optionalBook = BOOK_DAO.findBookByName(book.getName());
+        final Optional<Book> optionalBook = BOOK_DAO.findByName(book.getName());
         if (optionalBook.isPresent()) {
             logger.info(String.format(BOOK_WITH_NAME_EXISTS_MESSAGE, book.getName()));
             throw new RegisterException(String.format(BOOK_WITH_NAME_EXISTS_MESSAGE, book.getName()));
@@ -126,27 +130,44 @@ class SimpleBookService implements BookService {
 
     @Override
     public List<Book> findByGenre(Genre genre) {
-        final List<Book> foundBooksByGenre = BOOK_DAO.findBooksByGenre(genre);
+        List<Book> foundBooksByGenre = BOOK_DAO.findByGenreId(genre.getId());
+        foundBooksByGenre = fillWithAuthor(foundBooksByGenre);
         logger.info(String.format(BOOKS_WERE_FOUND_BY_GENRE_MESSAGE, foundBooksByGenre.size(), genre));
         return foundBooksByGenre;
     }
 
     @Override
-    public List<Book> findByAuthor(String author) {
-        final List<Book> foundBooksByAuthor = BOOK_DAO.findBooksByAuthorName(author);
+    public List<Book> findByAuthor(Author author) {
+        List<Book> foundBooksByAuthor = BOOK_DAO.findByAuthorId(author.getId());
+        foundBooksByAuthor = fillWithAuthor(foundBooksByAuthor);
         logger.info(String.format(BOOKS_WERE_FOUND_BY_AUTHOR_MESSAGE, foundBooksByAuthor.size(), author));
         return foundBooksByAuthor;
     }
 
     @Override
     public Optional<Book> findByName(String name) {
-        final Optional<Book> optionalBook = BOOK_DAO.findBookByName(name);
+        Optional<Book> optionalBook = BOOK_DAO.findByName(name);
         if (optionalBook.isPresent()) {
             logger.info(String.format(BOOK_BY_NAME_WAS_FOUND_MESSAGE, optionalBook.get()));
+            Book foundBook = optionalBook.get();
+            foundBook = fillWithAuthor(foundBook);
+            optionalBook = Optional.of(foundBook);
         } else {
             logger.info(String.format(BOOK_BY_MAME_WAS_NOT_FOUND_MESSAGE, name));
         }
         return optionalBook;
+    }
+
+    private List<Book> fillWithAuthor(List<Book> books) {
+        return books.stream().map(this::fillWithAuthor).collect(Collectors.toList());
+    }
+
+    private Book fillWithAuthor(Book book) {
+        final Optional<Author> foundAuthor = AUTHOR_DAO.findById(book.getAuthor().getId());
+        if (!foundAuthor.isPresent()) {
+            throw new ServiceException(String.format("Saved author with id %d does not exist", book.getAuthor().getId()));
+        }
+        return book.updateAuthor(foundAuthor.get());
     }
 
     private static class Singleton {

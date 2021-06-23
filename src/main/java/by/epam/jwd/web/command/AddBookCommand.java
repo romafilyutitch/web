@@ -31,9 +31,9 @@ public class AddBookCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        final String name = request.getParameter("bookName");
-        final String author = request.getParameter("authorName");
-        final Genre genre = Genre.valueOf(request.getParameter("genreName"));
+        final String name = request.getParameter("name");
+        final String author = request.getParameter("author");
+        final Genre genre = Genre.valueOf(request.getParameter("genre"));
         final LocalDate date = LocalDate.parse(request.getParameter("date"));
         final int pages = Integer.parseInt(request.getParameter("pages"));
         final String description = request.getParameter("description");
