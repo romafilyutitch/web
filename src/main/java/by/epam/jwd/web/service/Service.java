@@ -1,6 +1,5 @@
 package by.epam.jwd.web.service;
 
-import by.epam.jwd.web.exception.PaginationException;
 import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.model.DbEntity;
 import java.util.List;

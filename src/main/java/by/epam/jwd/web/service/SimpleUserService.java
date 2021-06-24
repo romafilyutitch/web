@@ -7,6 +7,7 @@ import by.epam.jwd.web.dao.UserDao;
 import by.epam.jwd.web.exception.LoginException;
 import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.exception.ServiceException;
+import by.epam.jwd.web.exception.SubscriptionException;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.model.UserRole;
@@ -40,6 +41,7 @@ class SimpleUserService implements UserService {
     private static final String SUBSCRIPTION_WAS_SET_MESSAGE = "New subscription was set to user %s";
     private static final String LOGIN_WAS_CHANGED_MESSAGE = "New login was set to user %s";
     private static final String PASSWORD_WAS_CHANGED_MESSAGE = "New password was set to user %s";
+    private static final String SUBSCRIPTION_WAS_NOT_FOUND_MESSAGE = "Saved subscription with id %d was not found";
 
     private SimpleUserService() {
     }
@@ -63,7 +65,8 @@ class SimpleUserService implements UserService {
             logger.info(String.format(USER_WITH_LOGIN_DOES_NOT_EXIST_MESSAGE, user.getLogin()));
             throw new LoginException(String.format(USER_WITH_LOGIN_DOES_NOT_EXIST_MESSAGE, user.getLogin()));
         }
-        final User foundUser = optionalUser.get();
+        User foundUser = optionalUser.get();
+        foundUser = fillWithSubscription(foundUser);
         final BCrypt.Result verifyResult = VERIFYER.verify(user.getPassword().toCharArray(), foundUser.getPassword().toCharArray());
         if (!verifyResult.verified) {
             logger.info(WRONG_PASSWORD_WAS_ENTERED_MESSAGE);
@@ -142,7 +145,10 @@ class SimpleUserService implements UserService {
     }
 
     @Override
-    public User setSubscription(Long userId, Subscription newSubscription) {
+    public User setSubscription(Long userId, Subscription newSubscription) throws SubscriptionException {
+        if (newSubscription.getStartDate().isAfter(newSubscription.getEndDate())) {
+            throw new SubscriptionException("Start date is after end date");
+        }
         final User savedUser = findById(userId);
         final Subscription savedSubscription = SUBSCRIPTION_DAO.save(newSubscription);
         final User updatedUser = USER_DAO.update(savedUser.updateSubscription(savedSubscription));
@@ -182,7 +188,7 @@ class SimpleUserService implements UserService {
         }
         final Optional<Subscription> optionalSubscription = SUBSCRIPTION_DAO.findById(user.getSubscription().getId());
         if (!optionalSubscription.isPresent()) {
-            throw new ServiceException(String.format("Saved subscription with id %d was not found", user.getSubscription().getId()));
+            throw new ServiceException(String.format(SUBSCRIPTION_WAS_NOT_FOUND_MESSAGE, user.getSubscription().getId()));
         }
         return user.updateSubscription(optionalSubscription.get());
     }

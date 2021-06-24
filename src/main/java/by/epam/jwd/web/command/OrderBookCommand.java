@@ -1,12 +1,10 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.exception.RegisterException;
-import by.epam.jwd.web.exception.ValidationException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.service.ServiceFactory;
-import by.epam.jwd.web.validator.OrderValidator;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,11 +29,10 @@ public class OrderBookCommand implements ActionCommand {
         final User user = (User) request.getSession().getAttribute("user");
         final Order order = new Order(user, book);
         try {
-            OrderValidator.getInstance().validate(order);
             ServiceFactory.getInstance().getOrderService().register(order);
             final Book orderedBook = ServiceFactory.getInstance().getBookService().removeOneCopy(bookId);
             request.getSession().setAttribute("success", String.format("Book %s was ordered. See my orders page", orderedBook.getName()));
-        } catch (ValidationException | RegisterException e) {
+        } catch (RegisterException e) {
             request.getSession().setAttribute("fail", e.getMessage());
         }
         return new CommandResult() {

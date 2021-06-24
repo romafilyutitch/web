@@ -1,12 +1,10 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.exception.RegisterException;
-import by.epam.jwd.web.exception.ValidationException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Author;
 import by.epam.jwd.web.model.Genre;
 import by.epam.jwd.web.service.ServiceFactory;
-import by.epam.jwd.web.validator.BookValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
@@ -39,10 +37,9 @@ public class AddBookCommand implements ActionCommand {
         final String description = request.getParameter("description");
         final Book book = new Book(name, new Author(author), genre, date, pages, description);
         try {
-            BookValidator.getInstance().validate(book);
             ServiceFactory.getInstance().getBookService().register(book);
             request.getSession().setAttribute("success", String.format("book %s was added", name));
-        } catch (ValidationException | RegisterException e) {
+        } catch (RegisterException e) {
             request.getSession().setAttribute("fail", e.getMessage());
         }
         return new CommandResult() {

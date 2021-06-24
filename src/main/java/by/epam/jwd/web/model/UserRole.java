@@ -4,18 +4,16 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum UserRole implements DbEntity {
-    READER(1L, "READER"),
-    LIBRARIAN(2L, "LIBRARIAN"),
-    ADMIN(3L, "ADMIN"),
-    UNAUTHORIZED(4L, "UNAUTHORIZED");
+    READER(1L),
+    LIBRARIAN(2L),
+    ADMIN(3L),
+    UNAUTHORIZED(4L);
 
     public static final List<UserRole> LIST_OF_ROLES = Arrays.asList(values());
     private final Long id;
-    private final String name;
 
-    UserRole(Long id, String name) {
+    UserRole(Long id) {
         this.id = id;
-        this.name = name;
     }
 
     public static List<UserRole> rolesAsList() {
@@ -25,11 +23,6 @@ public enum UserRole implements DbEntity {
     public Long getId() {
         return id;
     }
-
-    public String getName() {
-        return name;
-    }
-
 
     public static UserRole getInstance(Long id) {
         for (UserRole userRole : values()) {

@@ -57,8 +57,8 @@
             </c:forEach>
         </select>
     </label>
-    <label>Date<input type="date" required name="date"></label>
-    <label>Pages<input type="number" required name="pages"></label>
+    <label>Date<input type="date" required max = "${sessionScope.currentDate}" name="date"></label>
+    <label>Pages<input type="number" required min = "1" step = "1" name="pages"></label>
     <label>Description<input type="text" required name="description"></label>
     <input type="submit" required value="add new book">
 </form>

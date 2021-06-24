@@ -6,7 +6,7 @@ public enum Status implements DbEntity {
     RETURNED(3L);
 
 
-    private Long id;
+    private final Long id;
 
     Status(Long id) {
         this.id = id;

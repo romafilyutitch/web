@@ -3,9 +3,9 @@ package by.epam.jwd.web.command;
 import by.epam.jwd.web.exception.LoginException;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.service.ServiceFactory;
-import by.epam.jwd.web.validator.UserValidator;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 public class ChangeLoginCommand implements ActionCommand {
 
@@ -18,10 +18,12 @@ public class ChangeLoginCommand implements ActionCommand {
     @Override
     public CommandResult execute(HttpServletRequest request) {
         final String login = request.getParameter("login");
-        User user = (User) request.getSession().getAttribute("user");
+        final HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
         try {
-            ServiceFactory.getInstance().getUserService().changeLogin(user.getId(), login);
-            request.getSession().setAttribute("success", "Login was changed");
+            final User userWithChangedLogin = ServiceFactory.getInstance().getUserService().changeLogin(user.getId(), login);
+            session.setAttribute("success", "Login was changed");
+            session.setAttribute("user", userWithChangedLogin);
             return new CommandResult() {
                 @Override
                 public String getResultPath() {

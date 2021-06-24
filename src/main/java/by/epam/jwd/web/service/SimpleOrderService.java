@@ -37,6 +37,8 @@ class SimpleOrderService implements OrderService {
     private static final String ORDERS_BY_BOOK_WERE_FOUND_MESSAGE = "Orders by book id %d was found";
     private static final String ORDER_BY_ID_WAS_NOT_FOUND_MESSAGE = "Saved order with id %d was not found";
     private static final String ORDER_BY_ID_WAS_FOUND_MESSAGE = "Order by id was found %s";
+    private static final String USER_WAS_NOT_FOUND_MESSAGE = "Saved user with id %d was not found";
+    private static final String BOOK_WAS_NOT_FOUND_MESSAGE = "Saved book with %d was not found";
 
     private SimpleOrderService() {
     }
@@ -156,7 +158,7 @@ class SimpleOrderService implements OrderService {
     private Order fillWithReader(Order order) {
         final Optional<User> optionalUser = USER_DAO.findById(order.getUser().getId());
         if (!optionalUser.isPresent()) {
-            throw new ServiceException(String.format("Saved user with id %d was not found", order.getUser().getId()));
+            throw new ServiceException(String.format(USER_WAS_NOT_FOUND_MESSAGE, order.getUser().getId()));
         }
         return order.updateUser(optionalUser.get());
     }
@@ -164,7 +166,7 @@ class SimpleOrderService implements OrderService {
     private Order fillWithBook(Order order) {
         final Optional<Book> optionalBook = BOOK_DAO.findById(order.getBook().getId());
         if (!optionalBook.isPresent()) {
-            throw new ServiceException(String.format("Saved book with %d was not found", order.getBook().getId()));
+            throw new ServiceException(String.format(BOOK_WAS_NOT_FOUND_MESSAGE, order.getBook().getId()));
         }
         return order.updateBook(optionalBook.get());
     }

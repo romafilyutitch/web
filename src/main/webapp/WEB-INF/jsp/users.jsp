@@ -13,7 +13,7 @@
 <c:if test="${not empty requestScope.users}">
     <c:forEach var="book" items="${requestScope.users}">
         <div> <c:if test="${sessionScope.user.id eq book.id}">YOU</c:if>
-        ${book.login} ,${book.role.name}, ${book.subscription}
+        ${book.login} ,${book.role}, ${book.subscription}
             <c:if test="${book.role ne UserRole.ADMIN}">
                 <form name="promote role" method="POST" action="controller">
                     <input type="hidden" name="command" value="promote_role">
@@ -30,8 +30,9 @@
             </c:if>
             <form action="controller" method="post">
                 <input type="hidden" name="command" value="set_subscription">
-                <label>Start date<input type="date" required name="start_date"></label>
-                <label>End date<input type="date" required name="end_date"></label>
+                <input type="hidden" name="id" value="${book.id}">
+                <label>Start date<input type="date" required min ="${sessionScope.currentDate}" name="start_date"></label>
+                <label>End date<input type="date" required min="${sessionScope.currentDate}" name="end_date"></label>
                 <input type="submit" value="Set subscription">
             </form>
         </div>

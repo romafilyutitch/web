@@ -1,11 +1,9 @@
 package by.epam.jwd.web.command;
 
-import by.epam.jwd.web.exception.ServiceException;
-import by.epam.jwd.web.exception.ValidationException;
+import by.epam.jwd.web.exception.SubscriptionException;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.service.ServiceFactory;
-import by.epam.jwd.web.validator.SubscriptionValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
@@ -32,10 +30,9 @@ public class SetSubscriptionCommand implements ActionCommand {
         final String endDate = request.getParameter("end_date");
         final Subscription subscription = new Subscription(LocalDate.parse(startDate), LocalDate.parse(endDate));
         try {
-            SubscriptionValidator.getInstance().validate(subscription);
             final User user = ServiceFactory.getInstance().getUserService().setSubscription(id, subscription);
             request.getSession().setAttribute("success", String.format("Subscription for user %s was set", user.getLogin()));
-        } catch (ValidationException e) {
+        } catch (SubscriptionException e) {
             request.getSession().setAttribute("fail", e.getMessage());
         }
         return new CommandResult() {

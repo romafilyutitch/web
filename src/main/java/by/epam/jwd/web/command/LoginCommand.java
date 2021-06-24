@@ -1,13 +1,12 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.exception.LoginException;
-import by.epam.jwd.web.exception.ValidationException;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.service.ServiceFactory;
-import by.epam.jwd.web.validator.UserValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
 
 public class LoginCommand implements ActionCommand {
 
@@ -30,10 +29,10 @@ public class LoginCommand implements ActionCommand {
         String password = request.getParameter("password");
         final User user = new User(login ,password);
         try {
-            UserValidator.getInstance().validate(user);
             final User savedUser = ServiceFactory.getInstance().getUserService().loginUser(user);
             final HttpSession session = request.getSession();
             session.setAttribute(USER, savedUser);
+            session.setAttribute("currentDate", LocalDate.now());
             return new CommandResult() {
                 @Override
                 public String getResultPath() {
@@ -45,7 +44,7 @@ public class LoginCommand implements ActionCommand {
                     return true;
                 }
             };
-        } catch (ValidationException | LoginException e) {
+        } catch (LoginException e) {
             request.setAttribute(ERROR, e.getMessage());
             return new CommandResult() {
                 @Override

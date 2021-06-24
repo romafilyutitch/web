@@ -2,6 +2,7 @@ package by.epam.jwd.web.service;
 
 import by.epam.jwd.web.exception.LoginException;
 import by.epam.jwd.web.exception.RegisterException;
+import by.epam.jwd.web.exception.SubscriptionException;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
 
@@ -15,7 +16,7 @@ public interface UserService extends Service<User> {
 
     User demoteUserRole(Long userId);
 
-    User setSubscription(Long userId, Subscription newSubscription);
+    User setSubscription(Long userId, Subscription newSubscription) throws SubscriptionException;
 
     User changeLogin(Long userId, String newLogin) throws LoginException;
 

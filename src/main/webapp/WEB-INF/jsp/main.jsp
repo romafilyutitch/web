@@ -49,7 +49,7 @@ ${sessionScope.fail}
 <div>
     <form name="find" method="get" action="controller">
         <input type="hidden"  name="command"  value="find_book_by_name">
-        <label>Book name <input type="text" required name="name"></label>
+        <label>Book name<input type="text" required name="name"></label>
         <input type="submit" name="find" value="find">
     </form>
     <a href="controller?command=find_fiction">FICTION</a>
@@ -62,22 +62,20 @@ ${sessionScope.fail}
 </div>
 <c:if test="${not empty requestScope.books }">
             <c:forEach var="book" items="${requestScope.books}">
-                <div>
-                        Name ${book.name} <br/>
-                        Author ${book.author.name}<br/>
-                        Genre ${book.genre}<br/>
-                        Date <fmt:parseDate var="parsed" value="${book.date}" type="date" pattern="yyyy-MM-dd"/><fmt:formatDate value="${parsed}"/><br/>
-                        Pages <fmt:formatNumber value="${book.pagesAmount}"/><br/>
-                        Copies <fmt:formatNumber value="${book.copiesAmount}"/><br/>
-                        Description ${book.description}<br/>
-                    <c:if test="${not empty sessionScope.user}">
-                        <form name="order" method="POST" action="controller">
-                            <input type="hidden" name="command" value="order_book">
-                            <input type="hidden" name="id" value="${book.id}">
-                            <input type="submit" value="Order book">
-                        </form>
-                    </c:if>
-                </div>
+                <c:if test="${book.copiesAmount ge 1}">
+                    <div>
+                        Name ${book.name}
+                        Author ${book.author.name}
+                        Genre ${book.genre}
+                        <c:if test="${not empty sessionScope.user}">
+                            <form name="order" method="POST" action="controller">
+                                <input type="hidden" name="command" value="order_book">
+                                <input type="hidden" name="id" value="${book.id}">
+                                <input type="submit" value="Order book">
+                            </form>
+                        </c:if>
+                    </div>
+                </c:if>
             </c:forEach>
     <c:if test="${not empty requestScope.currentPageNumber and requestScope.currentPageNumber ne 1}">
         <a href="controller?command=main&page=${requestScope.currentPageNumber - 1}">Previous</a>

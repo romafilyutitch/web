@@ -36,6 +36,7 @@ class SimpleBookService implements BookService {
     private static final String BOOK_BY_NAME_WAS_FOUND_MESSAGE = "Book by name was found %s";
     private static final String BOOK_BY_MAME_WAS_NOT_FOUND_MESSAGE = "Book by name %s was not found";
     private static final String ALL_BOOKS_WERE_FOUND_MESSAGE = "All books were found";
+    private static final String AUTHOR_WAS_NOT_FOUND_MESSAGE = "Saved author with id %d does not exist";
 
     private SimpleBookService() {
     }
@@ -165,7 +166,7 @@ class SimpleBookService implements BookService {
     private Book fillWithAuthor(Book book) {
         final Optional<Author> foundAuthor = AUTHOR_DAO.findById(book.getAuthor().getId());
         if (!foundAuthor.isPresent()) {
-            throw new ServiceException(String.format("Saved author with id %d does not exist", book.getAuthor().getId()));
+            throw new ServiceException(String.format(AUTHOR_WAS_NOT_FOUND_MESSAGE, book.getAuthor().getId()));
         }
         return book.updateAuthor(foundAuthor.get());
     }

@@ -1,11 +1,8 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.exception.RegisterException;
-import by.epam.jwd.web.exception.ValidationException;
 import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.service.ServiceFactory;
-import by.epam.jwd.web.validator.UserValidator;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -30,7 +27,6 @@ public class RegisterCommand implements ActionCommand {
         final String password = request.getParameter("password");
         final User user = new User(login, password);
         try {
-            UserValidator.getInstance().validate(user);
             final User registeredUser = ServiceFactory.getInstance().getUserService().register(user);
             request.getSession().setAttribute("user", registeredUser);
             return new CommandResult() {
@@ -44,7 +40,7 @@ public class RegisterCommand implements ActionCommand {
                     return true;
                 }
             };
-        } catch (ValidationException | RegisterException e) {
+        } catch (RegisterException e) {
             request.setAttribute(ERROR, e.getMessage());
             return new CommandResult() {
                 @Override

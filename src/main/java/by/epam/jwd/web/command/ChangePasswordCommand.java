@@ -1,8 +1,10 @@
 package by.epam.jwd.web.command;
 
+import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 public class ChangePasswordCommand implements ActionCommand {
 
@@ -16,8 +18,10 @@ public class ChangePasswordCommand implements ActionCommand {
     public CommandResult execute(HttpServletRequest request) {
         final String newPassword = request.getParameter("password");
         final Long userId = Long.valueOf(request.getParameter("id"));
-        ServiceFactory.getInstance().getUserService().changePassword(userId, newPassword);
-        request.getSession().setAttribute("success", "Password was changed");
+        final User userWithChangedPassword = ServiceFactory.getInstance().getUserService().changePassword(userId, newPassword);
+        final HttpSession session = request.getSession();
+        session.setAttribute("success", "Password was changed");
+        session.setAttribute("user", userWithChangedPassword);
         return new CommandResult() {
             @Override
             public String getResultPath() {
