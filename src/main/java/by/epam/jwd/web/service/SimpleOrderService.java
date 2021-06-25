@@ -63,7 +63,9 @@ class SimpleOrderService implements OrderService {
             throw new RegisterException(String.format(NO_FREE_COPY_MESSAGE, order.getBook().getName()));
         }
         final Subscription subscription = order.getUser().getSubscription();
-        final Order savedOrder = ORDER_DAO.save(order);
+        Order savedOrder = ORDER_DAO.save(order);
+        savedOrder = fillWithReader(savedOrder);
+        savedOrder = fillWithBook(savedOrder);
         if (subscription != null) {
             if (subscription.getStartDate().isBefore(LocalDate.now()) && subscription.getEndDate().isAfter(LocalDate.now())) {
                 return ORDER_DAO.update(savedOrder.updateOrderStatus(Status.APPROVED));

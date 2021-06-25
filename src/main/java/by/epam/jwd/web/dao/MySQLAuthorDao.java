@@ -24,7 +24,7 @@ public class MySQLAuthorDao extends AbstractDao<Author> implements AuthorDao {
         super(TABLE_NAME,COLUMNS);
         final StringJoiner joiner = new StringJoiner(",");
         COLUMNS.forEach(joiner::add);
-        findByNameSql = String.format(FIND_BY_COLUMN_SQL_TEMPLATE, joiner, TABLE_NAME, ID_COLUMN);
+        findByNameSql = String.format(FIND_BY_COLUMN_SQL_TEMPLATE, joiner, TABLE_NAME, NAME_COLUMN);
     }
 
     public static MySQLAuthorDao getInstance() {

@@ -28,6 +28,13 @@ public class Author implements DbEntity {
         return name;
     }
 
+    public Author updateName(String newName) {
+        if (newName == null) {
+            return this;
+        }
+        return new Author(id, newName);
+    }
+
 
     @Override
     public boolean equals(Object o) {

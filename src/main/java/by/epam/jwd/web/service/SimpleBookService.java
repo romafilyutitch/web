@@ -115,12 +115,14 @@ class SimpleBookService implements BookService {
         if (!optionalAuthor.isPresent()) {
             logger.info(String.format(AUTHOR_DOES_NOT_EXIST_MESSAGE, book.getAuthor()));
             final Author savedAuthor = AUTHOR_DAO.save(book.getAuthor());
-            return BOOK_DAO.save(book.updateAuthor(savedAuthor));
+            book = book.updateAuthor(savedAuthor);
         } else {
-            final Book savedBook = BOOK_DAO.save(book);
-            logger.info(String.format(BOOK_WAS_SAVED_MESSAGE, savedBook));
-            return savedBook;
+            book = book.updateAuthor(optionalAuthor.get());
         }
+        Book savedBook = BOOK_DAO.save(book);
+        savedBook = fillWithAuthor(savedBook);
+        logger.info(String.format(BOOK_WAS_SAVED_MESSAGE, savedBook));
+        return savedBook;
     }
 
     @Override
@@ -137,13 +139,6 @@ class SimpleBookService implements BookService {
         return foundBooksByGenre;
     }
 
-    @Override
-    public List<Book> findByAuthor(Author author) {
-        List<Book> foundBooksByAuthor = BOOK_DAO.findByAuthorId(author.getId());
-        foundBooksByAuthor = fillWithAuthor(foundBooksByAuthor);
-        logger.info(String.format(BOOKS_WERE_FOUND_BY_AUTHOR_MESSAGE, foundBooksByAuthor.size(), author));
-        return foundBooksByAuthor;
-    }
 
     @Override
     public Optional<Book> findByName(String name) {

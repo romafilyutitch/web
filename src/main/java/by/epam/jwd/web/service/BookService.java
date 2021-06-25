@@ -19,6 +19,5 @@ public interface BookService extends Service<Book> {
 
     List<Book> findByGenre(Genre genre);
 
-    List<Book> findByAuthor(Author author);
 
 }

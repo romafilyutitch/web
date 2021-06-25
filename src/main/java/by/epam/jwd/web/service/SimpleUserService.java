@@ -139,8 +139,7 @@ class SimpleUserService implements UserService {
 
     @Override
     public void delete(Long userId) {
-        final User savedUser = findById(userId);
-        USER_DAO.delete(savedUser.getId());
+        USER_DAO.delete(userId);
         logger.info(String.format(USER_WAS_DELETED_MESSAGE, userId));
     }
 
