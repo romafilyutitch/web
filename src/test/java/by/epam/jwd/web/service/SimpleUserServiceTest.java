@@ -19,6 +19,8 @@ import org.junit.Test;
 import java.time.LocalDate;
 import java.util.List;
 
+import static org.junit.Assert.*;
+
 public class SimpleUserServiceTest {
     private final SimpleUserService testService = SimpleUserService.getInstance();
     private User testUser = new User("123", "123", UserRole.READER);
@@ -49,20 +51,20 @@ public class SimpleUserServiceTest {
     @Test
     public void getInstance_mustReturnSameInstance() {
         final SimpleUserService otherInstance = SimpleUserService.getInstance();
-        Assert.assertEquals("Test instance must be equal to other get instance", testService, otherInstance);
+        assertEquals("Test instance must be equal to other get instance", testService, otherInstance);
     }
 
     @Test
     public void findAll_mustReturnNotNullList() {
         final List<User> allUsers = testService.findAll();
-        Assert.assertNotNull("All users list mus be not null", allUsers);
+        assertNotNull("All users list mus be not null", allUsers);
     }
 
     @Test
     public void loginUser_mustLogInExistUser() throws LoginException {
         final User loggedInUser = testService.loginUser(new User("123", "123", UserRole.READER));
-        Assert.assertNotNull("Logged in user instance must be not null", loggedInUser);
-        Assert.assertEquals("Logged in user must be equal to test user", loggedInUser, testUser);
+        assertNotNull("Logged in user instance must be not null", loggedInUser);
+        assertEquals("Logged in user must be equal to test user", loggedInUser, testUser);
     }
 
     @Test(expected = LoginException.class)
@@ -81,27 +83,27 @@ public class SimpleUserServiceTest {
         final int pagesAmount = testService.getPagesAmount();
         final List<User> foundPage = testService.findPage(pagesAmount);
         final List<User> allUsers = testService.findAll();
-        Assert.assertNotNull("Found users page list must be not null", foundPage);
-        Assert.assertTrue("All users list must contain users on found page", allUsers.containsAll(foundPage));
+        assertNotNull("Found users page list must be not null", foundPage);
+        assertTrue("All users list must contain users on found page", allUsers.containsAll(foundPage));
     }
 
     @Test
     public void getPagesAmount_mustReturnNotNegativePagesAmount() {
         final int pagesAmount = testService.getPagesAmount();
-        Assert.assertTrue("Pages amount must be positive or equal zero", pagesAmount >= 0);
+        assertTrue("Pages amount must be positive or equal zero", pagesAmount >= 0);
     }
 
     @Test
     public void register_mustSetIdToRegisteredUser() {
-        Assert.assertNotNull("Registered user must be not null", testUser);
-        Assert.assertNotNull("Registered user id must be not null", testUser.getId());
+        assertNotNull("Registered user must be not null", testUser);
+        assertNotNull("Registered user id must be not null", testUser.getId());
     }
 
     @Test
     public void findById_mustReturnSavedUserById() {
         final User foundUser = testService.findById(testUser.getId());
-        Assert.assertNotNull("Found user must be not null", foundUser);
-        Assert.assertEquals("Found user must be equal to test user", foundUser, testUser);
+        assertNotNull("Found user must be not null", foundUser);
+        assertEquals("Found user must be equal to test user", foundUser, testUser);
     }
 
     @Test(expected = ServiceException.class)
@@ -115,8 +117,8 @@ public class SimpleUserServiceTest {
         final User userWithPromotedRole = testService.promoteUserRole(testUser.getId());
         final UserRole promotedRole = userWithPromotedRole.getRole();
 
-        Assert.assertNotNull("User with promoted role must be not null", userWithPromotedRole);
-        Assert.assertTrue("Promoted role must be greater than or equal to start user role", promotedRole.compareTo(startUserRole) >= 0);
+        assertNotNull("User with promoted role must be not null", userWithPromotedRole);
+        assertTrue("Promoted role must be greater than or equal to start user role", promotedRole.compareTo(startUserRole) >= 0);
     }
 
     @Test
@@ -125,15 +127,15 @@ public class SimpleUserServiceTest {
         final User userWithDemotedRole = testService.demoteUserRole(testUser.getId());
         final UserRole demotedUserRole = userWithDemotedRole.getRole();
 
-        Assert.assertNotNull("User with demoted role must be not null", userWithDemotedRole);
-        Assert.assertTrue("Demoted role must be less than or equal to start user role", demotedUserRole.compareTo(startUserRole) <= 0);
+        assertNotNull("User with demoted role must be not null", userWithDemotedRole);
+        assertTrue("Demoted role must be less than or equal to start user role", demotedUserRole.compareTo(startUserRole) <= 0);
     }
 
     @Test
     public void delete_mustDeleteSavedUser() {
         testService.delete(testUser.getId());
         final List<User> all = testService.findAll();
-        Assert.assertFalse("All users list must not contain deleted user", all.contains(testUser));
+        assertFalse("All users list must not contain deleted user", all.contains(testUser));
     }
 
     @Test
@@ -141,7 +143,7 @@ public class SimpleUserServiceTest {
         final Subscription subscription = new Subscription(LocalDate.now(), LocalDate.now().plusDays(2));
         final User userWithNewSubscription = testService.setSubscription(testUser.getId(), subscription);
 
-        Assert.assertNotNull("User with subscription must be not null", userWithNewSubscription);
+        assertNotNull("User with subscription must be not null", userWithNewSubscription);
     }
 
     @Test(expected = SubscriptionException.class)
@@ -155,8 +157,8 @@ public class SimpleUserServiceTest {
         final String newLogin = "NEW LOGIN";
         final User userWithChangedLogin = testService.changeLogin(testUser.getId(), newLogin);
 
-        Assert.assertNotNull("User with changed login must be not null", userWithChangedLogin);
-        Assert.assertEquals("User with changed login must have new login", userWithChangedLogin.getLogin(), newLogin);
+        assertNotNull("User with changed login must be not null", userWithChangedLogin);
+        assertEquals("User with changed login must have new login", userWithChangedLogin.getLogin(), newLogin);
     }
 
     @Test(expected = LoginException.class)
@@ -171,7 +173,7 @@ public class SimpleUserServiceTest {
         final String newPassword = "NEW PASSWORD";
         final User userWithChangedPassword = testService.changePassword(testUser.getId(), newPassword);
 
-        Assert.assertNotNull("User with changed password must be not null", userWithChangedPassword);
-        Assert.assertNotEquals("new Password must be not equal to old password", userWithChangedPassword.getPassword(), oldPassword);
+        assertNotNull("User with changed password must be not null", userWithChangedPassword);
+        assertNotEquals("new Password must be not equal to old password", userWithChangedPassword.getPassword(), oldPassword);
     }
 }

@@ -1,0 +1,7 @@
+2021-06-26 20:06:50 INFO  OrdinaryConnectionPool - Connection pool was initialized
+2021-06-26 20:06:51 INFO  OrdinaryConnectionPool - Free connection was taken by.epam.jwd.web.connectionPool.ProxyConnection@a7e2d9d
+2021-06-26 20:06:51 INFO  OrdinaryConnectionPool - Free connection was taken by.epam.jwd.web.connectionPool.ProxyConnection@4cc76301
+2021-06-26 20:06:51 INFO  OrdinaryConnectionPool - Taken connection was returned by.epam.jwd.web.connectionPool.ProxyConnection@4cc76301
+2021-06-26 20:06:51 INFO  OrdinaryConnectionPool - Check connection pool state. Free connections = 9, taken connections = 1, total connections amount = 10
+2021-06-26 20:06:51 INFO  OrdinaryConnectionPool - Free connection was taken by.epam.jwd.web.connectionPool.ProxyConnection@a486d78
+2021-06-26 20:06:52 INFO  OrdinaryConnectionPool - Connection pool was destroyed

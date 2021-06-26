@@ -14,6 +14,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.Assert.*;
+
 
 public class MySQLSubscriptionDaoTest {
     private static final ConnectionPool POOL = ConnectionPool.getConnectionPool();
@@ -42,94 +44,91 @@ public class MySQLSubscriptionDaoTest {
     }
 
     @Test
-    public void save() {
-        final Optional<Subscription> optionalSubscription = testDao.findById(testSubscription.getId());
-        if (!optionalSubscription.isPresent()) {
-            Assert.fail("Saved subscription was not found by id");
-        }
-        Assert.assertEquals("test subscription not equal to found by subscription by id", testSubscription, optionalSubscription.get());
+    public void save_mustAssignIdToSavedSubscription() {
+        assertNotNull("Saved subscription must be not null", testSubscription);
+        assertNotNull("Saved subscription must have not null id", testSubscription.getId());
     }
 
     @Test
-    public void findAll() {
+    public void findAll_mustReturnNotNullList() {
         final List<Subscription> allSubscriptions = testDao.findAll();
-        Assert.assertNotNull("all subscriptions is null", allSubscriptions);
+        assertNotNull("All subscription list must be not null", allSubscriptions);
     }
 
     @Test
-    public void findById() {
+    public void findById_mustReturnSavedSubscription_whenSavedSubscriptionIdPassed() {
         final Optional<Subscription> optionalSubscription = testDao.findById(testSubscription.getId());
-        Assert.assertNotNull("Optional subscription is null", optionalSubscription);
+        assertNotNull("Returned value must be not null", optionalSubscription);
+        assertTrue("Optional subscription must be not empty", optionalSubscription.isPresent());
+        assertEquals("Found subscription must be equal to saved subscription", testSubscription, optionalSubscription.get());
     }
 
     @Test
-    public void update() {
-        Subscription subscription = new Subscription(LocalDate.now(), LocalDate.now());
-        subscription = testDao.save(subscription);
-        subscription = subscription.updateEndDate(LocalDate.now().plusDays(1));
-        final Subscription updatedSubscription = testDao.update(subscription);
-        Assert.assertNotNull("Updated subscription is null", updatedSubscription);
-        Assert.assertEquals("subscription and updated subscription are not equals", subscription, updatedSubscription);
-    }
-
-    @Test
-    public void delete() {
+    public void findById_mustReturnEmptyOptionalSubscription_whenThereIsNoSubscriptionWithPassedId() {
         testDao.delete(testSubscription.getId());
         final Optional<Subscription> optionalSubscription = testDao.findById(testSubscription.getId());
-        if (optionalSubscription.isPresent()) {
-            Assert.fail("Saved subscription was not deleted");
-        }
+        assertNotNull("Returned value must be not null", optionalSubscription);
+        assertFalse("Optional subsctipion must be empty", optionalSubscription.isPresent());
     }
 
     @Test
-    public void findPage() {
+    public void update_mustUpdateSavedSubscription() {
+        final LocalDate updatedEndDate = LocalDate.now().plusDays(1);
+        testSubscription = testSubscription.updateEndDate(updatedEndDate);
+        final Subscription updatedSubscription = testDao.update(testSubscription);
+        assertNotNull("Updated subscription must be not null", updatedSubscription);
+        assertEquals("Updated subscription must have passed end date",updatedEndDate,updatedSubscription.getEndDate());
+        assertEquals("Updated subscription must be equal to saved subscription", testSubscription, updatedSubscription);
+    }
+
+    @Test
+    public void delete_mustDeleteTestSubscription() {
+        testDao.delete(testSubscription.getId());
+        final List<Subscription> allSubscription = testDao.findAll();
+        assertFalse("All subscriptions list must not contain deleted subscription", allSubscription.contains(testSubscription));
+    }
+
+    @Test
+    public void findPage_mustReturnNotNullPage() {
         final int pagesAmount = testDao.getPagesAmount();
         final List<Subscription> page = testDao.findPage(pagesAmount);
-        Assert.assertNotNull("Found page is null", page);
+        assertNotNull("Found page must be not null", page);
     }
 
     @Test
-    public void getRowsAmount() {
+    public void getRowsAmount_mustReturnNotNegativeNumber() {
         final int rowsAmount = testDao.getRowsAmount();
-        if (rowsAmount < 0) {
-            Assert.fail("rows amount is negative");
-        }
+        assertTrue("Rows amount must be not negative", rowsAmount >= 0);
     }
 
     @Test
-    public void getPagesAmount() {
+    public void getPagesAmount_mustReturnNotNegativeNumber() {
         final int pagesAmount = testDao.getPagesAmount();
-        if (pagesAmount < 0) {
-            Assert.fail("pages amount is negative");
-        }
+        assertTrue("Pages amount must be not negative", pagesAmount >= 0);
     }
 
     @Test
-    public void getInstance() {
+    public void getInstance_mustReturnSameInstanceAsTestDao() {
         final MySQLSubscriptionDao instance = MySQLSubscriptionDao.getInstance();
-        Assert.assertNotNull("Instance is null", instance);
-        Assert.assertEquals("test subscription dao is not equal to instance", testDao, instance);
+        assertNotNull("Returned instance must be not null", instance);
+        assertSame("Returned instance must be same as testDao", testDao, instance);
     }
 
     @Test
-    public void findByStartDate() {
+    public void findByStartDate_mustReturnListOfSubscriptionsWithSpecifiedStartDate() {
         final List<Subscription> subscriptionsByStartDate = testDao.findByStartDate(testSubscription.getStartDate());
-        Assert.assertNotNull("subscriptions list is null", subscriptionsByStartDate);
-        for (Subscription subscription : subscriptionsByStartDate) {
-            if (!subscription.getStartDate().isEqual(testSubscription.getStartDate())) {
-                Assert.fail("Start date in subscription is not equal to specified start date");
-            }
+        assertNotNull("Subscriptions list must be not null", subscriptionsByStartDate);
+        for (Subscription foundSubscription : subscriptionsByStartDate) {
+            assertEquals("Found subscription must have passed start date", testSubscription.getStartDate(), foundSubscription.getStartDate());
         }
     }
 
     @Test
-    public void findByEndDate() {
+    public void findByEndDate_mustReturnListOfSubscriptionsWithSpecifiedEndDate() {
         final List<Subscription> subscriptionsByEndDate = testDao.findByEndDate(testSubscription.getEndDate());
-        Assert.assertNotNull("subscriptions list is null", subscriptionsByEndDate);
+        assertNotNull("Subscriptions list must be not null", subscriptionsByEndDate);
         for (Subscription subscription : subscriptionsByEndDate) {
-            if (!subscription.getEndDate().isEqual(testSubscription.getEndDate())) {
-                Assert.fail("End date in subscription is not equal to specified end date");
-            }
+            assertEquals("Found subscription must have passed end date", testSubscription.getEndDate(), subscription.getEndDate());
         }
     }
 }

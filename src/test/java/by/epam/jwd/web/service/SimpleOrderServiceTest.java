@@ -51,81 +51,88 @@ public class SimpleOrderServiceTest {
     @Test
     public void getInstance_mustReturnSameInstance() {
         final SimpleOrderService instance = SimpleOrderService.getInstance();
-        Assert.assertEquals("Test order service must be equal to get instance", instance, testService);
+        assertEquals("Test order service must be equal to get instance", instance, testService);
     }
 
     @Test
     public void findAll_mustReturnNotNullList() {
         final List<Order> allOrders = testService.findAll();
-        Assert.assertNotNull("All orders list must be not null", allOrders);
-        Assert.assertTrue("All orders list must contain saved order", allOrders.contains(testOrder));
+        assertNotNull("All orders list must be not null", allOrders);
+        assertTrue("All orders list must contain saved order", allOrders.contains(testOrder));
     }
 
     @Test
     public void register_mustReturnOrderWithAssignedIdStatusAndDate() {
-        Assert.assertNotNull("Registered order must be not null", testOrder);
-        Assert.assertNotNull("Registered order id must be not null", testOrder.getId());
-        Assert.assertTrue("Registered order status must be ordered or approved", testOrder.getStatus().equals(Status.ORDERED) || testOrder.getStatus().equals(Status.APPROVED));
-        Assert.assertEquals("Registered order date must be current date", LocalDate.now(), testOrder.getOrderDate());
+        assertNotNull("Registered order must be not null", testOrder);
+        assertNotNull("Registered order id must be not null", testOrder.getId());
+        assertTrue("Registered order status must be ordered or approved", testOrder.getStatus().equals(Status.ORDERED) || testOrder.getStatus().equals(Status.APPROVED));
+        assertEquals("Registered order date must be current date", LocalDate.now(), testOrder.getOrderDate());
     }
 
     @Test
     public void findPage_mustReturnNotNullPageList() {
         final int pagesAmount = testService.getPagesAmount();
         final List<Order> foundPage = testService.findPage(pagesAmount);
-        Assert.assertNotNull("Found page list must be not null", foundPage);
+        assertNotNull("Found page list must be not null", foundPage);
     }
 
     @Test
     public void getPagesAmount_mustReturnNotNegativeNumber() {
         final int pagesAmount = testService.getPagesAmount();
-        Assert.assertTrue("Pages amount must be not negative", pagesAmount >= 0);
+        assertTrue("Pages amount must be not negative", pagesAmount >= 0);
     }
 
     @Test
     public void approveOrder_mustChangeOrderStatusToApprovedStatus() {
         final Order approvedOrder = testService.approveOrder(testOrder.getId());
-        Assert.assertNotNull("Approved order must be not null", approvedOrder);
-        Assert.assertEquals("Approved order is must be equal to test order id",testOrder.getId(), approvedOrder.getId());
-        Assert.assertEquals("Approved order status must be changed to Approved", Status.APPROVED, approvedOrder.getStatus());
+        assertNotNull("Approved order must be not null", approvedOrder);
+        assertEquals("Approved order is must be equal to test order id",testOrder.getId(), approvedOrder.getId());
+        assertEquals("Approved order status must be changed to Approved", Status.APPROVED, approvedOrder.getStatus());
     }
 
     @Test
     public void delete_mustDeleteOrderWithSpecifiedId() {
         testService.delete(testOrder.getId());
         final List<Order> allOrders = testService.findAll();
-        Assert.assertFalse("All orders list must not contain deleted order", allOrders.contains(testOrder));
+        assertFalse("All orders list must not contain deleted order", allOrders.contains(testOrder));
     }
 
     @Test
     public void returnOrder_mustChangeStatusToReturnedStatus() {
         final Order returnedOrder = testService.returnOrder(testOrder.getId());
-        Assert.assertNotNull("Returned order must be not null", returnedOrder);
-        Assert.assertEquals("Returned order id must be equal to test order id", testOrder.getId(), returnedOrder.getId());
-        Assert.assertEquals("Returned order status must be changed", Status.RETURNED, returnedOrder.getStatus());
+        assertNotNull("Returned order must be not null", returnedOrder);
+        assertEquals("Returned order id must be equal to test order id", testOrder.getId(), returnedOrder.getId());
+        assertEquals("Returned order status must be changed", Status.RETURNED, returnedOrder.getStatus());
     }
 
     @Test
-    public void findByReaderId_mustReturnNotNullOptionalOrder() {
-        final List<Order> optionalOrder = testService.findByReaderId(testUser.getId());
-        Assert.assertNotNull("Returned value must be not null", optionalOrder);
+    public void findByReaderId_mustReturnNotNullOrdersList() {
+        final List<Order> foundOrders = testService.findByReaderId(testOrder.getUser().getId());
+        assertNotNull("Returned value must be not null", foundOrders);
+        for (Order foundOrder : foundOrders) {
+            assertEquals("Found order must have passed reader id", testOrder.getUser().getId(), foundOrder.getUser().getId());
+        }
     }
 
     @Test
-    public void findByBookId_mustReturnNotNullOptionalOrder() {
-        final List<Order> optionalOrder = testService.findByBookId(testBook.getId());
-        Assert.assertNotNull("Returned value must be not null", optionalOrder);
+    public void findByBookId_mustReturnNotNullOrdersList() {
+        final List<Order> foundOrders = testService.findByBookId(testOrder.getBook().getId());
+        assertNotNull("Returned value must be not null", foundOrders);
+        for (Order foundOrder : foundOrders) {
+            assertEquals("Found order must have passed book id", testOrder.getBook().getId(), foundOrder.getBook().getId());
+        }
     }
 
     @Test
     public void findById_mustReturnSavedOrderById() {
         final Order foundOrder = testService.findById(testOrder.getId());
-        Assert.assertNotNull("Found order must be not null", foundOrder);
-        Assert.assertEquals("Found order id must be equal to test order id", testOrder.getId(), foundOrder.getId());
+        assertNotNull("Found order must be not null", foundOrder);
+        assertEquals("Found order must be equal to saved order", testOrder, foundOrder);
     }
 
     @Test(expected = ServiceException.class)
     public void findById_mustThrowException_whenThereIsNoOrderWithSpecifiedId() {
-        testService.findById(0L);
+        testService.delete(testOrder.getId());
+        testService.findById(testOrder.getId());
     }
 }

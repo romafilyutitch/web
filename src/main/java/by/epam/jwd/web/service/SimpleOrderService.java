@@ -143,10 +143,11 @@ class SimpleOrderService implements OrderService {
             logger.error(String.format(ORDER_BY_ID_WAS_NOT_FOUND_MESSAGE, orderId));
             throw new ServiceException(String.format(ORDER_BY_ID_WAS_NOT_FOUND_MESSAGE, orderId));
         }
-        final Order foundByIdOrder = optionalBookOrder.get();
-
-        logger.info(String.format(ORDER_BY_ID_WAS_FOUND_MESSAGE, foundByIdOrder));
-        return foundByIdOrder;
+        Order foundOrder = optionalBookOrder.get();
+        foundOrder = fillWithReader(foundOrder);
+        foundOrder = fillWithBook(foundOrder);
+        logger.info(String.format(ORDER_BY_ID_WAS_FOUND_MESSAGE, foundOrder));
+        return foundOrder;
     }
 
     private List<Order> fillWithReader(List<Order> orders) {

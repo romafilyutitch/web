@@ -11,24 +11,24 @@ public class AppServiceFactoryTest {
     @Test
     public void getInstance_mustReturnSameInstance() {
         final AppServiceFactory instance = AppServiceFactory.getInstance();
-        Assert.assertSame("Get instance must be the same with testFactory", testFactory, instance);
+        assertSame("Get instance must be the same with testFactory", testFactory, instance);
     }
 
     @Test
     public void getBookService_mustReturnNotNullInstance() {
         final BookService bookService = testFactory.getBookService();
-        Assert.assertNotNull("Returned book service must be not null", bookService);
+        assertNotNull("Returned book service must be not null", bookService);
     }
 
     @Test
     public void getOrderService_mustReturnNotNullInstance() {
         final OrderService orderService = testFactory.getOrderService();
-        Assert.assertNotNull("Returned order service must be not null", orderService);
+        assertNotNull("Returned order service must be not null", orderService);
     }
 
     @Test
     public void getUserService_mustReturnNotNullInstance() {
         final UserService userService = testFactory.getUserService();
-        Assert.assertNotNull("Returned user service must be not null", userService);
+        assertNotNull("Returned user service must be not null", userService);
     }
 }

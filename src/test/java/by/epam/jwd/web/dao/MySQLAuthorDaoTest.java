@@ -13,108 +13,117 @@ import org.junit.Assert;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.Assert.*;
+
 public class MySQLAuthorDaoTest {
     private static final ConnectionPool POOL = ConnectionPool.getConnectionPool();
     private final MySQLAuthorDao testDao = MySQLAuthorDao.getInstance();
     private Author testAuthor = new Author("test");
 
     @BeforeClass
-    public static void setUp() throws ConnectionPoolInitializationException {
+    public static void initPool() throws ConnectionPoolInitializationException {
         POOL.init();
     }
 
     @AfterClass
-    public static void tearDown() {
+    public static void destroyPool() {
         POOL.destroy();
     }
 
     @Before
-    public void saveAuthor() {
+    public void setUp() {
         testAuthor = testDao.save(testAuthor);
     }
 
     @After
-    public void deleteAuthor() {
+    public void tearDown() {
         testDao.delete(testAuthor.getId());
     }
 
 
     @Test
-    public void save() {
-        Assert.assertNotNull(testAuthor);
-        final Optional<Author> optionalAuthor = testDao.findById(testAuthor.getId());
-        if (!optionalAuthor.isPresent()) {
-            Assert.fail("Saved author was not found by id");
-        }
-        Assert.assertEquals("Saved author not equals found author by id", testAuthor, optionalAuthor.get());
+    public void save_mustReturnAssignIdToSavedAuthor() {
+        assertNotNull("Returned value must be not null",  testAuthor);
+        assertNotNull("Saved author id must be not null",testAuthor.getId());
     }
 
     @Test
-    public void findAll() {
+    public void findAll_mustReturnNotNullList() {
         final List<Author> allAuthors = testDao.findAll();
-        Assert.assertNotNull("All authors list is null", allAuthors);
+        assertNotNull("All authors list must be not null", allAuthors);
     }
 
     @Test
-    public void findById() {
+    public void findById_mustReturnSavedAuthor_whenSavedAuthorIdPassed() {
         final Optional<Author> optionalAuthor = testDao.findById(testAuthor.getId());
-        Assert.assertNotNull("Optional author is null", optionalAuthor);
+        assertNotNull("Returned value must be not null", optionalAuthor);
+        assertTrue("Optional author must contain saved author", optionalAuthor.isPresent());
+        assertEquals("Found authro must be equal to saved author", testAuthor, optionalAuthor.get());
     }
 
     @Test
-    public void update() {
-        Author author = new Author("update");
-        author = testDao.save(author);
-        author = author.updateName("UPDATE");
-        final Author updatedAuthor = testDao.update(author);
-        testDao.delete(updatedAuthor.getId());
-        Assert.assertEquals("test author is not equals to updated author", author, updatedAuthor);
-    }
-
-    @Test
-    public void delete() {
+    public void findById_mustReturnEmptyAuthor_whenThereIsNotAuthorWithPassedId() {
         testDao.delete(testAuthor.getId());
         final Optional<Author> optionalAuthor = testDao.findById(testAuthor.getId());
-        if (optionalAuthor.isPresent()) {
-            Assert.fail("Author was not deleted");
-        }
+        assertNotNull("Returned value must be not null", optionalAuthor);
+        assertFalse("Optional author must be empty", optionalAuthor.isPresent());
     }
 
     @Test
-    public void findPage() {
+    public void update_mustUpdateAuthor() {
+        final String updateName = "UPDATE";
+        testAuthor = testAuthor.updateName(updateName);
+        final Author updatedAuthor = testDao.update(testAuthor);
+        assertNotNull("Returned value must be not null", updatedAuthor);
+        assertEquals("Updated author must have updated name", updateName, updatedAuthor.getName());
+        assertEquals("Updated author must be equal to saved author", testAuthor, updatedAuthor);
+    }
+
+    @Test
+    public void delete_mustDeleteAuthor() {
+        testDao.delete(testAuthor.getId());
+        final List<Author> allAuthors = testDao.findAll();
+        assertFalse("All authors list must not contain deleted author", allAuthors.contains(testAuthor));
+    }
+
+    @Test
+    public void findPage_mustReturnNotNullPage() {
         final int pagesAmount = testDao.getPagesAmount();
         final List<Author> page = testDao.findPage(pagesAmount);
-        Assert.assertNotNull("page is null", page);
+        assertNotNull("Found page must be not null", page);
     }
 
     @Test
-    public void getRowsAmount() {
+    public void getRowsAmount_mustReturnNotNegativeNumber() {
         final int rowsAmount = testDao.getRowsAmount();
-        if (rowsAmount == 0) {
-            Assert.fail("author was saved but rows amount was not changed");
-        }
+        assertTrue("Returned value must be not negative", rowsAmount >= 0);
     }
 
     @Test
-    public void getPagesAmount() {
+    public void getPagesAmount_musReturnNotNegativeNumber() {
         final int pagesAmount = testDao.getPagesAmount();
-        if (pagesAmount < 0) {
-            Assert.fail("Pages amount is negative");
-        }
+        assertTrue("Returned value mut be not negative", pagesAmount >= 0);
     }
 
     @Test
-    public void getInstance() {
+    public void getInstance_mustReturnSameObject() {
         final MySQLAuthorDao instance = MySQLAuthorDao.getInstance();
-        Assert.assertNotNull("Instance is null", instance);
-        Assert.assertEquals("test author dao is not equal to instance", testDao, instance);
+        assertSame("Returned instance must be same as testDao", testDao, instance);
     }
 
     @Test
-    public void getByName() {
+    public void getByName_mustReturnSavedAuthor_whenSavedAuthorNamePassed() {
         final Optional<Author> optionalAuthor = testDao.getByName(testAuthor.getName());
-        if (!optionalAuthor.isPresent()) {
-            Assert.fail("Saved author was not found by id");
-        }
+        assertNotNull("Returned value must be not null", optionalAuthor);
+        assertTrue("Optional author must be not empty", optionalAuthor.isPresent());
+        assertEquals("Found author must be equal to test author", testAuthor, optionalAuthor.get());
+    }
+
+    @Test
+    public void getByName_mustReturnEmptyAuthor_whenWrongNamePassed() {
+        testDao.delete(testAuthor.getId());
+        final Optional<Author> optionalAuthor = testDao.getByName(testAuthor.getName());
+        assertNotNull("Returned value must be not null", optionalAuthor);
+        assertFalse("Optional author must empty", optionalAuthor.isPresent());
     }
 }

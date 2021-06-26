@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import static org.junit.Assert.*;
+
 
 public class OrdinaryConnectionPoolTest {
     private static final OrdinaryConnectionPool TEST_POOL = OrdinaryConnectionPool.getInstance();
@@ -29,7 +31,7 @@ public class OrdinaryConnectionPoolTest {
     @Test
     public void takeFreeConnection_mustReturnNutNullConnection() {
         final Connection testConnection = TEST_POOL.takeFreeConnection();
-        Assert.assertNotNull( "Not null connection must be taken", testConnection);
+        assertNotNull( "Not null connection must be taken", testConnection);
     }
 
     @Test
@@ -52,7 +54,7 @@ public class OrdinaryConnectionPoolTest {
     @Test
     public void takeFreeConnection_mustReturnProxyConnection() {
         final Connection connection = TEST_POOL.takeFreeConnection();
-        Assert.assertTrue("Taken connection must be instance of ProxyConnection class", connection instanceof ProxyConnection);
+        assertTrue("Taken connection must be instance of ProxyConnection class", connection instanceof ProxyConnection);
     }
 
     @Test(expected = IllegalArgumentException.class)
