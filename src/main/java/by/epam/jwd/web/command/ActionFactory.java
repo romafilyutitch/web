@@ -6,7 +6,8 @@ public class ActionFactory {
 
     public static final String COMMAND_PARAMETER_NAME = "command";
 
-    private ActionFactory() {}
+    private ActionFactory() {
+    }
 
     public static ActionFactory getInstance() {
         return Singleton.INSTANCE;
@@ -25,7 +26,7 @@ public class ActionFactory {
         }
     }
 
-    private static class Singleton{
+    private static class Singleton {
         private static final ActionFactory INSTANCE = new ActionFactory();
     }
 }

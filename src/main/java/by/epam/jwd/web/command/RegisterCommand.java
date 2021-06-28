@@ -7,12 +7,14 @@ import by.epam.jwd.web.service.ServiceFactory;
 import javax.servlet.http.HttpServletRequest;
 
 public class RegisterCommand implements ActionCommand {
-    public static final String LOGIN = "login";
-    public static final String PASSWORD = "password";
-    public static final String USER = "user";
-    public static final String ERROR = "error";
-    public static final String REGISTER_JSP_PATH = "WEB-INF/jsp/register.jsp";
+    private static final String REQUEST_LOGIN_PARAMETER_KEY = "login";
+    private static final String REQUEST_PASSWORD_PARAMETER_KEY = "password";
+    private static final String REQUEST_ERROR_ATTRIBUTE_KEY = "error";
 
+    private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
+
+    private static final String SUCCESS_RESULT_PATH = "index.jsp";
+    private static final String ERROR_RESULT_PATH = "WEB-INF/jsp/register.jsp";
 
     private RegisterCommand() {
     }
@@ -23,16 +25,16 @@ public class RegisterCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        final String login = request.getParameter("login");
-        final String password = request.getParameter("password");
+        final String login = request.getParameter(REQUEST_LOGIN_PARAMETER_KEY);
+        final String password = request.getParameter(REQUEST_PASSWORD_PARAMETER_KEY);
         final User user = new User(login, password);
         try {
             final User registeredUser = ServiceFactory.getInstance().getUserService().register(user);
-            request.getSession().setAttribute("user", registeredUser);
+            request.getSession().setAttribute(SESSION_USER_ATTRIBUTE_KEY, registeredUser);
             return new CommandResult() {
                 @Override
                 public String getResultPath() {
-                    return "index.jsp";
+                    return SUCCESS_RESULT_PATH;
                 }
 
                 @Override
@@ -41,11 +43,11 @@ public class RegisterCommand implements ActionCommand {
                 }
             };
         } catch (RegisterException e) {
-            request.setAttribute(ERROR, e.getMessage());
+            request.setAttribute(REQUEST_ERROR_ATTRIBUTE_KEY, e.getMessage());
             return new CommandResult() {
                 @Override
                 public String getResultPath() {
-                    return "WEB-INF/jsp/register.jsp";
+                    return ERROR_RESULT_PATH;
                 }
 
                 @Override

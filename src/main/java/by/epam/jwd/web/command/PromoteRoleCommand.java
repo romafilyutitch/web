@@ -1,6 +1,5 @@
 package by.epam.jwd.web.command;
 
-import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.service.ServiceFactory;
 
@@ -8,9 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 
 public class PromoteRoleCommand implements ActionCommand {
 
-    public static final String ID = "id";
-    public static final String COMMAND_RESULT = "commandResult";
-    public static final String RESULT_MESSAGE = "role for user was promoted";
+    private static final String REQUEST_USER_ID_PARAMETER_KEY = "id";
+    private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
+    private static final String SUCCESS_MESSAGE = "Role for user %s was promoted";
+
+    private static final String RESULT_PATH = "index.jsp";
 
     private PromoteRoleCommand() {
     }
@@ -21,13 +22,13 @@ public class PromoteRoleCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        final Long id = Long.valueOf(request.getParameter("id"));
-        final User user = ServiceFactory.getInstance().getUserService().promoteUserRole(id);
-        request.getSession().setAttribute("success", String.format("Role for user %s was promoted", user.getLogin()));
+        final Long userId = Long.valueOf(request.getParameter(REQUEST_USER_ID_PARAMETER_KEY));
+        final User user = ServiceFactory.getInstance().getUserService().promoteUserRole(userId);
+        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, String.format(SUCCESS_MESSAGE, user.getLogin()));
         return new CommandResult() {
             @Override
             public String getResultPath() {
-                return "index.jsp";
+                return RESULT_PATH;
             }
 
             @Override

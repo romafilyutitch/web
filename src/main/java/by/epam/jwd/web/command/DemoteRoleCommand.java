@@ -1,6 +1,5 @@
 package by.epam.jwd.web.command;
 
-import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.service.ServiceFactory;
 
@@ -8,9 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 
 public class DemoteRoleCommand implements ActionCommand {
 
-    public static final String ID = "id";
-    public static final String COMMAND_RESULT = "commandResult";
-    public static final String RESULT_MESSAGE = "role for user was demoted";
+    private static final String REQUEST_USER_ID_PARAMETER_KEY = "id";
+
+    private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
+    private static final String SUCCESS_MESSAGE = "role for user %s was demoted";
+
+    private static final String RESULT_PATH = "index.jsp";
 
     private DemoteRoleCommand() {
     }
@@ -21,13 +23,13 @@ public class DemoteRoleCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        final Long id = Long.valueOf(request.getParameter("id"));
+        final Long id = Long.valueOf(request.getParameter(REQUEST_USER_ID_PARAMETER_KEY));
         final User user = ServiceFactory.getInstance().getUserService().demoteUserRole(id);
-        request.getSession().setAttribute("success", String.format("role for user %s was demoted", user.getLogin()));
+        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, String.format(SUCCESS_MESSAGE, user.getLogin()));
         return new CommandResult() {
             @Override
             public String getResultPath() {
-                return "index.jsp";
+                return RESULT_PATH;
             }
 
             @Override

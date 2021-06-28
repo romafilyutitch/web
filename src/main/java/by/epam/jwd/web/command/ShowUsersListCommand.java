@@ -8,8 +8,12 @@ import java.util.List;
 
 public class ShowUsersListCommand implements ActionCommand {
 
-    public static final String USERS = "users";
-    public static final String USERS_JSP_PATH = "WEB-INF/jsp/users.jsp";
+    private static final String REQUEST_PAGE_PARAMETER_KEY = "page";
+    private static final String REQUEST_USERS_ATTRIBUTE_KEY = "users";
+    private static final String REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY = "currentPageNumber";
+    private static final String REQUEST_PAGES_AMOUNT_ATTRIBUTE_KEY = "pagesAmount";
+
+    public static final String RESULT_PATH = "WEB-INF/jsp/users.jsp";
 
     private ShowUsersListCommand() {
     }
@@ -21,20 +25,20 @@ public class ShowUsersListCommand implements ActionCommand {
     @Override
     public CommandResult execute(HttpServletRequest request) {
         int currentPageNumber = 1;
-        final String pageParameter = request.getParameter("page");
+        final String pageParameter = request.getParameter(REQUEST_PAGE_PARAMETER_KEY);
         if (pageParameter != null) {
             currentPageNumber = Integer.parseInt(pageParameter);
         }
 
         final List<User> currentPage = ServiceFactory.getInstance().getUserService().findPage(currentPageNumber);
         final int pagesAmount = ServiceFactory.getInstance().getUserService().getPagesAmount();
-        request.setAttribute("users", currentPage);
-        request.setAttribute("currentPageNumber", currentPageNumber);
-        request.setAttribute("pagesAmount", pagesAmount);
+        request.setAttribute(REQUEST_USERS_ATTRIBUTE_KEY, currentPage);
+        request.setAttribute(REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY, currentPageNumber);
+        request.setAttribute(REQUEST_PAGES_AMOUNT_ATTRIBUTE_KEY, pagesAmount);
         return new CommandResult() {
             @Override
             public String getResultPath() {
-                return "WEB-INF/jsp/users.jsp";
+                return RESULT_PATH;
             }
 
             @Override

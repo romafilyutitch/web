@@ -9,8 +9,13 @@ import java.util.List;
 
 public class ShowBooksListCommand implements ActionCommand {
 
-    public static final String BOOKS = "books";
-    public static final String BOOKS_JSP_PATH = "WEB-INF/jsp/books.jsp";
+    private static final String REQUEST_PAGE_PARAMETER_KEY = "page";
+    private static final String REQUEST_GENRES_ATTRIBUTE_KEY = "genres";
+    private static final String REQUEST_BOOKS_ATTRIBUTE_KEY = "books";
+    private static final String REQUEST_PAGE_AMOUNT_ATTRIBUTE_KEY = "pagesAmount";
+    private static final String REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY = "currentPageNumber";
+
+    private static final String RESULT_PATH = "WEB-INF/jsp/books.jsp";
 
     private ShowBooksListCommand() {
     }
@@ -22,21 +27,21 @@ public class ShowBooksListCommand implements ActionCommand {
     @Override
     public CommandResult execute(HttpServletRequest request) {
         int currentPageNumber = 1;
-        final String pageParameter = request.getParameter("page");
+        final String pageParameter = request.getParameter(REQUEST_PAGE_PARAMETER_KEY);
         if (pageParameter != null) {
             currentPageNumber = Integer.parseInt(pageParameter);
         }
         final List<Book> currentPage = ServiceFactory.getInstance().getBookService().findPage(currentPageNumber);
         final int pagesAmount = ServiceFactory.getInstance().getBookService().getPagesAmount();
         final Genre[] genres = Genre.values();
-        request.setAttribute("genres", genres);
-        request.setAttribute("books", currentPage);
-        request.setAttribute("pagesAmount", pagesAmount);
-        request.setAttribute("currentPageNumber", currentPageNumber);
+        request.setAttribute(REQUEST_GENRES_ATTRIBUTE_KEY, genres);
+        request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, currentPage);
+        request.setAttribute(REQUEST_PAGE_AMOUNT_ATTRIBUTE_KEY, pagesAmount);
+        request.setAttribute(REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY, currentPageNumber);
         return new CommandResult() {
             @Override
             public String getResultPath() {
-                return "WEB-INF/jsp/books.jsp";
+                return RESULT_PATH;
             }
 
             @Override

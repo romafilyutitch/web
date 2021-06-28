@@ -9,7 +9,18 @@ import javax.servlet.http.HttpSession;
 
 public class ChangeLoginCommand implements ActionCommand {
 
-    private ChangeLoginCommand() {}
+    private static final String REQUEST_USER_LOGIN_PARAMETER_KEY = "login";
+    private static final String REQUEST_ERROR_ATTRIBUTE_KEY = "error";
+
+    private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
+    private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
+    private static final String SUCCESS_MESSAGE = "Login was changed";
+
+    private static final String SUCCESS_RESULT_PATH = "index.jsp";
+    private static final String ERROR_RESULT_PATH = "WEB-INF/jsp/account.jsp";
+
+    private ChangeLoginCommand() {
+    }
 
     public static ChangeLoginCommand getInstance() {
         return Singleton.INSTANCE;
@@ -17,17 +28,17 @@ public class ChangeLoginCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        final String login = request.getParameter("login");
+        final String login = request.getParameter(REQUEST_USER_LOGIN_PARAMETER_KEY);
         final HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+        User user = (User) session.getAttribute(SESSION_USER_ATTRIBUTE_KEY);
         try {
             final User userWithChangedLogin = ServiceFactory.getInstance().getUserService().changeLogin(user.getId(), login);
-            session.setAttribute("success", "Login was changed");
-            session.setAttribute("user", userWithChangedLogin);
+            session.setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, SUCCESS_MESSAGE);
+            session.setAttribute(SESSION_USER_ATTRIBUTE_KEY, userWithChangedLogin);
             return new CommandResult() {
                 @Override
                 public String getResultPath() {
-                    return "index.jsp";
+                    return SUCCESS_RESULT_PATH;
                 }
 
                 @Override
@@ -36,11 +47,11 @@ public class ChangeLoginCommand implements ActionCommand {
                 }
             };
         } catch (LoginException e) {
-            request.setAttribute("error", e.getMessage());
+            request.setAttribute(REQUEST_ERROR_ATTRIBUTE_KEY, e.getMessage());
             return new CommandResult() {
                 @Override
                 public String getResultPath() {
-                    return "WEB-INF/jsp/account.jsp";
+                    return ERROR_RESULT_PATH;
                 }
 
                 @Override

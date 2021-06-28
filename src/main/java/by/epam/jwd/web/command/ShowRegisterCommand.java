@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class ShowRegisterCommand implements ActionCommand {
 
-    public static final String REGISTER_JSP_PATH = "WEB-INF/jsp/register.jsp";
+    private static final String RESULT_PATH = "WEB-INF/jsp/register.jsp";
 
     private ShowRegisterCommand() {
     }
@@ -18,7 +18,7 @@ public class ShowRegisterCommand implements ActionCommand {
         return new CommandResult() {
             @Override
             public String getResultPath() {
-                return "WEB-INF/jsp/register.jsp";
+                return RESULT_PATH;
             }
 
             @Override

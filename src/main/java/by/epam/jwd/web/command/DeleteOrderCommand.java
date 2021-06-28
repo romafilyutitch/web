@@ -7,7 +7,15 @@ import javax.servlet.http.HttpServletRequest;
 
 public class DeleteOrderCommand implements ActionCommand {
 
-    private DeleteOrderCommand() {}
+    private static final String REQUEST_ORDER_ID_PARAMETER_KEY = "id";
+
+    private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
+    private static final String SUCCESS_MESSAGE = "Order %d was deleted";
+
+    private static final String RESULT_PATH = "index.jsp";
+
+    private DeleteOrderCommand() {
+    }
 
     public static DeleteOrderCommand getInstance() {
         return Singleton.INSTANCE;
@@ -15,15 +23,15 @@ public class DeleteOrderCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        final Long orderId = Long.valueOf(request.getParameter("id"));
+        final Long orderId = Long.valueOf(request.getParameter(REQUEST_ORDER_ID_PARAMETER_KEY));
         final Order order = ServiceFactory.getInstance().getOrderService().findById(orderId);
         ServiceFactory.getInstance().getBookService().addOneCopy(order.getBook().getId());
         ServiceFactory.getInstance().getOrderService().delete(orderId);
-        request.getSession().setAttribute("success", String.format("Order %d was deleted", orderId));
+        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, String.format(SUCCESS_MESSAGE, orderId));
         return new CommandResult() {
             @Override
             public String getResultPath() {
-                return "index.jsp";
+                return RESULT_PATH;
             }
 
             @Override

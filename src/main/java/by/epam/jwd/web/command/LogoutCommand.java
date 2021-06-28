@@ -4,7 +4,10 @@ import javax.servlet.http.HttpServletRequest;
 
 public class LogoutCommand implements ActionCommand {
 
-    private LogoutCommand() {}
+    private static final String RESULT_PATH = "index.jsp";
+
+    private LogoutCommand() {
+    }
 
     public static LogoutCommand getInstance() {
         return Singleton.INSTANCE;
@@ -16,7 +19,7 @@ public class LogoutCommand implements ActionCommand {
         return new CommandResult() {
             @Override
             public String getResultPath() {
-                return "index.jsp";
+                return RESULT_PATH;
             }
 
             @Override

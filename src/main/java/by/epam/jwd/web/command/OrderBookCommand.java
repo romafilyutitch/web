@@ -10,10 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 
 public class OrderBookCommand implements ActionCommand {
 
-    public static final String USER = "user";
-    public static final String ID = "id";
-    public static final String COMMAND_RESULT = "commandResult";
-    public static final String RESULT_MESSAGE = "Book %s was ordered. See my orders page";
+    private static final String REQUEST_ORDER_ID_PARAMETER_KEY = "id";
+    private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
+    private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
+    private static final String SUCCESS_MESSAGE = "Book %s was ordered. See my orders page";
+    private static final String SESSION_FAIL_ATTRIBUTE_KEY = "fail";
+
+    public static final String RESULT_PATH = "index.jsp";
 
     private OrderBookCommand() {
     }
@@ -24,21 +27,21 @@ public class OrderBookCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        final Long bookId = Long.valueOf(request.getParameter("id"));
+        final Long bookId = Long.valueOf(request.getParameter(REQUEST_ORDER_ID_PARAMETER_KEY));
         final Book book = ServiceFactory.getInstance().getBookService().findById(bookId);
-        final User user = (User) request.getSession().getAttribute("user");
+        final User user = (User) request.getSession().getAttribute(SESSION_USER_ATTRIBUTE_KEY);
         final Order order = new Order(user, book);
         try {
             ServiceFactory.getInstance().getOrderService().register(order);
             final Book orderedBook = ServiceFactory.getInstance().getBookService().removeOneCopy(bookId);
-            request.getSession().setAttribute("success", String.format("Book %s was ordered. See my orders page", orderedBook.getName()));
+            request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, String.format(SUCCESS_MESSAGE, orderedBook.getName()));
         } catch (RegisterException e) {
-            request.getSession().setAttribute("fail", e.getMessage());
+            request.getSession().setAttribute(SESSION_FAIL_ATTRIBUTE_KEY, e.getMessage());
         }
         return new CommandResult() {
             @Override
             public String getResultPath() {
-                return "index.jsp";
+                return RESULT_PATH;
             }
 
             @Override

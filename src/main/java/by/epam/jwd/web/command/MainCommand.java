@@ -8,8 +8,12 @@ import java.util.List;
 
 public class MainCommand implements ActionCommand {
 
-    public static final String BOOKS = "books";
-    public static final String MAIN_JSP_PATH = "WEB-INF/jsp/main.jsp";
+    private static final String REQUEST_BOOKS_ATTRIBUTE_KEY = "books";
+    private static final String REQUEST_PAGE_PARAMETER_KEY = "page";
+    private static final String REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY = "currentPageNumber";
+    private static final String REQUEST_PAGES_AMOUNT_ATTRIBUTE_KEY = "pagesAmount";
+
+    private static final String RESULT_PATH = "WEB-INF/jsp/main.jsp";
 
     private MainCommand() {
     }
@@ -21,19 +25,19 @@ public class MainCommand implements ActionCommand {
     @Override
     public CommandResult execute(HttpServletRequest request) {
         int currentPageNumber = 1;
-        final String pageParameter = request.getParameter("page");
+        final String pageParameter = request.getParameter(REQUEST_PAGE_PARAMETER_KEY);
         if (pageParameter != null) {
             currentPageNumber = Integer.parseInt(pageParameter);
         }
         final List<Book> currentPage = ServiceFactory.getInstance().getBookService().findPage(currentPageNumber);
         final int pagesAmount = ServiceFactory.getInstance().getBookService().getPagesAmount();
-        request.setAttribute(BOOKS, currentPage);
-        request.setAttribute("currentPageNumber", currentPageNumber);
-        request.setAttribute("pagesAmount", pagesAmount);
+        request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, currentPage);
+        request.setAttribute(REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY, currentPageNumber);
+        request.setAttribute(REQUEST_PAGES_AMOUNT_ATTRIBUTE_KEY, pagesAmount);
         return new CommandResult() {
             @Override
             public String getResultPath() {
-                return "WEB-INF/jsp/main.jsp";
+                return RESULT_PATH;
             }
 
             @Override

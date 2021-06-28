@@ -10,11 +10,15 @@ import java.time.LocalDate;
 
 public class LoginCommand implements ActionCommand {
 
-    public static final String LOGIN = "login";
-    public static final String PASSWORD = "password";
-    public static final String USER = "user";
-    public static final String ERROR = "error";
-    public static final String LOGIN_JSP_PATH = "WEB-INF/jsp/login.jsp";
+    private static final String REQUEST_ERROR_ATTRIBUTE_KEY = "error";
+    private static final String REQUEST_LOGIN_PARAMETER_KEY = "login";
+    private static final String REQUEST_PASSWORD_PARAMETER_KEY = "password";
+
+    private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
+    private static final String SESSION_CURRENT_DATE_ATTRIBUTE_KEY = "currentDate";
+
+    private static final String SUCCESS_RESULT_PATH = "index.jsp";
+    private static final String ERROR_RESULT_PATH = "WEB-INF/jsp/login.jsp";
 
     private LoginCommand() {
     }
@@ -25,18 +29,18 @@ public class LoginCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
-        final User user = new User(login ,password);
+        String login = request.getParameter(REQUEST_LOGIN_PARAMETER_KEY);
+        String password = request.getParameter(REQUEST_PASSWORD_PARAMETER_KEY);
+        final User user = new User(login, password);
         try {
             final User savedUser = ServiceFactory.getInstance().getUserService().loginUser(user);
             final HttpSession session = request.getSession();
-            session.setAttribute(USER, savedUser);
-            session.setAttribute("currentDate", LocalDate.now());
+            session.setAttribute(SESSION_USER_ATTRIBUTE_KEY, savedUser);
+            session.setAttribute(SESSION_CURRENT_DATE_ATTRIBUTE_KEY, LocalDate.now());
             return new CommandResult() {
                 @Override
                 public String getResultPath() {
-                    return "index.jsp";
+                    return SUCCESS_RESULT_PATH;
                 }
 
                 @Override
@@ -45,11 +49,11 @@ public class LoginCommand implements ActionCommand {
                 }
             };
         } catch (LoginException e) {
-            request.setAttribute(ERROR, e.getMessage());
+            request.setAttribute(REQUEST_ERROR_ATTRIBUTE_KEY, e.getMessage());
             return new CommandResult() {
                 @Override
                 public String getResultPath() {
-                    return "WEB-INF/jsp/login.jsp";
+                    return ERROR_RESULT_PATH;
                 }
 
                 @Override

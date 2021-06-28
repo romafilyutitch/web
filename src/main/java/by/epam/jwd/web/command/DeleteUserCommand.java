@@ -1,15 +1,14 @@
 package by.epam.jwd.web.command;
 
-import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class DeleteUserCommand implements ActionCommand {
 
-    public static final String ID = "id";
-    public static final String COMMAND_RESULT = "commandResult";
-    public static final String RESULT_MESSAGE = "your account was deleted";
+    private static final String REQUEST_USER_ID_PARAMETER_KEY = "id";
+
+    private static final String RESULT_PATH = "index.jsp";
 
     private DeleteUserCommand() {
     }
@@ -20,13 +19,13 @@ public class DeleteUserCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        final Long id = Long.valueOf(request.getParameter("id"));
+        final Long id = Long.valueOf(request.getParameter(REQUEST_USER_ID_PARAMETER_KEY));
         ServiceFactory.getInstance().getUserService().delete(id);
         request.getSession().invalidate();
         return new CommandResult() {
             @Override
             public String getResultPath() {
-                return "index.jsp";
+                return RESULT_PATH;
             }
 
             @Override

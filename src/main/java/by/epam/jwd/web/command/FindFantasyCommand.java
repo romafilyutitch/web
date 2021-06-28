@@ -9,7 +9,14 @@ import java.util.List;
 
 public class FindFantasyCommand implements ActionCommand {
 
-    private FindFantasyCommand() {}
+    private static final String REQUEST_BOOKS_ATTRIBUTE_KEY = "books";
+    private static final String REQUEST_FIND_RESULT_ATTRIBUTE_KEY = "findResult";
+    private static final String FIND_RESULT_MESSAGE = "%d books was found";
+
+    private static final String RESULT_PATH = "WEB-INF/jsp/main.jsp";
+
+    private FindFantasyCommand() {
+    }
 
     public static FindFantasyCommand getInstance() {
         return Singleton.INSTANCE;
@@ -18,12 +25,12 @@ public class FindFantasyCommand implements ActionCommand {
     @Override
     public CommandResult execute(HttpServletRequest request) {
         final List<Book> fantasyBooks = ServiceFactory.getInstance().getBookService().findByGenre(Genre.FANTASY);
-        request.setAttribute("books", fantasyBooks);
-        request.setAttribute("findResult", String.format("%d books was found", fantasyBooks.size()));
+        request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, fantasyBooks);
+        request.setAttribute(REQUEST_FIND_RESULT_ATTRIBUTE_KEY, String.format(FIND_RESULT_MESSAGE, fantasyBooks.size()));
         return new CommandResult() {
             @Override
             public String getResultPath() {
-                return "WEB-INF/jsp/main.jsp";
+                return RESULT_PATH;
             }
 
             @Override

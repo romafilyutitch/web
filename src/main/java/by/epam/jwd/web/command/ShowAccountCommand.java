@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class ShowAccountCommand implements ActionCommand {
 
-    public static final String ACCOUNT_JSP_PATH = "WEB-INF/jsp/account.jsp";
+    private static final String RESULT_PATH = "WEB-INF/jsp/account.jsp";
 
     private ShowAccountCommand() {
     }
@@ -18,7 +18,7 @@ public class ShowAccountCommand implements ActionCommand {
         return new CommandResult() {
             @Override
             public String getResultPath() {
-                return "WEB-INF/jsp/account.jsp";
+                return RESULT_PATH;
             }
 
             @Override

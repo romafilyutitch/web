@@ -47,14 +47,23 @@ public class PermissionFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         final HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
         final HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
-        final CommandEnum command = CommandEnum.valueOf(httpRequest.getParameter(COMMAND).toUpperCase());
-        final HttpSession session = httpRequest.getSession(false);
-        UserRole userRole = session != null && ((User) session.getAttribute(USER)) != null ? ((User) session.getAttribute(USER)).getRole() : UserRole.UNAUTHORIZED;
-        final Set<CommandEnum> allowedCommands = commandsByRole.get(userRole);
-        if (allowedCommands.contains(command)) {
-            filterChain.doFilter(servletRequest, servletResponse);
+        final String commandName = httpRequest.getParameter(COMMAND);
+        if (commandName == null) {
+            httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND, "Page was not found");
         } else {
-            httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Entered request is forbidden according to your role");
+            try {
+                final CommandEnum command = CommandEnum.valueOf(commandName.toUpperCase());
+                final HttpSession session = httpRequest.getSession(false);
+                UserRole userRole = session != null && session.getAttribute(USER) != null ? ((User) session.getAttribute(USER)).getRole() : UserRole.UNAUTHORIZED;
+                final Set<CommandEnum> allowedCommands = commandsByRole.get(userRole);
+                if (allowedCommands.contains(command)) {
+                    filterChain.doFilter(servletRequest, servletResponse);
+                } else {
+                    httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Entered request is forbidden according to your role");
+                }
+            } catch (IllegalArgumentException e) {
+                httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND, "Page was not found");
+            }
         }
     }
 }

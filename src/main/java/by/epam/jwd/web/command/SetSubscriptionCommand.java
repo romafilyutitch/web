@@ -10,11 +10,15 @@ import java.time.LocalDate;
 
 public class SetSubscriptionCommand implements ActionCommand {
 
-    public static final String ID = "id";
-    public static final String START_DATE = "start_date";
-    public static final String END_DATE = "end_date";
-    public static final String COMMAND_RESULT = "commandResult";
-    public static final String RESULT_MESSAGE = "subscription for user %s was set";
+    private static final String REQUEST_USER_ID_PARAMETER_KEY = "id";
+    private static final String REQUEST_START_DATE_PARAMETER_KEY = "start_date";
+    private static final String REQUEST_END_DATE_PARAMETER_KEY = "end_date";
+
+    private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
+    private static final String SUCCESS_MESSAGE = "Subscription for user %s was set";
+    private static final String SESSION_FAIL_ATTRIBUTE_KEY = "fail";
+
+    private static final String RESULT_PATH = "index.jsp";
 
     private SetSubscriptionCommand() {
     }
@@ -25,20 +29,20 @@ public class SetSubscriptionCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        final Long id = Long.valueOf(request.getParameter("id"));
-        final String startDate = request.getParameter("start_date");
-        final String endDate = request.getParameter("end_date");
+        final Long id = Long.valueOf(request.getParameter(REQUEST_USER_ID_PARAMETER_KEY));
+        final String startDate = request.getParameter(REQUEST_START_DATE_PARAMETER_KEY);
+        final String endDate = request.getParameter(REQUEST_END_DATE_PARAMETER_KEY);
         final Subscription subscription = new Subscription(LocalDate.parse(startDate), LocalDate.parse(endDate));
         try {
             final User user = ServiceFactory.getInstance().getUserService().setSubscription(id, subscription);
-            request.getSession().setAttribute("success", String.format("Subscription for user %s was set", user.getLogin()));
+            request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, String.format(SUCCESS_MESSAGE, user.getLogin()));
         } catch (SubscriptionException e) {
-            request.getSession().setAttribute("fail", e.getMessage());
+            request.getSession().setAttribute(SESSION_FAIL_ATTRIBUTE_KEY, e.getMessage());
         }
         return new CommandResult() {
             @Override
             public String getResultPath() {
-                return "index.jsp";
+                return RESULT_PATH;
             }
 
             @Override

@@ -9,9 +9,10 @@ import java.util.List;
 
 public class ShowUserOrdersPageCommand implements ActionCommand {
 
-    public static final String USER = "user";
-    public static final String ORDERS = "orders";
-    public static final String USER_ORDER_JSP_PATH = "WEB-INF/jsp/user_orders.jsp";
+    private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
+    private static final String REQUEST_ORDERS_ATTRIBUTE_KEY = "orders";
+
+    private static final String RESULT_PATH = "WEB-INF/jsp/user_orders.jsp";
 
     private ShowUserOrdersPageCommand() {
     }
@@ -22,13 +23,13 @@ public class ShowUserOrdersPageCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        final User user = (User) request.getSession().getAttribute("user");
+        final User user = (User) request.getSession().getAttribute(SESSION_USER_ATTRIBUTE_KEY);
         final List<Order> userOrders = ServiceFactory.getInstance().getOrderService().findByReaderId(user.getId());
-        request.setAttribute("orders", userOrders);
+        request.setAttribute(REQUEST_ORDERS_ATTRIBUTE_KEY, userOrders);
         return new CommandResult() {
             @Override
             public String getResultPath() {
-                return "WEB-INF/jsp/user_orders.jsp";
+                return RESULT_PATH;
             }
 
             @Override

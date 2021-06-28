@@ -1,6 +1,5 @@
 package by.epam.jwd.web.command;
 
-import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.service.ServiceFactory;
 
@@ -8,9 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 
 public class ReturnBookCommand implements ActionCommand {
 
-    public static final String ID = "id";
-    public static final String COMMAND_RESULT = "commandResult";
-    public static final String RESULT_MESSAGE = "book %s was returned";
+    private static final String REQUEST_BOOK_ID_PARAMETER_KEY = "id";
+
+    private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
+    private static final String SUCCESS_MESSAGE = "Book %s was returned";
+
+    private static final String RESULT_PATH = "index.jsp";
 
     private ReturnBookCommand() {
     }
@@ -21,15 +23,14 @@ public class ReturnBookCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        final Long orderId = Long.valueOf(request.getParameter("id"));
+        final Long orderId = Long.valueOf(request.getParameter(REQUEST_BOOK_ID_PARAMETER_KEY));
         final Order order = ServiceFactory.getInstance().getOrderService().findById(orderId);
-        final Book book = order.getBook();
         final Order returnedOrder = ServiceFactory.getInstance().getOrderService().returnOrder(order.getId());
-        request.getSession().setAttribute("success", String.format("Book %s was returned", returnedOrder.getBook().getName()));
+        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, String.format(SUCCESS_MESSAGE, returnedOrder.getBook().getName()));
         return new CommandResult() {
             @Override
             public String getResultPath() {
-                return "index.jsp";
+                return RESULT_PATH;
             }
 
             @Override

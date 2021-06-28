@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class ShowLoginCommand implements ActionCommand {
 
-    public static final String LOGIN_JSP_PATH = "WEB-INF/jsp/login.jsp";
+    private static final String RESULT_PATH = "WEB-INF/jsp/login.jsp";
 
     private ShowLoginCommand() {
     }
@@ -18,7 +18,7 @@ public class ShowLoginCommand implements ActionCommand {
         return new CommandResult() {
             @Override
             public String getResultPath() {
-                return "WEB-INF/jsp/login.jsp";
+                return RESULT_PATH;
             }
 
             @Override

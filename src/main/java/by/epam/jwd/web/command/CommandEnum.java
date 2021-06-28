@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum CommandEnum {
-    SHOW_LOGIN( ShowLoginCommand.getInstance(), UserRole.UNAUTHORIZED),
+    SHOW_LOGIN(ShowLoginCommand.getInstance(), UserRole.UNAUTHORIZED),
     SHOW_USERS(ShowUsersListCommand.getInstance(), UserRole.ADMIN),
     SHOW_BOOKS(ShowBooksListCommand.getInstance(), UserRole.ADMIN),
     SHOW_ORDERS(ShowOrdersListCommand.getInstance(), UserRole.ADMIN),
@@ -14,10 +14,10 @@ public enum CommandEnum {
     SHOW_ACCOUNT(ShowAccountCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
     SHOW_USER_ORDERS(ShowUserOrdersPageCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
     MAIN(MainCommand.getInstance(), UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
-    LOGIN( LoginCommand.getInstance(), UserRole.UNAUTHORIZED),
+    LOGIN(LoginCommand.getInstance(), UserRole.UNAUTHORIZED),
     LOGOUT(LogoutCommand.getInstance(), UserRole.READER, UserRole.ADMIN, UserRole.LIBRARIAN),
     REGISTER(RegisterCommand.getInstance(), UserRole.UNAUTHORIZED),
-    FIND_BOOK_BY_NAME(FindBookByNameCommand.getInstance(),UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
+    FIND_BOOK_BY_NAME(FindBookByNameCommand.getInstance(), UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
     FIND_FICTION(FindFictionCommand.getInstance(), UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
     FIND_FANTASY(FindFantasyCommand.getInstance(), UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
     FIND_SCIENCE(FindScienceCommand.getInstance(), UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
@@ -35,7 +35,7 @@ public enum CommandEnum {
     ORDER_BOOK(OrderBookCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
     APPROVE_ORDER(ApproveOrderCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN),
     RETURN_BOOK(ReturnBookCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
-    SET_LOCALE(SetLocaleCommand.getInstance(),UserRole.UNAUTHORIZED, UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER);
+    SET_LOCALE(SetLocaleCommand.getInstance(), UserRole.UNAUTHORIZED, UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER);
 
     private final ActionCommand command;
     private final List<UserRole> allowedRoles;
@@ -48,6 +48,7 @@ public enum CommandEnum {
     public List<UserRole> getAllowedRoles() {
         return allowedRoles;
     }
+
     public ActionCommand getCurrentCommand() {
         return command;
     }
