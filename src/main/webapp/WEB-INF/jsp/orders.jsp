@@ -12,7 +12,9 @@
     <c:if test="${not empty requestScope.orders}">
         <c:forEach var="book" items="${requestScope.orders}">
             <div>
-                ${book.user.login}, ${book.book.name}, ${book.status}
+                User : ${book.user.login},
+                Book : ${book.book.name},
+                Status : ${book.status}
                 <c:if test="${book.status eq Status.ORDERED}">
                     <form  method="POST" action="controller">
                         <input type="hidden" name="command" value="approve_order">

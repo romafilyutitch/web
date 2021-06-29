@@ -10,12 +10,14 @@
 <body>
 <c:choose>
   <c:when test="${not empty requestScope.error}">
-    <c:out value="${requestScope.error}"/>
+    ${requestScope.error}
     <a href="controller?command=show_account">Account</a>
   </c:when>
   <c:otherwise>
     <div>
-        ${sessionScope.user}
+      Login : ${sessionScope.user.login}
+      Role : ${sessionScope.user.role}
+      Subscription : ${sessionScope.user.subscription}
     </div>
     <div>
       <form method="post" action="controller">
@@ -26,7 +28,7 @@
       </form>
       <form method="post" action="controller">
         <input type="hidden" name="command" value="change_password">
-        <input type="hidden" name="id" value="${sessionScope.user.id}"
+        <input type="hidden" name="id" value="${sessionScope.user.id}">
         <label>Change password<input type="password" required name="password"></label>
         <input type="submit" value="change password">
       </form>

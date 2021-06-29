@@ -64,9 +64,9 @@ ${sessionScope.fail}
             <c:forEach var="book" items="${requestScope.books}">
                 <c:if test="${book.copiesAmount ge 1}">
                     <div>
-                        Name ${book.name}
-                        Author ${book.author.name}
-                        Genre ${book.genre}
+                        Name : ${book.name}
+                        Author : ${book.author.name}
+                        Genre : ${book.genre}
                         <c:if test="${not empty sessionScope.user}">
                             <form name="order" method="POST" action="controller">
                                 <input type="hidden" name="command" value="order_book">

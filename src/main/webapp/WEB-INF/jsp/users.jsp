@@ -12,8 +12,11 @@
 <h1>Users list</h1>
 <c:if test="${not empty requestScope.users}">
     <c:forEach var="book" items="${requestScope.users}">
-        <div> <c:if test="${sessionScope.user.id eq book.id}">YOU</c:if>
-        ${book.login} ,${book.role}, ${book.subscription}
+        <div>
+            <c:if test="${sessionScope.user.id eq book.id}"><b>YOU</b></c:if>
+            Login : ${book.login},
+            Role : ${book.role},
+            Subscription : ${book.subscription}
             <c:if test="${book.role ne UserRole.ADMIN}">
                 <form name="promote role" method="POST" action="controller">
                     <input type="hidden" name="command" value="promote_role">

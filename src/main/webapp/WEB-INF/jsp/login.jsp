@@ -10,7 +10,7 @@
 <body>
 <c:choose>
     <c:when test="${not empty requestScope.error}">
-        <c:out value="${requestScope.error}"/>
+        ${requestScope.error}
         <a href="controller?command=show_login">Try again</a>
     </c:when>
     <c:otherwise>

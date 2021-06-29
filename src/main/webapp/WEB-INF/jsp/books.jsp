@@ -11,7 +11,14 @@
 <c:if test="${not empty requestScope.books }" >
     <div>
         <c:forEach var="book" items="${requestScope.books}">
-            <div>${book}
+            <div>
+                Name : ${book.name}
+                Author : ${book.author.name}
+                Genre : ${book.genre}
+                Date : ${book.date}
+                Pages : ${book.pagesAmount}
+                Copies : ${book.copiesAmount}
+                Description : ${book.description}
                 <form name="add one copy" action="controller" method="POST">
                     <input type="hidden" name="command" value="add_copy">
                     <input type="hidden" name="id" value="${book.id}">
