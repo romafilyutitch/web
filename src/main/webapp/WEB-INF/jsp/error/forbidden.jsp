@@ -1,12 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="fobidden"/>
 <html>
 <head>
-    <title>Forbidden Page</title>
+    <title><fmt:message key="title"/></title>
 </head>
 <body>
-    <h1>Request is forbidden</h1>
-    <h2>Status code: ${pageContext.errorData.statusCode} Forbidden</h2>
-    <h2>Message: you don't have enough rights to perform chosen request</h2>
-<a href="controller?command=main">Main Page</a>
+    <h2><fmt:message key="status"/> ${pageContext.errorData.statusCode}</h2>
+    <h2><fmt:message key="message"/></h2>
+<a href="controller?command=main"><fmt:message key="main"/></a>
 </body>
 </html>
