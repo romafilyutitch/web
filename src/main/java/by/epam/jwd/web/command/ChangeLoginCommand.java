@@ -1,6 +1,7 @@
 package by.epam.jwd.web.command;
 
-import by.epam.jwd.web.exception.LoginException;
+import by.epam.jwd.web.exception.LoginExistsException;
+import by.epam.jwd.web.exception.NoLoginException;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.service.ServiceFactory;
 
@@ -33,7 +34,7 @@ public class ChangeLoginCommand implements ActionCommand {
         User user = (User) session.getAttribute(SESSION_USER_ATTRIBUTE_KEY);
         try {
             final User userWithChangedLogin = ServiceFactory.getInstance().getUserService().changeLogin(user.getId(), login);
-            session.setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, SUCCESS_MESSAGE);
+            session.setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, "loginChanged");
             session.setAttribute(SESSION_USER_ATTRIBUTE_KEY, userWithChangedLogin);
             return new CommandResult() {
                 @Override
@@ -46,8 +47,8 @@ public class ChangeLoginCommand implements ActionCommand {
                     return true;
                 }
             };
-        } catch (LoginException e) {
-            request.setAttribute(REQUEST_ERROR_ATTRIBUTE_KEY, e.getMessage());
+        } catch (LoginExistsException e) {
+            request.setAttribute(REQUEST_ERROR_ATTRIBUTE_KEY, "loginExists");
             return new CommandResult() {
                 @Override
                 public String getResultPath() {

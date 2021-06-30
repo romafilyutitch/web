@@ -43,7 +43,7 @@ public class RegisterCommand implements ActionCommand {
                 }
             };
         } catch (RegisterException e) {
-            request.setAttribute(REQUEST_ERROR_ATTRIBUTE_KEY, e.getMessage());
+            request.setAttribute(REQUEST_ERROR_ATTRIBUTE_KEY, "loginExists");
             return new CommandResult() {
                 @Override
                 public String getResultPath() {

@@ -24,7 +24,7 @@ public class PromoteRoleCommand implements ActionCommand {
     public CommandResult execute(HttpServletRequest request) {
         final Long userId = Long.valueOf(request.getParameter(REQUEST_USER_ID_PARAMETER_KEY));
         final User user = ServiceFactory.getInstance().getUserService().promoteUserRole(userId);
-        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, String.format(SUCCESS_MESSAGE, user.getLogin()));
+        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, "rolePromoted");
         return new CommandResult() {
             @Override
             public String getResultPath() {

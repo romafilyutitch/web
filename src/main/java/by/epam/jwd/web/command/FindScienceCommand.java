@@ -25,8 +25,12 @@ public class FindScienceCommand implements ActionCommand {
     @Override
     public CommandResult execute(HttpServletRequest request) {
         final List<Book> scienceBooks = ServiceFactory.getInstance().getBookService().findByGenre(Genre.SCIENCE);
-        request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, scienceBooks);
-        request.setAttribute(REQUEST_FIND_RESULT_ATTRIBUTE_KEY, String.format(FIND_RESULT_MESSAGE, scienceBooks.size()));
+        if (scienceBooks.isEmpty()) {
+            request.setAttribute(REQUEST_FIND_RESULT_ATTRIBUTE_KEY, "booksNotFound");
+        } else {
+            request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, scienceBooks);
+            request.setAttribute(REQUEST_FIND_RESULT_ATTRIBUTE_KEY, "booksFound");
+        }
         return new CommandResult() {
             @Override
             public String getResultPath() {

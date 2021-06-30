@@ -2,16 +2,17 @@ package by.epam.jwd.web.service;
 
 import by.epam.jwd.web.connectionPool.ConnectionPool;
 import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
-import by.epam.jwd.web.exception.LoginException;
+import by.epam.jwd.web.exception.LoginExistsException;
+import by.epam.jwd.web.exception.NoLoginException;
 import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.exception.SubscriptionException;
+import by.epam.jwd.web.exception.WrongPasswordException;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.model.UserRole;
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -61,20 +62,20 @@ public class SimpleUserServiceTest {
     }
 
     @Test
-    public void loginUser_mustLogInExistUser() throws LoginException {
+    public void loginUser_mustLogInExistUser() throws NoLoginException, WrongPasswordException {
         final User loggedInUser = testService.loginUser(new User("123", "123", UserRole.READER));
         assertNotNull("Logged in user instance must be not null", loggedInUser);
         assertEquals("Logged in user must be equal to test user", loggedInUser, testUser);
     }
 
-    @Test(expected = LoginException.class)
-    public void loginUser_mustThrowException_whenUserWithLoginDoesNotExist() throws LoginException {
+    @Test(expected = NoLoginException.class)
+    public void loginUser_mustThrowException_whenUserWithLoginDoesNotExist() throws NoLoginException, WrongPasswordException {
         testService.delete(testUser.getId());
         testService.loginUser(testUser);
     }
 
-    @Test(expected = LoginException.class)
-    public void loginUser_mustThrowException_whenWrongPasswordPassed() throws LoginException {
+    @Test(expected = WrongPasswordException.class)
+    public void loginUser_mustThrowException_whenWrongPasswordPassed() throws NoLoginException, WrongPasswordException {
         testService.loginUser(new User("123", "WRONG_PASSWORD"));
     }
 
@@ -153,7 +154,7 @@ public class SimpleUserServiceTest {
     }
 
     @Test
-    public void changeLogin_mustChangeLogin_ifNoUserWithSpecifiedLogin() throws LoginException {
+    public void changeLogin_mustChangeLogin_ifNoUserWithSpecifiedLogin() throws NoLoginException, LoginExistsException {
         final String newLogin = "NEW LOGIN";
         final User userWithChangedLogin = testService.changeLogin(testUser.getId(), newLogin);
 
@@ -161,8 +162,8 @@ public class SimpleUserServiceTest {
         assertEquals("User with changed login must have new login", userWithChangedLogin.getLogin(), newLogin);
     }
 
-    @Test(expected = LoginException.class)
-    public void changeLogin_mustThrowException_whenUserWithThatLoginAlreadyExists() throws LoginException {
+    @Test(expected = LoginExistsException.class)
+    public void changeLogin_mustThrowException_whenUserWithThatLoginAlreadyExists() throws NoLoginException, LoginExistsException {
         final String newLogin = "123";
         final User userWithChangedLogin = testService.changeLogin(testUser.getId(), newLogin);
     }

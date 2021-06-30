@@ -4,10 +4,12 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import by.epam.jwd.web.dao.DAOFactory;
 import by.epam.jwd.web.dao.SubscriptionDao;
 import by.epam.jwd.web.dao.UserDao;
-import by.epam.jwd.web.exception.LoginException;
+import by.epam.jwd.web.exception.LoginExistsException;
+import by.epam.jwd.web.exception.NoLoginException;
 import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.exception.SubscriptionException;
+import by.epam.jwd.web.exception.WrongPasswordException;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.model.UserRole;
@@ -59,18 +61,18 @@ class SimpleUserService implements UserService {
     }
 
     @Override
-    public User loginUser(User user) throws LoginException {
+    public User loginUser(User user) throws NoLoginException, WrongPasswordException {
         final Optional<User> optionalUser = USER_DAO.findUserByLogin(user.getLogin());
         if (!optionalUser.isPresent()) {
             logger.info(String.format(USER_WITH_LOGIN_DOES_NOT_EXIST_MESSAGE, user.getLogin()));
-            throw new LoginException(String.format(USER_WITH_LOGIN_DOES_NOT_EXIST_MESSAGE, user.getLogin()));
+            throw new NoLoginException();
         }
         User foundUser = optionalUser.get();
         foundUser = fillWithSubscription(foundUser);
         final BCrypt.Result verifyResult = VERIFYER.verify(user.getPassword().toCharArray(), foundUser.getPassword().toCharArray());
         if (!verifyResult.verified) {
             logger.info(WRONG_PASSWORD_WAS_ENTERED_MESSAGE);
-            throw new LoginException(WRONG_PASSWORD_WAS_ENTERED_MESSAGE);
+            throw new WrongPasswordException();
         }
         return foundUser;
     }
@@ -156,11 +158,11 @@ class SimpleUserService implements UserService {
     }
 
     @Override
-    public User changeLogin(Long userId, String newLogin) throws LoginException {
+    public User changeLogin(Long userId, String newLogin) throws LoginExistsException {
         final Optional<User> optionalUser = USER_DAO.findUserByLogin(newLogin);
         if (optionalUser.isPresent()) {
             logger.info(String.format(USER_WITH_LOGIN_ALREADY_EXISTS_MESSAGE, newLogin));
-            throw new LoginException(String.format(USER_WITH_LOGIN_ALREADY_EXISTS_MESSAGE, newLogin));
+            throw new LoginExistsException();
         }
         final User user = findById(userId);
         final User updatedUser = USER_DAO.update(user.updateLogin(newLogin));

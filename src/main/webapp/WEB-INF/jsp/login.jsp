@@ -10,14 +10,14 @@
 <body>
 <c:choose>
     <c:when test="${not empty requestScope.error}">
-        ${requestScope.error}
+        <fmt:message key="${requestScope.error}"/>
         <a href="controller?command=show_login"><fmt:message key="try"/></a>
     </c:when>
     <c:otherwise>
         <form name = "loginForm" method="POST" action="controller">
             <input type="hidden" name="command" value="login">
-            <label><fmt:message key="login"/><input type="text" required name = "login" value=""/></label>
-            <label><fmt:message key="password"/><input type="password" required name="password" value=""/></label>
+            <label><fmt:message key="login"/><input type="text" required pattern="^\S[A-Za-z\s]+$" name = "login" value=""/></label>
+            <label><fmt:message key="password"/><input type="password" required pattern="^\S[A-Za-z\s]+$" name="password" value=""/></label>
             <input type="submit" value="Log in"/>
         </form>
     </c:otherwise>

@@ -34,9 +34,9 @@ public class OrderBookCommand implements ActionCommand {
         try {
             ServiceFactory.getInstance().getOrderService().register(order);
             final Book orderedBook = ServiceFactory.getInstance().getBookService().removeOneCopy(bookId);
-            request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, String.format(SUCCESS_MESSAGE, orderedBook.getName()));
+            request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, "bookOrdered");
         } catch (RegisterException e) {
-            request.getSession().setAttribute(SESSION_FAIL_ATTRIBUTE_KEY, e.getMessage());
+            request.getSession().setAttribute(SESSION_FAIL_ATTRIBUTE_KEY, "noCopy");
         }
         return new CommandResult() {
             @Override

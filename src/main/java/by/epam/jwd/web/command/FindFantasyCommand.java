@@ -25,8 +25,12 @@ public class FindFantasyCommand implements ActionCommand {
     @Override
     public CommandResult execute(HttpServletRequest request) {
         final List<Book> fantasyBooks = ServiceFactory.getInstance().getBookService().findByGenre(Genre.FANTASY);
-        request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, fantasyBooks);
-        request.setAttribute(REQUEST_FIND_RESULT_ATTRIBUTE_KEY, String.format(FIND_RESULT_MESSAGE, fantasyBooks.size()));
+        if (fantasyBooks.isEmpty()) {
+            request.setAttribute(REQUEST_FIND_RESULT_ATTRIBUTE_KEY, "booksNotFound");
+        } else {
+            request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, fantasyBooks);
+            request.setAttribute(REQUEST_FIND_RESULT_ATTRIBUTE_KEY, "booksFound");
+        }
         return new CommandResult() {
             @Override
             public String getResultPath() {

@@ -1,6 +1,7 @@
 package by.epam.jwd.web.command;
 
-import by.epam.jwd.web.exception.LoginException;
+import by.epam.jwd.web.exception.NoLoginException;
+import by.epam.jwd.web.exception.WrongPasswordException;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.service.ServiceFactory;
 
@@ -48,8 +49,21 @@ public class LoginCommand implements ActionCommand {
                     return true;
                 }
             };
-        } catch (LoginException e) {
-            request.setAttribute(REQUEST_ERROR_ATTRIBUTE_KEY, e.getMessage());
+        } catch (NoLoginException e) {
+            request.setAttribute(REQUEST_ERROR_ATTRIBUTE_KEY, "noLogin");
+            return new CommandResult() {
+                @Override
+                public String getResultPath() {
+                    return ERROR_RESULT_PATH;
+                }
+
+                @Override
+                public boolean isRedirect() {
+                    return false;
+                }
+            };
+        } catch (WrongPasswordException e) {
+            request.setAttribute(REQUEST_ERROR_ATTRIBUTE_KEY, "wrongPassword");
             return new CommandResult() {
                 @Override
                 public String getResultPath() {

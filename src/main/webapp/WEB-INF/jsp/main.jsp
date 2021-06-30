@@ -38,15 +38,19 @@
 </c:choose>
 </div>
 <div>
-${sessionScope.success}
+    <c:if test="${not empty sessionScope.success}">
+        <fmt:message key="${sessionScope.success}"/>
+    </c:if>
 </div>
 <div>
-${sessionScope.fail}
+    <c:if test="${not empty sessionScope.fail}">
+        <fmt:message key="${sessionScope.fail}"/>
+    </c:if>
 </div>
 <div>
     <form name="find" method="get" action="controller">'
         <input type="hidden"  name="command" value="find_book_by_name">
-        <label><fmt:message key="name"/><input type="text" required name="name"></label>
+        <label><fmt:message key="name"/><input type="search" required pattern="^\S[A-Za-z\s]+$" name="name"></label>
         <input type="submit" name="find" value="find">
     </form>
     <a href="controller?command=find_fiction"><fmt:message key="fiction"/></a>
@@ -55,7 +59,9 @@ ${sessionScope.fail}
     <a href="controller?command=main"><fmt:message key="all"/></a>
 </div>
 <div>
-    ${requestScope.findResult}
+    <c:if test="${not empty requestScope.findResult}">
+        <fmt:message key="${requestScope.findResult}"/>
+    </c:if>
 </div>
 <c:if test="${not empty requestScope.books }">
             <c:forEach var="order" items="${requestScope.books}">

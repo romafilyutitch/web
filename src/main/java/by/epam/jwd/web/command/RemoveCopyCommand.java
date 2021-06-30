@@ -25,7 +25,7 @@ public class RemoveCopyCommand implements ActionCommand {
     public CommandResult execute(HttpServletRequest request) {
         final Long id = Long.valueOf(request.getParameter(REQUEST_BOOK_ID_PARAMETER_KEY));
         final Book book = ServiceFactory.getInstance().getBookService().removeOneCopy(id);
-        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, String.format(SUCCESS_MESSAGE, book.getName()));
+        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, "copyRemoved");
         return new CommandResult() {
             @Override
             public String getResultPath() {

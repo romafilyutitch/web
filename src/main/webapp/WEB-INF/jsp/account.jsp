@@ -10,7 +10,7 @@
 <body>
 <c:choose>
   <c:when test="${not empty requestScope.error}">
-    ${requestScope.error}
+    <fmt:message key="${requestScope.error}"/>
     <a href="controller?command=show_account"><fmt:message key="try"/></a>
   </c:when>
   <c:otherwise>
@@ -23,13 +23,13 @@
       <form method="post" action="controller">
         <input type="hidden" name="command" value="change_login">
         <input type="hidden" name="id" value="${sessionScope.user.id}">
-        <label><fmt:message key="changeLogin"/><input type="text" required name="login"></label>
+        <label><fmt:message key="changeLogin"/><input type="text" required pattern="^\S[A-Za-z\s]+$" name="login"></label>
         <input type="submit" name="submit" value="change login">
       </form>
       <form method="post" action="controller">
         <input type="hidden" name="command" value="change_password">
         <input type="hidden" name="id" value="${sessionScope.user.id}">
-        <label><fmt:message key="changePassword"/><input type="password" required name="password"></label>
+        <label><fmt:message key="changePassword"/><input type="password" required pattern="^\S[A-Za-z\s]+$" name="password"></label>
         <input type="submit" value="change password">
       </form>
       <form name="delete account" method="POST" action="controller">

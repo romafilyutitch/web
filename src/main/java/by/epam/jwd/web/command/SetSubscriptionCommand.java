@@ -35,9 +35,9 @@ public class SetSubscriptionCommand implements ActionCommand {
         final Subscription subscription = new Subscription(LocalDate.parse(startDate), LocalDate.parse(endDate));
         try {
             final User user = ServiceFactory.getInstance().getUserService().setSubscription(id, subscription);
-            request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, String.format(SUCCESS_MESSAGE, user.getLogin()));
+            request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, "subscriptionSet");
         } catch (SubscriptionException e) {
-            request.getSession().setAttribute(SESSION_FAIL_ATTRIBUTE_KEY, e.getMessage());
+            request.getSession().setAttribute(SESSION_FAIL_ATTRIBUTE_KEY, "wrongSubscription");
         }
         return new CommandResult() {
             @Override

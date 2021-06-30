@@ -33,10 +33,10 @@ public class FindBookByNameCommand implements ActionCommand {
         if (optionalBook.isPresent()) {
             final List<Book> foundBook = Collections.singletonList(optionalBook.get());
             request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, foundBook);
-            request.setAttribute(REQUEST_FIND_RESULT_ATTRIBUTE_KEY, BOOK_WAS_FOUND_MESSAGE);
+            request.setAttribute(REQUEST_FIND_RESULT_ATTRIBUTE_KEY, "booksFound");
         } else {
             request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, Collections.emptyList());
-            request.setAttribute(REQUEST_FIND_RESULT_ATTRIBUTE_KEY, BOOK_WAS_NOT_FOUND_MESSAGE);
+            request.setAttribute(REQUEST_FIND_RESULT_ATTRIBUTE_KEY, "booksNotFound");
         }
         return new CommandResult() {
             @Override

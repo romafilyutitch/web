@@ -25,7 +25,7 @@ public class DemoteRoleCommand implements ActionCommand {
     public CommandResult execute(HttpServletRequest request) {
         final Long id = Long.valueOf(request.getParameter(REQUEST_USER_ID_PARAMETER_KEY));
         final User user = ServiceFactory.getInstance().getUserService().demoteUserRole(id);
-        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, String.format(SUCCESS_MESSAGE, user.getLogin()));
+        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, "roleDemoted");
         return new CommandResult() {
             @Override
             public String getResultPath() {

@@ -42,9 +42,9 @@ public class AddBookCommand implements ActionCommand {
         final Book book = new Book(name, new Author(author), genre, date, pages, description);
         try {
             ServiceFactory.getInstance().getBookService().register(book);
-            request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, String.format(SUCCESS_MESSAGE, name));
+            request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, "bookRegistered");
         } catch (RegisterException e) {
-            request.getSession().setAttribute(SESSION_FAIL_ATTRIBUTE_KEY, e.getMessage());
+            request.getSession().setAttribute(SESSION_FAIL_ATTRIBUTE_KEY, "bookExists");
         }
         return new CommandResult() {
             @Override

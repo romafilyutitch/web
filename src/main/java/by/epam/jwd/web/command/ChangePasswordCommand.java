@@ -30,7 +30,7 @@ public class ChangePasswordCommand implements ActionCommand {
         final Long userId = Long.valueOf(request.getParameter(REQUEST_USER_ID_PARAMETER_KEY));
         final User userWithChangedPassword = ServiceFactory.getInstance().getUserService().changePassword(userId, newPassword);
         final HttpSession session = request.getSession();
-        session.setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, SUCCESS_MESSAGE);
+        session.setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, "passwordChanged");
         session.setAttribute(SESSION_USER_ATTRIBUTE_KEY, userWithChangedPassword);
         return new CommandResult() {
             @Override

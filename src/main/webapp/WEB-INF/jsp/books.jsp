@@ -1,6 +1,7 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="customtags"%>
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="books"/>
 <html>
@@ -15,7 +16,7 @@
                 <fmt:message key="name"/> ${order.name}
                 <fmt:message key="author"/> ${order.author.name}
                 <fmt:message key="genre"/> ${order.genre}
-                <fmt:message key="date"/> ${order.date}
+                <fmt:message key="date"/> ${ctg:localDateParser(order.date, sessionScope.locale)}
                 <fmt:message key="pages"/> ${order.pagesAmount}
                 <fmt:message key="copies"/> ${order.copiesAmount}
                 <fmt:message key="description"/> ${order.description}
@@ -55,8 +56,8 @@
 </c:if>
 <form action="controller" method="post">
     <input type="hidden" name="command" value="add_book">
-    <label><fmt:message key="name"/><input type="text" required name="name"></label>
-    <label><fmt:message key="author"/><input type="text" required name="author"></label>
+    <label><fmt:message key="name"/><input type="text" required pattern="^\S[A-Za-z\s]+$" name="name"></label>
+    <label><fmt:message key="author"/><input type="text" required pattern="^\S[A-Za-z\s]+$" name="author"></label>
     <label><fmt:message key="genre"/>
         <select name="genre" required >
                 <option value="FICTION"><fmt:message key="fiction"/></option>
@@ -66,7 +67,7 @@
     </label>
     <label><fmt:message key="date"/><input type="date" required max = "${sessionScope.currentDate}" name="date"></label>
     <label><fmt:message key="pages"/><input type="number" required min = "1" step = "1" name="pages"></label>
-    <label><fmt:message key="description"/><input type="text" required name="description"></label>
+    <label><fmt:message key="description"/><input type="text" required pattern="^\S[A-Za-z\s]+$" name="description"></label>
     <input type="submit" required value="add new book">
 </form>
 <a href="controller?command=main"><fmt:message key="main"/></a>

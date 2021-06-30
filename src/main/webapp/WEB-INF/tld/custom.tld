@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<taglib>
+<taglib
+        xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+        version="2.1">
     <tlib-version>1.0</tlib-version>
-    <jsp-version>2.0</jsp-version>
     <short-name>ctg</short-name>
     <uri>customtags</uri>
     <tag>
@@ -9,4 +12,10 @@
         <tag-class>by.epam.jwd.web.tag.TimeTag</tag-class>
         <body-content>empty</body-content>
     </tag>
+
+    <function>
+        <name>localDateParser</name>
+        <function-class>by.epam.jwd.web.tag.LocalDateParser</function-class>
+        <function-signature>java.lang.String parseLocalDate(java.time.LocalDate,java.lang.String)</function-signature>
+    </function>
 </taglib>

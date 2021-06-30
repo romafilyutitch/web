@@ -26,7 +26,7 @@ public class ReturnBookCommand implements ActionCommand {
         final Long orderId = Long.valueOf(request.getParameter(REQUEST_BOOK_ID_PARAMETER_KEY));
         final Order order = ServiceFactory.getInstance().getOrderService().findById(orderId);
         final Order returnedOrder = ServiceFactory.getInstance().getOrderService().returnOrder(order.getId());
-        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, String.format(SUCCESS_MESSAGE, returnedOrder.getBook().getName()));
+        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, "bookReturned");
         return new CommandResult() {
             @Override
             public String getResultPath() {
