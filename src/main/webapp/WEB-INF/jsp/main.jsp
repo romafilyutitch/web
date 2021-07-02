@@ -8,87 +8,147 @@
 <html>
 <head>
     <title><fmt:message key="title"/></title>
+    <link rel="stylesheet" href="webjars/bootstrap/5.0.1/css/bootstrap.css"/>
+    <script type="text/javascript" src="webjars/jquery/2.1.1/jquery.js"></script>
+    <script type="text/javascript" src="webjars/bootstrap/5.0.1/js/bootstrap.js"></script>
 </head>
 <body>
-<div>
-<h3><fmt:message key="welcome"/></h3>
-<ctg:time/>
-</div>
-<div>
-<a href="controller?command=set_locale&locale=en"><fmt:message key="english"/></a>
-<a href="controller?command=set_locale&locale=ru"><fmt:message key="russian"/></a>
-</div>
-<div>
-<c:choose>
-    <c:when test="${not empty sessionScope.user}">
-        <fmt:message key="hello"/> ${sessionScope.user.login}
-        <a href="controller?command=logout"><fmt:message key="logout"/></a>
-        <a href="controller?command=show_user_orders"><fmt:message key="myOrders"/></a>
-        <a href="controller?command=show_account"><fmt:message key="myAccount"/></a>
-        <c:if test="${sessionScope.user.role eq UserRole.ADMIN or sessionScope.user.role eq UserRole.LIBRARIAN}">
-            <a href="controller?command=show_users"><fmt:message key="users"/></a>
-            <a href="controller?command=show_books"><fmt:message key="books"/></a>
-            <a href="controller?command=show_orders"><fmt:message key="orders"/></a>
-        </c:if>
-    </c:when>
-    <c:otherwise>
-        <a href="controller?command=show_login"><fmt:message key="login"/></a>
-        <a href="controller?command=show_register"><fmt:message key="register"/></a>
-    </c:otherwise>
-</c:choose>
-</div>
-<div>
-    <c:if test="${not empty sessionScope.success}">
-        <fmt:message key="${sessionScope.success}"/>
-    </c:if>
-</div>
-<div>
-    <c:if test="${not empty sessionScope.fail}">
-        <fmt:message key="${sessionScope.fail}"/>
-    </c:if>
-</div>
-<div>
-    <form name="find" method="get" action="controller">'
-        <input type="hidden"  name="command" value="find_book_by_name">
-        <label><fmt:message key="name"/><input type="search" required pattern="^\S[A-Za-z\s]+$" name="name"></label>
-        <input type="submit" name="find" value="find">
-    </form>
-    <a href="controller?command=find_fiction"><fmt:message key="fiction"/></a>
-    <a href="controller?command=find_fantasy"><fmt:message key="fantasy"/></a>
-    <a href="controller?command=find_science"><fmt:message key="science"/></a>
-    <a href="controller?command=main"><fmt:message key="all"/></a>
-</div>
-<div>
-    <c:if test="${not empty requestScope.findResult}">
-        <fmt:message key="${requestScope.findResult}"/>
-    </c:if>
-</div>
-<c:if test="${not empty requestScope.books }">
-            <c:forEach var="order" items="${requestScope.books}">
-                <c:if test="${order.copiesAmount ge 1}">
-                    <div>
-                        <fmt:message key="name"/> ${order.name}
-                       <fmt:message key="author"/> ${order.author.name}
-                        <fmt:message key="genre"/> ${order.genre}
-                        <c:if test="${not empty sessionScope.user}">
-                            <form name="order" method="POST" action="controller">
-                                <input type="hidden" name="command" value="order_book">
-                                <input type="hidden" name="id" value="${order.id}">
-                                <input type="submit" value="Order book">
-                            </form>
+<nav class="navbar navbar-light navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <fmt:message key="welcome"/>
+        <ctg:time/>
+        <div class="collapse navbar-collapse">
+            <div class="navbar-nav">
+                <c:choose>
+                    <c:when test="${not empty sessionScope.user}">
+                        <a class="nav-link" href="#"><fmt:message key="hello"/>${sessionScope.user.login}</a>
+                        <a class="nav-link" href="controller?command=logout"><fmt:message key="logout"/></a>
+                        <a class="nav-link" href="controller?command=show_user_orders"><fmt:message key="myOrders"/></a>
+                        <a class="nav-link" href="controller?command=show_account"><fmt:message key="myAccount"/></a>
+                        <c:if test="${sessionScope.user.role eq UserRole.ADMIN or sessionScope.user.role eq UserRole.LIBRARIAN}">
+                            <a class="nav-link" href="controller?command=show_users"><fmt:message key="users"/></a>
+                            <a class="nav-link" href="controller?command=show_books"><fmt:message key="books"/></a>
+                            <a class="nav-link" href="controller?command=show_orders"><fmt:message key="orders"/></a>
                         </c:if>
-                    </div>
+                    </c:when>
+                    <c:otherwise>
+                        <a class="nav-link" href="controller?command=show_login"><fmt:message key="login"/></a>
+                        <a class="nav-link" href="controller?command=show_register"><fmt:message key="register"/></a>
+                    </c:otherwise>
+                </c:choose>
+                <a class="nav-link" href="controller?command=set_locale&locale=en"><fmt:message key="english"/></a>
+                <a class="nav-link" href="controller?command=set_locale&locale=ru"><fmt:message key="russian"/></a>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="container">
+        <c:if test="${not empty sessionScope.success}">
+            <div class="alert alert-success">
+            <fmt:message key="${sessionScope.success}"/>
+            </div>
+        </c:if>
+        <c:if test="${not empty sessionScope.fail}">
+            <div class="alert alert-danger">
+            <fmt:message key="${sessionScope.fail}"/>
+            </div>
+        </c:if>
+    <div>
+        <a class="btn btn-primary" href="controller?command=find_fiction"><fmt:message key="fiction"/></a>
+        <a class="btn btn-primary" href="controller?command=find_fantasy"><fmt:message key="fantasy"/></a>
+        <a class="btn btn-primary" href="controller?command=find_science"><fmt:message key="science"/></a>
+        <a class="btn btn-primary" href="controller?command=main"><fmt:message key="all"/></a>
+    </div>
+    <form class="needs-validation" name="find" method="get" action="controller" novalidate>
+        <input type="hidden" name="command" value="find_book_by_name">
+        <label for="bookName"><fmt:message key="name"/></label>
+        <input type="search" id="bookName" class="form-control" required pattern="[A-Za-z\s]+" name="name">
+        <button type="submit" class="btn btn-outline-primary"><fmt:message key="search"/></button>
+        <div class="invalid-feedback"><fmt:message key="invalidSearch"/></div>
+    </form>
+    <div>
+        <c:if test="${not empty requestScope.findResult}">
+            <div class="alert alert-info">
+            <fmt:message key="${requestScope.findResult}"/>
+            </div>
+        </c:if>
+    </div>
+    <c:if test="${not empty requestScope.books }">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <td><fmt:message key="name"/></td>
+                <td><fmt:message key="author"/></td>
+                <td><fmt:message key="genre"/></td>
+                <td><fmt:message key="order"/></td>
+            </tr>
+            </thead>
+            <c:forEach var="book" items="${requestScope.books}">
+                <c:if test="${book.copiesAmount ge 1}">
+                    <tr>
+                        <td>${book.name}</td>
+                        <td>${book.author.name}</td>
+                        <td>${book.genre}</td>
+                        <c:if test="${not empty sessionScope.user}">
+                            <td>
+                                <form name="order" method="POST" action="controller">
+                                    <input type="hidden" name="command" value="order_book">
+                                    <input type="hidden" name="id" value="${book.id}">
+                                    <button type="submit" class="btn btn-outline-success"><fmt:message key="order"/></button>
+                                </form>
+                            </td>
+                        </c:if>
+                    </tr>
                 </c:if>
             </c:forEach>
-    <c:if test="${not empty requestScope.currentPageNumber and requestScope.currentPageNumber ne 1}">
-        <a href="controller?command=main&page=${requestScope.currentPageNumber - 1}"><fmt:message key="previous"/></a>
+        </table>
+        <nav>
+            <ul class="pagination pagination-lg justify-content-center">
+                <c:if test="${not empty requestScope.currentPageNumber and requestScope.currentPageNumber ne 1}">
+                    <li class="page-item"><a class="page-link"
+                                             href="controller?command=main&page=${requestScope.currentPageNumber - 1}"><fmt:message
+                            key="previous"/></a></li>
+                </c:if>
+                <c:forEach begin="1" end="${requestScope.pagesAmount}" var="i">
+                    <c:choose>
+                        <c:when test="${i eq requestScope.currentPageNumber}">
+                            <li class="page-item active"><a class="page-link" href="controller?command=main&page=${i}">${i}</a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item"><a class="page-link" href="controller?command=main&page=${i}">${i}</a>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+                <c:if test="${not empty requestScope.currentPageNumber and requestScope.currentPageNumber lt requestScope.pagesAmount}">
+                    <li class="page-item"><a class="page-link"
+                                             href="controller?command=main&page=${requestScope.currentPageNumber + 1}"><fmt:message
+                            key="next"/></a></li>
+                </c:if>
+            </ul>
+        </nav>
     </c:if>
-    <c:forEach begin="1" end="${requestScope.pagesAmount}" var="i">
-        <a href="controller?command=main&page=${i}">${i}</a>
-    </c:forEach>
-    <c:if test="${not empty requestScope.currentPageNumber and requestScope.currentPageNumber lt requestScope.pagesAmount}">
-        <a href="controller?command=main&page=${requestScope.currentPageNumber + 1}"><fmt:message key="next"/></a>
-    </c:if>
-</c:if>
+</div>
+<script type="text/javascript">
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict'
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+        const invalids = document.querySelectorAll('.invalid-feedback')
+        // Loop over them and prevent submission
+        Array.from(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
 </body>
 </html>

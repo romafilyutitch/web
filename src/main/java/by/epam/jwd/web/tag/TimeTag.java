@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Locale;
+import java.util.StringJoiner;
 
 public class TimeTag extends TagSupport {
     private static final Locale RUSSIAN_LOCALE = new Locale("ru", "RU");
@@ -18,7 +19,9 @@ public class TimeTag extends TagSupport {
 
         final DateTimeFormatter englishFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(RUSSIAN_LOCALE);
         final DateTimeFormatter russianFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(ENGLISH_LOCALE);
-        final String currentDate =  englishFormatter.format(LocalDate.now()) + "<br/>" + russianFormatter.format(LocalDate.now()) + "<br/>";
+        final StringJoiner joiner = new StringJoiner(",");
+        joiner.add(englishFormatter.format(LocalDate.now())).add(russianFormatter.format(LocalDate.now()));
+        final String currentDate = joiner.toString();
         final JspWriter out = pageContext.getOut();
         try {
             out.println(currentDate);

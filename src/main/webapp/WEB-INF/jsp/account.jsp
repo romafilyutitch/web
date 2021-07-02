@@ -1,45 +1,108 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="customtags" %>
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="account"/>
 <html>
 <head>
     <title><fmt:message key="title"/></title>
+    <link rel="stylesheet" href="webjars/bootstrap/5.0.1/css/bootstrap.css"/>
+    <script type="text/javascript" src="webjars/jquery/2.1.1/jquery.js"></script>
+    <script type="text/javascript" src="webjars/bootstrap/5.0.1/js/bootstrap.js"></script>
 </head>
-<body>
+<body class="text-center">
 <c:choose>
-  <c:when test="${not empty requestScope.error}">
-    <fmt:message key="${requestScope.error}"/>
-    <a href="controller?command=show_account"><fmt:message key="try"/></a>
-  </c:when>
-  <c:otherwise>
-    <div>
-      <fmt:message key="login"/> ${sessionScope.user.login}
-      <fmt:message key="role"/> ${sessionScope.user.role}
-      <fmt:message key="subscription"/> ${sessionScope.user.subscription}
-    </div>
-    <div>
-      <form method="post" action="controller">
-        <input type="hidden" name="command" value="change_login">
-        <input type="hidden" name="id" value="${sessionScope.user.id}">
-        <label><fmt:message key="changeLogin"/><input type="text" required pattern="^\S[A-Za-z\s]+$" name="login"></label>
-        <input type="submit" name="submit" value="change login">
-      </form>
-      <form method="post" action="controller">
-        <input type="hidden" name="command" value="change_password">
-        <input type="hidden" name="id" value="${sessionScope.user.id}">
-        <label><fmt:message key="changePassword"/><input type="password" required pattern="^\S[A-Za-z\s]+$" name="password"></label>
-        <input type="submit" value="change password">
-      </form>
-      <form name="delete account" method="POST" action="controller">
-        <input type="hidden" name="command" value="delete_user">
-        <input type="hidden" name="id" value="${sessionScope.user.id}">
-        <input type="submit" value="Delete account">
-      </form>
-    </div>
-  </c:otherwise>
+    <c:when test="${not empty requestScope.error}">
+        <div class="alert alert-danger">
+            <fmt:message key="${requestScope.error}"/>
+            <a class="alert-link" href="controller?command=show_account"><fmt:message key="try"/></a>
+        </div>
+    </c:when>
+    <c:otherwise>
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <td><fmt:message key="login"/></td>
+                        <td><fmt:message key="role"/></td>
+                        <c:if test="${not empty sessionScope.user.subscription}">
+                            <td><fmt:message key="subscriptionStartDate"/></td>
+                            <td><fmt:message key="subscriptionEndDate"/></td>
+                        </c:if>
+                    </tr>
+                    </thead>
+                    <tr>
+                        <td>${sessionScope.user.login}</td>
+                        <td>${sessionScope.user.role}</td>
+                        <c:if test="${not empty sessionScope.user.subscription}">
+                            <td>${ctg:localDateParser(sessionScope.user.subscription.startDate, sessionScope.locale)}</td>
+                            <td>${ctg:localDateParser(sessionScope.user.subscription.endDate, sessionScope.locale)}</td>
+                        </c:if>
+                    </tr>
+                </table>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-5 justify-content-center">
+                    <form class="needs-validation" method="post" action="controller" novalidate>
+                        <input type="hidden" name="command" value="change_login">
+                        <input type="hidden" name="id" value="${sessionScope.user.id}">
+                        <label class="form-label" for="loginInput"><fmt:message key="login"/></label>
+                        <input class="form-control" id="loginInput" type="text" name="login" required
+                               pattern="[A-Za-z0-9]+">
+                        <div class="valid-feedback"><fmt:message key="validLogin"/></div>
+                        <div class="invalid-feedback"><fmt:message key="invalidLogin"/></div>
+                        <button class="btn btn-primary" type="submit"><fmt:message key="changeLogin"/></button>
+                    </form>
+                </div>
+                <div class="col-5 justify-content-center">
+                    <form class="needs-validation" method="post" action="controller" novalidate>
+                        <input type="hidden" name="command" value="change_password">
+                        <input type="hidden" name="id" value="${sessionScope.user.id}">
+                        <label class="form-label" for="password"><fmt:message key="changePassword"/></label>
+                        <input class="form-control" id="password" type="password" name="password" required
+                               pattern="[A-Za-z0-9]+">
+                        <div class="valid-feedback"><fmt:message key="validPassword"/></div>
+                        <div class="invalid-feedback"><fmt:message key="invalidPassword"/></div>
+                        <button class="btn btn-primary" type="submit"><fmt:message key="changePassword"/></button>
+                    </form>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col">
+                    <form name="delete account" method="POST" action="controller">
+                        <input type="hidden" name="command" value="delete_user">
+                        <input type="hidden" name="id" value="${sessionScope.user.id}">
+                        <button class="btn btn-danger" type="submit"><fmt:message key="deleteAccount"/></button>
+                    </form>
+                </div>
+                <div class="col">
+                    <a class="btn btn-primary" href="controller?command=main"><fmt:message key="main"/></a>
+                </div>
+            </div>
+        </div>
+    </c:otherwise>
 </c:choose>
-  <a href="controller?command=main"><fmt:message key="main"/></a>
+<script type="text/javascript">
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict'
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+        // Loop over them and prevent submission
+        Array.from(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
 </body>
 </html>

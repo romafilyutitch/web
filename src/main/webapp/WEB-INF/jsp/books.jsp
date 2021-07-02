@@ -11,31 +11,31 @@
 <body>
 <c:if test="${not empty requestScope.books }" >
     <div>
-        <c:forEach var="order" items="${requestScope.books}">
+        <c:forEach var="book" items="${requestScope.books}">
             <div>
-                <fmt:message key="name"/> ${order.name}
-                <fmt:message key="author"/> ${order.author.name}
-                <fmt:message key="genre"/> ${order.genre}
-                <fmt:message key="date"/> ${ctg:localDateParser(order.date, sessionScope.locale)}
-                <fmt:message key="pages"/> ${order.pagesAmount}
-                <fmt:message key="copies"/> ${order.copiesAmount}
-                <fmt:message key="description"/> ${order.description}
+                <fmt:message key="name"/> ${book.name}
+                <fmt:message key="author"/> ${book.author.name}
+                <fmt:message key="genre"/> ${book.genre}
+                <fmt:message key="date"/> ${ctg:localDateParser(book.date, sessionScope.locale)}
+                <fmt:message key="pages"/> ${book.pagesAmount}
+                <fmt:message key="copies"/> ${book.copiesAmount}
+                <fmt:message key="description"/> ${book.description}
                 <form name="add one copy" action="controller" method="POST">
                     <input type="hidden" name="command" value="add_copy">
-                    <input type="hidden" name="id" value="${order.id}">
+                    <input type="hidden" name="id" value="${book.id}">
                     <input type="submit" value="Add one copy">
                 </form>
-                <c:if test="${order.copiesAmount gt 0}">
+                <c:if test="${book.copiesAmount gt 0}">
                     <form name="remove one copy" action="controller" method="POST">
                         <input type="hidden" name="command" value="remove_copy">
-                        <input type="hidden" name="id" value="${order.id}">
+                        <input type="hidden" name="id" value="${book.id}">
                         <input type="submit" value="Remove one copy">
                     </form>
                 </c:if>
-                <c:if test="${order.copiesAmount eq 0}">
+                <c:if test="${book.copiesAmount eq 0}">
                     <form name="delete book" action="controller" method="POST">
                         <input type="hidden" name="command" value="delete_book">
-                        <input type="hidden" name="id" value="${order.id}">
+                        <input type="hidden" name="id" value="${book.id}">
                         <input type="submit" value="Delete book">
                     </form>
                 </c:if>

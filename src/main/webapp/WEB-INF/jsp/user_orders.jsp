@@ -10,18 +10,18 @@
 </head>
 <body>
     <c:if test="${not empty requestScope.orders}">
-            <c:forEach var="order" items="${requestScope.orders}">
+            <c:forEach var="book" items="${requestScope.orders}">
                 <div>
-                    <fmt:message key="book"/> ${order.book.name},
-                    <fmt:message key="author"/> ${order.book.author.name},
-                    <fmt:message key="genre"/> ${order.book.genre},
-                    <fmt:message key="pages"/> ${order.book.pagesAmount},
-                    <fmt:message key="status"/> ${order.status}
-                    <c:if test="${order.status eq Status.APPROVED}">
-                        <fmt:message key="description"/> ${order.book.description}
+                    <fmt:message key="book"/> ${book.book.name},
+                    <fmt:message key="author"/> ${book.book.author.name},
+                    <fmt:message key="genre"/> ${book.book.genre},
+                    <fmt:message key="pages"/> ${book.book.pagesAmount},
+                    <fmt:message key="status"/> ${book.status}
+                    <c:if test="${book.status eq Status.APPROVED}">
+                        <fmt:message key="description"/> ${book.book.description}
                         <form name="return" action="controller" method="POST">
                             <input type="hidden" name="command" value="return_book">
-                            <input type="hidden" name="id" value="${order.id}">
+                            <input type="hidden" name="id" value="${book.id}">
                             <input type="submit" value="Return book">
                         </form>
                     </c:if>

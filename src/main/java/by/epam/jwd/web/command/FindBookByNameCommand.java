@@ -28,7 +28,7 @@ public class FindBookByNameCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        final String bookName = request.getParameter(REQUEST_BOOK_NAME_PARAMETER_KEY);
+        final String bookName = request.getParameter(REQUEST_BOOK_NAME_PARAMETER_KEY).trim();
         final Optional<Book> optionalBook = ServiceFactory.getInstance().getBookService().findByName(bookName);
         if (optionalBook.isPresent()) {
             final List<Book> foundBook = Collections.singletonList(optionalBook.get());
