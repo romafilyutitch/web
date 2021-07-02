@@ -33,20 +33,20 @@
                         <td><fmt:message key="setRole"/></td>
                     </tr>
                     </thead>
-                    <c:forEach var="user" items="${requestScope.users}">
+                    <c:forEach var="book" items="${requestScope.users}">
                         <tr>
-                            <td>${user.login}</td>
-                            <td>${user.role}</td>
-                            <td><c:if test="${not empty user.subscription}">
-                                ${ctg:localDateParser(user.subscription.startDate, sessionScope.locale)}
+                            <td>${book.login}</td>
+                            <td>${book.role}</td>
+                            <td><c:if test="${not empty book.subscription}">
+                                ${ctg:localDateParser(book.subscription.startDate, sessionScope.locale)}
                             </c:if></td>
-                            <td><c:if test="${not empty user.subscription}">
-                                ${ctg:localDateParser(user.subscription.endDate, sessionScope.locale)}
+                            <td><c:if test="${not empty book.subscription}">
+                                ${ctg:localDateParser(book.subscription.endDate, sessionScope.locale)}
                             </c:if></td>
                             <td>
                                 <form class="needs-validation" action="controller" method="post" novalidate>
                                     <input type="hidden" name="command" value="set_subscription">
-                                    <input type="hidden" name="id" value="${user.id}">
+                                    <input type="hidden" name="id" value="${book.id}">
                                     <label class="form-label" for="startDate"><fmt:message key="startDate"/></label>
                                     <input class="date" id="startDate" type="date" required
                                            min="${sessionScope.currentDate}" name="start_date">
@@ -62,18 +62,18 @@
                                 </form>
                             </td>
                             <td>
-                                <c:if test="${user.role ne UserRole.ADMIN}">
+                                <c:if test="${book.role ne UserRole.ADMIN}">
                                     <form name="promote role" method="POST" action="controller">
                                         <input type="hidden" name="command" value="promote_role">
-                                        <input type="hidden" name="id" value="${user.id}">
+                                        <input type="hidden" name="id" value="${book.id}">
                                         <button class="btn btn-outline-success" type="submit"><fmt:message
                                                 key="promoteRole"/></button>
                                     </form>
                                 </c:if>
-                                <c:if test="${user.role ne UserRole.READER}">
+                                <c:if test="${book.role ne UserRole.READER}">
                                     <form name="demote role" method="POST" action="controller?command=demote_role">
                                         <input type="hidden" name="command" value="demote_role">
-                                        <input type="hidden" name="id" value="${user.id}">
+                                        <input type="hidden" name="id" value="${book.id}">
                                         <button class="btn btn-outline-danger" type="submit"><fmt:message
                                                 key="demoteRole"/></button>
                                     </form>

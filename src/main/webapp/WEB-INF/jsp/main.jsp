@@ -43,20 +43,20 @@
     </div>
 </nav>
 <div class="container">
-        <c:if test="${not empty sessionScope.success}">
-            <div class="alert alert-success">
+    <c:if test="${not empty sessionScope.success}">
+        <div class="alert alert-success">
             <fmt:message key="${sessionScope.success}"/>
-            </div>
-        </c:if>
-        <c:if test="${not empty sessionScope.fail}">
-            <div class="alert alert-danger">
+        </div>
+    </c:if>
+    <c:if test="${not empty sessionScope.fail}">
+        <div class="alert alert-danger">
             <fmt:message key="${sessionScope.fail}"/>
-            </div>
-        </c:if>
+        </div>
+    </c:if>
     <div>
-        <a class="btn btn-primary" href="controller?command=find_fiction"><fmt:message key="fiction"/></a>
-        <a class="btn btn-primary" href="controller?command=find_fantasy"><fmt:message key="fantasy"/></a>
-        <a class="btn btn-primary" href="controller?command=find_science"><fmt:message key="science"/></a>
+        <a class="btn btn-primary" href="controller?command=find_fiction"><fmt:message key="FICTION"/></a>
+        <a class="btn btn-primary" href="controller?command=find_fantasy"><fmt:message key="FANTASY"/></a>
+        <a class="btn btn-primary" href="controller?command=find_science"><fmt:message key="SCIENCE"/></a>
         <a class="btn btn-primary" href="controller?command=main"><fmt:message key="all"/></a>
     </div>
     <form class="needs-validation" name="find" method="get" action="controller" novalidate>
@@ -69,58 +69,60 @@
     <div>
         <c:if test="${not empty requestScope.findResult}">
             <div class="alert alert-info">
-            <fmt:message key="${requestScope.findResult}"/>
+                <fmt:message key="${requestScope.findResult}"/>
             </div>
         </c:if>
     </div>
     <c:if test="${not empty requestScope.books }">
         <div class="row row-cols-auto">
-        <c:forEach var="book" items="${requestScope.books}">
-            <div class="col-md-2 card offset-md-1" style="width: 20rem">
-                <div class="card-body">
-                    <h5 class="card-title">${book.name}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">${book.author.name}</h6>
-                    <p class="card-text">${book.genre}</p>
-                    <form action="controller" method="POST">
-                        <input type="hidden" name="command" value="order_book">
-                        <input type="hidden" name="id" value="${book.id}">
-                        <button class="btn btn-outline-success" type="submit"><fmt:message key="order"/></button>
-                        <a class="btn card-link btn-outline-success" href="#">Oтзывы</a>
-                    </form>
+            <c:forEach var="book" items="${requestScope.books}">
+                <div class="col-md-2 card offset-md-1" style="width: 20rem">
+                    <div class="card-body">
+                        <h5 class="card-title">${book.name}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">${book.author.name}</h6>
+                        <p class="card-text"><fmt:message key="${book.genre}"/></p>
+                        <form action="controller" method="POST">
+                            <input type="hidden" name="command" value="order_book">
+                            <input type="hidden" name="id" value="${book.id}">
+                            <button class="btn btn-outline-success" type="submit"><fmt:message key="order"/></button>
+                            <a class="btn card-link btn-outline-success" href="#"><fmt:message key="feedback"/></a>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        </c:forEach>
-        </div>
-        <div class="row align-items-center">
-            <div class="col">
-                <nav>
-                    <ul class="pagination pagination-lg justify-content-center">
-                        <c:if test="${not empty requestScope.currentPageNumber and requestScope.currentPageNumber ne 1}">
-                            <li class="page-item"><a class="page-link"
-                                                     href="controller?command=main&page=${requestScope.currentPageNumber - 1}"><fmt:message
-                                    key="previous"/></a></li>
-                        </c:if>
-                        <c:forEach begin="1" end="${requestScope.pagesAmount}" var="i">
-                            <c:choose>
-                                <c:when test="${i eq requestScope.currentPageNumber}">
-                                    <li class="page-item active"><a class="page-link" href="controller?command=main&page=${i}">${i}</a></li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li class="page-item"><a class="page-link" href="controller?command=main&page=${i}">${i}</a>
-                                    </li>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-                        <c:if test="${not empty requestScope.currentPageNumber and requestScope.currentPageNumber lt requestScope.pagesAmount}">
-                            <li class="page-item"><a class="page-link"
-                                                     href="controller?command=main&page=${requestScope.currentPageNumber + 1}"><fmt:message
-                                    key="next"/></a></li>
-                        </c:if>
-                    </ul>
-                </nav>
-            </div>
+            </c:forEach>
         </div>
     </c:if>
+    <div class="row align-items-center">
+        <div class="col">
+            <nav>
+                <ul class="pagination pagination-lg justify-content-center">
+                    <c:if test="${not empty requestScope.currentPageNumber and requestScope.currentPageNumber ne 1}">
+                        <li class="page-item"><a class="page-link"
+                                                 href="controller?command=main&page=${requestScope.currentPageNumber - 1}"><fmt:message
+                                key="previous"/></a></li>
+                    </c:if>
+                    <c:forEach begin="1" end="${requestScope.pagesAmount}" var="i">
+                        <c:choose>
+                            <c:when test="${i eq requestScope.currentPageNumber}">
+                                <li class="page-item active"><a class="page-link"
+                                                                href="controller?command=main&page=${i}">${i}</a></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="page-item"><a class="page-link"
+                                                         href="controller?command=main&page=${i}">${i}</a>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                    <c:if test="${not empty requestScope.currentPageNumber and requestScope.currentPageNumber lt requestScope.pagesAmount}">
+                        <li class="page-item"><a class="page-link"
+                                                 href="controller?command=main&page=${requestScope.currentPageNumber + 1}"><fmt:message
+                                key="next"/></a></li>
+                    </c:if>
+                </ul>
+            </nav>
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
     // Example starter JavaScript for disabling form submissions if there are invalid fields
