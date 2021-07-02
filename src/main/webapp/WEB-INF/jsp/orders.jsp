@@ -10,22 +10,22 @@
 </head>
 <body>
     <c:if test="${not empty requestScope.orders}">
-        <c:forEach var="book" items="${requestScope.orders}">
+        <c:forEach var="user" items="${requestScope.orders}">
             <div>
-                <fmt:message key="user"/> ${book.user.login},
-                <fmt:message key="book"/> ${book.book.name},
-                <fmt:message key="status"/> ${book.status}
-                <c:if test="${book.status eq Status.ORDERED}">
+                <fmt:message key="user"/> ${user.user.login},
+                <fmt:message key="book"/> ${user.book.name},
+                <fmt:message key="status"/> ${user.status}
+                <c:if test="${user.status eq Status.ORDERED}">
                     <form  method="POST" action="controller">
                         <input type="hidden" name="command" value="approve_order">
-                        <input type="hidden" name="id" value="${book.id}">
+                        <input type="hidden" name="id" value="${user.id}">
                         <input type="submit" value="Approve order">
                     </form>
                 </c:if>
-                <c:if test="${book.status eq Status.RETURNED}">
+                <c:if test="${user.status eq Status.RETURNED}">
                     <form method="POST" action="controller">
                         <input type="hidden" name="command" value="delete_order">
-                        <input type="hidden" name="id" value="${book.id}">
+                        <input type="hidden" name="id" value="${user.id}">
                         <input type="submit" value="Delete order">
                     </form>
                 </c:if>

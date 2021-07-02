@@ -74,59 +74,52 @@
         </c:if>
     </div>
     <c:if test="${not empty requestScope.books }">
-        <table class="table table-striped table-hover">
-            <thead>
-            <tr>
-                <td><fmt:message key="name"/></td>
-                <td><fmt:message key="author"/></td>
-                <td><fmt:message key="genre"/></td>
-                <td><fmt:message key="order"/></td>
-            </tr>
-            </thead>
-            <c:forEach var="book" items="${requestScope.books}">
-                <c:if test="${book.copiesAmount ge 1}">
-                    <tr>
-                        <td>${book.name}</td>
-                        <td>${book.author.name}</td>
-                        <td>${book.genre}</td>
-                        <c:if test="${not empty sessionScope.user}">
-                            <td>
-                                <form name="order" method="POST" action="controller">
-                                    <input type="hidden" name="command" value="order_book">
-                                    <input type="hidden" name="id" value="${book.id}">
-                                    <button type="submit" class="btn btn-outline-success"><fmt:message key="order"/></button>
-                                </form>
-                            </td>
+        <div class="row row-cols-auto">
+        <c:forEach var="book" items="${requestScope.books}">
+            <div class="col-md-2 card offset-md-1" style="width: 20rem">
+                <div class="card-body">
+                    <h5 class="card-title">${book.name}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">${book.author.name}</h6>
+                    <p class="card-text">${book.genre}</p>
+                    <form action="controller" method="POST">
+                        <input type="hidden" name="command" value="order_book">
+                        <input type="hidden" name="id" value="${book.id}">
+                        <button class="btn btn-outline-success" type="submit"><fmt:message key="order"/></button>
+                        <a class="btn card-link btn-outline-success" href="#">Oтзывы</a>
+                    </form>
+                </div>
+            </div>
+        </c:forEach>
+        </div>
+        <div class="row align-items-center">
+            <div class="col">
+                <nav>
+                    <ul class="pagination pagination-lg justify-content-center">
+                        <c:if test="${not empty requestScope.currentPageNumber and requestScope.currentPageNumber ne 1}">
+                            <li class="page-item"><a class="page-link"
+                                                     href="controller?command=main&page=${requestScope.currentPageNumber - 1}"><fmt:message
+                                    key="previous"/></a></li>
                         </c:if>
-                    </tr>
-                </c:if>
-            </c:forEach>
-        </table>
-        <nav>
-            <ul class="pagination pagination-lg justify-content-center">
-                <c:if test="${not empty requestScope.currentPageNumber and requestScope.currentPageNumber ne 1}">
-                    <li class="page-item"><a class="page-link"
-                                             href="controller?command=main&page=${requestScope.currentPageNumber - 1}"><fmt:message
-                            key="previous"/></a></li>
-                </c:if>
-                <c:forEach begin="1" end="${requestScope.pagesAmount}" var="i">
-                    <c:choose>
-                        <c:when test="${i eq requestScope.currentPageNumber}">
-                            <li class="page-item active"><a class="page-link" href="controller?command=main&page=${i}">${i}</a></li>
-                        </c:when>
-                        <c:otherwise>
-                            <li class="page-item"><a class="page-link" href="controller?command=main&page=${i}">${i}</a>
-                            </li>
-                        </c:otherwise>
-                    </c:choose>
-                </c:forEach>
-                <c:if test="${not empty requestScope.currentPageNumber and requestScope.currentPageNumber lt requestScope.pagesAmount}">
-                    <li class="page-item"><a class="page-link"
-                                             href="controller?command=main&page=${requestScope.currentPageNumber + 1}"><fmt:message
-                            key="next"/></a></li>
-                </c:if>
-            </ul>
-        </nav>
+                        <c:forEach begin="1" end="${requestScope.pagesAmount}" var="i">
+                            <c:choose>
+                                <c:when test="${i eq requestScope.currentPageNumber}">
+                                    <li class="page-item active"><a class="page-link" href="controller?command=main&page=${i}">${i}</a></li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="page-item"><a class="page-link" href="controller?command=main&page=${i}">${i}</a>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                        <c:if test="${not empty requestScope.currentPageNumber and requestScope.currentPageNumber lt requestScope.pagesAmount}">
+                            <li class="page-item"><a class="page-link"
+                                                     href="controller?command=main&page=${requestScope.currentPageNumber + 1}"><fmt:message
+                                    key="next"/></a></li>
+                        </c:if>
+                    </ul>
+                </nav>
+            </div>
+        </div>
     </c:if>
 </div>
 <script type="text/javascript">
@@ -135,7 +128,6 @@
         'use strict'
         // Fetch all the forms we want to apply custom Bootstrap validation styles to
         const forms = document.querySelectorAll('.needs-validation')
-        const invalids = document.querySelectorAll('.invalid-feedback')
         // Loop over them and prevent submission
         Array.from(forms)
             .forEach(function (form) {
