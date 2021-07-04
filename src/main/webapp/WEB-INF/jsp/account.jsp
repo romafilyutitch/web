@@ -21,6 +21,11 @@
     </c:when>
     <c:otherwise>
         <div class="container">
+            <div class="row justify-content-center">
+                <div class="col">
+                    <h2 class="text text-info"><fmt:message key="yourAccount"/></h2>
+                </div>
+            </div>
             <div class="row align-items-center justify-content-center">
                 <table class="table table-striped table-hover">
                     <thead>

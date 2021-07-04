@@ -32,7 +32,6 @@ class SimpleBookService implements BookService {
     private static final String BOOK_WAS_SAVED_MESSAGE = "Book was saved %s";
     private static final String BOOK_WAS_DELETED_MESSAGE = "Book with id %d was deleted";
     private static final String BOOKS_WERE_FOUND_BY_GENRE_MESSAGE = "%d books with genre %s was found";
-    private static final String BOOKS_WERE_FOUND_BY_AUTHOR_MESSAGE = "%d books by author %s was found";
     private static final String BOOK_BY_NAME_WAS_FOUND_MESSAGE = "Book by name was found %s";
     private static final String BOOK_BY_MAME_WAS_NOT_FOUND_MESSAGE = "Book by name %s was not found";
     private static final String ALL_BOOKS_WERE_FOUND_MESSAGE = "All books were found";
@@ -144,10 +143,10 @@ class SimpleBookService implements BookService {
     public Optional<Book> findByName(String name) {
         Optional<Book> optionalBook = BOOK_DAO.findByName(name);
         if (optionalBook.isPresent()) {
-            logger.info(String.format(BOOK_BY_NAME_WAS_FOUND_MESSAGE, optionalBook.get()));
             Book foundBook = optionalBook.get();
             foundBook = fillWithAuthor(foundBook);
             optionalBook = Optional.of(foundBook);
+            logger.info(String.format(BOOK_BY_NAME_WAS_FOUND_MESSAGE, foundBook));
         } else {
             logger.info(String.format(BOOK_BY_MAME_WAS_NOT_FOUND_MESSAGE, name));
         }

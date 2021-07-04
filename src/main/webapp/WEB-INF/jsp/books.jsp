@@ -13,6 +13,11 @@
 </head>
 <body class="text-center">
 <div class="container">
+    <div class="row justify-content-center">
+        <div class="col">
+            <h2 class="text text-info"><fmt:message key="books"/></h2>
+        </div>
+    </div>
     <div class="row">
         <div class="col">
             <c:if test="${not empty requestScope.books }" >
@@ -138,7 +143,7 @@
                 </div>
                 <div class="col">
                     <label for="description" class="form-label"><fmt:message key="description"/></label>
-                    <input id="description" class="form-control" type="text" required pattern="^\S[A-Za-z0-9\s]+$" name="description">
+                    <input id="description" class="form-control" type="text" required pattern="^\S[A-Za-z0-9.,-'\s]+$" name="description">
                     <div class="valid-feedback"><fmt:message key="validDescription"/></div>
                     <div class="invalid-feedback"><fmt:message key="invalidDescription"/></div>
                 </div>

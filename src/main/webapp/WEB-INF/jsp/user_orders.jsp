@@ -7,27 +7,56 @@
 <html>
 <head>
     <title><fmt:message key="title"/></title>
+    <link rel="stylesheet" href="webjars/bootstrap/5.0.1/css/bootstrap.css"/>
+    <script type="text/javascript" src="webjars/jquery/2.1.1/jquery.js"></script>
+    <script type="text/javascript" src="webjars/bootstrap/5.0.1/js/bootstrap.js"></script>
 </head>
-<body>
-    <c:if test="${not empty requestScope.orders}">
-            <c:forEach var="book" items="${requestScope.orders}">
-                <div>
-                    <fmt:message key="book"/> ${book.book.name},
-                    <fmt:message key="author"/> ${book.book.author.name},
-                    <fmt:message key="genre"/> ${book.book.genre},
-                    <fmt:message key="pages"/> ${book.book.pagesAmount},
-                    <fmt:message key="status"/> ${book.status}
-                    <c:if test="${book.status eq Status.APPROVED}">
-                        <fmt:message key="description"/> ${book.book.description}
-                        <form name="return" action="controller" method="POST">
-                            <input type="hidden" name="command" value="return_book">
-                            <input type="hidden" name="id" value="${book.id}">
-                            <input type="submit" value="Return book">
-                        </form>
-                    </c:if>
+<body class="text-center">
+<div class="container align-items-center">
+    <c:choose>
+        <c:when test="${not empty requestScope.orders}">
+            <div class="row justify-content-center">
+                <div class="col">
+                    <h2 class="text text-info"><fmt:message key="yourOrders"/></h2>
                 </div>
-            </c:forEach>
-    </c:if>
-<a href="controller?command=main"><fmt:message key="main"/></a>
+            </div>
+            <div class="row row-cols-auto">
+                <c:forEach var="order" items="${requestScope.orders}">
+                    <div class="card col-md-2 offset-md-1" style="width: 20rem; margin-bottom: 5rem">
+                        <div class="card-body">
+                            <h5 class="card-title text-success text-center"> ${order.book.name}</h5>
+                            <h6 class="card-subtitle mb-2 text-info"><fmt:message key="bookAuthor"/> ${order.book.author.name}</h6>
+                            <h6 class="card-subtitle mb-2 text-info"><fmt:message key="bookGenre"/> <fmt:message key="${order.book.genre}"/></h6>
+                            <h6 class="card-subtitle mb-2 text-info"><fmt:message key="orderStatus"/> <fmt:message key="${order.status}"/></h6>
+                            <h6 class="card-subtitle mb-2 text-info"><fmt:message key="bookPages"/> ${order.book.pagesAmount}</h6>
+                            <c:if test="${order.status eq Status.APPROVED}">
+                                <form name="return" action="controller" method="POST">
+                                    <input type="hidden" name="command" value="return_book">
+                                    <input type="hidden" name="id" value="${order.id}">
+                                    <button class="btn btn-primary" type="submit"><fmt:message key="returnBook"/></button>
+                                </form>
+                                <p>
+                                    <button class="btn btn-outline-success" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapse${order.id}" aria-expanded="false" aria-controls="collapse">
+                                        <fmt:message key="read"/>
+                                    </button>
+                                </p>
+                                <div class="collapse" id="collapse${order.id}">
+                                    <div class="card card-body">
+                                            ${order.book.description}
+                                    </div>
+                                </div>
+                            </c:if>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+        </c:when>
+        <c:otherwise>
+            <h2 class="text text-info"><fmt:message key="noOrders"/></h2>
+        </c:otherwise>
+    </c:choose>
+    <a class="btn btn-primary" href="controller?command=main"><fmt:message key="main"/></a>
+</div>
 </body>
 </html>

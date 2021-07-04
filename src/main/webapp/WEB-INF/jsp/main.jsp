@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="webjars/bootstrap/5.0.1/css/bootstrap.css"/>
     <script type="text/javascript" src="webjars/jquery/2.1.1/jquery.js"></script>
     <script type="text/javascript" src="webjars/bootstrap/5.0.1/js/bootstrap.js"></script>
+
 </head>
 <body>
 <nav class="navbar navbar-light navbar-expand-lg bg-light">
@@ -26,7 +27,9 @@
                         <a class="nav-link" href="controller?command=show_user_orders"><fmt:message key="myOrders"/></a>
                         <a class="nav-link" href="controller?command=show_account"><fmt:message key="myAccount"/></a>
                         <c:if test="${sessionScope.user.role eq UserRole.ADMIN or sessionScope.user.role eq UserRole.LIBRARIAN}">
-                            <a class="nav-link" href="controller?command=show_users"><fmt:message key="users"/></a>
+                            <c:if test="${sessionScope.user.role eq UserRole.ADMIN}">
+                                <a class="nav-link" href="controller?command=show_users"><fmt:message key="users"/></a>
+                            </c:if>
                             <a class="nav-link" href="controller?command=show_books"><fmt:message key="books"/></a>
                             <a class="nav-link" href="controller?command=show_orders"><fmt:message key="orders"/></a>
                         </c:if>
@@ -76,17 +79,31 @@
     <c:if test="${not empty requestScope.books }">
         <div class="row row-cols-auto">
             <c:forEach var="book" items="${requestScope.books}">
-                <div class="col-md-2 card offset-md-1" style="width: 20rem">
+                <div class="col-md-2 card offset-md-1" style="width: 20rem; margin-bottom: 5rem">
                     <div class="card-body">
-                        <h5 class="card-title">${book.name}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">${book.author.name}</h6>
-                        <p class="card-text"><fmt:message key="${book.genre}"/></p>
-                        <form action="controller" method="POST">
-                            <input type="hidden" name="command" value="order_book">
-                            <input type="hidden" name="id" value="${book.id}">
-                            <button class="btn btn-outline-success" type="submit"><fmt:message key="order"/></button>
-                            <a class="btn card-link btn-outline-success" href="#"><fmt:message key="feedback"/></a>
-                        </form>
+                        <h5 class="card-title text-center text-success">${book.name}</h5>
+                        <h6 class="card-subtitle mb-2 text-info"><fmt:message key="author"/> ${book.author.name}</h6>
+                        <h6 class="card-subtitle mb-2 text-info"><fmt:message key="genre"/> <fmt:message key="${book.genre}"/></h6>
+                        <c:if test="${not empty sessionScope.user and sessionScope.user.role ne UserRole.UNAUTHORIZED}">
+                            <form action="controller" method="POST">
+                                <input type="hidden" name="command" value="order_book">
+                                <input type="hidden" name="id" value="${book.id}">
+                                <c:choose>
+                                    <c:when test="${book.copiesAmount eq 0}">
+                                        <button class="btn btn-outline-primary" type="submit" disabled>
+                                            <fmt:message key="order"/>
+                                            <span class="badge bg-danger">${book.copiesAmount}</span>
+                                        </button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <button class="btn btn-outline-primary" type="submit">
+                                            <fmt:message key="order"/>
+                                            <span class="badge bg-success">${book.copiesAmount}</span></button>
+                                    </c:otherwise>
+                                </c:choose>
+                            </form>
+                            <a class="btn card-link btn-outline-success" href="#"><fmt:message key="comments"/></a>
+                        </c:if>
                     </div>
                 </div>
             </c:forEach>
@@ -125,24 +142,24 @@
     </div>
 </div>
 <script type="text/javascript">
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function () {
-        'use strict'
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        const forms = document.querySelectorAll('.needs-validation')
-        // Loop over them and prevent submission
-        Array.from(forms)
-            .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict'
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.needs-validation')
+            // Loop over them and prevent submission
+            Array.from(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
 
-                    form.classList.add('was-validated')
-                }, false)
-            })
-    })()
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
 </script>
 </body>
 </html>

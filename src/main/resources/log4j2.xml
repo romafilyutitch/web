@@ -7,6 +7,9 @@
         <File name = "DaoAppender" fileName="logs/DaoLog.log" append="false">
             <PatternLayout pattern = "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1} - %m%n"/>
         </File>
+        <File name="ServiceAppender" fileName="logs/Service.log" append="false">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:MM:ss} %-5p %c{1} - %m%n"/>
+        </File>
     </Appenders>
 
    <Loggers>
@@ -15,6 +18,9 @@
        </Logger>
        <Logger name = "by.epam.jwd.web.dao" additivity="false" level="All">
            <AppenderRef ref = "DaoAppender"/>
+       </Logger>
+       <Logger name="by.epam.jwd.web.service" additivity="false" level="All">
+           <AppenderRef ref="ServiceAppender"/>
        </Logger>
    </Loggers>
 </Configuration>

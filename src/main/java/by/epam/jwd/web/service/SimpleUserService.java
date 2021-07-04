@@ -44,6 +44,7 @@ class SimpleUserService implements UserService {
     private static final String LOGIN_WAS_CHANGED_MESSAGE = "New login was set to user %s";
     private static final String PASSWORD_WAS_CHANGED_MESSAGE = "New password was set to user %s";
     private static final String SUBSCRIPTION_WAS_NOT_FOUND_MESSAGE = "Saved subscription with id %d was not found";
+    private static final String USER_WAS_LOGGED_IN_MESSAGE = "User %s was logged in";
 
     private SimpleUserService() {
     }
@@ -74,6 +75,7 @@ class SimpleUserService implements UserService {
             logger.info(WRONG_PASSWORD_WAS_ENTERED_MESSAGE);
             throw new WrongPasswordException();
         }
+        logger.info(String.format(USER_WAS_LOGGED_IN_MESSAGE, foundUser.getLogin()));
         return foundUser;
     }
 

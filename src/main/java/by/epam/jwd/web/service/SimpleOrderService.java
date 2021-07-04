@@ -1,11 +1,13 @@
 package by.epam.jwd.web.service;
 
+import by.epam.jwd.web.dao.AuthorDao;
 import by.epam.jwd.web.dao.BookDao;
 import by.epam.jwd.web.dao.DAOFactory;
 import by.epam.jwd.web.dao.OrderDao;
 import by.epam.jwd.web.dao.UserDao;
 import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.exception.ServiceException;
+import by.epam.jwd.web.model.Author;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.model.Status;
@@ -25,6 +27,7 @@ class SimpleOrderService implements OrderService {
     private static final OrderDao ORDER_DAO = DAOFactory.getInstance().getOrderDao();
     private static final UserDao USER_DAO = DAOFactory.getInstance().getUserDao();
     private static final BookDao BOOK_DAO = DAOFactory.getInstance().getBookDao();
+    private static final AuthorDao AUTHOR_DAO = DAOFactory.getInstance().getAuthorDao();
 
     private static final String ALL_ORDERS_WERE_FOUND_MESSAGE = "All orders were found";
     private static final String NO_FREE_COPY_MESSAGE = "There is no free copy of ordered book %s";
@@ -39,6 +42,7 @@ class SimpleOrderService implements OrderService {
     private static final String ORDER_BY_ID_WAS_FOUND_MESSAGE = "Order by id was found %s";
     private static final String USER_WAS_NOT_FOUND_MESSAGE = "Saved user with id %d was not found";
     private static final String BOOK_WAS_NOT_FOUND_MESSAGE = "Saved book with %d was not found";
+    private static final String AUTHOR_WAS_NOT_FOUND_MESSAGE = "Saved author with id %d was not found";
 
     private SimpleOrderService() {
     }
@@ -67,11 +71,14 @@ class SimpleOrderService implements OrderService {
         savedOrder = fillWithReader(savedOrder);
         savedOrder = fillWithBook(savedOrder);
         if (subscription != null) {
-            if (subscription.getStartDate().isBefore(LocalDate.now()) && subscription.getEndDate().isAfter(LocalDate.now())) {
+            final boolean isNowDateInSubscriptionRange = subscription.getStartDate().isBefore(LocalDate.now()) && subscription.getEndDate().isAfter(LocalDate.now());
+            final boolean isNowDateIsSubscriptionStartDate = subscription.getStartDate().isEqual(LocalDate.now());
+            final boolean isNowDateIsSubscriptionEndDate = subscription.getEndDate().isEqual(LocalDate.now());
+            if (isNowDateIsSubscriptionStartDate || isNowDateInSubscriptionRange || isNowDateIsSubscriptionEndDate) {
                 return ORDER_DAO.update(savedOrder.updateOrderStatus(Status.APPROVED));
             }
         }
-        logger.info(String.format(ORDER_WAS_REGISTERED_MESSAGE, order));
+        logger.info(String.format(ORDER_WAS_REGISTERED_MESSAGE, savedOrder));
         return savedOrder;
     }
 
@@ -171,7 +178,13 @@ class SimpleOrderService implements OrderService {
         if (!optionalBook.isPresent()) {
             throw new ServiceException(String.format(BOOK_WAS_NOT_FOUND_MESSAGE, order.getBook().getId()));
         }
-        return order.updateBook(optionalBook.get());
+        Book foundBook = optionalBook.get();
+        final Optional<Author> optionalAuthor = AUTHOR_DAO.findById(foundBook.getAuthor().getId());
+        if (!optionalAuthor.isPresent()) {
+            throw new ServiceException(String.format(AUTHOR_WAS_NOT_FOUND_MESSAGE, foundBook.getAuthor().getId()));
+        }
+        foundBook = foundBook.updateAuthor(optionalAuthor.get());
+        return order.updateBook(foundBook);
     }
 
     private static class Singleton {

@@ -12,7 +12,7 @@
     <script type="text/javascript" src="webjars/jquery/2.1.1/jquery.js"></script>
     <script type="text/javascript" src="webjars/bootstrap/5.0.1/js/bootstrap.js"></script>
 </head>
-<body>
+<body class="text-center">
 <div class="container">
     <div class="row">
         <div class="col justify-content-center">
