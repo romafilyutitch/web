@@ -15,6 +15,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +24,7 @@ import static org.junit.Assert.*;
 public class SimpleBookServiceTest {
     private static final ConnectionPool POOL = ConnectionPool.getConnectionPool();
     private final SimpleBookService testService = SimpleBookService.getInstance();
-    private Book testBook = new Book("New book", new Author("new Author"), Genre.FANTASY, LocalDate.now(), 100, "New test book");
+    private Book testBook = new Book("New book", new Author("new Author"), Genre.FANTASY, LocalDate.now(), 100, "New test book", new ArrayList<>(), 0);
 
     @BeforeClass
     public static void initPool() throws ConnectionPoolInitializationException {

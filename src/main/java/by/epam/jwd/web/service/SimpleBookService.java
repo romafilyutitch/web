@@ -2,17 +2,25 @@ package by.epam.jwd.web.service;
 
 import by.epam.jwd.web.dao.AuthorDao;
 import by.epam.jwd.web.dao.BookDao;
+import by.epam.jwd.web.dao.CommentDao;
 import by.epam.jwd.web.dao.DAOFactory;
+import by.epam.jwd.web.dao.UserDao;
 import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.model.Author;
 import by.epam.jwd.web.model.Book;
+import by.epam.jwd.web.model.Comment;
 import by.epam.jwd.web.model.Genre;
+import by.epam.jwd.web.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -21,6 +29,8 @@ class SimpleBookService implements BookService {
 
     private static final BookDao BOOK_DAO = DAOFactory.getInstance().getBookDao();
     private static final AuthorDao AUTHOR_DAO = DAOFactory.getInstance().getAuthorDao();
+    private static final CommentDao COMMENT_DAO = DAOFactory.getInstance().getCommentDao();
+    private static final UserDao USER_DAO = DAOFactory.getInstance().getUserDao();
 
     private static final String PAGE_WAS_FOUND_MESSAGE = "Page of books number %s was found";
     private static final String SAVED_BOOK_WAS_NOT_FOUND_BY_ID_MESSAGE = "Saved book with id %d was not found";
@@ -36,6 +46,8 @@ class SimpleBookService implements BookService {
     private static final String BOOK_BY_MAME_WAS_NOT_FOUND_MESSAGE = "Book by name %s was not found";
     private static final String ALL_BOOKS_WERE_FOUND_MESSAGE = "All books were found";
     private static final String AUTHOR_WAS_NOT_FOUND_MESSAGE = "Saved author with id %d does not exist";
+    private static final String COMMENT_WAS_ADD_MESSAGE = "New comment was add to book %s";
+    private static final String LIKE_WAS_ADD_MESSAGE = "One like was to book %s";
 
     private SimpleBookService() {
     }
@@ -48,6 +60,7 @@ class SimpleBookService implements BookService {
     public List<Book> findAll() {
         List<Book> allBooks = BOOK_DAO.findAll();
         allBooks = fillWithAuthor(allBooks);
+        allBooks = fillWithComment(allBooks);
         logger.info(ALL_BOOKS_WERE_FOUND_MESSAGE);
         return allBooks;
     }
@@ -63,6 +76,7 @@ class SimpleBookService implements BookService {
             foundPage = BOOK_DAO.findPage(pageNumber);
         }
         foundPage = fillWithAuthor(foundPage);
+        foundPage = fillWithComment(foundPage);
         logger.info(String.format(PAGE_WAS_FOUND_MESSAGE, pageNumber));
         return foundPage;
     }
@@ -81,6 +95,7 @@ class SimpleBookService implements BookService {
         }
         Book foundBook = optionalBook.get();
         foundBook = fillWithAuthor(foundBook);
+        foundBook = fillWithComment(foundBook);
         logger.info(String.format(BOOK_WAS_FOUND_BY_ID_MESSAGE, foundBook));
         return foundBook;
     }
@@ -120,6 +135,7 @@ class SimpleBookService implements BookService {
         }
         Book savedBook = BOOK_DAO.save(book);
         savedBook = fillWithAuthor(savedBook);
+        savedBook = fillWithComment(savedBook);
         logger.info(String.format(BOOK_WAS_SAVED_MESSAGE, savedBook));
         return savedBook;
     }
@@ -134,6 +150,7 @@ class SimpleBookService implements BookService {
     public List<Book> findByGenre(Genre genre) {
         List<Book> foundBooksByGenre = BOOK_DAO.findByGenreId(genre.getId());
         foundBooksByGenre = fillWithAuthor(foundBooksByGenre);
+        foundBooksByGenre = fillWithComment(foundBooksByGenre);
         logger.info(String.format(BOOKS_WERE_FOUND_BY_GENRE_MESSAGE, foundBooksByGenre.size(), genre));
         return foundBooksByGenre;
     }
@@ -145,12 +162,31 @@ class SimpleBookService implements BookService {
         if (optionalBook.isPresent()) {
             Book foundBook = optionalBook.get();
             foundBook = fillWithAuthor(foundBook);
+            foundBook = fillWithComment(foundBook);
             optionalBook = Optional.of(foundBook);
             logger.info(String.format(BOOK_BY_NAME_WAS_FOUND_MESSAGE, foundBook));
         } else {
             logger.info(String.format(BOOK_BY_MAME_WAS_NOT_FOUND_MESSAGE, name));
         }
         return optionalBook;
+    }
+
+    @Override
+    public Book addComment(Comment comment) {
+        final Optional<Book> optionalBook = BOOK_DAO.findById(comment.getBook().getId());
+        if (!optionalBook.isPresent()) {
+            throw new ServiceException(String.format(BOOK_WAS_FOUND_BY_ID_MESSAGE, comment.getBook().getId()));
+        }
+        final Comment savedComment = COMMENT_DAO.save(comment);
+        logger.info(String.format(COMMENT_WAS_ADD_MESSAGE, savedComment));
+        return optionalBook.get();
+    }
+
+    @Override
+    public void addLike(Book book) {
+        final AtomicInteger atomicLikesAmount = new AtomicInteger(book.getLikes());
+        BOOK_DAO.update(book.updateLikes(atomicLikesAmount.incrementAndGet()));
+        logger.info(String.format(LIKE_WAS_ADD_MESSAGE, book));
     }
 
     private List<Book> fillWithAuthor(List<Book> books) {
@@ -164,6 +200,27 @@ class SimpleBookService implements BookService {
         }
         return book.updateAuthor(foundAuthor.get());
     }
+
+    private Book fillWithComment(Book book) {
+        List<Comment> bookComments = COMMENT_DAO.findByBookId(book.getId());
+        bookComments = bookComments.stream().map(comment -> {
+            final Optional<User> optionalUser = USER_DAO.findById(comment.getUser().getId());
+            final Optional<Book> optionalBook = BOOK_DAO.findById(comment.getBook().getId());
+            if (!optionalUser.isPresent()) {
+                throw new ServiceException(String.format("Saved user with id %d was not found", comment.getUser().getId()));
+            }
+            if(!optionalBook.isPresent()) {
+                throw new ServiceException(String.format("Saved book with id %d was not found", comment.getBook().getId()));
+            }
+            return new Comment(comment.getId(), optionalUser.get(), optionalBook.get(), comment.getDate(), comment.getText());
+        }).collect(Collectors.toList());
+        return book.updateBookComments(bookComments);
+    }
+
+    private List<Book> fillWithComment(List<Book> books) {
+        return books.stream().map(this::fillWithComment).collect(Collectors.toList());
+    }
+
 
     private static class Singleton {
         private static final SimpleBookService INSTANCE = new SimpleBookService();

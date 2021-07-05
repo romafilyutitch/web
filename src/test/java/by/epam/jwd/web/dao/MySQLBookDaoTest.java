@@ -13,6 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +23,7 @@ public class MySQLBookDaoTest {
     private static final ConnectionPool POOL = ConnectionPool.getConnectionPool();
     private final MySQLBookDao testDao = MySQLBookDao.getInstance();
     private final Author testAuthor = MySQLAuthorDao.getInstance().findAll().stream().findAny().get();
-    private Book testBook = new Book("Test Book", testAuthor , Genre.SCIENCE, LocalDate.now(), 100, "Test book for unit test");
+    private Book testBook = new Book("Test Book", testAuthor , Genre.SCIENCE, LocalDate.now(), 100, "Test book for unit test", new ArrayList<>(), 0);
 
     @BeforeClass
     public static void initPool() throws ConnectionPoolInitializationException {

@@ -29,6 +29,9 @@ public class MySQLDAOFactory implements DAOFactory {
     }
 
     @Override
+    public CommentDao getCommentDao() {return MySQLCommentDao.getInstance();}
+
+    @Override
     public SubscriptionDao getSubscriptionDao() {
         return MySQLSubscriptionDao.getInstance();
     }

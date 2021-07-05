@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -25,8 +26,9 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
     private static final String PAGES_AMOUNT_COLUMN = "pages_amount";
     private static final String COPIES_AMOUNT_COLUMN = "copies_amount";
     private static final String DESCRIPTION_COLUMN = "description";
+    private static final String LIKES_COLUMN = "likes";
 
-    private static final List<String> COLUMNS = Arrays.asList(ID_COLUMN, NAME_COLUMN, AUTHOR_COLUMN, GENRE_COLUMN, DATE_COLUMN, PAGES_AMOUNT_COLUMN, COPIES_AMOUNT_COLUMN, DESCRIPTION_COLUMN);
+    private static final List<String> COLUMNS = Arrays.asList(ID_COLUMN, NAME_COLUMN, AUTHOR_COLUMN, GENRE_COLUMN, DATE_COLUMN, PAGES_AMOUNT_COLUMN, COPIES_AMOUNT_COLUMN, DESCRIPTION_COLUMN, LIKES_COLUMN);
 
     private final String findByNameSql;
     private final String findByAuthorSql;
@@ -55,7 +57,8 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
         final int pagesAmount = result.getInt(PAGES_AMOUNT_COLUMN);
         final int copiesAmount = result.getInt(COPIES_AMOUNT_COLUMN);
         final String description = result.getString(DESCRIPTION_COLUMN);
-        return new Book(id, name, new Author(authorId), genre, date, pagesAmount, copiesAmount, description);
+        final Integer likes = result.getInt(LIKES_COLUMN);
+        return new Book(id, name, new Author(authorId), genre, date, pagesAmount, copiesAmount, description, new ArrayList<>(), likes);
     }
 
     @Override
@@ -67,6 +70,7 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
         savePreparedStatement.setInt(5, entity.getPagesAmount());
         savePreparedStatement.setInt(6, entity.getCopiesAmount());
         savePreparedStatement.setString(7, entity.getDescription());
+        savePreparedStatement.setInt(8, entity.getLikes());
     }
 
     @Override
@@ -78,7 +82,8 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
         updatePreparedStatement.setInt(5, entity.getPagesAmount());
         updatePreparedStatement.setInt(6, entity.getCopiesAmount());
         updatePreparedStatement.setString(7, entity.getDescription());
-        updatePreparedStatement.setLong(8, entity.getId());
+        updatePreparedStatement.setInt(8, entity.getLikes());
+        updatePreparedStatement.setLong(9, entity.getId());
     }
 
     @Override

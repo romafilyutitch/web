@@ -12,6 +12,8 @@ public interface DAOFactory {
 
     SubscriptionDao getSubscriptionDao();
 
+    CommentDao getCommentDao();
+
     static DAOFactory getInstance() {
         return MySQLDAOFactory.getInstance();
     }
