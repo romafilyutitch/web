@@ -23,10 +23,9 @@ public class AddLikeCommand implements ActionCommand {
         final Long bookId = Long.valueOf(request.getParameter("id"));
         final Book foundBook = bookService.findById(bookId);
         if (bookService.isLikedByUser(foundBook, user)) {
-            request.getSession().setAttribute("fail", "alreadyLiked");
+            bookService.removeLike(foundBook, user);
         } else {
             bookService.addLike(foundBook, user);
-            request.getSession().setAttribute("success", "likeAdded");
         }
         return new CommandResult() {
             @Override

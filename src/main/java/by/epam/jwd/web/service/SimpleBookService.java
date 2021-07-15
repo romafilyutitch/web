@@ -16,11 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -47,7 +43,8 @@ class SimpleBookService implements BookService {
     private static final String ALL_BOOKS_WERE_FOUND_MESSAGE = "All books were found";
     private static final String AUTHOR_WAS_NOT_FOUND_MESSAGE = "Saved author with id %d does not exist";
     private static final String COMMENT_WAS_ADD_MESSAGE = "New comment was add to book %s";
-    private static final String LIKE_WAS_ADD_MESSAGE = "One like was to book %s";
+    private static final String LIKE_WAS_ADD_MESSAGE = "One like was add to book %s";
+    private static final String LIKE_WAS_REMOVED_MESSAGE = "Like was removed from book %s";
 
     private SimpleBookService() {
     }
@@ -189,8 +186,14 @@ class SimpleBookService implements BookService {
     }
 
     @Override
+    public void removeLike(Book book, User user) {
+        BOOK_DAO.removeLike(book.getId(), user.getId());
+        logger.info(String.format(LIKE_WAS_REMOVED_MESSAGE, book));
+    }
+
+    @Override
     public boolean isLikedByUser(Book book, User user) {
-        return BOOK_DAO.findLike(book.getId(), user.getId());
+        return BOOK_DAO.isLikedByUserWithId(book.getId(), user.getId());
     }
 
     private List<Book> fillWithAuthor(List<Book> books) {

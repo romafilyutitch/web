@@ -112,12 +112,24 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
             addLikeStatement.setLong(2, bookId);
             addLikeStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new DAOException("Could not insert like table", e);
+            throw new DAOException("Could not insert like", e);
         }
      }
 
     @Override
-    public boolean findLike(Long bookId, Long userId) {
+    public void removeLike(Long bookId, Long userId) {
+        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
+        PreparedStatement deleteStatement = connection.prepareStatement("delete from book_like where book_id = ? and user_id = ?")) {
+            deleteStatement.setLong(1, bookId);
+            deleteStatement.setLong(2, userId);
+            deleteStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("Could not delete like", e);
+        }
+    }
+
+    @Override
+    public boolean isLikedByUserWithId(Long bookId, Long userId) {
         try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
         PreparedStatement findLikeStatement = connection.prepareStatement("select count(*) amount from book_like where user_id = ? and book_id = ?")) {
             findLikeStatement.setLong(1, userId);

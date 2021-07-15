@@ -18,6 +18,8 @@ public interface BookDao extends Dao<Book> {
 
     void addLike(Long bookId, Long userId);
 
-    boolean findLike(Long bookId, Long userId);
+    void removeLike(Long bookId, Long userId);
+
+    boolean isLikedByUserWithId(Long bookId, Long userId);
 
 }

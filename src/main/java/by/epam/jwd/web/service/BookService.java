@@ -25,5 +25,7 @@ public interface BookService extends Service<Book> {
 
     void addLike(Book book, User user);
 
+    void removeLike(Book book, User user);
+
     boolean isLikedByUser(Book book, User user);
 }
