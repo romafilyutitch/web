@@ -23,5 +23,7 @@ public interface BookService extends Service<Book> {
 
     Book addComment(Comment comment);
 
-    void addLike(Book book);
+    void addLike(Book book, User user);
+
+    boolean isLikedByUser(Book book, User user);
 }

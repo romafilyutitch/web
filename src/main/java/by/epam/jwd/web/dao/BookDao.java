@@ -16,4 +16,8 @@ public interface BookDao extends Dao<Book> {
 
     List<Book> findByGenreId(Long genreId);
 
+    void addLike(Long bookId, Long userId);
+
+    boolean findLike(Long bookId, Long userId);
+
 }

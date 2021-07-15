@@ -183,10 +183,14 @@ class SimpleBookService implements BookService {
     }
 
     @Override
-    public void addLike(Book book) {
-        final AtomicInteger atomicLikesAmount = new AtomicInteger(book.getLikes());
-        BOOK_DAO.update(book.updateLikes(atomicLikesAmount.incrementAndGet()));
+    public void addLike(Book book, User user) {
+        BOOK_DAO.addLike(book.getId(), user.getId());
         logger.info(String.format(LIKE_WAS_ADD_MESSAGE, book));
+    }
+
+    @Override
+    public boolean isLikedByUser(Book book, User user) {
+        return BOOK_DAO.findLike(book.getId(), user.getId());
     }
 
     private List<Book> fillWithAuthor(List<Book> books) {

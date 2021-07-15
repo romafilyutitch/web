@@ -1,11 +1,13 @@
 package by.epam.jwd.web.dao;
 
 
+import by.epam.jwd.web.connectionPool.ConnectionPool;
 import by.epam.jwd.web.exception.DAOException;
 import by.epam.jwd.web.model.Author;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -100,6 +102,34 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
     @Override
     public List<Book> findByGenreId(Long genreId) throws DAOException {
         return findPreparedEntities(findByGenreSql, preparedStatement -> preparedStatement.setLong(1, genreId));
+    }
+
+    @Override
+    public void addLike(Long bookId, Long userId) {
+        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
+             PreparedStatement addLikeStatement = connection.prepareStatement("insert into book_like (user_id, book_id) values (?, ?)")) {
+            addLikeStatement.setLong(1, userId);
+            addLikeStatement.setLong(2, bookId);
+            addLikeStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("Could not insert like table", e);
+        }
+     }
+
+    @Override
+    public boolean findLike(Long bookId, Long userId) {
+        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
+        PreparedStatement findLikeStatement = connection.prepareStatement("select count(*) amount from book_like where user_id = ? and book_id = ?")) {
+            findLikeStatement.setLong(1, userId);
+            findLikeStatement.setLong(2, bookId);
+            try (ResultSet findResult = findLikeStatement.executeQuery()) {
+                findResult.next();
+                final int likesAmount = findResult.getInt("amount");
+                return likesAmount != 0;
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Could not find like", e);
+        }
     }
 
     private static class Singleton {

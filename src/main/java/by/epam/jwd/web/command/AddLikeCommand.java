@@ -1,6 +1,7 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.model.Book;
+import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.service.BookService;
 import by.epam.jwd.web.service.ServiceFactory;
 
@@ -18,10 +19,15 @@ public class AddLikeCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
+        final User user = (User) request.getSession().getAttribute("user");
         final Long bookId = Long.valueOf(request.getParameter("id"));
         final Book foundBook = bookService.findById(bookId);
-        bookService.addLike(foundBook);
-        request.getSession().setAttribute("success", "likeAdded");
+        if (bookService.isLikedByUser(foundBook, user)) {
+            request.getSession().setAttribute("fail", "alreadyLiked");
+        } else {
+            bookService.addLike(foundBook, user);
+            request.getSession().setAttribute("success", "likeAdded");
+        }
         return new CommandResult() {
             @Override
             public String getResultPath() {
