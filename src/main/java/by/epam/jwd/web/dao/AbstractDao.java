@@ -69,7 +69,7 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     }
 
     private String buildUpdateColumns(List<String> columns) {
-        final StringJoiner joiner = new StringJoiner(" = ?,",""," = ?");
+        final StringJoiner joiner = new StringJoiner(" = ?,", "", " = ?");
         final List<String> subList = columns.subList(1, columns.size());
         subList.forEach(joiner::add);
         return joiner.toString();
@@ -98,21 +98,13 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     @Override
     public T save(T entity) {
         long savedEntityId;
-        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection()) {
-            connection.setAutoCommit(false);
-            try (PreparedStatement saveStatement = connection.prepareStatement(saveSql, Statement.RETURN_GENERATED_KEYS)) {
-                setSavePrepareStatementValues(entity, saveStatement);
-                saveStatement.executeUpdate();
-                connection.commit();
-                try (ResultSet generatedKeyResultSet = saveStatement.getGeneratedKeys()) {
-                    generatedKeyResultSet.first();
-                    savedEntityId = generatedKeyResultSet.getLong(GENERATED_KEY_COLUMN);
-                }
-            } catch (SQLException e) {
-                connection.rollback();
-                throw e;
-            } finally {
-                connection.setAutoCommit(true);
+        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
+             PreparedStatement saveStatement = connection.prepareStatement(saveSql, Statement.RETURN_GENERATED_KEYS)) {
+            setSavePrepareStatementValues(entity, saveStatement);
+            saveStatement.executeUpdate();
+            try (ResultSet generatedKeyResultSet = saveStatement.getGeneratedKeys()) {
+                generatedKeyResultSet.first();
+                savedEntityId = generatedKeyResultSet.getLong(GENERATED_KEY_COLUMN);
             }
         } catch (SQLException e) {
             logger.error(String.format(COULD_NOT_SAVE_ENTITY_MESSAGE, entity), e);
@@ -132,8 +124,8 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     public List<T> findAll() {
         final List<T> foundEntities = new ArrayList<>();
         try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
-        Statement findAllStatement = connection.createStatement();
-        ResultSet resultSet = findAllStatement.executeQuery(findAllSql)) {
+             Statement findAllStatement = connection.createStatement();
+             ResultSet resultSet = findAllStatement.executeQuery(findAllSql)) {
             while (resultSet.next()) {
                 final T foundEntity = mapResultSet(resultSet);
                 foundEntities.add(foundEntity);
@@ -154,18 +146,10 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
 
     @Override
     public T update(T entity) {
-        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection()) {
-            connection.setAutoCommit(false);
-            try (PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
-                setUpdatePreparedStatementValues(entity, updateStatement);
-                updateStatement.executeUpdate();
-                connection.commit();
-            } catch (SQLException e) {
-                connection.rollback();
-                throw e;
-            } finally {
-                connection.setAutoCommit(true);
-            }
+        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
+             PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
+            setUpdatePreparedStatementValues(entity, updateStatement);
+            updateStatement.executeUpdate();
             logger.info(String.format(ENTITY_WAS_UPDATED_MESSAGE, entity));
             return entity;
         } catch (SQLException e) {
@@ -176,18 +160,10 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
 
     @Override
     public void delete(Long id) {
-        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection()) {
-            connection.setAutoCommit(false);
-            try (PreparedStatement deleteStatement = connection.prepareStatement(deleteSql)) {
-                deleteStatement.setLong(1, id);
-                deleteStatement.executeUpdate();
-                connection.commit();
-            } catch (SQLException e) {
-                connection.rollback();
-                throw e;
-            } finally {
-                connection.setAutoCommit(true);
-            }
+        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
+             PreparedStatement deleteStatement = connection.prepareStatement(deleteSql)) {
+            deleteStatement.setLong(1, id);
+            deleteStatement.executeUpdate();
             logger.info(String.format(ENTITY_WAS_DELETED_MESSAGE, id));
         } catch (SQLException e) {
             logger.error(String.format(COULD_NOT_DELETE_ENTITY_MESSAGE, id), e);
@@ -209,11 +185,11 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     @Override
     public int getRowsAmount() {
         try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
-        Statement countStatement = connection.createStatement();
-        ResultSet resultSet = countStatement.executeQuery(countSql)) {
-        resultSet.next();
+             Statement countStatement = connection.createStatement();
+             ResultSet resultSet = countStatement.executeQuery(countSql)) {
+            resultSet.next();
             return resultSet.getInt(1);
-        }  catch (SQLException e) {
+        } catch (SQLException e) {
             logger.error(COULD_NOT_FIND_NUMBER_OF_ROWS_MESSAGE, e);
             throw new DAOException(COULD_NOT_FIND_NUMBER_OF_ROWS_MESSAGE, e);
         }
