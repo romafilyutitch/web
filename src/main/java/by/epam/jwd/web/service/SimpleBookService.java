@@ -23,10 +23,10 @@ import java.util.stream.Collectors;
 class SimpleBookService implements BookService {
     private static final Logger logger = LogManager.getLogger(SimpleBookService.class);
 
-    private static final BookDao BOOK_DAO = DAOFactory.getInstance().getBookDao();
-    private static final AuthorDao AUTHOR_DAO = DAOFactory.getInstance().getAuthorDao();
-    private static final CommentDao COMMENT_DAO = DAOFactory.getInstance().getCommentDao();
-    private static final UserDao USER_DAO = DAOFactory.getInstance().getUserDao();
+    private final BookDao bookDao = DAOFactory.getInstance().getBookDao();
+    private final AuthorDao authorDao = DAOFactory.getInstance().getAuthorDao();
+    private final CommentDao commentDao = DAOFactory.getInstance().getCommentDao();
+    private final UserDao userDao = DAOFactory.getInstance().getUserDao();
 
     private static final String PAGE_WAS_FOUND_MESSAGE = "Page of books number %s was found";
     private static final String SAVED_BOOK_WAS_NOT_FOUND_BY_ID_MESSAGE = "Saved book with id %d was not found";
@@ -55,7 +55,7 @@ class SimpleBookService implements BookService {
 
     @Override
     public List<Book> findAll() {
-        List<Book> allBooks = BOOK_DAO.findAll();
+        List<Book> allBooks = bookDao.findAll();
         allBooks = fillWithAuthor(allBooks);
         allBooks = fillWithComment(allBooks);
         logger.info(ALL_BOOKS_WERE_FOUND_MESSAGE);
@@ -66,11 +66,11 @@ class SimpleBookService implements BookService {
     public List<Book> findPage(int pageNumber) {
         List<Book> foundPage;
         if (pageNumber < 1) {
-            foundPage = BOOK_DAO.findPage(1);
+            foundPage = bookDao.findPage(1);
         } else if (pageNumber >= getPagesAmount()) {
-            foundPage = BOOK_DAO.findPage(getPagesAmount());
+            foundPage = bookDao.findPage(getPagesAmount());
         } else {
-            foundPage = BOOK_DAO.findPage(pageNumber);
+            foundPage = bookDao.findPage(pageNumber);
         }
         foundPage = fillWithAuthor(foundPage);
         foundPage = fillWithComment(foundPage);
@@ -80,12 +80,12 @@ class SimpleBookService implements BookService {
 
     @Override
     public int getPagesAmount() {
-        return BOOK_DAO.getPagesAmount();
+        return bookDao.getPagesAmount();
     }
 
     @Override
     public Book findById(Long id) {
-        final Optional<Book> optionalBook = BOOK_DAO.findById(id);
+        final Optional<Book> optionalBook = bookDao.findById(id);
         if (!optionalBook.isPresent()) {
             logger.error(String.format(SAVED_BOOK_WAS_NOT_FOUND_BY_ID_MESSAGE, id));
             throw new ServiceException(String.format(SAVED_BOOK_WAS_NOT_FOUND_BY_ID_MESSAGE, id));
@@ -98,39 +98,35 @@ class SimpleBookService implements BookService {
     }
 
     @Override
-    public Book addOneCopy(Long bookId) {
-        final Book savedBook = findById(bookId);
-        final AtomicInteger copiesAmount = new AtomicInteger(savedBook.getCopiesAmount());
-        final Book updatedBook = BOOK_DAO.update(savedBook.updatedBooksAmount(copiesAmount.incrementAndGet()));
+    public void addOneCopy(Book book) {
+        final AtomicInteger copiesAmount = new AtomicInteger(book.getCopiesAmount());
+        final Book updatedBook = bookDao.update(book.updatedBooksAmount(copiesAmount.incrementAndGet()));
         logger.info(String.format(COPY_WAS_ADDED_MESSAGE, updatedBook));
-        return updatedBook;
     }
 
     @Override
-    public Book removeOneCopy(Long bookId) {
-        final Book savedBook = findById(bookId);
-        final AtomicInteger copiesAmount = new AtomicInteger(savedBook.getCopiesAmount());
-        final Book updatedBook = BOOK_DAO.update(savedBook.updatedBooksAmount(copiesAmount.decrementAndGet()));
+    public void removeOneCopy(Book book) {
+        final AtomicInteger copiesAmount = new AtomicInteger(book.getCopiesAmount());
+        final Book updatedBook = bookDao.update(book.updatedBooksAmount(copiesAmount.decrementAndGet()));
         logger.info(String.format(COPY_WAS_REMOVED_MESSAGE, updatedBook));
-        return updatedBook;
     }
 
     @Override
     public Book register(Book book) throws RegisterException {
-        final Optional<Book> optionalBook = BOOK_DAO.findByName(book.getName());
+        final Optional<Book> optionalBook = bookDao.findByName(book.getName());
         if (optionalBook.isPresent()) {
             logger.info(String.format(BOOK_WITH_NAME_EXISTS_MESSAGE, book.getName()));
             throw new RegisterException(String.format(BOOK_WITH_NAME_EXISTS_MESSAGE, book.getName()));
         }
-        final Optional<Author> optionalAuthor = AUTHOR_DAO.getByName(book.getAuthor().getName());
+        final Optional<Author> optionalAuthor = authorDao.getByName(book.getAuthor().getName());
         if (!optionalAuthor.isPresent()) {
             logger.info(String.format(AUTHOR_DOES_NOT_EXIST_MESSAGE, book.getAuthor()));
-            final Author savedAuthor = AUTHOR_DAO.save(book.getAuthor());
+            final Author savedAuthor = authorDao.save(book.getAuthor());
             book = book.updateAuthor(savedAuthor);
         } else {
             book = book.updateAuthor(optionalAuthor.get());
         }
-        Book savedBook = BOOK_DAO.save(book);
+        Book savedBook = bookDao.save(book);
         savedBook = fillWithAuthor(savedBook);
         savedBook = fillWithComment(savedBook);
         logger.info(String.format(BOOK_WAS_SAVED_MESSAGE, savedBook));
@@ -139,13 +135,13 @@ class SimpleBookService implements BookService {
 
     @Override
     public void delete(Long bookId) {
-        BOOK_DAO.delete(bookId);
+        bookDao.delete(bookId);
         logger.info(String.format(BOOK_WAS_DELETED_MESSAGE, bookId));
     }
 
     @Override
     public List<Book> findByGenre(Genre genre) {
-        List<Book> foundBooksByGenre = BOOK_DAO.findByGenreId(genre.getId());
+        List<Book> foundBooksByGenre = bookDao.findByGenreId(genre.getId());
         foundBooksByGenre = fillWithAuthor(foundBooksByGenre);
         foundBooksByGenre = fillWithComment(foundBooksByGenre);
         logger.info(String.format(BOOKS_WERE_FOUND_BY_GENRE_MESSAGE, foundBooksByGenre.size(), genre));
@@ -155,7 +151,7 @@ class SimpleBookService implements BookService {
 
     @Override
     public Optional<Book> findByName(String name) {
-        Optional<Book> optionalBook = BOOK_DAO.findByName(name);
+        Optional<Book> optionalBook = bookDao.findByName(name);
         if (optionalBook.isPresent()) {
             Book foundBook = optionalBook.get();
             foundBook = fillWithAuthor(foundBook);
@@ -169,31 +165,26 @@ class SimpleBookService implements BookService {
     }
 
     @Override
-    public Book addComment(Comment comment) {
-        final Optional<Book> optionalBook = BOOK_DAO.findById(comment.getBook().getId());
-        if (!optionalBook.isPresent()) {
-            throw new ServiceException(String.format(BOOK_WAS_FOUND_BY_ID_MESSAGE, comment.getBook().getId()));
-        }
-        final Comment savedComment = COMMENT_DAO.save(comment);
+    public void addComment(Comment comment) {
+        final Comment savedComment = commentDao.save(comment);
         logger.info(String.format(COMMENT_WAS_ADD_MESSAGE, savedComment));
-        return optionalBook.get();
     }
 
     @Override
     public void addLike(Book book, User user) {
-        BOOK_DAO.addLike(book.getId(), user.getId());
+        bookDao.addLike(book.getId(), user.getId());
         logger.info(String.format(LIKE_WAS_ADD_MESSAGE, book));
     }
 
     @Override
     public void removeLike(Book book, User user) {
-        BOOK_DAO.removeLike(book.getId(), user.getId());
+        bookDao.removeLike(book.getId(), user.getId());
         logger.info(String.format(LIKE_WAS_REMOVED_MESSAGE, book));
     }
 
     @Override
     public boolean isLikedByUser(Book book, User user) {
-        return BOOK_DAO.isLikedByUserWithId(book.getId(), user.getId());
+        return bookDao.isLikedByUserWithId(book.getId(), user.getId());
     }
 
     private List<Book> fillWithAuthor(List<Book> books) {
@@ -201,7 +192,7 @@ class SimpleBookService implements BookService {
     }
 
     private Book fillWithAuthor(Book book) {
-        final Optional<Author> foundAuthor = AUTHOR_DAO.findById(book.getAuthor().getId());
+        final Optional<Author> foundAuthor = authorDao.findById(book.getAuthor().getId());
         if (!foundAuthor.isPresent()) {
             throw new ServiceException(String.format(AUTHOR_WAS_NOT_FOUND_MESSAGE, book.getAuthor().getId()));
         }
@@ -209,10 +200,10 @@ class SimpleBookService implements BookService {
     }
 
     private Book fillWithComment(Book book) {
-        List<Comment> bookComments = COMMENT_DAO.findByBookId(book.getId());
+        List<Comment> bookComments = commentDao.findByBookId(book.getId());
         bookComments = bookComments.stream().map(comment -> {
-            final Optional<User> optionalUser = USER_DAO.findById(comment.getUser().getId());
-            final Optional<Book> optionalBook = BOOK_DAO.findById(comment.getBook().getId());
+            final Optional<User> optionalUser = userDao.findById(comment.getUser().getId());
+            final Optional<Book> optionalBook = bookDao.findById(comment.getBook().getId());
             if (!optionalUser.isPresent()) {
                 throw new ServiceException(String.format("Saved user with id %d was not found", comment.getUser().getId()));
             }

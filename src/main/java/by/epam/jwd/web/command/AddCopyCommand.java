@@ -1,11 +1,13 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.model.Book;
+import by.epam.jwd.web.service.BookService;
 import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class AddCopyCommand implements ActionCommand {
+    private final BookService bookService = ServiceFactory.getInstance().getBookService();
 
     private static final String REQUEST_BOOK_ID_PARAMETER_KEY = "id";
 
@@ -24,7 +26,8 @@ public class AddCopyCommand implements ActionCommand {
     @Override
     public CommandResult execute(HttpServletRequest request) {
         final Long id = Long.valueOf(request.getParameter(REQUEST_BOOK_ID_PARAMETER_KEY));
-        final Book book = ServiceFactory.getInstance().getBookService().addOneCopy(id);
+        final Book book = bookService.findById(id);
+        bookService.addOneCopy(book);
         request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, "copyAdded");
         return new CommandResult() {
             @Override

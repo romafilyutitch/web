@@ -1,11 +1,13 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.model.Order;
+import by.epam.jwd.web.service.OrderService;
 import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class ReturnBookCommand implements ActionCommand {
+    private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     private static final String REQUEST_BOOK_ID_PARAMETER_KEY = "id";
 
@@ -24,8 +26,8 @@ public class ReturnBookCommand implements ActionCommand {
     @Override
     public CommandResult execute(HttpServletRequest request) {
         final Long orderId = Long.valueOf(request.getParameter(REQUEST_BOOK_ID_PARAMETER_KEY));
-        final Order order = ServiceFactory.getInstance().getOrderService().findById(orderId);
-        final Order returnedOrder = ServiceFactory.getInstance().getOrderService().returnOrder(order.getId());
+        final Order foundOrder = orderService.findById(orderId);
+        orderService.returnOrder(foundOrder);
         request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, "bookReturned");
         return new CommandResult() {
             @Override

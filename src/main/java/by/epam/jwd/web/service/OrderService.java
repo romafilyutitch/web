@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface OrderService extends Service<Order> {
 
-    Order approveOrder(Long orderId);
+    void approveOrder(Order order);
 
-    Order returnOrder(Long orderId);
+    void returnOrder(Order order);
 
     List<Order> findByBookId(Long readerId);
 

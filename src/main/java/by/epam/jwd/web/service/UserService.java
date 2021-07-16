@@ -11,11 +11,11 @@ public interface UserService extends Service<User> {
 
     User loginUser(User user) throws NoLoginException, WrongPasswordException;
 
-    User promoteUserRole(Long userId);
+    void promoteUserRole(User user);
 
-    User demoteUserRole(Long userId);
+    void demoteUserRole(User user);
 
-    User setSubscription(Long userId, Subscription newSubscription) throws SubscriptionException;
+    void setSubscription(User user, Subscription newSubscription) throws SubscriptionException;
 
     User changeLogin(Long userId, String newLogin) throws LoginExistsException;
 

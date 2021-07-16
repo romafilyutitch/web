@@ -4,11 +4,13 @@ import by.epam.jwd.web.exception.SubscriptionException;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.service.ServiceFactory;
+import by.epam.jwd.web.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 
 public class SetSubscriptionCommand implements ActionCommand {
+    private final UserService userService = ServiceFactory.getInstance().getUserService();
 
     private static final String REQUEST_USER_ID_PARAMETER_KEY = "id";
     private static final String REQUEST_START_DATE_PARAMETER_KEY = "start_date";
@@ -30,11 +32,12 @@ public class SetSubscriptionCommand implements ActionCommand {
     @Override
     public CommandResult execute(HttpServletRequest request) {
         final Long id = Long.valueOf(request.getParameter(REQUEST_USER_ID_PARAMETER_KEY));
+        final User foundUser = userService.findById(id);
         final String startDate = request.getParameter(REQUEST_START_DATE_PARAMETER_KEY);
         final String endDate = request.getParameter(REQUEST_END_DATE_PARAMETER_KEY);
         final Subscription subscription = new Subscription(LocalDate.parse(startDate), LocalDate.parse(endDate));
         try {
-            final User user = ServiceFactory.getInstance().getUserService().setSubscription(id, subscription);
+            userService.setSubscription(foundUser, subscription);
             request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, "subscriptionSet");
         } catch (SubscriptionException e) {
             request.getSession().setAttribute(SESSION_FAIL_ATTRIBUTE_KEY, "wrongSubscription");

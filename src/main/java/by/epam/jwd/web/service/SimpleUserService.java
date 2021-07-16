@@ -37,8 +37,8 @@ class SimpleUserService implements UserService {
     private static final String USER_WAS_SAVED_MESSAGE = "User was saved in database %s";
     private static final String USER_BY_ID_WAS_NOT_FOUND_MESSAGE = "Saved user with id %d was not found";
     private static final String USER_BY_ID_WAS_FOUND_MESSAGE = "User was found by id %s";
-    private static final String USER_ROLE_WAS_PROMOTED_MESSAGE = "User with id %d was promoted to %s";
-    private static final String USER_ROLE_WAS_DEMOTED_MESSAGE = "User with id %d was demoted to %s";
+    private static final String USER_ROLE_WAS_PROMOTED_MESSAGE = "Role was promoted for user %s";
+    private static final String USER_ROLE_WAS_DEMOTED_MESSAGE = "Role was demoted for user %s";
     private static final String USER_WAS_DELETED_MESSAGE = "User with id %d was deleted";
     private static final String SUBSCRIPTION_WAS_SET_MESSAGE = "New subscription was set to user %s";
     private static final String LOGIN_WAS_CHANGED_MESSAGE = "New login was set to user %s";
@@ -126,19 +126,17 @@ class SimpleUserService implements UserService {
     }
 
     @Override
-    public User promoteUserRole(Long userId) {
-        final User savedUser = findById(userId);
-        final UserRole promotedRole = savedUser.getRole().promote();
-        logger.info(String.format(USER_ROLE_WAS_PROMOTED_MESSAGE, userId, promotedRole));
-        return USER_DAO.update(savedUser.updateRole(promotedRole));
+    public void promoteUserRole(User user) {
+        final UserRole promotedRole = user.getRole().promote();
+        final User promotedUser = USER_DAO.update(user.updateRole(promotedRole));
+        logger.info(String.format(USER_ROLE_WAS_PROMOTED_MESSAGE, promotedUser));
     }
 
     @Override
-    public User demoteUserRole(Long userId) {
-        final User savedUser = findById(userId);
-        final UserRole demotedRole = savedUser.getRole().demote();
-        logger.info(String.format(USER_ROLE_WAS_DEMOTED_MESSAGE, userId, demotedRole));
-        return USER_DAO.update(savedUser.updateRole(demotedRole));
+    public void demoteUserRole(User user) {
+        final UserRole demotedRole = user.getRole().demote();
+        final User demotedUser = USER_DAO.update(user.updateRole(demotedRole));
+        logger.info(String.format(USER_ROLE_WAS_DEMOTED_MESSAGE, demotedUser));
     }
 
     @Override
@@ -148,15 +146,13 @@ class SimpleUserService implements UserService {
     }
 
     @Override
-    public User setSubscription(Long userId, Subscription newSubscription) throws SubscriptionException {
+    public void setSubscription(User user, Subscription newSubscription) throws SubscriptionException {
         if (newSubscription.getStartDate().isAfter(newSubscription.getEndDate())) {
             throw new SubscriptionException("Start date is after end date");
         }
-        final User savedUser = findById(userId);
         final Subscription savedSubscription = SUBSCRIPTION_DAO.save(newSubscription);
-        final User updatedUser = USER_DAO.update(savedUser.updateSubscription(savedSubscription));
+        final User updatedUser = USER_DAO.update(user.updateSubscription(savedSubscription));
         logger.info(String.format(SUBSCRIPTION_WAS_SET_MESSAGE, updatedUser));
-        return updatedUser;
     }
 
     @Override

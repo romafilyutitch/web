@@ -1,0 +1,6 @@
+2021-07-16 14:07:02 INFO  SimpleUserService - User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
+2021-07-16 14:07:02 INFO  SimpleUserService - User with login 123 already exists
+2021-07-16 14:07:04 INFO  SimpleUserService - User with id 314 was deleted
+2021-07-16 14:07:05 INFO  SimpleUserService - User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
+2021-07-16 14:07:05 INFO  SimpleUserService - Role was demoted for user LibraryUser{id=315, login='123', password='$2a$04$6Xh7BwXE11Nhoy9AI.g1FONZAwgeniX/w.bXZx8aWEUMX3rlGPFLu', role=READER, userSubscription=null}
+2021-07-16 14:07:05 INFO  SimpleUserService - User was found by id LibraryUser{id=315, login='123', password='$2a$04$6Xh7BwXE11Nhoy9AI.g1FONZAwgeniX/w.bXZx8aWEUMX3rlGPFLu', role=READER, userSubscription=null}

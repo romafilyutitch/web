@@ -87,22 +87,19 @@ public class SimpleBookServiceTest {
     @Test
     public void addOneCopy() {
         final int initCopiesAmount = testBook.getCopiesAmount();
-        final Book bookWithAddedCopy = testService.addOneCopy(testBook.getId());
-        final int finalCopiesAmount = bookWithAddedCopy.getCopiesAmount();
-
-        assertNotNull("Book with added copy must be not null", bookWithAddedCopy);
-        assertEquals("Book with added copy id must be equal to test book id", bookWithAddedCopy.getId(), testBook.getId());
+        testService.addOneCopy(testBook);
+        Book foundBook = testService.findById(testBook.getId());
+        final int finalCopiesAmount = foundBook.getCopiesAmount();
         assertTrue("Final copies amount must be greater than init copies amount", initCopiesAmount < finalCopiesAmount);
     }
 
     @Test
     public void removeOneCopy() {
         final int initCopiesAmount = testBook.getCopiesAmount();
-        final Book bookWithRemovedCopy = testService.removeOneCopy(testBook.getId());
-        final int finalCopiesAmount = bookWithRemovedCopy.getCopiesAmount();
+        testService.removeOneCopy(testBook);
+        final Book foundBook = testService.findById(testBook.getId());
+        final int finalCopiesAmount = foundBook.getCopiesAmount();
 
-        assertNotNull("Book with removed copy must be not null", bookWithRemovedCopy);
-        assertEquals("Book with added copy id must be equal to test book id", bookWithRemovedCopy.getId(), testBook.getId());
         assertTrue("Final copies amount must be less than init copies amount", initCopiesAmount > finalCopiesAmount);
     }
 

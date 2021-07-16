@@ -104,11 +104,9 @@ class SimpleOrderService implements OrderService {
     }
 
     @Override
-    public Order approveOrder(Long orderId) throws ServiceException {
-        final Order order = findById(orderId);
+    public void approveOrder(Order order) throws ServiceException {
         final Order approvedOrder = ORDER_DAO.update(order.updateOrderStatus(Status.APPROVED));
         logger.info(String.format(ORDER_WAS_APPROVED_MESSAGE, approvedOrder));
-        return approvedOrder;
     }
 
     @Override
@@ -118,11 +116,9 @@ class SimpleOrderService implements OrderService {
     }
 
     @Override
-    public Order returnOrder(Long orderId) {
-        final Order order = findById(orderId);
+    public void returnOrder(Order order) {
         final Order returnedOrder = ORDER_DAO.update(order.updateOrderStatus(Status.RETURNED));
         logger.info(String.format(ORDER_WAS_RETURNED_MESSAGE, returnedOrder));
-        return returnedOrder;
     }
 
     @Override

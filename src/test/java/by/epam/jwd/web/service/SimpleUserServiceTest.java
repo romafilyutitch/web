@@ -115,20 +115,20 @@ public class SimpleUserServiceTest {
     @Test
     public void promoteUserRole_mustReturnUserWithPromotedRole() {
         final UserRole startUserRole = testUser.getRole();
-        final User userWithPromotedRole = testService.promoteUserRole(testUser.getId());
-        final UserRole promotedRole = userWithPromotedRole.getRole();
+        testService.promoteUserRole(testUser);
+        final User foundUser = testService.findById(testUser.getId());
+        final UserRole promotedRole = foundUser.getRole();
 
-        assertNotNull("User with promoted role must be not null", userWithPromotedRole);
         assertTrue("Promoted role must be greater than or equal to start user role", promotedRole.compareTo(startUserRole) >= 0);
     }
 
     @Test
     public void demoteUserRole_mustReturnUserWithDemotedRole() {
         final UserRole startUserRole = testUser.getRole();
-        final User userWithDemotedRole = testService.demoteUserRole(testUser.getId());
-        final UserRole demotedUserRole = userWithDemotedRole.getRole();
+        testService.demoteUserRole(testUser);
+        final User foundUser = testService.findById(testUser.getId());
+        final UserRole demotedUserRole = foundUser.getRole();
 
-        assertNotNull("User with demoted role must be not null", userWithDemotedRole);
         assertTrue("Demoted role must be less than or equal to start user role", demotedUserRole.compareTo(startUserRole) <= 0);
     }
 
@@ -142,7 +142,8 @@ public class SimpleUserServiceTest {
     @Test
     public void setSubscription_mustReturnUserWithNewSubscription() throws SubscriptionException {
         final Subscription subscription = new Subscription(LocalDate.now(), LocalDate.now().plusDays(2));
-        final User userWithNewSubscription = testService.setSubscription(testUser.getId(), subscription);
+        testService.setSubscription(testUser, subscription);
+        final User userWithNewSubscription = testService.findById(testUser.getId());
 
         assertNotNull("User with subscription must be not null", userWithNewSubscription);
     }
@@ -150,7 +151,7 @@ public class SimpleUserServiceTest {
     @Test(expected = SubscriptionException.class)
     public void setSubscription_mustThrowException_ifStartDateIsAfterEndDate() throws SubscriptionException {
         final Subscription subscription = new Subscription(LocalDate.now(), LocalDate.now().minusMonths(1));
-        testService.setSubscription(testUser.getId(), subscription);
+        testService.setSubscription(testUser, subscription);
     }
 
     @Test

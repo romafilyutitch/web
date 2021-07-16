@@ -1,10 +1,13 @@
 package by.epam.jwd.web.command;
 
+import by.epam.jwd.web.model.Order;
+import by.epam.jwd.web.service.OrderService;
 import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class ApproveOrderCommand implements ActionCommand {
+    private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     private static final String ORDER_ID_KEY = "id";
 
@@ -23,7 +26,8 @@ public class ApproveOrderCommand implements ActionCommand {
     @Override
     public CommandResult execute(HttpServletRequest request) {
         final Long id = Long.valueOf(request.getParameter(ORDER_ID_KEY));
-        ServiceFactory.getInstance().getOrderService().approveOrder(id);
+        final Order foundOrder = orderService.findById(id);
+        orderService.approveOrder(foundOrder);
         request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, "orderApproved");
         return new CommandResult() {
             @Override

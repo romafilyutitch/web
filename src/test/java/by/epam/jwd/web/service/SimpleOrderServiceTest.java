@@ -84,10 +84,12 @@ public class SimpleOrderServiceTest {
 
     @Test
     public void approveOrder_mustChangeOrderStatusToApprovedStatus() {
-        final Order approvedOrder = testService.approveOrder(testOrder.getId());
-        assertNotNull("Approved order must be not null", approvedOrder);
-        assertEquals("Approved order is must be equal to test order id",testOrder.getId(), approvedOrder.getId());
-        assertEquals("Approved order status must be changed to Approved", Status.APPROVED, approvedOrder.getStatus());
+        testService.approveOrder(testOrder);
+        final Order foundOrder = testService.findById(testOrder.getId());
+
+        assertNotNull("Found order must be not null", foundOrder);
+        assertEquals("Found order id must be equal to test order id", testOrder.getId(), foundOrder.getId());
+        assertEquals("Approved order status must be changed to Approved", Status.APPROVED, foundOrder.getStatus());
     }
 
     @Test
@@ -99,10 +101,12 @@ public class SimpleOrderServiceTest {
 
     @Test
     public void returnOrder_mustChangeStatusToReturnedStatus() {
-        final Order returnedOrder = testService.returnOrder(testOrder.getId());
-        assertNotNull("Returned order must be not null", returnedOrder);
-        assertEquals("Returned order id must be equal to test order id", testOrder.getId(), returnedOrder.getId());
-        assertEquals("Returned order status must be changed", Status.RETURNED, returnedOrder.getStatus());
+        testService.returnOrder(testOrder);
+        final Order foundOrder = testService.findById(testOrder.getId());
+
+        assertNotNull("Found order must be not null", foundOrder);
+        assertEquals("Returned order id must be equal to test order id", testOrder.getId(),foundOrder.getId());
+        assertEquals("Returned order status must be changed", Status.RETURNED, foundOrder.getStatus());
     }
 
     @Test
