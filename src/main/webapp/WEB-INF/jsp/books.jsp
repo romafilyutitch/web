@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="webjars/bootstrap/5.0.1/css/bootstrap.css"/>
     <script type="text/javascript" src="webjars/jquery/2.1.1/jquery.js"></script>
     <script type="text/javascript" src="webjars/bootstrap/5.0.1/js/bootstrap.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/formValidation.js"></script>
 </head>
 <body class="text-center">
 <div class="container">
@@ -152,25 +153,5 @@
         </div>
 </div>
 <a class="btn btn-primary" href="controller?command=main"><fmt:message key="main"/></a>
-<script type="text/javascript">
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function () {
-        'use strict'
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        const forms = document.querySelectorAll('.needs-validation')
-        // Loop over them and prevent submission
-        Array.from(forms)
-            .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-
-                    form.classList.add('was-validated')
-                }, false)
-            })
-    })()
-</script>
 </body>
 </html>
