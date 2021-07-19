@@ -29,6 +29,7 @@ class SimpleUserService implements UserService {
     private final BCrypt.Hasher hasher = BCrypt.withDefaults();
     private final BCrypt.Verifyer verifyer = BCrypt.verifyer();
 
+    private static final String START_DATE_IS_AFTER_END_DATE_MESSAGE = "Start date is after end date";
     private static final String ALL_USERS_WERE_FOUND_MESSAGE = "All users was found";
     private static final String USER_WITH_LOGIN_DOES_NOT_EXIST_MESSAGE = "User with login %s does not exist";
     private static final String WRONG_PASSWORD_WAS_ENTERED_MESSAGE = "Wrong password was entered";
@@ -56,7 +57,6 @@ class SimpleUserService implements UserService {
     @Override
     public List<User> findAll() {
         List<User> allUsers = userDao.findAll();
-        allUsers = fillWithSubscription(allUsers);
         logger.info(ALL_USERS_WERE_FOUND_MESSAGE);
         return allUsers;
     }
@@ -69,7 +69,6 @@ class SimpleUserService implements UserService {
             throw new NoLoginException();
         }
         User foundUser = optionalUser.get();
-        foundUser = fillWithSubscription(foundUser);
         final BCrypt.Result verifyResult = verifyer.verify(user.getPassword().toCharArray(), foundUser.getPassword().toCharArray());
         if (!verifyResult.verified) {
             logger.info(WRONG_PASSWORD_WAS_ENTERED_MESSAGE);
@@ -89,7 +88,6 @@ class SimpleUserService implements UserService {
         } else {
             foundPage = userDao.findPage(currentPage);
         }
-        foundPage = fillWithSubscription(foundPage);
         logger.info(String.format(PAGE_OF_USERS_WAS_FOUND_MESSAGE, currentPage));
         return foundPage;
     }
@@ -120,7 +118,6 @@ class SimpleUserService implements UserService {
             throw new ServiceException(String.format(USER_BY_ID_WAS_NOT_FOUND_MESSAGE, userId));
         }
         User foundUser = optionalUser.get();
-        foundUser = fillWithSubscription(foundUser);
         logger.info(String.format(USER_BY_ID_WAS_FOUND_MESSAGE, foundUser));
         return foundUser;
     }
@@ -150,7 +147,7 @@ class SimpleUserService implements UserService {
     @Override
     public void setSubscription(User user, Subscription newSubscription) throws SubscriptionException {
         if (newSubscription.getStartDate().isAfter(newSubscription.getEndDate())) {
-            throw new SubscriptionException("Start date is after end date");
+            throw new SubscriptionException(START_DATE_IS_AFTER_END_DATE_MESSAGE);
         }
         final Subscription savedSubscription = subscriptionDao.save(newSubscription);
         final User userWithNewSubscription = new User(user.getId(), user.getLogin(), user.getPassword(), user.getRole(), savedSubscription);
@@ -182,20 +179,6 @@ class SimpleUserService implements UserService {
         return updatedUser;
     }
 
-    private List<User> fillWithSubscription(List<User> users) {
-        return users.stream().map(this::fillWithSubscription).collect(Collectors.toList());
-    }
-
-    private User fillWithSubscription(User user) {
-        if (user.getSubscription() == null) {
-            return user;
-        }
-        final Optional<Subscription> optionalSubscription = subscriptionDao.findById(user.getSubscription().getId());
-        if (!optionalSubscription.isPresent()) {
-            throw new ServiceException(String.format(SUBSCRIPTION_WAS_NOT_FOUND_MESSAGE, user.getSubscription().getId()));
-        }
-        return new User(user.getId(), user.getLogin(), user.getPassword(), user.getRole(), optionalSubscription.get());
-    }
 
     private static class Singleton {
         private static final SimpleUserService INSTANCE = new SimpleUserService();

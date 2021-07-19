@@ -1,33 +1,23 @@
 package by.epam.jwd.web.service;
 
-import by.epam.jwd.web.dao.AuthorDao;
-import by.epam.jwd.web.dao.BookDao;
 import by.epam.jwd.web.dao.DAOFactory;
 import by.epam.jwd.web.dao.OrderDao;
-import by.epam.jwd.web.dao.UserDao;
 import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.exception.ServiceException;
-import by.epam.jwd.web.model.Author;
-import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.model.Status;
 import by.epam.jwd.web.model.Subscription;
-import by.epam.jwd.web.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 class SimpleOrderService implements OrderService {
     private static final Logger logger = LogManager.getLogger(SimpleOrderService.class);
 
     private final OrderDao orderDao = DAOFactory.getInstance().getOrderDao();
-    private final UserDao userDao = DAOFactory.getInstance().getUserDao();
-    private final BookDao bookDao = DAOFactory.getInstance().getBookDao();
-    private final AuthorDao authorDao = DAOFactory.getInstance().getAuthorDao();
 
     private static final String ALL_ORDERS_WERE_FOUND_MESSAGE = "All orders were found";
     private static final String NO_FREE_COPY_MESSAGE = "There is no free copy of ordered book %s";
@@ -40,9 +30,6 @@ class SimpleOrderService implements OrderService {
     private static final String ORDERS_BY_BOOK_WERE_FOUND_MESSAGE = "Orders by book id %d was found";
     private static final String ORDER_BY_ID_WAS_NOT_FOUND_MESSAGE = "Saved order with id %d was not found";
     private static final String ORDER_BY_ID_WAS_FOUND_MESSAGE = "Order by id was found %s";
-    private static final String USER_WAS_NOT_FOUND_MESSAGE = "Saved user with id %d was not found";
-    private static final String BOOK_WAS_NOT_FOUND_MESSAGE = "Saved book with %d was not found";
-    private static final String AUTHOR_WAS_NOT_FOUND_MESSAGE = "Saved author with id %d was not found";
 
     private SimpleOrderService() {
     }
@@ -54,8 +41,6 @@ class SimpleOrderService implements OrderService {
     @Override
     public List<Order> findAll() {
         List<Order> allFoundOrders = orderDao.findAll();
-        allFoundOrders = fillWithReader(allFoundOrders);
-        allFoundOrders = fillWithBook(allFoundOrders);
         logger.info(ALL_ORDERS_WERE_FOUND_MESSAGE);
         return allFoundOrders;
     }
@@ -68,8 +53,6 @@ class SimpleOrderService implements OrderService {
         }
         final Subscription subscription = order.getUser().getSubscription();
         Order savedOrder = orderDao.save(order);
-        savedOrder = fillWithReader(savedOrder);
-        savedOrder = fillWithBook(savedOrder);
         if (subscription != null) {
             final boolean isNowDateInSubscriptionRange = subscription.getStartDate().isBefore(LocalDate.now()) && subscription.getEndDate().isAfter(LocalDate.now());
             final boolean isNowDateIsSubscriptionStartDate = subscription.getStartDate().isEqual(LocalDate.now());
@@ -93,8 +76,6 @@ class SimpleOrderService implements OrderService {
         } else {
             foundPage = orderDao.findPage(currentPage);
         }
-        foundPage = fillWithReader(foundPage);
-        foundPage = fillWithBook(foundPage);
         logger.info(String.format(PAGE_OF_ORDERS_WAS_FOUND_MESSAGE, currentPage));
         return foundPage;
     }
@@ -127,8 +108,6 @@ class SimpleOrderService implements OrderService {
     @Override
     public List<Order> findByReaderId(Long readerId) {
         List<Order> foundOrdersByReaderId = orderDao.findOrdersByUserId(readerId);
-        foundOrdersByReaderId = fillWithReader(foundOrdersByReaderId);
-        foundOrdersByReaderId = fillWithBook(foundOrdersByReaderId);
         logger.info(String.format(ORDERS_BY_READER_ID_WERE_FOUND_MESSAGE, readerId));
         return foundOrdersByReaderId;
     }
@@ -136,8 +115,6 @@ class SimpleOrderService implements OrderService {
     @Override
     public List<Order> findByBookId(Long bookId) {
         List<Order> foundOrdersByBookId = orderDao.findOrdersByBookId(bookId);
-        foundOrdersByBookId = fillWithReader(foundOrdersByBookId);
-        foundOrdersByBookId = fillWithBook(foundOrdersByBookId);
         logger.info(String.format(ORDERS_BY_BOOK_WERE_FOUND_MESSAGE, bookId));
         return foundOrdersByBookId;
     }
@@ -150,40 +127,8 @@ class SimpleOrderService implements OrderService {
             throw new ServiceException(String.format(ORDER_BY_ID_WAS_NOT_FOUND_MESSAGE, orderId));
         }
         Order foundOrder = optionalBookOrder.get();
-        foundOrder = fillWithReader(foundOrder);
-        foundOrder = fillWithBook(foundOrder);
         logger.info(String.format(ORDER_BY_ID_WAS_FOUND_MESSAGE, foundOrder));
         return foundOrder;
-    }
-
-    private List<Order> fillWithReader(List<Order> orders) {
-        return orders.stream().map(this::fillWithReader).collect(Collectors.toList());
-    }
-
-    private List<Order> fillWithBook(List<Order> orders) {
-        return orders.stream().map(this::fillWithBook).collect(Collectors.toList());
-    }
-
-    private Order fillWithReader(Order order) {
-        final Optional<User> optionalUser = userDao.findById(order.getUser().getId());
-        if (!optionalUser.isPresent()) {
-            throw new ServiceException(String.format(USER_WAS_NOT_FOUND_MESSAGE, order.getUser().getId()));
-        }
-        return new Order(order.getId(), optionalUser.get(), order.getBook(), order.getOrderDate(), order.getStatus());
-    }
-
-    private Order fillWithBook(Order order) {
-        final Optional<Book> optionalBook = bookDao.findById(order.getBook().getId());
-        if (!optionalBook.isPresent()) {
-            throw new ServiceException(String.format(BOOK_WAS_NOT_FOUND_MESSAGE, order.getBook().getId()));
-        }
-        Book foundBook = optionalBook.get();
-        final Optional<Author> optionalAuthor = authorDao.findById(foundBook.getAuthor().getId());
-        if (!optionalAuthor.isPresent()) {
-            throw new ServiceException(String.format(AUTHOR_WAS_NOT_FOUND_MESSAGE, foundBook.getAuthor().getId()));
-        }
-        final Book bookWithAuthor = new Book(foundBook.getId(), foundBook.getName(), optionalAuthor.get(), foundBook.getGenre(), foundBook.getDate(), foundBook.getPagesAmount(), foundBook.getCopiesAmount(), foundBook.getDescription(), foundBook.getLikes());
-        return new Order(order.getId(), order.getUser(), bookWithAuthor, order.getOrderDate(), order.getStatus());
     }
 
     private static class Singleton {
