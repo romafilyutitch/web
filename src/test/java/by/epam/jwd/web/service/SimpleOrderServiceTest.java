@@ -26,7 +26,7 @@ public class SimpleOrderServiceTest {
     private final User testUser = SimpleUserService.getInstance().findAll().stream().findAny().get();
     private final Book testBook = SimpleBookService.getInstance().findAll().stream().findAny().get();
 
-    private Order testOrder = new Order(testUser, testBook);
+    private Order testOrder = new Order(testUser, testBook, LocalDate.now(), Status.ORDERED);
 
     @BeforeClass
     public static void initPool() throws ConnectionPoolInitializationException {

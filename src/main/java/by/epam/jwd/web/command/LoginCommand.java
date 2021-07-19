@@ -3,6 +3,7 @@ package by.epam.jwd.web.command;
 import by.epam.jwd.web.exception.NoLoginException;
 import by.epam.jwd.web.exception.WrongPasswordException;
 import by.epam.jwd.web.model.User;
+import by.epam.jwd.web.model.UserRole;
 import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +33,7 @@ public class LoginCommand implements ActionCommand {
     public CommandResult execute(HttpServletRequest request) {
         String login = request.getParameter(REQUEST_LOGIN_PARAMETER_KEY);
         String password = request.getParameter(REQUEST_PASSWORD_PARAMETER_KEY);
-        final User user = new User(login, password);
+        final User user = new User(login, password, UserRole.READER, null);
         try {
             final User savedUser = ServiceFactory.getInstance().getUserService().loginUser(user);
             final HttpSession session = request.getSession();

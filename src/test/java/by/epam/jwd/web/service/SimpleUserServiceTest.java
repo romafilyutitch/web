@@ -76,7 +76,7 @@ public class SimpleUserServiceTest {
 
     @Test(expected = WrongPasswordException.class)
     public void loginUser_mustThrowException_whenWrongPasswordPassed() throws NoLoginException, WrongPasswordException {
-        testService.loginUser(new User("123", "WRONG_PASSWORD"));
+        testService.loginUser(new User("123", "WRONG_PASSWORD", UserRole.READER, null));
     }
 
     @Test

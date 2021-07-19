@@ -107,7 +107,7 @@ class SimpleUserService implements UserService {
             throw new RegisterException(String.format(USER_WITH_LOGIN_ALREADY_EXISTS_MESSAGE, user.getLogin()));
         }
         final String encryptedPassword = hasher.hashToString(BCrypt.MIN_COST, user.getPassword().toCharArray());
-        final User savedUser = userDao.save(new User(user.getLogin(), encryptedPassword));
+        final User savedUser = userDao.save(new User(user.getLogin(), encryptedPassword, UserRole.READER, null));
         logger.info(String.format(USER_WAS_SAVED_MESSAGE, user));
         return savedUser;
     }

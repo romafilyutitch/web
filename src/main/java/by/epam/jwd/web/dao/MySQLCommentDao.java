@@ -24,7 +24,7 @@ public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao 
             "inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id";
     private static final String SAVE_SQL = "insert into comment (user_id, book_id, date, text) values (?, ?, ?, ?)";
     private static final String UPDATE_SQL = "update comment set user_id = ?, book_id = ?, date = ?, text = ? where id = ?";
-    private static final String DELETE_SQL = "delete comment where id = ?";
+    private static final String DELETE_SQL = "delete from comment where id = ?";
     private static final String FIND_BY_BOOK_ID_SQL = String.format("%s where book.id = ?", FIND_ALL_SQL);
 
     private static final String ID_COLUMN = "comment.id";

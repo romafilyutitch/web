@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 public class MySQLUserDaoTest {
     private static final ConnectionPool POOL = ConnectionPool.getConnectionPool();
     private final MySQLUserDao testDao = MySQLUserDao.getInstance();
-    private User testUser = new User("login", "login");
+    private User testUser = new User("login", "login", UserRole.READER, null);
 
     @BeforeClass
     public static void setUp() throws ConnectionPoolInitializationException {

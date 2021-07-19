@@ -5,6 +5,7 @@ import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
 import by.epam.jwd.web.model.Author;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
+import by.epam.jwd.web.model.User;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -23,6 +24,7 @@ public class MySQLBookDaoTest {
     private static final ConnectionPool POOL = ConnectionPool.getConnectionPool();
     private final MySQLBookDao testDao = MySQLBookDao.getInstance();
     private final Author testAuthor = MySQLAuthorDao.getInstance().findAll().stream().findAny().get();
+    private final User testUser = MySQLUserDao.getInstance().findAll().stream().findAny().get();
     private Book testBook = new Book("Test Book", testAuthor , Genre.SCIENCE, LocalDate.now(), 100, 1, "Test book for unit test", 0);
 
     @BeforeClass
@@ -151,5 +153,32 @@ public class MySQLBookDaoTest {
         for (Book foundBook : foundBooks) {
             assertEquals("Found book must have passed genre id", testBook.getGenre().getId(), foundBook.getGenre().getId());
         }
+    }
+
+    @Test
+    public void addLike() {
+        testDao.addLike(testBook.getId(), testUser.getId());
+        assertTrue("Test book must be liked by user id", testDao.isLikedByUserWithId(testBook.getId(), testUser.getId()));
+        testDao.removeLike(testBook.getId(), testUser.getId());
+    }
+
+    @Test
+    public void removeLike() {
+        testDao.addLike(testBook.getId(), testUser.getId());
+        assertTrue("Test book must be liked by user id", testDao.isLikedByUserWithId(testBook.getId(), testUser.getId()));
+        testDao.removeLike(testBook.getId(), testUser.getId());
+        assertFalse("Test book must be not liked by user id", testDao.isLikedByUserWithId(testBook.getId(), testUser.getId()));
+    }
+
+    @Test
+    public void isLikedByUserWithId_mustReturnFalse_whenBookNotLikedByUser() {
+        assertFalse("Test book must be not liked by testUser", testDao.isLikedByUserWithId(testBook.getId(), testUser.getId()));
+    }
+
+    @Test
+    public void isLikedByUserWithId_mustReturnTrue_whenBookLikedByUser() {
+        testDao.addLike(testBook.getId(), testUser.getId());
+        assertTrue("Test book must be liked by test User", testDao.isLikedByUserWithId(testBook.getId(), testUser.getId()));
+        testDao.removeLike(testBook.getId(), testUser.getId());
     }
 }

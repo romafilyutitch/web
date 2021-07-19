@@ -3,12 +3,14 @@ package by.epam.jwd.web.command;
 import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Order;
+import by.epam.jwd.web.model.Status;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.service.BookService;
 import by.epam.jwd.web.service.OrderService;
 import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 
 public class OrderBookCommand implements ActionCommand {
     private final BookService bookService = ServiceFactory.getInstance().getBookService();
@@ -34,7 +36,7 @@ public class OrderBookCommand implements ActionCommand {
         final Long bookId = Long.valueOf(request.getParameter(REQUEST_ORDER_ID_PARAMETER_KEY));
         final Book book = bookService.findById(bookId);
         final User user = (User) request.getSession().getAttribute(SESSION_USER_ATTRIBUTE_KEY);
-        final Order order = new Order(user, book);
+        final Order order = new Order(user, book, LocalDate.now(), Status.ORDERED);
         try {
             orderService.register(order);
             bookService.removeOneCopy(book);

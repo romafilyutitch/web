@@ -2,6 +2,7 @@ package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.model.User;
+import by.epam.jwd.web.model.UserRole;
 import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +28,7 @@ public class RegisterCommand implements ActionCommand {
     public CommandResult execute(HttpServletRequest request) {
         final String login = request.getParameter(REQUEST_LOGIN_PARAMETER_KEY);
         final String password = request.getParameter(REQUEST_PASSWORD_PARAMETER_KEY);
-        final User user = new User(login, password);
+        final User user = new User(login, password, UserRole.READER, null);
         try {
             final User registeredUser = ServiceFactory.getInstance().getUserService().register(user);
             request.getSession().setAttribute(SESSION_USER_ATTRIBUTE_KEY, registeredUser);

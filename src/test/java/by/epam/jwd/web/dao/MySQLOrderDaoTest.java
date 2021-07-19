@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +23,7 @@ public class MySQLOrderDaoTest {
     private static final ConnectionPool POOL = ConnectionPool.getConnectionPool();
     private final User testUser = MySQLUserDao.getInstance().findAll().stream().findAny().get();
     private final Book testBook = MySQLBookDao.getInstance().findAll().stream().findAny().get();
-    private Order testOrder = new Order(testUser, testBook);
+    private Order testOrder = new Order(testUser, testBook, LocalDate.now(), Status.ORDERED);
 
     private final MySQLOrderDao testDao = MySQLOrderDao.getInstance();
 
