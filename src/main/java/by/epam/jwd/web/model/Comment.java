@@ -10,15 +10,6 @@ public class Comment implements DbEntity{
     private final LocalDate date;
     private final String text;
 
-    public Comment(Long id) {
-        this.id = id;
-        this.user = null;
-        this.book = null;
-        this.date = null;
-        this.text = null;
-
-    }
-
     public Comment(Long id, User user, Book book, LocalDate date, String text) {
         this.id = id;
         this.user = user;

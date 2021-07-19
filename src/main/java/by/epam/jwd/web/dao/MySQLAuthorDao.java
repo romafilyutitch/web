@@ -6,25 +6,23 @@ import by.epam.jwd.web.model.Author;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.StringJoiner;
 
 public class MySQLAuthorDao extends AbstractDao<Author> implements AuthorDao {
     private static final String TABLE_NAME = "author";
+
+    private static final String FIND_ALL_SQL = "select author.id, author.name from author";
+    private static final String SAVE_SQL = "insert into author (name) value (?)";
+    private static final String UPDATE_SQL = "update author set name = ? where id = ?";
+    private static final String DELETE_SQL = "delete from author where id = ?";
+    private static final String FIND_BY_NAME_SQL = "select author.id, author.name from author where name = ?";
+
     private static final String ID_COLUMN = "id";
     private static final String NAME_COLUMN = "name";
 
-    private static final List<String> COLUMNS = Arrays.asList(ID_COLUMN, NAME_COLUMN);
-
-    private final String findByNameSql;
-
     private MySQLAuthorDao() {
-        super(TABLE_NAME,COLUMNS);
-        final StringJoiner joiner = new StringJoiner(",");
-        COLUMNS.forEach(joiner::add);
-        findByNameSql = String.format(FIND_BY_COLUMN_SQL_TEMPLATE, joiner, TABLE_NAME, NAME_COLUMN);
+       super(TABLE_NAME, FIND_ALL_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
     }
 
     public static MySQLAuthorDao getInstance() {
@@ -51,7 +49,7 @@ public class MySQLAuthorDao extends AbstractDao<Author> implements AuthorDao {
 
     @Override
     public Optional<Author> getByName(String authorName) {
-        final List<Author> foundEntities = findPreparedEntities(findByNameSql, preparedStatement -> preparedStatement.setString(1, authorName));
+        final List<Author> foundEntities = findPreparedEntities(FIND_BY_NAME_SQL, preparedStatement -> preparedStatement.setString(1, authorName));
         return foundEntities.stream().findAny();
     }
 

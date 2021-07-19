@@ -182,7 +182,7 @@ class SimpleOrderService implements OrderService {
         if (!optionalAuthor.isPresent()) {
             throw new ServiceException(String.format(AUTHOR_WAS_NOT_FOUND_MESSAGE, foundBook.getAuthor().getId()));
         }
-        final Book bookWithAuthor = new Book(foundBook.getId(), foundBook.getName(), optionalAuthor.get(), foundBook.getGenre(), foundBook.getDate(), foundBook.getPagesAmount(), foundBook.getCopiesAmount(), foundBook.getDescription(), foundBook.getComments(), foundBook.getLikes());
+        final Book bookWithAuthor = new Book(foundBook.getId(), foundBook.getName(), optionalAuthor.get(), foundBook.getGenre(), foundBook.getDate(), foundBook.getPagesAmount(), foundBook.getCopiesAmount(), foundBook.getDescription(), foundBook.getLikes());
         return new Order(order.getId(), order.getUser(), bookWithAuthor, order.getOrderDate(), order.getStatus());
     }
 

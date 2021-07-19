@@ -13,10 +13,9 @@ public class Book implements DbEntity {
     private final Integer pagesAmount;
     private final Integer copiesAmount;
     private final String description;
-    private final List<Comment> comments;
     private final Integer likes;
 
-    public Book(Long id, String name, Author author, Genre genre, LocalDate date, Integer pagesAmount, Integer copiesAmount, String description, List<Comment> comments, Integer likes) {
+    public Book(Long id, String name, Author author, Genre genre, LocalDate date, Integer pagesAmount, Integer copiesAmount, String description, Integer likes) {
         this.id = id;
         this.name = name;
         this.author = author;
@@ -25,16 +24,11 @@ public class Book implements DbEntity {
         this.pagesAmount = pagesAmount;
         this.copiesAmount = copiesAmount;
         this.description = description;
-        this.comments = comments;
         this.likes = likes;
     }
 
-    public Book(Long id) {
-        this(id, null, null, null,null, null, null, null, null, null);
-    }
-
-    public Book(String name, Author author, Genre genre, LocalDate date, int pagesAmount, String description, List<Comment> comments, Integer likes) {
-        this(null, name, author, genre, date, pagesAmount, 1, description, comments, likes);
+    public Book(String name, Author author, Genre genre, LocalDate date, Integer pagesAmount, Integer copiesAmount, String description, Integer likes) {
+        this(null, name, author, genre, date, pagesAmount, copiesAmount, description, likes);
     }
 
     @Override
@@ -70,10 +64,6 @@ public class Book implements DbEntity {
         return copiesAmount;
     }
 
-    public List<Comment> getComments() {
-        return comments;
-    }
-
     public Integer getLikes() {
         return likes;
     }
@@ -83,12 +73,12 @@ public class Book implements DbEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return Objects.equals(id, book.id) && Objects.equals(name, book.name) && Objects.equals(author, book.author) && genre == book.genre && Objects.equals(date, book.date) && Objects.equals(pagesAmount, book.pagesAmount) && Objects.equals(copiesAmount, book.copiesAmount) && Objects.equals(description, book.description) && Objects.equals(comments, book.comments) && Objects.equals(likes, book.likes);
+        return Objects.equals(id, book.id) && Objects.equals(name, book.name) && Objects.equals(author, book.author) && genre == book.genre && Objects.equals(date, book.date) && Objects.equals(pagesAmount, book.pagesAmount) && Objects.equals(copiesAmount, book.copiesAmount) && Objects.equals(description, book.description) && Objects.equals(likes, book.likes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, author, genre, date, pagesAmount, copiesAmount, description, comments, likes);
+        return Objects.hash(id, name, author, genre, date, pagesAmount, copiesAmount, description, likes);
     }
 
     @Override
@@ -102,7 +92,6 @@ public class Book implements DbEntity {
                 ", pagesAmount=" + pagesAmount +
                 ", copiesAmount=" + copiesAmount +
                 ", description='" + description + '\'' +
-                ", comments=" + comments +
                 ", likes=" + likes +
                 '}';
     }

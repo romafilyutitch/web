@@ -101,7 +101,7 @@ class SimpleBookService implements BookService {
     @Override
     public void addOneCopy(Book book) {
         final AtomicInteger bookCurrentCopiesAmount = new AtomicInteger(book.getCopiesAmount());
-        final Book bookWithAddedCopy = new Book(book.getId(), book.getName(), book.getAuthor(), book.getGenre(), book.getDate(), book.getPagesAmount(), bookCurrentCopiesAmount.incrementAndGet(), book.getDescription(), book.getComments(), book.getLikes());
+        final Book bookWithAddedCopy = new Book(book.getId(), book.getName(), book.getAuthor(), book.getGenre(), book.getDate(), book.getPagesAmount(), bookCurrentCopiesAmount.incrementAndGet(), book.getDescription(), book.getLikes());
         final Book updatedBook = bookDao.update(bookWithAddedCopy);
         logger.info(String.format(COPY_WAS_ADDED_MESSAGE, updatedBook));
     }
@@ -109,7 +109,7 @@ class SimpleBookService implements BookService {
     @Override
     public void removeOneCopy(Book book) {
         final AtomicInteger copiesAmount = new AtomicInteger(book.getCopiesAmount());
-        final Book bookWithRemovedCopy = new Book(book.getId(), book.getName(), book.getAuthor(), book.getGenre(), book.getDate(), book.getPagesAmount(), copiesAmount.decrementAndGet(), book.getDescription(), book.getComments(), book.getLikes());
+        final Book bookWithRemovedCopy = new Book(book.getId(), book.getName(), book.getAuthor(), book.getGenre(), book.getDate(), book.getPagesAmount(), copiesAmount.decrementAndGet(), book.getDescription(), book.getLikes());
         final Book updatedBook = bookDao.update(bookWithRemovedCopy);
         logger.info(String.format(COPY_WAS_REMOVED_MESSAGE, updatedBook));
     }
@@ -126,9 +126,9 @@ class SimpleBookService implements BookService {
         if (!optionalAuthor.isPresent()) {
             logger.info(String.format(AUTHOR_DOES_NOT_EXIST_MESSAGE, book.getAuthor()));
             final Author savedAuthor = authorDao.save(book.getAuthor());
-            bookToSave = new Book(book.getName(), savedAuthor, book.getGenre(), book.getDate(), book.getPagesAmount(), book.getDescription(), Collections.emptyList(), 0);
+            bookToSave = new Book(book.getName(), savedAuthor, book.getGenre(), book.getDate(), book.getPagesAmount(), book.getCopiesAmount(), book.getDescription(), 0);
         } else {
-            bookToSave = new Book(book.getName(), optionalAuthor.get(), book.getGenre(), book.getDate(), book.getPagesAmount(), book.getDescription(), Collections.emptyList(), 0);
+            bookToSave = new Book(book.getName(), optionalAuthor.get(), book.getGenre(), book.getDate(), book.getPagesAmount(), book.getCopiesAmount(), book.getDescription(),0);
         }
         Book savedBook = bookDao.save(bookToSave);
         savedBook = fillWithAuthor(savedBook);
@@ -200,7 +200,7 @@ class SimpleBookService implements BookService {
         if (!foundAuthor.isPresent()) {
             throw new ServiceException(String.format(AUTHOR_WAS_NOT_FOUND_MESSAGE, book.getAuthor().getId()));
         }
-        return new Book(book.getId(), book.getName(), foundAuthor.get(), book.getGenre(), book.getDate(), book.getPagesAmount(), book.getCopiesAmount(), book.getDescription(), book.getComments(), book.getLikes());
+        return new Book(book.getId(), book.getName(), foundAuthor.get(), book.getGenre(), book.getDate(), book.getPagesAmount(), book.getCopiesAmount(), book.getDescription(), book.getLikes());
     }
 
     private Book fillWithComment(Book book) {
@@ -216,7 +216,7 @@ class SimpleBookService implements BookService {
             }
             return new Comment(comment.getId(), optionalUser.get(), optionalBook.get(), comment.getDate(), comment.getText());
         }).collect(Collectors.toList());
-        return new Book(book.getId(), book.getName(), book.getAuthor(), book.getGenre(), book.getDate(), book.getPagesAmount(), book.getCopiesAmount(), book.getDescription(), bookComments, book.getLikes());
+        return new Book(book.getId(), book.getName(), book.getAuthor(), book.getGenre(), book.getDate(), book.getPagesAmount(), book.getCopiesAmount(), book.getDescription(), book.getLikes());
     }
 
     private List<Book> fillWithComment(List<Book> books) {
