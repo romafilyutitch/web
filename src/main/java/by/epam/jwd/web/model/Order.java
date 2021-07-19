@@ -22,14 +22,6 @@ public class Order implements DbEntity {
         this(null, user, book, orderDate, status);
     }
 
-    public Order(User user, Book book) {
-        this(user, book, LocalDate.now(), Status.ORDERED);
-    }
-
-    public Order(Long id) {
-        this(id, null, null, null, null);
-    }
-
     @Override
     public Long getId() {
         return id;

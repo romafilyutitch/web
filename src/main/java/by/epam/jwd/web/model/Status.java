@@ -17,13 +17,4 @@ public enum Status implements DbEntity {
         return id;
     }
 
-    public static Status getInstance(Long id) {
-        for (Status status : Status.values()) {
-            if (status.getId().equals(id)) {
-                return status;
-            }
-        }
-        throw new IllegalArgumentException(String.format("There is no enum constraint with id %d", id));
-    }
-
 }

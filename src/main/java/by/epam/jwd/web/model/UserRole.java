@@ -24,15 +24,6 @@ public enum UserRole implements DbEntity {
         return id;
     }
 
-    public static UserRole getInstance(Long id) {
-        for (UserRole userRole : values()) {
-            if (userRole.getId().equals(id)) {
-                return userRole;
-            }
-        }
-        throw new IllegalArgumentException("There is no role with that id");
-    }
-
     public UserRole promote() {
         final UserRole[] values = values();
         int ordinal = ordinal();

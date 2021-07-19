@@ -14,10 +14,6 @@ public class Subscription implements DbEntity {
         this.endDate = endDate;
     }
 
-    public Subscription(Long id) {
-        this(id, null, null);
-    }
-
     public Subscription(LocalDate startDate, LocalDate endDate) {
         this(null, startDate, endDate);
     }

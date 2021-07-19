@@ -16,12 +16,9 @@ public class User implements DbEntity {
         this.role = role;
         this.subscription = subscription;
     }
-    public User(Long id) {
-        this(id, null, null, null, null);
-    }
 
-    public User(String login, String password) {
-        this(null, login, password, UserRole.READER, null);
+    public User(String login, String password, UserRole role, Subscription subscription) {
+        this(null, login, password, role, subscription);
     }
 
     public User(String login, String password, UserRole role) {

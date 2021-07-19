@@ -20,11 +20,11 @@ import java.util.List;
 public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
     private static final String TABLE_NAME = "book_order";
 
-    private final static String FIND_ALL_SQL = "select book_order.id, book_order.date, book_order.status,\n" +
+    private final static String FIND_ALL_SQL = "select book_order.id, book_order.date, status.name,\n" +
             "       user.id, user.login, user.password, role.name, subscription.id, subscription.start_date, subscription.end_date,\n" +
             "       book.id, book.name, author.id, author.name, genre.name, book.date, book.pages_amount, book.copies_amount, book.description, book.likes from book_order\n" +
             "inner join user on book_order.user_id = user.id inner join book on book_order.book_id = book.id inner join author on book.author_id = author.id inner join  genre on book.genre_id = genre.id\n" +
-            "inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id\n";
+            "inner join role on user.role_id = role.id inner join status on book_order.status = status.id left join subscription on user.subscription_id = subscription.id\n";
     private final static String SAVE_SQL = "insert into book_order (user_id, book_id, date, status) values (?, ?, ?, ?)";
     private final static String UPDATE_SQL = "update book_order set user_id = ?, book_id = ?, date = ?, status = ? where id = ?";
     private final static String DELETE_SQL = "delete from book_order where id = ?";
@@ -38,7 +38,6 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
 
     private static final String ID_COLUMN = "book_order.id";
     private static final String DATE_COLUMN = "book_order.date";
-    private static final String STATUS_COLUMN = "book_order.status";
     private static final String USER_ID_COLUMN = "user.id";
     private static final String USER_LOGIN_COLUMN = "user.login";
     private static final String USER_PASSWORD_COLUMN = "user.password";
@@ -56,6 +55,7 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
     private static final String SUBSCRIPTION_ID_COLUMN = "subscription.id";
     private static final String SUBSCRIPTION_START_DATE_COLUMN = "subscription.start_date";
     private static final String SUBSCRIPTION_END_DATE_COLUMN = "subscription.end_date";
+    private static final String STATUS_NAME_COLUMN = "status.name";
 
     private MySQLOrderDao() {
         super(TABLE_NAME, FIND_ALL_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
@@ -68,10 +68,11 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
     @Override
     protected Order mapResultSet(ResultSet result) throws SQLException {
         final long id = result.getLong(ID_COLUMN);
-        final Status status = Status.getInstance(result.getLong(STATUS_COLUMN));
+        final String statusName = result.getString(STATUS_NAME_COLUMN);
         final LocalDate orderDate = result.getObject(DATE_COLUMN, LocalDate.class);
         final User user = buildUser(result);
         final Book book = buildBook(result);
+        final Status status = Status.valueOf(statusName.toUpperCase());
         return new Order(id, user, book, orderDate, status);
     }
 

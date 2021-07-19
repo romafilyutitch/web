@@ -17,14 +17,4 @@ public enum Genre implements DbEntity {
     public Long getId() {
         return id;
     }
-
-    public static Genre getInstance(Long id) {
-        for (Genre genre : Genre.values()) {
-            if (genre.getId().equals(id)) {
-                return genre;
-            }
-        }
-        throw new IllegalArgumentException(String.format("There is no enum constant with id %d", id));
-    }
-
 }
