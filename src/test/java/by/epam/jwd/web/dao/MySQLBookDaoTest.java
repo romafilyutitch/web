@@ -80,7 +80,7 @@ public class MySQLBookDaoTest {
     @Test
     public void update_mustUpdateTestBookDescription() {
         String updatedDescription = "Updated description";
-        testBook = testBook.updateDescription(updatedDescription);
+        testBook = new Book(testBook.getId(), testBook.getName(), testBook.getAuthor(), testBook.getGenre(), testBook.getDate(), testBook.getPagesAmount(), testBook.getCopiesAmount(), updatedDescription, testBook.getComments(), testBook.getLikes());
         final Book updatedBook = testDao.update(testBook);
         assertNotNull("Updated book must be not null", updatedBook);
         assertEquals("Updated book description must be equal to updated string", updatedDescription, updatedBook.getDescription());

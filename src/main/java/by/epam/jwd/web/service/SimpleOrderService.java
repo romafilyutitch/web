@@ -24,10 +24,10 @@ import java.util.stream.Collectors;
 class SimpleOrderService implements OrderService {
     private static final Logger logger = LogManager.getLogger(SimpleOrderService.class);
 
-    private static final OrderDao ORDER_DAO = DAOFactory.getInstance().getOrderDao();
-    private static final UserDao USER_DAO = DAOFactory.getInstance().getUserDao();
-    private static final BookDao BOOK_DAO = DAOFactory.getInstance().getBookDao();
-    private static final AuthorDao AUTHOR_DAO = DAOFactory.getInstance().getAuthorDao();
+    private final OrderDao orderDao = DAOFactory.getInstance().getOrderDao();
+    private final UserDao userDao = DAOFactory.getInstance().getUserDao();
+    private final BookDao bookDao = DAOFactory.getInstance().getBookDao();
+    private final AuthorDao authorDao = DAOFactory.getInstance().getAuthorDao();
 
     private static final String ALL_ORDERS_WERE_FOUND_MESSAGE = "All orders were found";
     private static final String NO_FREE_COPY_MESSAGE = "There is no free copy of ordered book %s";
@@ -53,7 +53,7 @@ class SimpleOrderService implements OrderService {
 
     @Override
     public List<Order> findAll() {
-        List<Order> allFoundOrders = ORDER_DAO.findAll();
+        List<Order> allFoundOrders = orderDao.findAll();
         allFoundOrders = fillWithReader(allFoundOrders);
         allFoundOrders = fillWithBook(allFoundOrders);
         logger.info(ALL_ORDERS_WERE_FOUND_MESSAGE);
@@ -67,7 +67,7 @@ class SimpleOrderService implements OrderService {
             throw new RegisterException(String.format(NO_FREE_COPY_MESSAGE, order.getBook().getName()));
         }
         final Subscription subscription = order.getUser().getSubscription();
-        Order savedOrder = ORDER_DAO.save(order);
+        Order savedOrder = orderDao.save(order);
         savedOrder = fillWithReader(savedOrder);
         savedOrder = fillWithBook(savedOrder);
         if (subscription != null) {
@@ -75,7 +75,8 @@ class SimpleOrderService implements OrderService {
             final boolean isNowDateIsSubscriptionStartDate = subscription.getStartDate().isEqual(LocalDate.now());
             final boolean isNowDateIsSubscriptionEndDate = subscription.getEndDate().isEqual(LocalDate.now());
             if (isNowDateIsSubscriptionStartDate || isNowDateInSubscriptionRange || isNowDateIsSubscriptionEndDate) {
-                return ORDER_DAO.update(savedOrder.updateOrderStatus(Status.APPROVED));
+                final Order savedOrderWithApprovedStatus = new Order(savedOrder.getId(), savedOrder.getUser(), savedOrder.getBook(), savedOrder.getOrderDate(), Status.APPROVED);
+                return orderDao.update(savedOrderWithApprovedStatus);
             }
         }
         logger.info(String.format(ORDER_WAS_REGISTERED_MESSAGE, savedOrder));
@@ -86,11 +87,11 @@ class SimpleOrderService implements OrderService {
     public List<Order> findPage(int currentPage) {
         List<Order> foundPage;
         if (currentPage < 1) {
-            foundPage = ORDER_DAO.findPage(1);
+            foundPage = orderDao.findPage(1);
         } else if (currentPage >= getPagesAmount()) {
-            foundPage = ORDER_DAO.findPage(getPagesAmount());
+            foundPage = orderDao.findPage(getPagesAmount());
         } else {
-            foundPage = ORDER_DAO.findPage(currentPage);
+            foundPage = orderDao.findPage(currentPage);
         }
         foundPage = fillWithReader(foundPage);
         foundPage = fillWithBook(foundPage);
@@ -100,30 +101,32 @@ class SimpleOrderService implements OrderService {
 
     @Override
     public int getPagesAmount() {
-        return ORDER_DAO.getPagesAmount();
+        return orderDao.getPagesAmount();
     }
 
     @Override
     public void approveOrder(Order order) throws ServiceException {
-        final Order approvedOrder = ORDER_DAO.update(order.updateOrderStatus(Status.APPROVED));
-        logger.info(String.format(ORDER_WAS_APPROVED_MESSAGE, approvedOrder));
+        final Order approvedOrder = new Order(order.getId(), order.getUser(), order.getBook(), order.getOrderDate(), Status.APPROVED);
+        final Order updatedOrder = orderDao.update(approvedOrder);
+        logger.info(String.format(ORDER_WAS_APPROVED_MESSAGE, updatedOrder));
     }
 
     @Override
     public void delete(Long orderId) {
-        ORDER_DAO.delete(orderId);
+        orderDao.delete(orderId);
         logger.info(String.format(ORDER_WAS_DELETED_MESSAGE, orderId));
     }
 
     @Override
     public void returnOrder(Order order) {
-        final Order returnedOrder = ORDER_DAO.update(order.updateOrderStatus(Status.RETURNED));
-        logger.info(String.format(ORDER_WAS_RETURNED_MESSAGE, returnedOrder));
+        final Order returnedOrder = new Order(order.getId(), order.getUser(), order.getBook(), order.getOrderDate(), Status.RETURNED);
+        final Order updatedOrder = orderDao.update(returnedOrder);
+        logger.info(String.format(ORDER_WAS_RETURNED_MESSAGE, updatedOrder));
     }
 
     @Override
     public List<Order> findByReaderId(Long readerId) {
-        List<Order> foundOrdersByReaderId = ORDER_DAO.findOrdersByUserId(readerId);
+        List<Order> foundOrdersByReaderId = orderDao.findOrdersByUserId(readerId);
         foundOrdersByReaderId = fillWithReader(foundOrdersByReaderId);
         foundOrdersByReaderId = fillWithBook(foundOrdersByReaderId);
         logger.info(String.format(ORDERS_BY_READER_ID_WERE_FOUND_MESSAGE, readerId));
@@ -132,7 +135,7 @@ class SimpleOrderService implements OrderService {
 
     @Override
     public List<Order> findByBookId(Long bookId) {
-        List<Order> foundOrdersByBookId = ORDER_DAO.findOrdersByBookId(bookId);
+        List<Order> foundOrdersByBookId = orderDao.findOrdersByBookId(bookId);
         foundOrdersByBookId = fillWithReader(foundOrdersByBookId);
         foundOrdersByBookId = fillWithBook(foundOrdersByBookId);
         logger.info(String.format(ORDERS_BY_BOOK_WERE_FOUND_MESSAGE, bookId));
@@ -141,7 +144,7 @@ class SimpleOrderService implements OrderService {
 
     @Override
     public Order findById(Long orderId) {
-        final Optional<Order> optionalBookOrder = ORDER_DAO.findById(orderId);
+        final Optional<Order> optionalBookOrder = orderDao.findById(orderId);
         if (!optionalBookOrder.isPresent()) {
             logger.error(String.format(ORDER_BY_ID_WAS_NOT_FOUND_MESSAGE, orderId));
             throw new ServiceException(String.format(ORDER_BY_ID_WAS_NOT_FOUND_MESSAGE, orderId));
@@ -162,25 +165,25 @@ class SimpleOrderService implements OrderService {
     }
 
     private Order fillWithReader(Order order) {
-        final Optional<User> optionalUser = USER_DAO.findById(order.getUser().getId());
+        final Optional<User> optionalUser = userDao.findById(order.getUser().getId());
         if (!optionalUser.isPresent()) {
             throw new ServiceException(String.format(USER_WAS_NOT_FOUND_MESSAGE, order.getUser().getId()));
         }
-        return order.updateUser(optionalUser.get());
+        return new Order(order.getId(), optionalUser.get(), order.getBook(), order.getOrderDate(), order.getStatus());
     }
 
     private Order fillWithBook(Order order) {
-        final Optional<Book> optionalBook = BOOK_DAO.findById(order.getBook().getId());
+        final Optional<Book> optionalBook = bookDao.findById(order.getBook().getId());
         if (!optionalBook.isPresent()) {
             throw new ServiceException(String.format(BOOK_WAS_NOT_FOUND_MESSAGE, order.getBook().getId()));
         }
         Book foundBook = optionalBook.get();
-        final Optional<Author> optionalAuthor = AUTHOR_DAO.findById(foundBook.getAuthor().getId());
+        final Optional<Author> optionalAuthor = authorDao.findById(foundBook.getAuthor().getId());
         if (!optionalAuthor.isPresent()) {
             throw new ServiceException(String.format(AUTHOR_WAS_NOT_FOUND_MESSAGE, foundBook.getAuthor().getId()));
         }
-        foundBook = foundBook.updateAuthor(optionalAuthor.get());
-        return order.updateBook(foundBook);
+        final Book bookWithAuthor = new Book(foundBook.getId(), foundBook.getName(), optionalAuthor.get(), foundBook.getGenre(), foundBook.getDate(), foundBook.getPagesAmount(), foundBook.getCopiesAmount(), foundBook.getDescription(), foundBook.getComments(), foundBook.getLikes());
+        return new Order(order.getId(), order.getUser(), bookWithAuthor, order.getOrderDate(), order.getStatus());
     }
 
     private static class Singleton {

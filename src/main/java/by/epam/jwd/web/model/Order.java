@@ -49,35 +49,6 @@ public class Order implements DbEntity {
 
     public Status getStatus() {return status;}
 
-
-    public Order updateUser(User newUser) {
-        if (newUser == null) {
-            return this;
-        }
-        return new Order(id, newUser, book, orderDate, status);
-    }
-
-    public Order updateBook(Book newBook) {
-        if(newBook == null) {
-            return this;
-        }
-        return new Order(id, user, newBook, orderDate, status);
-    }
-
-    public Order updateOrderDate(LocalDate newDate) {
-        if (newDate == null) {
-            return this;
-        }
-        return new Order(id, user, book, newDate, status);
-    }
-
-    public Order updateOrderStatus(Status newStatus) {
-        if (status == null) {
-            return this;
-        }
-        return new Order(id, user, book, orderDate, newStatus);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

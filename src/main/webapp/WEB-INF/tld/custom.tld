@@ -8,8 +8,8 @@
     <short-name>ctg</short-name>
     <uri>customtags</uri>
     <tag>
-        <name>time</name>
-        <tag-class>by.epam.jwd.web.tag.TimeTag</tag-class>
+        <name>date</name>
+        <tag-class>by.epam.jwd.web.tag.DateTag</tag-class>
         <body-content>empty</body-content>
     </tag>
 

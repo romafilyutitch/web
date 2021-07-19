@@ -9,8 +9,6 @@
     <link rel="stylesheet" href="webjars/bootstrap/5.0.1/css/bootstrap.css"/>
     <script type="text/javascript" src="webjars/jquery/2.1.1/jquery.js"></script>
     <script type="text/javascript" src="webjars/bootstrap/5.0.1/js/bootstrap.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/login.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/formValidation.js"></script>
 </head>
 <body class="text-center">
 <c:choose>
@@ -25,7 +23,7 @@
             <div class="row justify-content-center align-items-center">
                 <div class="col-md-6">
                     <div class="col-md-12">
-                        <form class="needs-validation" name="loginForm" method="POST" action="controller" novalidate>
+                        <form id="loginForm" class="needs-validation" name="loginForm" method="POST" action="controller" novalidate>
                             <input type="hidden" name="command" value="login">
                             <div class="mb-3">
                                 <label for="login" class="form-label"><fmt:message key="login"/></label>
@@ -50,5 +48,6 @@
         </div>
     </c:otherwise>
 </c:choose>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/formValidation.js"></script>
 </body>
 </html>

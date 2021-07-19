@@ -22,8 +22,8 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
     private static final String TABLE_NAME = "book";
     private static final String ID_COLUMN = "id";
     private static final String NAME_COLUMN = "name";
-    private static final String AUTHOR_COLUMN = "author";
-    private static final String GENRE_COLUMN = "genre";
+    private static final String AUTHOR_COLUMN = "author_id";
+    private static final String GENRE_COLUMN = "genre_id";
     private static final String DATE_COLUMN = "date";
     private static final String PAGES_AMOUNT_COLUMN = "pages_amount";
     private static final String COPIES_AMOUNT_COLUMN = "copies_amount";

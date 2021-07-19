@@ -1,10 +1,539 @@
-2021-07-16 14:11:00 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role,subscription from user where login = ?
-2021-07-16 14:11:02 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role,subscription from user where id = ?
-2021-07-16 14:11:02 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$qLGS2E/OMvcOyKzbvKz9cecqQXx0tsnn/haMrqYb.0.9545YBfgJ.', role=READER, userSubscription=null} was saved
-2021-07-16 14:11:02 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role,subscription from user where login = ?
-2021-07-16 14:11:04 INFO  AbstractDao - Entity with id 314 was deleted
-2021-07-16 14:11:04 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role,subscription from user where login = ?
-2021-07-16 14:11:05 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role,subscription from user where id = ?
-2021-07-16 14:11:05 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$6Xh7BwXE11Nhoy9AI.g1FONZAwgeniX/w.bXZx8aWEUMX3rlGPFLu', role=READER, userSubscription=null} was saved
-2021-07-16 14:11:05 INFO  AbstractDao - Entity LibraryUser{id=315, login='123', password='$2a$04$6Xh7BwXE11Nhoy9AI.g1FONZAwgeniX/w.bXZx8aWEUMX3rlGPFLu', role=READER, userSubscription=null} was updated
-2021-07-16 14:11:05 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role,subscription from user where id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,start_date,end_date from subscription where id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:36 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:37 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,status,date from book_order where id = ?
+2021-07-18 23:08:37 INFO  AbstractDao - Entity BookOrder{id=null, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[Comment{id=1, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-05, text='This is test comment for book Java Basic. It is nice book also'}, Comment{id=2, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-05, text='Another comment'}, Comment{id=4, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-06, text='Final test comment'}], likes=0}, orderDate=2021-07-18, status=ORDERED} was saved
+2021-07-18 23:08:37 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:37 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:37 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entity BookOrder{id=349, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, orderDate=2021-07-18, status=APPROVED} was updated
+2021-07-18 23:08:38 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entity with id 349 was deleted
+2021-07-18 23:08:38 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,start_date,end_date from subscription where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,status,date from book_order where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entity BookOrder{id=null, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[Comment{id=1, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-05, text='This is test comment for book Java Basic. It is nice book also'}, Comment{id=2, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-05, text='Another comment'}, Comment{id=4, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-06, text='Final test comment'}], likes=0}, orderDate=2021-07-18, status=ORDERED} was saved
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:38 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entity BookOrder{id=350, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, orderDate=2021-07-18, status=APPROVED} was updated
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,status,date from book_order where user_id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entity with id 350 was deleted
+2021-07-18 23:08:39 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,start_date,end_date from subscription where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,status,date from book_order where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entity BookOrder{id=null, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[Comment{id=1, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-05, text='This is test comment for book Java Basic. It is nice book also'}, Comment{id=2, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-05, text='Another comment'}, Comment{id=4, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-06, text='Final test comment'}], likes=0}, orderDate=2021-07-18, status=ORDERED} was saved
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:39 INFO  AbstractDao - Entity BookOrder{id=351, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, orderDate=2021-07-18, status=APPROVED} was updated
+2021-07-18 23:08:40 INFO  AbstractDao - Entity with id 351 was deleted
+2021-07-18 23:08:40 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:40 INFO  AbstractDao - Entity with id 351 was deleted
+2021-07-18 23:08:40 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,start_date,end_date from subscription where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,status,date from book_order where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entity BookOrder{id=null, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[Comment{id=1, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-05, text='This is test comment for book Java Basic. It is nice book also'}, Comment{id=2, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-05, text='Another comment'}, Comment{id=4, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-06, text='Final test comment'}], likes=0}, orderDate=2021-07-18, status=ORDERED} was saved
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entity BookOrder{id=352, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, orderDate=2021-07-18, status=APPROVED} was updated
+2021-07-18 23:08:40 INFO  AbstractDao - Entity BookOrder{id=352, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, orderDate=2021-07-18, status=RETURNED} was updated
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,status,date from book_order where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:40 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entity with id 352 was deleted
+2021-07-18 23:08:41 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,start_date,end_date from subscription where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,status,date from book_order where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entity BookOrder{id=null, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[Comment{id=1, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-05, text='This is test comment for book Java Basic. It is nice book also'}, Comment{id=2, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-05, text='Another comment'}, Comment{id=4, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-06, text='Final test comment'}], likes=0}, orderDate=2021-07-18, status=ORDERED} was saved
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entity BookOrder{id=353, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, orderDate=2021-07-18, status=APPROVED} was updated
+2021-07-18 23:08:41 INFO  AbstractDao - Entity BookOrder{id=353, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, orderDate=2021-07-18, status=APPROVED} was updated
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,status,date from book_order where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entity with id 353 was deleted
+2021-07-18 23:08:41 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,start_date,end_date from subscription where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,status,date from book_order where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entity BookOrder{id=null, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[Comment{id=1, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-05, text='This is test comment for book Java Basic. It is nice book also'}, Comment{id=2, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-05, text='Another comment'}, Comment{id=4, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-06, text='Final test comment'}], likes=0}, orderDate=2021-07-18, status=ORDERED} was saved
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:41 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entity BookOrder{id=354, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, orderDate=2021-07-18, status=APPROVED} was updated
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,status,date from book_order where book_id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entity with id 354 was deleted
+2021-07-18 23:08:42 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,start_date,end_date from subscription where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,status,date from book_order where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entity BookOrder{id=null, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[Comment{id=1, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-05, text='This is test comment for book Java Basic. It is nice book also'}, Comment{id=2, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-05, text='Another comment'}, Comment{id=4, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-06, text='Final test comment'}], likes=0}, orderDate=2021-07-18, status=ORDERED} was saved
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entity BookOrder{id=355, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, orderDate=2021-07-18, status=APPROVED} was updated
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,status,date from book_order where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:42 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entity with id 355 was deleted
+2021-07-18 23:08:43 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,start_date,end_date from subscription where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,status,date from book_order where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entity BookOrder{id=null, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[Comment{id=1, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-05, text='This is test comment for book Java Basic. It is nice book also'}, Comment{id=2, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-05, text='Another comment'}, Comment{id=4, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-06, text='Final test comment'}], likes=0}, orderDate=2021-07-18, status=ORDERED} was saved
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:43 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:44 INFO  AbstractDao - Entity BookOrder{id=356, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, orderDate=2021-07-18, status=APPROVED} was updated
+2021-07-18 23:08:44 INFO  AbstractDao - Entity with id 356 was deleted
+2021-07-18 23:08:44 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:44 INFO  AbstractDao - Entities by prepared sql was found select id,start_date,end_date from subscription where id = ?
+2021-07-18 23:08:44 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:44 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:44 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:44 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:44 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:44 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:44 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:44 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:44 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:44 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:44 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:44 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:44 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:44 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:44 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:44 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,status,date from book_order where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entity BookOrder{id=null, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[Comment{id=1, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-05, text='This is test comment for book Java Basic. It is nice book also'}, Comment{id=2, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-05, text='Another comment'}, Comment{id=4, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-06, text='Final test comment'}], likes=0}, orderDate=2021-07-18, status=ORDERED} was saved
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entity BookOrder{id=357, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, orderDate=2021-07-18, status=APPROVED} was updated
+2021-07-18 23:08:45 INFO  AbstractDao - Entity with id 357 was deleted
+2021-07-18 23:08:45 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,start_date,end_date from subscription where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,status,date from book_order where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entity BookOrder{id=null, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[Comment{id=1, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-05, text='This is test comment for book Java Basic. It is nice book also'}, Comment{id=2, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-05, text='Another comment'}, Comment{id=4, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-06, text='Final test comment'}], likes=0}, orderDate=2021-07-18, status=ORDERED} was saved
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:45 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entity BookOrder{id=358, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, orderDate=2021-07-18, status=APPROVED} was updated
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,status,date from book_order limit ?, ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities on page 1 was found
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entity with id 358 was deleted
+2021-07-18 23:08:46 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,start_date,end_date from subscription where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,status,date from book_order where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entity BookOrder{id=null, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[Comment{id=1, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-05, text='This is test comment for book Java Basic. It is nice book also'}, Comment{id=2, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-05, text='Another comment'}, Comment{id=4, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-06, text='Final test comment'}], likes=0}, orderDate=2021-07-18, status=ORDERED} was saved
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:46 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entity BookOrder{id=359, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, orderDate=2021-07-18, status=APPROVED} was updated
+2021-07-18 23:08:47 INFO  AbstractDao - Entity with id 359 was deleted
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,status,date from book_order where id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entity with id 359 was deleted
+2021-07-18 23:08:47 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,start_date,end_date from subscription where id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - All entities was found
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:47 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,date,text from Comment where book_id = ?
+2021-07-18 23:08:48 INFO  AbstractDao - Entities by prepared sql was found select id,user_id,book_id,status,date from book_order where id = ?
+2021-07-18 23:08:48 INFO  AbstractDao - Entity BookOrder{id=null, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[Comment{id=1, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-05, text='This is test comment for book Java Basic. It is nice book also'}, Comment{id=2, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-05, text='Another comment'}, Comment{id=4, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='null'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, date=2021-07-06, text='Final test comment'}], likes=0}, orderDate=2021-07-18, status=ORDERED} was saved
+2021-07-18 23:08:48 INFO  AbstractDao - Entities by prepared sql was found select id,login,password,role_id,subscription_id from user where id = ?
+2021-07-18 23:08:48 INFO  AbstractDao - Entities by prepared sql was found select id,name,author_id,genre_id,date,pages_amount,copies_amount,description,likes from book where id = ?
+2021-07-18 23:08:48 INFO  AbstractDao - Entities by prepared sql was found select id,name from author where id = ?
+2021-07-18 23:08:48 INFO  AbstractDao - Entity BookOrder{id=360, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=null, endDate=null}}, book=Book{id=76, name='Java Basics', author=BookAuthor{id=36, name='ROMA'}, genre=SCIENCE, date=2021-06-17, pagesAmount=100, copiesAmount=1, description='Java Basics concepts', comments=[], likes=0}, orderDate=2021-07-18, status=APPROVED} was updated
+2021-07-18 23:08:49 INFO  AbstractDao - Entity with id 360 was deleted

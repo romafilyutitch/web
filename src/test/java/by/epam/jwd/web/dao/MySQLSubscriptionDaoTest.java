@@ -68,13 +68,13 @@ public class MySQLSubscriptionDaoTest {
         testDao.delete(testSubscription.getId());
         final Optional<Subscription> optionalSubscription = testDao.findById(testSubscription.getId());
         assertNotNull("Returned value must be not null", optionalSubscription);
-        assertFalse("Optional subsctipion must be empty", optionalSubscription.isPresent());
+        assertFalse("Optional subscription must be empty", optionalSubscription.isPresent());
     }
 
     @Test
     public void update_mustUpdateSavedSubscription() {
         final LocalDate updatedEndDate = LocalDate.now().plusDays(1);
-        testSubscription = testSubscription.updateEndDate(updatedEndDate);
+        testSubscription = new Subscription(testSubscription.getId(), testSubscription.getStartDate(), updatedEndDate);
         final Subscription updatedSubscription = testDao.update(testSubscription);
         assertNotNull("Updated subscription must be not null", updatedSubscription);
         assertEquals("Updated subscription must have passed end date",updatedEndDate,updatedSubscription.getEndDate());

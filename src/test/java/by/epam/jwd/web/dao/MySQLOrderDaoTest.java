@@ -77,7 +77,7 @@ public class MySQLOrderDaoTest {
     @Test
     public void update_mustUpdateOrderStatus() {
         Status status = Status.APPROVED;
-        testOrder = testOrder.updateOrderStatus(status);
+        testOrder = new Order(testOrder.getId(), testOrder.getUser(), testOrder.getBook(), testOrder.getOrderDate(), status);
         final Order updatedOrder = testDao.update(testOrder);
         assertNotNull("Returned value must be not null", updatedOrder);
         assertEquals("Updated order must be equal to test order", testOrder, updatedOrder);

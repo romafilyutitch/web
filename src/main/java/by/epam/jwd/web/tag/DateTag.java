@@ -10,7 +10,7 @@ import java.time.format.FormatStyle;
 import java.util.Locale;
 import java.util.StringJoiner;
 
-public class TimeTag extends TagSupport {
+public class DateTag extends TagSupport {
     private static final Locale RUSSIAN_LOCALE = new Locale("ru", "RU");
     private static final Locale ENGLISH_LOCALE = new Locale("en", "US");
 

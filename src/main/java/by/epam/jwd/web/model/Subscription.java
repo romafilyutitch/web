@@ -35,20 +35,6 @@ public class Subscription implements DbEntity {
         return endDate;
     }
 
-    public Subscription updateStartDate(LocalDate newStartDate) {
-        if (newStartDate == null) {
-            return this;
-        }
-        return new Subscription(id, newStartDate, endDate);
-    }
-
-    public Subscription updateEndDate(LocalDate newEndDate) {
-        if (newEndDate == null) {
-            return this;
-        }
-        return new Subscription(id, startDate, newEndDate);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

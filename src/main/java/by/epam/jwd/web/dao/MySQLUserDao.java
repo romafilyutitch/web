@@ -17,11 +17,12 @@ import java.util.StringJoiner;
 
 public class MySQLUserDao extends AbstractDao<User> implements UserDao {
     private static final String TABLE_NAME = "user";
+
     private static final String ID_COLUMN = "id";
     private static final String LOGIN_COLUMN = "login";
     private static final String PASSWORD_COLUMN = "password";
-    private static final String ROLE_COLUMN = "role";
-    private static final String SUBSCRIPTION_COLUMN = "subscription";
+    private static final String ROLE_COLUMN = "role_id";
+    private static final String SUBSCRIPTION_COLUMN = "subscription_id";
 
     private static final List<String> COLUMNS = Arrays.asList(ID_COLUMN, LOGIN_COLUMN, PASSWORD_COLUMN, ROLE_COLUMN, SUBSCRIPTION_COLUMN);
 

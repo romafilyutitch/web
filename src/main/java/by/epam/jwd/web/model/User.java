@@ -53,33 +53,6 @@ public class User implements DbEntity {
         return subscription;
     }
 
-    public User updateLogin(String newLogin) {
-        if (newLogin == null) {
-            return this;
-        }
-        return new User(id, newLogin, password, role, subscription);
-    }
-
-    public User updatePassword(String newPassword) {
-        if (newPassword == null) {
-            return this;
-        }
-        return new User(id, login, newPassword, role, subscription);
-    }
-
-    public User updateRole(UserRole newRole) {
-        if (newRole == null) {
-            return this;
-        }
-        return new User(id, login, password, newRole, subscription);
-    }
-
-    public User updateSubscription(Subscription newSubscription) {
-        if (newSubscription == null) {
-            return this;
-        }
-        return new User(id, login, password, role, newSubscription);
-    }
 
     @Override
     public boolean equals(Object o) {

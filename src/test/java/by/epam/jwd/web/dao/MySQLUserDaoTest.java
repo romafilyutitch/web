@@ -72,7 +72,7 @@ public class MySQLUserDaoTest {
     @Test
     public void update_mustUpdateUser() {
         final String updatedLogin = "UPDATED";
-        testUser = testUser.updateLogin(updatedLogin);
+        testUser = new User(testUser.getId(), updatedLogin, testUser.getPassword(), testUser.getRole(), testUser.getSubscription());
         final User updatedUser = testDao.update(testUser);
         assertNotNull("Returned value must be not null", updatedUser);
         assertEquals("Updated user must have updated value", updatedLogin, updatedUser.getLogin());

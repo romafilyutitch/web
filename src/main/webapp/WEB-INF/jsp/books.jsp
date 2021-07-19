@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="webjars/bootstrap/5.0.1/css/bootstrap.css"/>
     <script type="text/javascript" src="webjars/jquery/2.1.1/jquery.js"></script>
     <script type="text/javascript" src="webjars/bootstrap/5.0.1/js/bootstrap.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/formValidation.js"></script>
 </head>
 <body class="text-center">
 <div class="container">
@@ -153,5 +152,6 @@
         </div>
 </div>
 <a class="btn btn-primary" href="controller?command=main"><fmt:message key="main"/></a>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/formValidation.js"></script>
 </body>
 </html>

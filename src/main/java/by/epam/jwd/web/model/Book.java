@@ -78,64 +78,6 @@ public class Book implements DbEntity {
         return likes;
     }
 
-
-    public Book updateName(String newName) {
-        if (newName == null) {
-            return this;
-        }
-        return new Book(id, newName, author, genre, date, pagesAmount, copiesAmount, description, comments, likes);
-    }
-
-    public Book updateAuthor(Author newAuthor) {
-        if (newAuthor == null) {
-            return this;
-        }
-        return new Book(id, name, newAuthor, genre, date, pagesAmount, copiesAmount, description, comments, likes);
-    }
-
-    public Book updateGenre(Genre newGenre) {
-        if (newGenre == null) {
-            return this;
-        }
-        return new Book(id, name, author, newGenre, date, pagesAmount, copiesAmount, description, comments, likes);
-    }
-
-    public Book updateDate(LocalDate newDate) {
-        if (newDate == null) {
-            return this;
-        }
-        return new Book(id, name, author, genre, newDate, pagesAmount, copiesAmount, description, comments, likes);
-    }
-
-    public Book updatePagesAmount(int newPagesAmount) {
-        return new Book(id, name, author, genre, date, newPagesAmount, copiesAmount, description, comments, likes);
-    }
-
-    public Book updateDescription(String newDescription) {
-        if (newDescription == null) {
-            return this;
-        }
-        return new Book(id, name, author, genre, date, pagesAmount, copiesAmount, newDescription, comments, likes);
-    }
-
-    public Book updatedBooksAmount(int newBooksAmount) {
-        return new Book(id, name, author, genre, date, pagesAmount, newBooksAmount, description, comments, likes);
-    }
-
-    public Book updateBookComments(List<Comment> newComments) {
-        if (comments == null) {
-            return this;
-        }
-        return new Book(id, name, author, genre, date, pagesAmount, copiesAmount, description, newComments, likes);
-    }
-
-    public Book updateLikes(Integer likes) {
-        if (likes == null) {
-            return this;
-        }
-        return new Book(id, name, author, genre, date, pagesAmount, copiesAmount, description, comments, likes);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

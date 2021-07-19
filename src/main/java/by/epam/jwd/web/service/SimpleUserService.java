@@ -23,11 +23,11 @@ import java.util.stream.Collectors;
 class SimpleUserService implements UserService {
     private static final Logger logger = LogManager.getLogger(SimpleUserService.class);
 
-    private static final UserDao USER_DAO = DAOFactory.getInstance().getUserDao();
-    private static final SubscriptionDao SUBSCRIPTION_DAO = DAOFactory.getInstance().getSubscriptionDao();
+    private final UserDao userDao = DAOFactory.getInstance().getUserDao();
+    private final SubscriptionDao subscriptionDao = DAOFactory.getInstance().getSubscriptionDao();
 
-    private static final BCrypt.Hasher HASHER = BCrypt.withDefaults();
-    private static final BCrypt.Verifyer VERIFYER = BCrypt.verifyer();
+    private final BCrypt.Hasher hasher = BCrypt.withDefaults();
+    private final BCrypt.Verifyer verifyer = BCrypt.verifyer();
 
     private static final String ALL_USERS_WERE_FOUND_MESSAGE = "All users was found";
     private static final String USER_WITH_LOGIN_DOES_NOT_EXIST_MESSAGE = "User with login %s does not exist";
@@ -55,7 +55,7 @@ class SimpleUserService implements UserService {
 
     @Override
     public List<User> findAll() {
-        List<User> allUsers = USER_DAO.findAll();
+        List<User> allUsers = userDao.findAll();
         allUsers = fillWithSubscription(allUsers);
         logger.info(ALL_USERS_WERE_FOUND_MESSAGE);
         return allUsers;
@@ -63,14 +63,14 @@ class SimpleUserService implements UserService {
 
     @Override
     public User loginUser(User user) throws NoLoginException, WrongPasswordException {
-        final Optional<User> optionalUser = USER_DAO.findUserByLogin(user.getLogin());
+        final Optional<User> optionalUser = userDao.findUserByLogin(user.getLogin());
         if (!optionalUser.isPresent()) {
             logger.info(String.format(USER_WITH_LOGIN_DOES_NOT_EXIST_MESSAGE, user.getLogin()));
             throw new NoLoginException();
         }
         User foundUser = optionalUser.get();
         foundUser = fillWithSubscription(foundUser);
-        final BCrypt.Result verifyResult = VERIFYER.verify(user.getPassword().toCharArray(), foundUser.getPassword().toCharArray());
+        final BCrypt.Result verifyResult = verifyer.verify(user.getPassword().toCharArray(), foundUser.getPassword().toCharArray());
         if (!verifyResult.verified) {
             logger.info(WRONG_PASSWORD_WAS_ENTERED_MESSAGE);
             throw new WrongPasswordException();
@@ -83,11 +83,11 @@ class SimpleUserService implements UserService {
     public List<User> findPage(int currentPage) {
         List<User> foundPage;
         if (currentPage < 1) {
-            foundPage = USER_DAO.findPage(1);
+            foundPage = userDao.findPage(1);
         } else if (currentPage >= getPagesAmount()) {
-            foundPage = USER_DAO.findPage(getPagesAmount());
+            foundPage = userDao.findPage(getPagesAmount());
         } else {
-            foundPage = USER_DAO.findPage(currentPage);
+            foundPage = userDao.findPage(currentPage);
         }
         foundPage = fillWithSubscription(foundPage);
         logger.info(String.format(PAGE_OF_USERS_WAS_FOUND_MESSAGE, currentPage));
@@ -96,25 +96,25 @@ class SimpleUserService implements UserService {
 
     @Override
     public int getPagesAmount() {
-        return USER_DAO.getPagesAmount();
+        return userDao.getPagesAmount();
     }
 
     @Override
     public User register(User user) throws RegisterException {
-        final Optional<User> optionalUser = USER_DAO.findUserByLogin(user.getLogin());
+        final Optional<User> optionalUser = userDao.findUserByLogin(user.getLogin());
         if (optionalUser.isPresent()) {
             logger.info(String.format(USER_WITH_LOGIN_ALREADY_EXISTS_MESSAGE, user.getLogin()));
             throw new RegisterException(String.format(USER_WITH_LOGIN_ALREADY_EXISTS_MESSAGE, user.getLogin()));
         }
-        final String encryptedPassword = HASHER.hashToString(BCrypt.MIN_COST, user.getPassword().toCharArray());
-        final User savedUser = USER_DAO.save(new User(user.getLogin(), encryptedPassword));
+        final String encryptedPassword = hasher.hashToString(BCrypt.MIN_COST, user.getPassword().toCharArray());
+        final User savedUser = userDao.save(new User(user.getLogin(), encryptedPassword));
         logger.info(String.format(USER_WAS_SAVED_MESSAGE, user));
         return savedUser;
     }
 
     @Override
     public User findById(Long userId) {
-        final Optional<User> optionalUser = USER_DAO.findById(userId);
+        final Optional<User> optionalUser = userDao.findById(userId);
         if (!optionalUser.isPresent()) {
             logger.error(String.format(USER_BY_ID_WAS_NOT_FOUND_MESSAGE, userId));
             throw new ServiceException(String.format(USER_BY_ID_WAS_NOT_FOUND_MESSAGE, userId));
@@ -128,20 +128,22 @@ class SimpleUserService implements UserService {
     @Override
     public void promoteUserRole(User user) {
         final UserRole promotedRole = user.getRole().promote();
-        final User promotedUser = USER_DAO.update(user.updateRole(promotedRole));
+        final User userToPromote = new User(user.getId(), user.getLogin(), user.getPassword(), promotedRole, user.getSubscription());
+        final User promotedUser = userDao.update(userToPromote);
         logger.info(String.format(USER_ROLE_WAS_PROMOTED_MESSAGE, promotedUser));
     }
 
     @Override
     public void demoteUserRole(User user) {
         final UserRole demotedRole = user.getRole().demote();
-        final User demotedUser = USER_DAO.update(user.updateRole(demotedRole));
+        final User userToDemote = new User(user.getId(), user.getLogin(), user.getPassword(), demotedRole, user.getSubscription());
+        final User demotedUser = userDao.update(userToDemote);
         logger.info(String.format(USER_ROLE_WAS_DEMOTED_MESSAGE, demotedUser));
     }
 
     @Override
     public void delete(Long userId) {
-        USER_DAO.delete(userId);
+        userDao.delete(userId);
         logger.info(String.format(USER_WAS_DELETED_MESSAGE, userId));
     }
 
@@ -150,20 +152,22 @@ class SimpleUserService implements UserService {
         if (newSubscription.getStartDate().isAfter(newSubscription.getEndDate())) {
             throw new SubscriptionException("Start date is after end date");
         }
-        final Subscription savedSubscription = SUBSCRIPTION_DAO.save(newSubscription);
-        final User updatedUser = USER_DAO.update(user.updateSubscription(savedSubscription));
+        final Subscription savedSubscription = subscriptionDao.save(newSubscription);
+        final User userWithNewSubscription = new User(user.getId(), user.getLogin(), user.getPassword(), user.getRole(), savedSubscription);
+        final User updatedUser = userDao.update(userWithNewSubscription);
         logger.info(String.format(SUBSCRIPTION_WAS_SET_MESSAGE, updatedUser));
     }
 
     @Override
     public User changeLogin(Long userId, String newLogin) throws LoginExistsException {
-        final Optional<User> optionalUser = USER_DAO.findUserByLogin(newLogin);
+        final Optional<User> optionalUser = userDao.findUserByLogin(newLogin);
         if (optionalUser.isPresent()) {
             logger.info(String.format(USER_WITH_LOGIN_ALREADY_EXISTS_MESSAGE, newLogin));
             throw new LoginExistsException();
         }
         final User user = findById(userId);
-        final User updatedUser = USER_DAO.update(user.updateLogin(newLogin));
+        final User userWithChangedLogin = new User(user.getId(), newLogin, user.getPassword(), user.getRole(), user.getSubscription());
+        final User updatedUser = userDao.update(userWithChangedLogin);
         logger.info(String.format(LOGIN_WAS_CHANGED_MESSAGE, updatedUser));
         return updatedUser;
     }
@@ -171,8 +175,9 @@ class SimpleUserService implements UserService {
     @Override
     public User changePassword(Long userId, String newPassword) {
         final User user = findById(userId);
-        final String encryptedPassword = HASHER.hashToString(BCrypt.MIN_COST, newPassword.toCharArray());
-        final User updatedUser = USER_DAO.update(user.updatePassword(encryptedPassword));
+        final String encryptedPassword = hasher.hashToString(BCrypt.MIN_COST, newPassword.toCharArray());
+        final User userWithChangedPassword = new User(user.getId(), user.getLogin(), encryptedPassword, user.getRole(), user.getSubscription());
+        final User updatedUser = userDao.update(userWithChangedPassword);
         logger.info(String.format(PASSWORD_WAS_CHANGED_MESSAGE, updatedUser));
         return updatedUser;
     }
@@ -185,11 +190,11 @@ class SimpleUserService implements UserService {
         if (user.getSubscription() == null) {
             return user;
         }
-        final Optional<Subscription> optionalSubscription = SUBSCRIPTION_DAO.findById(user.getSubscription().getId());
+        final Optional<Subscription> optionalSubscription = subscriptionDao.findById(user.getSubscription().getId());
         if (!optionalSubscription.isPresent()) {
             throw new ServiceException(String.format(SUBSCRIPTION_WAS_NOT_FOUND_MESSAGE, user.getSubscription().getId()));
         }
-        return user.updateSubscription(optionalSubscription.get());
+        return new User(user.getId(), user.getLogin(), user.getPassword(), user.getRole(), optionalSubscription.get());
     }
 
     private static class Singleton {

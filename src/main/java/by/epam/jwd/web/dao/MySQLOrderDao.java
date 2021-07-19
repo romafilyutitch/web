@@ -19,8 +19,8 @@ import java.util.StringJoiner;
 public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
     private static final String TABLE_NAME = "book_order";
     private static final String ID_COLUMN = "id";
-    private static final String READER_COLUMN = "reader";
-    private static final String BOOK_COLUMN = "book";
+    private static final String READER_COLUMN = "user_id";
+    private static final String BOOK_COLUMN = "book_id";
     private static final String DATE_COLUMN = "date";
     private static final String STATUS_COLUMN = "status";
 

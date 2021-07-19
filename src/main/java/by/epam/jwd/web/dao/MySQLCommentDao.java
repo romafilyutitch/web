@@ -16,8 +16,8 @@ public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao 
     private static final String TABLE_NAME = "Comment";
 
     private static final String ID_COLUMN = "id";
-    private static final String USER_COLUMN = "user";
-    private static final String BOOK_COLUMN = "book";
+    private static final String USER_COLUMN = "user_id";
+    private static final String BOOK_COLUMN = "book_id";
     private static final String DATE_COLUMN = "date";
     private static final String TEXT_COLUMN = "text";
 

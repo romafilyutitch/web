@@ -43,36 +43,36 @@ public class MySQLAuthorDaoTest {
 
     @Test
     public void save_mustReturnAssignIdToSavedAuthor() {
-        assertNotNull("Returned value must be not null",  testAuthor);
-        assertNotNull("Saved author id must be not null",testAuthor.getId());
+        assertNotNull("Saved test author must be not null",testAuthor);
+        assertNotNull("Saved test author must have not null id",testAuthor.getId());
     }
 
     @Test
     public void findAll_mustReturnNotNullList() {
         final List<Author> allAuthors = testDao.findAll();
-        assertNotNull("All authors list must be not null", allAuthors);
+        assertNotNull("All authors list must be not null",allAuthors);
     }
 
     @Test
     public void findById_mustReturnSavedAuthor_whenSavedAuthorIdPassed() {
         final Optional<Author> optionalAuthor = testDao.findById(testAuthor.getId());
-        assertNotNull("Returned value must be not null", optionalAuthor);
-        assertTrue("Optional author must contain saved author", optionalAuthor.isPresent());
-        assertEquals("Found authro must be equal to saved author", testAuthor, optionalAuthor.get());
+        assertNotNull("Optional author must be not null",optionalAuthor);
+        assertTrue("Optional author must be not empty",optionalAuthor.isPresent());
+        assertEquals("Found author must be equal to test author",testAuthor, optionalAuthor.get());
     }
 
     @Test
     public void findById_mustReturnEmptyAuthor_whenThereIsNotAuthorWithPassedId() {
         testDao.delete(testAuthor.getId());
         final Optional<Author> optionalAuthor = testDao.findById(testAuthor.getId());
-        assertNotNull("Returned value must be not null", optionalAuthor);
-        assertFalse("Optional author must be empty", optionalAuthor.isPresent());
+        assertNotNull("Optional author must be not null",optionalAuthor);
+        assertFalse("Optional author must be empty",optionalAuthor.isPresent());
     }
 
     @Test
     public void update_mustUpdateAuthor() {
         final String updateName = "UPDATE";
-        testAuthor = testAuthor.updateName(updateName);
+        testAuthor = new Author(testAuthor.getId(), updateName);
         final Author updatedAuthor = testDao.update(testAuthor);
         assertNotNull("Returned value must be not null", updatedAuthor);
         assertEquals("Updated author must have updated name", updateName, updatedAuthor.getName());
