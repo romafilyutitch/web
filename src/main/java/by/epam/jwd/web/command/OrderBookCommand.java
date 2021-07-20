@@ -1,6 +1,5 @@
 package by.epam.jwd.web.command;
 
-import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.model.Status;
@@ -19,10 +18,11 @@ public class OrderBookCommand implements ActionCommand {
     private static final String REQUEST_ORDER_ID_PARAMETER_KEY = "id";
     private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
     private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
-    private static final String SUCCESS_MESSAGE = "Book %s was ordered. See my orders page";
     private static final String SESSION_FAIL_ATTRIBUTE_KEY = "fail";
+    private static final String NO_COPY_LOCALIZATION_MESSAGE_KEY = "noCopy";
+    private static final String BOOK_WAS_ORDER_LOCALIZATION_MESSAGE_KEY = "bookOrdered";
 
-    public static final String RESULT_PATH = "index.jsp";
+    private static final String RESULT_PATH = "index.jsp";
 
     private OrderBookCommand() {
     }
@@ -37,12 +37,12 @@ public class OrderBookCommand implements ActionCommand {
         final Book book = bookService.findById(bookId);
         final User user = (User) request.getSession().getAttribute(SESSION_USER_ATTRIBUTE_KEY);
         final Order order = new Order(user, book, LocalDate.now(), Status.ORDERED);
-        try {
+        if (book.getCopiesAmount() == 0) {
+            request.getSession().setAttribute(SESSION_FAIL_ATTRIBUTE_KEY, NO_COPY_LOCALIZATION_MESSAGE_KEY);
+        } else {
             orderService.register(order);
             bookService.removeOneCopy(book);
-            request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, "bookOrdered");
-        } catch (RegisterException e) {
-            request.getSession().setAttribute(SESSION_FAIL_ATTRIBUTE_KEY, "noCopy");
+            request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, BOOK_WAS_ORDER_LOCALIZATION_MESSAGE_KEY);
         }
         return new CommandResult() {
             @Override

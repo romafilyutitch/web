@@ -8,7 +8,6 @@ import by.epam.jwd.web.model.Status;
 import by.epam.jwd.web.model.User;
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -118,7 +117,7 @@ public class MySQLOrderDaoTest {
 
     @Test
     public void findOrdersByBookId_mustReturnNotNullList() {
-        final List<Order> foundOrders = testDao.findOrdersByBookId(testOrder.getBook().getId());
+        final List<Order> foundOrders = testDao.findByBook(testOrder.getBook());
         assertNotNull("Returned value must be not null", foundOrders);
         assertFalse("Returned list must not contain null", foundOrders.contains(null));
         for(Order foundOrder : foundOrders) {
@@ -128,13 +127,13 @@ public class MySQLOrderDaoTest {
 
     @Test
     public void findOrdersByBookId_mustReturnListThatContainSavedOrder_whenSavedOrderBookIdPassed() {
-        final List<Order> foundOrders = testDao.findOrdersByBookId(testBook.getId());
+        final List<Order> foundOrders = testDao.findByBook(testBook);
         assertTrue("Found orders list must contain saved order", foundOrders.contains(testOrder));
     }
 
     @Test
     public void findOrdersByOrderDate_mustReturnNotNullList() {
-        final List<Order> foundOrders = testDao.findOrdersByOrderDate(testOrder.getOrderDate());
+        final List<Order> foundOrders = testDao.findByOrderDate(testOrder.getOrderDate());
         assertNotNull("Returned value must be not null", foundOrders);
         assertFalse("Returned list must not contain null", foundOrders.contains(null));
         for (Order foundOrder : foundOrders) {
@@ -144,13 +143,13 @@ public class MySQLOrderDaoTest {
 
     @Test
     public void findOrdersByOrderDate_mustReturnListThatContainSavedOrder_whenSavedOrderDatePassed() {
-        final List<Order> foundOrders = testDao.findOrdersByOrderDate(testOrder.getOrderDate());
+        final List<Order> foundOrders = testDao.findByOrderDate(testOrder.getOrderDate());
         assertTrue("Found orders list must contain saved order", foundOrders.contains(testOrder));
     }
 
     @Test
     public void findOrdersByUserId_mustReturnNotNullList() {
-        final List<Order> foundOrders = testDao.findOrdersByUserId(testOrder.getUser().getId());
+        final List<Order> foundOrders = testDao.findByUser(testOrder.getUser());
         assertNotNull("Returned value must be not null", foundOrders);
         assertFalse("Returned lust must not contain null", foundOrders.contains(null));
         for (Order foundOrder : foundOrders) {
@@ -160,7 +159,7 @@ public class MySQLOrderDaoTest {
 
     @Test
     public void findOrdersByUserId_mustReturnListThatContainSavedOrder_whenSavedOrderUserIdPassed() {
-        final List<Order> foundOrders = testDao.findOrdersByUserId(testOrder.getUser().getId());
+        final List<Order> foundOrders = testDao.findByUser(testOrder.getUser());
         assertTrue("Found order list must contain saved order", foundOrders.contains(testOrder));
     }
 }

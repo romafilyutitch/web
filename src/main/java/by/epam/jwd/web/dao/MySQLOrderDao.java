@@ -135,18 +135,18 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
     }
 
     @Override
-    public List<Order> findOrdersByBookId(Long bookId) throws DAOException {
-        return findPreparedEntities(FIND_BY_BOOK_ID_SQL, preparedStatement -> preparedStatement.setLong(1, bookId));
+    public List<Order> findByBook(Book book) throws DAOException {
+        return findPreparedEntities(FIND_BY_BOOK_ID_SQL, preparedStatement -> preparedStatement.setLong(1, book.getId()));
     }
 
     @Override
-    public List<Order> findOrdersByOrderDate(LocalDate orderDate) throws DAOException {
+    public List<Order> findByOrderDate(LocalDate orderDate) throws DAOException {
         return findPreparedEntities(FIND_BY_DATE_SQL, preparedStatement -> preparedStatement.setObject(1, orderDate));
     }
 
     @Override
-    public List<Order> findOrdersByUserId(Long userId) {
-        return findPreparedEntities((FIND_BY_USER_ID_SQL), preparedStatement -> preparedStatement.setLong(1, userId));
+    public List<Order> findByUser(User user) {
+        return findPreparedEntities((FIND_BY_USER_ID_SQL), preparedStatement -> preparedStatement.setLong(1, user.getId()));
     }
 
     private static class Singleton {

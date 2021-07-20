@@ -9,10 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 public class ApproveOrderCommand implements ActionCommand {
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
-    private static final String ORDER_ID_KEY = "id";
-
+    private static final String REQUEST_ORDER_ID_PARAMETER_KEY = "id";
     private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
-    private static final String SUCCESS_MESSAGE = "order %s was approved";
+    private static final String ORDER_APPROVED_LOCALIZATION_MESSAGE_KEY = "orderApproved";
 
     private static final String RESULT_PATH = "index.jsp";
 
@@ -25,10 +24,10 @@ public class ApproveOrderCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        final Long id = Long.valueOf(request.getParameter(ORDER_ID_KEY));
+        final Long id = Long.valueOf(request.getParameter(REQUEST_ORDER_ID_PARAMETER_KEY));
         final Order foundOrder = orderService.findById(id);
         orderService.approveOrder(foundOrder);
-        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, "orderApproved");
+        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, ORDER_APPROVED_LOCALIZATION_MESSAGE_KEY);
         return new CommandResult() {
             @Override
             public String getResultPath() {

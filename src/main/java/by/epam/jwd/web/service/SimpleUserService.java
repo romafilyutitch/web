@@ -4,11 +4,10 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import by.epam.jwd.web.dao.DAOFactory;
 import by.epam.jwd.web.dao.SubscriptionDao;
 import by.epam.jwd.web.dao.UserDao;
-import by.epam.jwd.web.exception.LoginExistsException;
-import by.epam.jwd.web.exception.NoLoginException;
-import by.epam.jwd.web.exception.RegisterException;
+import by.epam.jwd.web.exception.UserWithLoginExistsException;
+import by.epam.jwd.web.exception.NoUserWithLoginException;
 import by.epam.jwd.web.exception.ServiceException;
-import by.epam.jwd.web.exception.SubscriptionException;
+import by.epam.jwd.web.exception.WrongSubscriptionException;
 import by.epam.jwd.web.exception.WrongPasswordException;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
@@ -18,7 +17,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 class SimpleUserService implements UserService {
     private static final Logger logger = LogManager.getLogger(SimpleUserService.class);
@@ -62,11 +60,16 @@ class SimpleUserService implements UserService {
     }
 
     @Override
-    public User loginUser(User user) throws NoLoginException, WrongPasswordException {
+    public Optional<User> findByLogin(String login) {
+        return userDao.findUserByLogin(login);
+    }
+
+    @Override
+    public User loginUser(User user) throws NoUserWithLoginException, WrongPasswordException {
         final Optional<User> optionalUser = userDao.findUserByLogin(user.getLogin());
         if (!optionalUser.isPresent()) {
             logger.info(String.format(USER_WITH_LOGIN_DOES_NOT_EXIST_MESSAGE, user.getLogin()));
-            throw new NoLoginException();
+            throw new NoUserWithLoginException();
         }
         User foundUser = optionalUser.get();
         final BCrypt.Result verifyResult = verifyer.verify(user.getPassword().toCharArray(), foundUser.getPassword().toCharArray());
@@ -98,12 +101,7 @@ class SimpleUserService implements UserService {
     }
 
     @Override
-    public User register(User user) throws RegisterException {
-        final Optional<User> optionalUser = userDao.findUserByLogin(user.getLogin());
-        if (optionalUser.isPresent()) {
-            logger.info(String.format(USER_WITH_LOGIN_ALREADY_EXISTS_MESSAGE, user.getLogin()));
-            throw new RegisterException(String.format(USER_WITH_LOGIN_ALREADY_EXISTS_MESSAGE, user.getLogin()));
-        }
+    public User register(User user) {
         final String encryptedPassword = hasher.hashToString(BCrypt.MIN_COST, user.getPassword().toCharArray());
         final User savedUser = userDao.save(new User(user.getLogin(), encryptedPassword, UserRole.READER, null));
         logger.info(String.format(USER_WAS_SAVED_MESSAGE, user));
@@ -145,9 +143,9 @@ class SimpleUserService implements UserService {
     }
 
     @Override
-    public void setSubscription(User user, Subscription newSubscription) throws SubscriptionException {
+    public void setSubscription(User user, Subscription newSubscription) throws WrongSubscriptionException {
         if (newSubscription.getStartDate().isAfter(newSubscription.getEndDate())) {
-            throw new SubscriptionException(START_DATE_IS_AFTER_END_DATE_MESSAGE);
+            throw new WrongSubscriptionException(START_DATE_IS_AFTER_END_DATE_MESSAGE);
         }
         final Subscription savedSubscription = subscriptionDao.save(newSubscription);
         final User userWithNewSubscription = new User(user.getId(), user.getLogin(), user.getPassword(), user.getRole(), savedSubscription);
@@ -156,13 +154,12 @@ class SimpleUserService implements UserService {
     }
 
     @Override
-    public User changeLogin(Long userId, String newLogin) throws LoginExistsException {
+    public User changeLogin(User user, String newLogin) throws UserWithLoginExistsException {
         final Optional<User> optionalUser = userDao.findUserByLogin(newLogin);
         if (optionalUser.isPresent()) {
             logger.info(String.format(USER_WITH_LOGIN_ALREADY_EXISTS_MESSAGE, newLogin));
-            throw new LoginExistsException();
+            throw new UserWithLoginExistsException();
         }
-        final User user = findById(userId);
         final User userWithChangedLogin = new User(user.getId(), newLogin, user.getPassword(), user.getRole(), user.getSubscription());
         final User updatedUser = userDao.update(userWithChangedLogin);
         logger.info(String.format(LOGIN_WAS_CHANGED_MESSAGE, updatedUser));
@@ -170,8 +167,7 @@ class SimpleUserService implements UserService {
     }
 
     @Override
-    public User changePassword(Long userId, String newPassword) {
-        final User user = findById(userId);
+    public User changePassword(User user, String newPassword) {
         final String encryptedPassword = hasher.hashToString(BCrypt.MIN_COST, newPassword.toCharArray());
         final User userWithChangedPassword = new User(user.getId(), user.getLogin(), encryptedPassword, user.getRole(), user.getSubscription());
         final User updatedUser = userDao.update(userWithChangedPassword);

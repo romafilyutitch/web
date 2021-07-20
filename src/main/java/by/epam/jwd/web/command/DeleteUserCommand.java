@@ -1,12 +1,16 @@
 package by.epam.jwd.web.command;
 
+import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.service.ServiceFactory;
+import by.epam.jwd.web.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 public class DeleteUserCommand implements ActionCommand {
+    private UserService userService = ServiceFactory.getInstance().getUserService();
 
-    private static final String REQUEST_USER_ID_PARAMETER_KEY = "id";
+    private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
 
     private static final String RESULT_PATH = "index.jsp";
 
@@ -19,8 +23,9 @@ public class DeleteUserCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        final Long id = Long.valueOf(request.getParameter(REQUEST_USER_ID_PARAMETER_KEY));
-        ServiceFactory.getInstance().getUserService().delete(id);
+        final HttpSession session = request.getSession();
+        final User user = (User) session.getAttribute(SESSION_USER_ATTRIBUTE_KEY);
+        userService.delete(user.getId());
         request.getSession().invalidate();
         return new CommandResult() {
             @Override

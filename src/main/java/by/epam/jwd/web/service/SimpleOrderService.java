@@ -2,11 +2,12 @@ package by.epam.jwd.web.service;
 
 import by.epam.jwd.web.dao.DAOFactory;
 import by.epam.jwd.web.dao.OrderDao;
-import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.exception.ServiceException;
+import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.model.Status;
 import by.epam.jwd.web.model.Subscription;
+import by.epam.jwd.web.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,8 +27,8 @@ class SimpleOrderService implements OrderService {
     private static final String ORDER_WAS_APPROVED_MESSAGE = "Order %s was approved";
     private static final String ORDER_WAS_DELETED_MESSAGE = "Order with id %d was deleted";
     private static final String ORDER_WAS_RETURNED_MESSAGE = "Order was returned %s";
-    private static final String ORDERS_BY_READER_ID_WERE_FOUND_MESSAGE = "Orders by reader id %d was found";
-    private static final String ORDERS_BY_BOOK_WERE_FOUND_MESSAGE = "Orders by book id %d was found";
+    private static final String ORDERS_BY_USER_WERE_FOUND_MESSAGE = "Orders by user was found %s";
+    private static final String ORDERS_BY_BOOK_WERE_FOUND_MESSAGE = "Orders by book was found %s";
     private static final String ORDER_BY_ID_WAS_NOT_FOUND_MESSAGE = "Saved order with id %d was not found";
     private static final String ORDER_BY_ID_WAS_FOUND_MESSAGE = "Order by id was found %s";
 
@@ -46,11 +47,7 @@ class SimpleOrderService implements OrderService {
     }
 
     @Override
-    public Order register(Order order) throws RegisterException {
-        if (order.getBook().getCopiesAmount() == 0) {
-            logger.info(String.format(NO_FREE_COPY_MESSAGE, order.getBook().getName()));
-            throw new RegisterException(String.format(NO_FREE_COPY_MESSAGE, order.getBook().getName()));
-        }
+    public Order register(Order order) {
         final Subscription subscription = order.getUser().getSubscription();
         Order savedOrder = orderDao.save(order);
         if (subscription != null) {
@@ -106,16 +103,16 @@ class SimpleOrderService implements OrderService {
     }
 
     @Override
-    public List<Order> findByReaderId(Long readerId) {
-        List<Order> foundOrdersByReaderId = orderDao.findOrdersByUserId(readerId);
-        logger.info(String.format(ORDERS_BY_READER_ID_WERE_FOUND_MESSAGE, readerId));
+    public List<Order> findByUser(User user) {
+        List<Order> foundOrdersByReaderId = orderDao.findByUser(user);
+        logger.info(String.format(ORDERS_BY_USER_WERE_FOUND_MESSAGE, user));
         return foundOrdersByReaderId;
     }
 
     @Override
-    public List<Order> findByBookId(Long bookId) {
-        List<Order> foundOrdersByBookId = orderDao.findOrdersByBookId(bookId);
-        logger.info(String.format(ORDERS_BY_BOOK_WERE_FOUND_MESSAGE, bookId));
+    public List<Order> findByBook(Book book) {
+        List<Order> foundOrdersByBookId = orderDao.findByBook(book);
+        logger.info(String.format(ORDERS_BY_BOOK_WERE_FOUND_MESSAGE, book));
         return foundOrdersByBookId;
     }
 

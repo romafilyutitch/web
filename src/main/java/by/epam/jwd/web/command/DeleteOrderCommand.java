@@ -15,7 +15,7 @@ public class DeleteOrderCommand implements ActionCommand {
     private static final String REQUEST_ORDER_ID_PARAMETER_KEY = "id";
 
     private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
-    private static final String SUCCESS_MESSAGE = "Order %d was deleted";
+    private static final String ORDER_DELETED_LOCALIZATION_MESSAGE_KEY = "orderDeleted";
 
     private static final String RESULT_PATH = "index.jsp";
 
@@ -33,7 +33,7 @@ public class DeleteOrderCommand implements ActionCommand {
         final Book book = order.getBook();
         bookService.addOneCopy(book);
         orderService.delete(orderId);
-        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, "orderDeleted");
+        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, ORDER_DELETED_LOCALIZATION_MESSAGE_KEY);
         return new CommandResult() {
             @Override
             public String getResultPath() {

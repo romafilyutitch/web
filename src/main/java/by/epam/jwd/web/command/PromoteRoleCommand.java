@@ -11,7 +11,7 @@ public class PromoteRoleCommand implements ActionCommand {
 
     private static final String REQUEST_USER_ID_PARAMETER_KEY = "id";
     private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
-    private static final String SUCCESS_MESSAGE = "Role for user %s was promoted";
+    private static final String ROLE_WAS_PROMOTED_LOCALIZATION_MESSAGE_KEY = "rolePromoted";
 
     private static final String RESULT_PATH = "index.jsp";
 
@@ -27,7 +27,7 @@ public class PromoteRoleCommand implements ActionCommand {
         final Long userId = Long.valueOf(request.getParameter(REQUEST_USER_ID_PARAMETER_KEY));
         final User foundUser = userService.findById(userId);
         userService.promoteUserRole(foundUser);
-        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, "rolePromoted");
+        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, ROLE_WAS_PROMOTED_LOCALIZATION_MESSAGE_KEY);
         return new CommandResult() {
             @Override
             public String getResultPath() {

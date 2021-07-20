@@ -12,14 +12,7 @@ import java.util.Optional;
 public interface BookDao extends Dao<Book> {
     Optional<Book> findByName(String name);
 
-    List<Book> findByAuthorId(Long authorId);
+    List<Book> findByAuthor(Author author);
 
-    List<Book> findByGenreId(Long genreId);
-
-    void addLike(Long bookId, Long userId);
-
-    void removeLike(Long bookId, Long userId);
-
-    boolean isLikedByUserWithId(Long bookId, Long userId);
-
+    List<Book> findByGenre(Genre genre);
 }

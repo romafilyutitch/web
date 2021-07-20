@@ -1,7 +1,8 @@
 package by.epam.jwd.web.service;
 
-import by.epam.jwd.web.exception.RegisterException;
+import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Order;
+import by.epam.jwd.web.model.User;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface OrderService extends Service<Order> {
 
     void returnOrder(Order order);
 
-    List<Order> findByBookId(Long readerId);
+    List<Order> findByBook(Book book);
 
-    List<Order> findByReaderId(Long bookId);
+    List<Order> findByUser(User user);
 }

@@ -2,12 +2,14 @@ package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
+import by.epam.jwd.web.service.BookService;
 import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class ShowBooksListCommand implements ActionCommand {
+    private final BookService bookService = ServiceFactory.getInstance().getBookService();
 
     private static final String REQUEST_PAGE_PARAMETER_KEY = "page";
     private static final String REQUEST_GENRES_ATTRIBUTE_KEY = "genres";
@@ -31,8 +33,8 @@ public class ShowBooksListCommand implements ActionCommand {
         if (pageParameter != null) {
             currentPageNumber = Integer.parseInt(pageParameter);
         }
-        final List<Book> currentPage = ServiceFactory.getInstance().getBookService().findPage(currentPageNumber);
-        final int pagesAmount = ServiceFactory.getInstance().getBookService().getPagesAmount();
+        final List<Book> currentPage = bookService.findPage(currentPageNumber);
+        final int pagesAmount = bookService.getPagesAmount();
         final Genre[] genres = Genre.values();
         request.setAttribute(REQUEST_GENRES_ATTRIBUTE_KEY, genres);
         request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, currentPage);

@@ -36,6 +36,11 @@ public class MySQLDAOFactory implements DAOFactory {
         return MySQLSubscriptionDao.getInstance();
     }
 
+    @Override
+    public LikeDao getLikeDao() {
+        return MySQLLikeDao.getInstance();
+    }
+
     private static class Singleton {
         private static final MySQLDAOFactory INSTANCE = new MySQLDAOFactory();
     }

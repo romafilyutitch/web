@@ -1,12 +1,14 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.model.Book;
+import by.epam.jwd.web.service.BookService;
 import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class MainCommand implements ActionCommand {
+    private final BookService bookService = ServiceFactory.getInstance().getBookService();
 
     private static final String REQUEST_BOOKS_ATTRIBUTE_KEY = "books";
     private static final String REQUEST_PAGE_PARAMETER_KEY = "page";
@@ -29,8 +31,8 @@ public class MainCommand implements ActionCommand {
         if (pageParameter != null) {
             currentPageNumber = Integer.parseInt(pageParameter);
         }
-        final List<Book> currentPage = ServiceFactory.getInstance().getBookService().findPage(currentPageNumber);
-        final int pagesAmount = ServiceFactory.getInstance().getBookService().getPagesAmount();
+        final List<Book> currentPage = bookService.findPage(currentPageNumber);
+        final int pagesAmount = bookService.getPagesAmount();
         request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, currentPage);
         request.setAttribute(REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY, currentPageNumber);
         request.setAttribute(REQUEST_PAGES_AMOUNT_ATTRIBUTE_KEY, pagesAmount);

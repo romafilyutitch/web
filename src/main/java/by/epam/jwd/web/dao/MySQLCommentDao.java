@@ -125,8 +125,8 @@ public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao 
     }
 
     @Override
-    public List<Comment> findByBookId(Long bookId) {
-        return findPreparedEntities(FIND_BY_BOOK_ID_SQL, preparedStatement -> preparedStatement.setLong(1, bookId));
+    public List<Comment> findByBook(Book book) {
+        return findPreparedEntities(FIND_BY_BOOK_ID_SQL, preparedStatement -> preparedStatement.setLong(1, book.getId()));
     }
 
     private static class Singleton {

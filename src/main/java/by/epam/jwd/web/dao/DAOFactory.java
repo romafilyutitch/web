@@ -14,6 +14,8 @@ public interface DAOFactory {
 
     CommentDao getCommentDao();
 
+    LikeDao getLikeDao();
+
     static DAOFactory getInstance() {
         return MySQLDAOFactory.getInstance();
     }

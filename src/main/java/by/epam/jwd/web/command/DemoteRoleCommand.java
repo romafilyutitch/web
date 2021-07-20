@@ -10,9 +10,8 @@ public class DemoteRoleCommand implements ActionCommand {
     private final UserService userService = ServiceFactory.getInstance().getUserService();
 
     private static final String REQUEST_USER_ID_PARAMETER_KEY = "id";
-
     private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
-    private static final String SUCCESS_MESSAGE = "role for user %s was demoted";
+    private static final String ROLE_DEMOTED_LOCALIZATION_MESSAGE_KEY = "roleDemoted";
 
     private static final String RESULT_PATH = "index.jsp";
 
@@ -28,7 +27,7 @@ public class DemoteRoleCommand implements ActionCommand {
         final Long id = Long.valueOf(request.getParameter(REQUEST_USER_ID_PARAMETER_KEY));
         final User foundUser = userService.findById(id);
         userService.demoteUserRole(foundUser);
-        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, "roleDemoted");
+        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, ROLE_DEMOTED_LOCALIZATION_MESSAGE_KEY);
         return new CommandResult() {
             @Override
             public String getResultPath() {

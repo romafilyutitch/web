@@ -1,7 +1,7 @@
 package by.epam.jwd.web.service;
 
-import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.model.DbEntity;
+
 import java.util.List;
 
 public interface Service<T extends DbEntity> {
@@ -12,7 +12,7 @@ public interface Service<T extends DbEntity> {
 
     T findById(Long entityId);
 
-    T register(T entity) throws RegisterException;
+    T register(T entity);
 
     void delete(Long entityId);
 

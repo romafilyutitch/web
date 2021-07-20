@@ -8,6 +8,10 @@ public interface ServiceFactory {
 
     UserService getUserService();
 
+    CommentService getCommentService();
+
+    LikeService getLikeService();
+
     static ServiceFactory getInstance() {
         return AppServiceFactory.getInstance();
     }

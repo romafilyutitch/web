@@ -10,9 +10,8 @@ public class ReturnBookCommand implements ActionCommand {
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     private static final String REQUEST_BOOK_ID_PARAMETER_KEY = "id";
-
     private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
-    private static final String SUCCESS_MESSAGE = "Book %s was returned";
+    private static final String BOOK_WAS_RETURNED_LOCALIZATION_MESSAGE_KEY = "bookReturned";
 
     private static final String RESULT_PATH = "index.jsp";
 
@@ -28,7 +27,7 @@ public class ReturnBookCommand implements ActionCommand {
         final Long orderId = Long.valueOf(request.getParameter(REQUEST_BOOK_ID_PARAMETER_KEY));
         final Order foundOrder = orderService.findById(orderId);
         orderService.returnOrder(foundOrder);
-        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, "bookReturned");
+        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, BOOK_WAS_RETURNED_LOCALIZATION_MESSAGE_KEY);
         return new CommandResult() {
             @Override
             public String getResultPath() {

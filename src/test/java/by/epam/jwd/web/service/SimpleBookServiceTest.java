@@ -2,24 +2,24 @@ package by.epam.jwd.web.service;
 
 import by.epam.jwd.web.connectionPool.ConnectionPool;
 import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
-import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.model.Author;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class SimpleBookServiceTest {
     private static final ConnectionPool POOL = ConnectionPool.getConnectionPool();
@@ -107,11 +107,6 @@ public class SimpleBookServiceTest {
     public void register_mustReturnBookWithId() {
         assertNotNull("Registered book must be not null", testBook);
         assertNotNull("Registered book id must be not null", testBook.getId());
-    }
-
-    @Test(expected = RegisterException.class)
-    public void register_mustThrowException_whenBookWithNameAlreadyExists() throws RegisterException {
-        testService.register(testBook);
     }
 
     @Test

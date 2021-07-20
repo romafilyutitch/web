@@ -4,6 +4,7 @@ import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Comment;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.service.BookService;
+import by.epam.jwd.web.service.CommentService;
 import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,15 @@ import java.time.LocalDate;
 
 public class AddCommentCommand implements ActionCommand {
     private final BookService bookService = ServiceFactory.getInstance().getBookService();
+    private final CommentService commentService = ServiceFactory.getInstance().getCommentService();
+
+    private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
+    private static final String REQUEST_BOOK_ID_PARAMETER_KEY = "bookId";
+    private static final String REQUEST_TEXT_PARAMETER_KEY = "text";
+    private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
+    private static final String COMMENT_ADDED_LOCALIZATION_MESSAGE_KEY = "commentAdded";
+
+    private static final String RESULT_PATH = "index.jsp";
 
     private AddCommentCommand() {};
 
@@ -22,17 +32,17 @@ public class AddCommentCommand implements ActionCommand {
     @Override
     public CommandResult execute(HttpServletRequest request) {
         final HttpSession session = request.getSession();
-        final User user = (User) session.getAttribute("user");
-        final Long bookId = Long.valueOf(request.getParameter("bookId"));
-        final String text = request.getParameter("text");
+        final User user = (User) session.getAttribute(SESSION_USER_ATTRIBUTE_KEY);
+        final Long bookId = Long.valueOf(request.getParameter(REQUEST_BOOK_ID_PARAMETER_KEY));
+        final String text = request.getParameter(REQUEST_TEXT_PARAMETER_KEY);
         final Book book = bookService.findById(bookId);
         final Comment comment = new Comment(user, book, LocalDate.now(), text);
-        bookService.addComment(comment);
-        session.setAttribute("success", "commentAdded");
+        commentService.register(comment);
+        session.setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, COMMENT_ADDED_LOCALIZATION_MESSAGE_KEY);
         return new CommandResult() {
             @Override
             public String getResultPath() {
-                return "index.jsp";
+                return RESULT_PATH;
             }
 
             @Override

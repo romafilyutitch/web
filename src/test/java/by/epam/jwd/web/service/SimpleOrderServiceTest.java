@@ -2,7 +2,6 @@ package by.epam.jwd.web.service;
 
 import by.epam.jwd.web.connectionPool.ConnectionPool;
 import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
-import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Order;
@@ -10,7 +9,6 @@ import by.epam.jwd.web.model.Status;
 import by.epam.jwd.web.model.User;
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -110,8 +108,8 @@ public class SimpleOrderServiceTest {
     }
 
     @Test
-    public void findByReaderId_mustReturnNotNullOrdersList() {
-        final List<Order> foundOrders = testService.findByReaderId(testOrder.getUser().getId());
+    public void findByBook_mustReturnNotNullOrdersList() {
+        final List<Order> foundOrders = testService.findByBook(testOrder.getBook());
         assertNotNull("Returned value must be not null", foundOrders);
         for (Order foundOrder : foundOrders) {
             assertEquals("Found order must have passed reader id", testOrder.getUser().getId(), foundOrder.getUser().getId());
@@ -119,8 +117,8 @@ public class SimpleOrderServiceTest {
     }
 
     @Test
-    public void findByBookId_mustReturnNotNullOrdersList() {
-        final List<Order> foundOrders = testService.findByBookId(testOrder.getBook().getId());
+    public void findByUser_mustReturnNotNullOrdersList() {
+        final List<Order> foundOrders = testService.findByUser(testOrder.getUser());
         assertNotNull("Returned value must be not null", foundOrders);
         for (Order foundOrder : foundOrders) {
             assertEquals("Found order must have passed book id", testOrder.getBook().getId(), foundOrder.getBook().getId());

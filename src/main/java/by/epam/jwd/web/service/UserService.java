@@ -1,23 +1,27 @@
 package by.epam.jwd.web.service;
 
-import by.epam.jwd.web.exception.LoginExistsException;
-import by.epam.jwd.web.exception.NoLoginException;
-import by.epam.jwd.web.exception.SubscriptionException;
+import by.epam.jwd.web.exception.UserWithLoginExistsException;
+import by.epam.jwd.web.exception.NoUserWithLoginException;
+import by.epam.jwd.web.exception.WrongSubscriptionException;
 import by.epam.jwd.web.exception.WrongPasswordException;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
 
+import java.util.Optional;
+
 public interface UserService extends Service<User> {
 
-    User loginUser(User user) throws NoLoginException, WrongPasswordException;
+    User loginUser(User user) throws NoUserWithLoginException, WrongPasswordException;
+
+    Optional<User> findByLogin(String login);
 
     void promoteUserRole(User user);
 
     void demoteUserRole(User user);
 
-    void setSubscription(User user, Subscription newSubscription) throws SubscriptionException;
+    void setSubscription(User user, Subscription newSubscription) throws WrongSubscriptionException;
 
-    User changeLogin(Long userId, String newLogin) throws LoginExistsException;
+    User changeLogin(User user, String newLogin) throws UserWithLoginExistsException;
 
-    User changePassword(Long userId, String newPassword);
+    User changePassword(User user, String newPassword);
 }

@@ -23,6 +23,16 @@ class AppServiceFactory implements ServiceFactory {
         return SimpleUserService.getInstance();
     }
 
+    @Override
+    public CommentService getCommentService() {
+        return SimpleCommentService.getInstance();
+    }
+
+    @Override
+    public LikeService getLikeService() {
+        return SimpleLikeService.getInstance();
+    }
+
     private static class Singleton {
         private static final AppServiceFactory INSTANCE = new AppServiceFactory();
     }

@@ -2,11 +2,13 @@ package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.service.ServiceFactory;
+import by.epam.jwd.web.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class ShowUsersListCommand implements ActionCommand {
+    private final UserService userService = ServiceFactory.getInstance().getUserService();
 
     private static final String REQUEST_PAGE_PARAMETER_KEY = "page";
     private static final String REQUEST_USERS_ATTRIBUTE_KEY = "users";
@@ -30,8 +32,8 @@ public class ShowUsersListCommand implements ActionCommand {
             currentPageNumber = Integer.parseInt(pageParameter);
         }
 
-        final List<User> currentPage = ServiceFactory.getInstance().getUserService().findPage(currentPageNumber);
-        final int pagesAmount = ServiceFactory.getInstance().getUserService().getPagesAmount();
+        final List<User> currentPage = userService.findPage(currentPageNumber);
+        final int pagesAmount = userService.getPagesAmount();
         request.setAttribute(REQUEST_USERS_ATTRIBUTE_KEY, currentPage);
         request.setAttribute(REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY, currentPageNumber);
         request.setAttribute(REQUEST_PAGES_AMOUNT_ATTRIBUTE_KEY, pagesAmount);

@@ -31,4 +31,16 @@ public class AppServiceFactoryTest {
         final UserService userService = testFactory.getUserService();
         assertNotNull("Returned user service must be not null", userService);
     }
+
+    @Test
+    public void getCommentService_mustReturnNotNullInstance() {
+        final CommentService commentService = testFactory.getCommentService();
+        assertNotNull("Returned comment service must be not null", commentService);
+    }
+
+    @Test
+    public void getLikeService_mustReturnNotNullInstance() {
+        final LikeService likeService = testFactory.getLikeService();
+        assertNotNull("Returned likeService must be not null", likeService);
+    }
 }

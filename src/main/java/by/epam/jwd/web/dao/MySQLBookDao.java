@@ -41,10 +41,6 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
     private static final String DESCRIPTION_COLUMN = "book.description";
     private static final String LIKES_COLUMN = "book.likes";
 
-    private static final String ADD_LIKE_SQL = "insert into book_like (user_id, book_id) values (?, ?)";
-    private static final String DELETE_LIKE_SQL = "delete from book_like where book_id = ? and user_id = ?";
-    private static final String COUNT_LIKES_SQL = "select count(*) from book_like where user_id = ? and book_id = ?";
-    private static final String LIKES_COUNT_COLUMN = "count(*)";
 
     private MySQLBookDao() {
         super(TABLE_NAME, FIND_ALL_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
@@ -58,17 +54,21 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
     protected Book mapResultSet(ResultSet result) throws SQLException, DAOException {
         final long id = result.getLong(ID_COLUMN);
         final String name = result.getString(NAME_COLUMN);
-        final long authorId = result.getLong(AUTHOR_ID_COLUMN);
-        final String authorName = result.getString(AUTHOR_NAME_COLUMN);
         final String genreName = result.getString(GENRE_NAME_COLUMN);
         final LocalDate date = result.getObject(DATE_COLUMN, LocalDate.class);
         final int pagesAmount = result.getInt(PAGES_AMOUNT_COLUMN);
         final int copiesAmount = result.getInt(COPIES_AMOUNT_COLUMN);
         final String description = result.getString(DESCRIPTION_COLUMN);
         final Integer likes = result.getInt(LIKES_COLUMN);
-        final Author foundAuthor = new Author(authorId, authorName);
+        final Author foundAuthor = buildAuthor(result);
         final Genre foundGenre = Genre.valueOf(genreName.toUpperCase());
         return new Book(id, name, foundAuthor, foundGenre, date, pagesAmount, copiesAmount, description, likes);
+    }
+
+    private Author buildAuthor(ResultSet resultSet) throws SQLException {
+        final long authorId = resultSet.getLong(AUTHOR_ID_COLUMN);
+        final String authorName = resultSet.getString(AUTHOR_NAME_COLUMN);
+        return new Author(authorId, authorName);
     }
 
     @Override
@@ -103,53 +103,13 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
     }
 
     @Override
-    public List<Book> findByAuthorId(Long authorId) throws DAOException {
-        return findPreparedEntities((FIND_BY_AUTHOR_SQL), preparedStatement -> preparedStatement.setLong(1, authorId));
+    public List<Book> findByAuthor(Author author) throws DAOException {
+        return findPreparedEntities((FIND_BY_AUTHOR_SQL), preparedStatement -> preparedStatement.setLong(1, author.getId()));
     }
 
     @Override
-    public List<Book> findByGenreId(Long genreId) throws DAOException {
-        return findPreparedEntities(FIND_BY_GENRE_SQL, preparedStatement -> preparedStatement.setLong(1, genreId));
-    }
-
-    @Override
-    public void addLike(Long bookId, Long userId) {
-        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
-             PreparedStatement addLikeStatement = connection.prepareStatement(ADD_LIKE_SQL)) {
-            addLikeStatement.setLong(1, userId);
-            addLikeStatement.setLong(2, bookId);
-            addLikeStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new DAOException(e);
-        }
-     }
-
-    @Override
-    public void removeLike(Long bookId, Long userId) {
-        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
-        PreparedStatement deleteStatement = connection.prepareStatement(DELETE_LIKE_SQL)) {
-            deleteStatement.setLong(1, bookId);
-            deleteStatement.setLong(2, userId);
-            deleteStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new DAOException(e);
-        }
-    }
-
-    @Override
-    public boolean isLikedByUserWithId(Long bookId, Long userId) {
-        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
-        PreparedStatement findLikeStatement = connection.prepareStatement(COUNT_LIKES_SQL)) {
-            findLikeStatement.setLong(1, userId);
-            findLikeStatement.setLong(2, bookId);
-            try (ResultSet findResult = findLikeStatement.executeQuery()) {
-                findResult.next();
-                final int likesAmount = findResult.getInt(LIKES_COUNT_COLUMN);
-                return likesAmount != 0;
-            }
-        } catch (SQLException e) {
-            throw new DAOException(e);
-        }
+    public List<Book> findByGenre(Genre genre) throws DAOException {
+        return findPreparedEntities(FIND_BY_GENRE_SQL, preparedStatement -> preparedStatement.setLong(1, genre.getId()));
     }
 
     private static class Singleton {

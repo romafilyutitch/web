@@ -1,12 +1,14 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.model.Order;
+import by.epam.jwd.web.service.OrderService;
 import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class ShowOrdersListCommand implements ActionCommand {
+    private OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     private static final String REQUEST_PAGE_PARAMETER_KEY = "page";
     private static final String REQUEST_ORDERS_ATTRIBUTE_KEY = "orders";
@@ -29,8 +31,8 @@ public class ShowOrdersListCommand implements ActionCommand {
         if (pageParameter != null) {
             currentPageNumber = Integer.parseInt(pageParameter);
         }
-        final List<Order> currentPage = ServiceFactory.getInstance().getOrderService().findPage(currentPageNumber);
-        final int pagesAmount = ServiceFactory.getInstance().getOrderService().getPagesAmount();
+        final List<Order> currentPage = orderService.findPage(currentPageNumber);
+        final int pagesAmount = orderService.getPagesAmount();
         request.setAttribute(REQUEST_ORDERS_ATTRIBUTE_KEY, currentPage);
         request.setAttribute(REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY, currentPageNumber);
         request.setAttribute(REQUEST_PAGES_AMOUNT_ATTRIBUTE_KEY, pagesAmount);

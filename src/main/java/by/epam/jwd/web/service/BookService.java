@@ -18,11 +18,4 @@ public interface BookService extends Service<Book> {
 
     List<Book> findByGenre(Genre genre);
 
-    void addComment(Comment comment);
-
-    void addLike(Book book, User user);
-
-    void removeLike(Book book, User user);
-
-    boolean isLikedByUser(Book book, User user);
 }

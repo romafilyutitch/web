@@ -120,7 +120,7 @@ public class MySQLCommentDaoTest {
 
     @Test
     public void findByBookId_mustReturnNotNullListOfComments_whenTestCommentBookIdPassed() {
-        final List<Comment> commentsByBookId = testDao.findByBookId(testComment.getBook().getId());
+        final List<Comment> commentsByBookId = testDao.findByBook(testComment.getBook());
         assertNotNull("Found comments list must be not null", commentsByBookId);
         assertTrue("Found comments list must contain test comment", commentsByBookId.contains(testComment));
     }

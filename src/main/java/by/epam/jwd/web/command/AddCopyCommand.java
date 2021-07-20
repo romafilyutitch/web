@@ -10,9 +10,8 @@ public class AddCopyCommand implements ActionCommand {
     private final BookService bookService = ServiceFactory.getInstance().getBookService();
 
     private static final String REQUEST_BOOK_ID_PARAMETER_KEY = "id";
-
     private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
-    private static final String SUCCESS_MESSAGE = "copy of book %s was added";
+    private static final String COPY_ADDED_LOCALIZATION_MESSAGE_KEY = "copyAdded";
 
     private static final String RESULT_PATH = "index.jsp";
 
@@ -28,7 +27,7 @@ public class AddCopyCommand implements ActionCommand {
         final Long id = Long.valueOf(request.getParameter(REQUEST_BOOK_ID_PARAMETER_KEY));
         final Book book = bookService.findById(id);
         bookService.addOneCopy(book);
-        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, "copyAdded");
+        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, COPY_ADDED_LOCALIZATION_MESSAGE_KEY);
         return new CommandResult() {
             @Override
             public String getResultPath() {

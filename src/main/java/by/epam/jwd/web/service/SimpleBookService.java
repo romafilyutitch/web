@@ -2,15 +2,11 @@ package by.epam.jwd.web.service;
 
 import by.epam.jwd.web.dao.AuthorDao;
 import by.epam.jwd.web.dao.BookDao;
-import by.epam.jwd.web.dao.CommentDao;
 import by.epam.jwd.web.dao.DAOFactory;
-import by.epam.jwd.web.exception.RegisterException;
 import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.model.Author;
 import by.epam.jwd.web.model.Book;
-import by.epam.jwd.web.model.Comment;
 import by.epam.jwd.web.model.Genre;
-import by.epam.jwd.web.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +19,6 @@ class SimpleBookService implements BookService {
 
     private final BookDao bookDao = DAOFactory.getInstance().getBookDao();
     private final AuthorDao authorDao = DAOFactory.getInstance().getAuthorDao();
-    private final CommentDao commentDao = DAOFactory.getInstance().getCommentDao();
 
     private static final String PAGE_WAS_FOUND_MESSAGE = "Page of books number %s was found";
     private static final String SAVED_BOOK_WAS_NOT_FOUND_BY_ID_MESSAGE = "Saved book with id %d was not found";
@@ -38,9 +33,6 @@ class SimpleBookService implements BookService {
     private static final String BOOK_BY_NAME_WAS_FOUND_MESSAGE = "Book by name %s was found";
     private static final String BOOK_BY_MAME_WAS_NOT_FOUND_MESSAGE = "Book by name %s was not found";
     private static final String ALL_BOOKS_WERE_FOUND_MESSAGE = "All books were found";
-    private static final String COMMENT_WAS_ADD_MESSAGE = "New comment was add to book %s";
-    private static final String LIKE_WAS_ADD_MESSAGE = "One like was add to book %s";
-    private static final String LIKE_WAS_REMOVED_MESSAGE = "Like was removed from book %s";
 
     private SimpleBookService() {
     }
@@ -104,13 +96,8 @@ class SimpleBookService implements BookService {
     }
 
     @Override
-    public Book register(Book book) throws RegisterException {
+    public Book register(Book book) {
         final Book bookToSave;
-        final Optional<Book> optionalBook = bookDao.findByName(book.getName());
-        if (optionalBook.isPresent()) {
-            logger.info(String.format(BOOK_WITH_NAME_EXISTS_MESSAGE, book.getName()));
-            throw new RegisterException(String.format(BOOK_WITH_NAME_EXISTS_MESSAGE, book.getName()));
-        }
         final Optional<Author> optionalAuthor = authorDao.getByName(book.getAuthor().getName());
         if (!optionalAuthor.isPresent()) {
             logger.info(String.format(AUTHOR_DOES_NOT_EXIST_MESSAGE, book.getAuthor()));
@@ -132,7 +119,7 @@ class SimpleBookService implements BookService {
 
     @Override
     public List<Book> findByGenre(Genre genre) {
-        List<Book> foundBooksByGenre = bookDao.findByGenreId(genre.getId());
+        List<Book> foundBooksByGenre = bookDao.findByGenre(genre);
         logger.info(String.format(BOOKS_WERE_FOUND_BY_GENRE_MESSAGE, foundBooksByGenre.size(), genre));
         return foundBooksByGenre;
     }
@@ -147,29 +134,6 @@ class SimpleBookService implements BookService {
             logger.info(String.format(BOOK_BY_MAME_WAS_NOT_FOUND_MESSAGE, name));
         }
         return optionalBook;
-    }
-
-    @Override
-    public void addComment(Comment comment) {
-        final Comment savedComment = commentDao.save(comment);
-        logger.info(String.format(COMMENT_WAS_ADD_MESSAGE, savedComment));
-    }
-
-    @Override
-    public void addLike(Book book, User user) {
-        bookDao.addLike(book.getId(), user.getId());
-        logger.info(String.format(LIKE_WAS_ADD_MESSAGE, book));
-    }
-
-    @Override
-    public void removeLike(Book book, User user) {
-        bookDao.removeLike(book.getId(), user.getId());
-        logger.info(String.format(LIKE_WAS_REMOVED_MESSAGE, book));
-    }
-
-    @Override
-    public boolean isLikedByUser(Book book, User user) {
-        return bookDao.isLikedByUserWithId(book.getId(), user.getId());
     }
 
     private static class Singleton {
