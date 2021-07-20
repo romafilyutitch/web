@@ -27,9 +27,9 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
     private static final String FIND_BY_LOGIN_SQL = String.format(FIND_BY_LOGIN_TEMPLATE, FIND_ALL_SQL);
     private static final String FIND_BY_ROLE_SQL = String.format(FIND_BY_ROLE_TEMPLATE, FIND_ALL_SQL);
 
-    private static final String ID_COLUMN = "user.id";
-    private static final String LOGIN_COLUMN = "user.login";
-    private static final String PASSWORD_COLUMN = "user.password";
+    private static final String USER_ID_COLUMN = "user.id";
+    private static final String USER_LOGIN_COLUMN = "user.login";
+    private static final String USER_PASSWORD_COLUMN = "user.password";
     private static final String ROLE_NAME_COLUMN = "role.name";
     private static final String SUBSCRIPTION_ID_COLUMN = "subscription.id";
     private static final String SUBSCRIPTION_START_DATE_COLUMN = "subscription.start_date";
@@ -45,9 +45,9 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
 
     @Override
     protected User mapResultSet(ResultSet result) throws SQLException, DAOException {
-        final long id = result.getLong(ID_COLUMN);
-        final String login = result.getString(LOGIN_COLUMN);
-        final String password = result.getString(PASSWORD_COLUMN);
+        final long id = result.getLong(USER_ID_COLUMN);
+        final String login = result.getString(USER_LOGIN_COLUMN);
+        final String password = result.getString(USER_PASSWORD_COLUMN);
         final String roleName = result.getString(ROLE_NAME_COLUMN);
         final UserRole role = UserRole.valueOf(roleName.toUpperCase());
         final Subscription subscription = buildSubscription(result);

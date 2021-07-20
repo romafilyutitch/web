@@ -22,7 +22,7 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
 
     private final static String FIND_ALL_SQL = "select book_order.id, book_order.date, status.name,\n" +
             "       user.id, user.login, user.password, role.name, subscription.id, subscription.start_date, subscription.end_date,\n" +
-            "       book.id, book.name, author.id, author.name, genre.name, book.date, book.pages_amount, book.copies_amount, book.description, book.likes from book_order\n" +
+            "       book.id, book.name, author.id, author.name, genre.name, book.date, book.pages_amount, book.copies_amount, book.description, book.likes_amount, book.comments_amount from book_order\n" +
             "inner join user on book_order.user_id = user.id inner join book on book_order.book_id = book.id inner join author on book.author_id = author.id inner join  genre on book.genre_id = genre.id\n" +
             "inner join role on user.role_id = role.id inner join status on book_order.status = status.id left join subscription on user.subscription_id = subscription.id\n";
     private final static String SAVE_SQL = "insert into book_order (user_id, book_id, date, status) values (?, ?, ?, ?)";
@@ -36,8 +36,8 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
     private final static String FIND_BY_DATE_SQL = String.format(FIND_BY_DATE_TEMPLATE, FIND_ALL_SQL);
     private final static String FIND_BY_USER_ID_SQL = String.format(FIND_BY_USER_ID_TEMPLATE, FIND_ALL_SQL);
 
-    private static final String ID_COLUMN = "book_order.id";
-    private static final String DATE_COLUMN = "book_order.date";
+    private static final String BOOK_ORDER_ID_COLUMN = "book_order.id";
+    private static final String BOOK_ORDER_DATE_COLUMN = "book_order.date";
     private static final String USER_ID_COLUMN = "user.id";
     private static final String USER_LOGIN_COLUMN = "user.login";
     private static final String USER_PASSWORD_COLUMN = "user.password";
@@ -49,7 +49,8 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
     private static final String BOOK_PAGES_AMOUNT_COLUMN = "book.pages_amount";
     private static final String BOOK_COPIES_AMOUNT_COLUMN = "book.copies_amount";
     private static final String BOOK_DESCRIPTION_COLUMN = "book.description";
-    private static final String BOOK_LIKES_COLUMN = "book.likes";
+    private static final String BOOK_LIKES_AMOUNT_COLUMN = "book.likes_amount";
+    private static final String BOOK_COMMENTS_AMOUNT_COLUMN = "book.comments_amount";
     private static final String AUTHOR_ID_COLUMN = "author.id";
     private static final String AUTHOR_NAME_COLUMN = "author.name";
     private static final String SUBSCRIPTION_ID_COLUMN = "subscription.id";
@@ -67,9 +68,9 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
 
     @Override
     protected Order mapResultSet(ResultSet result) throws SQLException {
-        final long id = result.getLong(ID_COLUMN);
+        final long id = result.getLong(BOOK_ORDER_ID_COLUMN);
         final String statusName = result.getString(STATUS_NAME_COLUMN);
-        final LocalDate orderDate = result.getObject(DATE_COLUMN, LocalDate.class);
+        final LocalDate orderDate = result.getObject(BOOK_ORDER_DATE_COLUMN, LocalDate.class);
         final User user = buildUser(result);
         final Book book = buildBook(result);
         final Status status = Status.valueOf(statusName.toUpperCase());
@@ -94,10 +95,11 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
         final int pagesAmount = resultSet.getInt(BOOK_PAGES_AMOUNT_COLUMN);
         final int copiesAmount = resultSet.getInt(BOOK_COPIES_AMOUNT_COLUMN);
         final String description = resultSet.getString(BOOK_DESCRIPTION_COLUMN);
-        final int likes = resultSet.getInt(BOOK_LIKES_COLUMN);
+        final int likesAmount = resultSet.getInt(BOOK_LIKES_AMOUNT_COLUMN);
+        final int commentsAmount = resultSet.getInt(BOOK_COMMENTS_AMOUNT_COLUMN);
         final Author author = buildAuthor(resultSet);
         final Genre genre = Genre.valueOf(genreName.toUpperCase());
-        return new Book(bookId, bookName, author, genre, bookDate, pagesAmount, copiesAmount, description, likes);
+        return new Book(bookId, bookName, author, genre, bookDate, pagesAmount, copiesAmount, description, likesAmount, commentsAmount);
     }
 
     private Author buildAuthor(ResultSet resultSet) throws SQLException {

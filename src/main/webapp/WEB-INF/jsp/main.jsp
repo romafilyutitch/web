@@ -106,10 +106,13 @@
                                 <input type="hidden" name="id" value="${book.id}">
                                 <button class="btn btn-outline-primary" type="submit">
                                     <fmt:message key="addLike"/>
-                                    <span class="badge bg-success">${book.likes}</span>
+                                    <span class="badge bg-success">${book.likesAmount}</span>
                                 </button>
                             </form>
-                            <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#modal${book.id}"><fmt:message key="comments"/></button>
+                            <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#modal${book.id}">
+                                <fmt:message key="comments"/>
+                                <span class="badge bg-success">${book.commentsAmount}</span>
+                            </button>
                             <div class="modal fade" id="modal${book.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -135,30 +138,30 @@
                                                 </c:if>
                                             </c:forEach>
                                         </div>
+                                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#comment${book.id}" aria-expanded="false" aria-controls="comment${book.id}">
+                                            <fmt:message key="comment"/>
+                                        </button>
+                                        <div class="collapse" id="comment${book.id}">
+                                            <div class="card card-body">
+                                                <div class="mb-3">
+                                                    <form class="needs-validation" action="controller" method="POST" novalidate>
+                                                        <input type="hidden" name="command" value="add_comment">
+                                                        <input type="hidden" name="bookId" value="${book.id}">
+                                                        <label for="comment" class="form-label"><fmt:message key="comment"/></label>
+                                                        <textarea class="form-control" id="comment" name="text" rows="3" required></textarea>
+                                                        <div class="valid-feedback"><fmt:message key="validComment"/></div>
+                                                        <div class="invalid-feedback"><fmt:message key="invalidComment"/></div>
+                                                        <button class="btn btn-primary" type="submit"><fmt:message key="addComment"/></button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="closeComments"/></button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#comment${book.id}" aria-expanded="false" aria-controls="comment${book.id}">
-                                <fmt:message key="comment"/>
-                            </button>
-                           <div class="collapse" id="comment${book.id}">
-                               <div class="card card-body">
-                                   <div class="mb-3">
-                                       <form class="needs-validation" action="controller" method="POST" novalidate>
-                                           <input type="hidden" name="command" value="add_comment">
-                                           <input type="hidden" name="bookId" value="${book.id}">
-                                           <label for="comment" class="form-label"><fmt:message key="comment"/></label>
-                                           <textarea class="form-control" id="comment" name="text" rows="3" required></textarea>
-                                           <div class="valid-feedback"><fmt:message key="validComment"/></div>
-                                           <div class="invalid-feedback"><fmt:message key="invalidComment"/></div>
-                                           <button class="btn btn-primary" type="submit"><fmt:message key="addComment"/></button>
-                                       </form>
-                                   </div>
-                               </div>
-                           </div>
                         </c:if>
                     </div>
                 </div>

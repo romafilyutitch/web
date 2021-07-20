@@ -24,7 +24,7 @@ import static org.junit.Assert.assertTrue;
 public class SimpleBookServiceTest {
     private static final ConnectionPool POOL = ConnectionPool.getConnectionPool();
     private final SimpleBookService testService = SimpleBookService.getInstance();
-    private Book testBook = new Book("New book", new Author("new Author"), Genre.FANTASY, LocalDate.now(), 100, 1, "New test book", 0);
+    private Book testBook = new Book("New book", new Author("new Author"), Genre.FANTASY, LocalDate.now(), 100,"New test book");
 
     @BeforeClass
     public static void initPool() throws ConnectionPoolInitializationException {

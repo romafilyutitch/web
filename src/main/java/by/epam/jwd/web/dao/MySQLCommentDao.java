@@ -19,7 +19,7 @@ public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao 
 
     private static final String FIND_ALL_SQL = "select comment.id, comment.date, comment.text,\n" +
             "       user.id, user.login, user.password, role.name, subscription.id, subscription.start_date, subscription.end_date,\n" +
-            "       book.id, book.name, author.id, author.name, genre.name, book.date, book.pages_amount, book.copies_amount, book.description, book.likes from comment " +
+            "       book.id, book.name, author.id, author.name, genre.name, book.date, book.pages_amount, book.copies_amount, book.description, book.likes_amount, book.comments_amount from comment " +
             "inner join user on comment.user_id = user.id inner join book on comment.book_id = book.id inner join author on book.author_id = author.id inner join genre on book.genre_id = genre.id\n" +
             "inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id";
     private static final String SAVE_SQL = "insert into comment (user_id, book_id, date, text) values (?, ?, ?, ?)";
@@ -27,9 +27,9 @@ public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao 
     private static final String DELETE_SQL = "delete from comment where id = ?";
     private static final String FIND_BY_BOOK_ID_SQL = String.format("%s where book.id = ?", FIND_ALL_SQL);
 
-    private static final String ID_COLUMN = "comment.id";
-    private static final String DATE_COLUMN = "comment.date";
-    private static final String TEXT_COLUMN = "comment.text";
+    private static final String COMMENT_ID_COLUMN = "comment.id";
+    private static final String COMMENT_DATE_COLUMN = "comment.date";
+    private static final String COMMENT_TEXT_COLUMN = "comment.text";
     private static final String USER_ID_COLUMN = "user.id";
     private static final String USER_LOGIN_COLUMN = "user.login";
     private static final String USER_PASSWORD_COLUMN = "user.password";
@@ -41,7 +41,8 @@ public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao 
     private static final String BOOK_PAGES_AMOUNT_COLUMN = "book.pages_amount";
     private static final String BOOK_COPIES_AMOUNT_COLUMN = "book.copies_amount";
     private static final String BOOK_DESCRIPTION_COLUMN = "book.description";
-    private static final String BOOK_LIKES_COLUMN = "book.likes";
+    private static final String BOOK_LIKES_AMOUNT_COLUMN = "book.likes_amount";
+    private static final String BOOK_COMMENTS_AMOUNT_COLUMN = "book.comments_amount";
     private static final String AUTHOR_ID_COLUMN = "author.id";
     private static final String AUTHOR_NAME_COLUMN = "author.name";
     private static final String SUBSCRIPTION_ID_COLUMN = "subscription.id";
@@ -58,9 +59,9 @@ public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao 
 
     @Override
     protected Comment mapResultSet(ResultSet resultSet) throws SQLException {
-        final long id = resultSet.getLong(ID_COLUMN);
-        final LocalDate commentDate = resultSet.getObject(DATE_COLUMN, LocalDate.class);
-        final String commentText = resultSet.getString(TEXT_COLUMN);
+        final long id = resultSet.getLong(COMMENT_ID_COLUMN);
+        final LocalDate commentDate = resultSet.getObject(COMMENT_DATE_COLUMN, LocalDate.class);
+        final String commentText = resultSet.getString(COMMENT_TEXT_COLUMN);
         final User user = buildUser(resultSet);
         final Book book = buildBook(resultSet);
         return new Comment(id, user, book, commentDate, commentText);
@@ -84,10 +85,11 @@ public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao 
         final int pageAmount = resultSet.getInt(BOOK_PAGES_AMOUNT_COLUMN);
         final int copiesAmount = resultSet.getInt(BOOK_COPIES_AMOUNT_COLUMN);
         final String description = resultSet.getString(BOOK_DESCRIPTION_COLUMN);
-        final int likes = resultSet.getInt(BOOK_LIKES_COLUMN);
+        final int likesAmount = resultSet.getInt(BOOK_LIKES_AMOUNT_COLUMN);
+        final int commentsAmount = resultSet.getInt(BOOK_COMMENTS_AMOUNT_COLUMN);
         final Author foundAuthor = buildAuthor(resultSet);
         final Genre genre = Genre.valueOf(genreName.toUpperCase());
-        return new Book(bookId, bookName, foundAuthor, genre, bookDate, pageAmount, copiesAmount, description, likes);
+        return new Book(bookId, bookName, foundAuthor, genre, bookDate, pageAmount, copiesAmount, description, likesAmount, commentsAmount);
     }
 
     private Author buildAuthor(ResultSet resultSet) throws SQLException {

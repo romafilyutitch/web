@@ -1,120 +1,120 @@
-2021-07-20 16:54:23 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:06 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:23 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$pcL4uLsj4Tv3ATDBjJL4/uPtU5fvT285.60q8f/cxtCUlISmZ7IMa', role=READER, userSubscription=null} was saved
-2021-07-20 16:54:23 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:06 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$66NxwLQ4600GQoLiXVlXqeXv4p1WqpCZH4dWQRe1PX8u.YmlAU4rC', role=READER, userSubscription=null} was saved
+2021-07-20 21:23:06 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.login = ?
-2021-07-20 16:54:24 INFO  AbstractDao - Entity with id 404 was deleted
-2021-07-20 16:54:24 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:07 INFO  AbstractDao - Entity with id 457 was deleted
+2021-07-20 21:23:08 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:24 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$Z.QGGl50LkZcLoVKrcebUuUCDWDG.a4Dvs6Q1JHgFkourEOyck0iO', role=READER, userSubscription=null} was saved
-2021-07-20 16:54:24 INFO  AbstractDao - Entity LibraryUser{id=405, login='123', password='$2a$04$Z.QGGl50LkZcLoVKrcebUuUCDWDG.a4Dvs6Q1JHgFkourEOyck0iO', role=READER, userSubscription=null} was updated
-2021-07-20 16:54:24 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:08 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$LAQ/ubak9j0go47HG/4saujdlcmR8QXhmpBcL2zPsmJxSGGCZJXym', role=READER, userSubscription=null} was saved
+2021-07-20 21:23:09 INFO  AbstractDao - Entity LibraryUser{id=458, login='123', password='$2a$04$LAQ/ubak9j0go47HG/4saujdlcmR8QXhmpBcL2zPsmJxSGGCZJXym', role=READER, userSubscription=null} was updated
+2021-07-20 21:23:09 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:24 INFO  AbstractDao - Entity with id 405 was deleted
-2021-07-20 16:54:24 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:09 INFO  AbstractDao - Entity with id 458 was deleted
+2021-07-20 21:23:10 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:24 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$Tpg1tqt82DFYo7GOc7SqYuXJxmQHnv9MtyDeiLPnJjRl1HwndtxaC', role=READER, userSubscription=null} was saved
-2021-07-20 16:54:24 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:10 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$wnBEuluVGivd2p0rbXOTP.g8bwj/mWquV//dig0cceMjTv0qRtqpO', role=READER, userSubscription=null} was saved
+2021-07-20 21:23:10 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.login = ?
-2021-07-20 16:54:24 INFO  AbstractDao - Entity with id 406 was deleted
-2021-07-20 16:54:25 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:10 INFO  AbstractDao - Entity with id 459 was deleted
+2021-07-20 21:23:10 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:25 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$sY8jYTy7yGTxAnT4So10tuUODGk.P6duQSING6Ya/W/9SRRf/V/j.', role=READER, userSubscription=null} was saved
-2021-07-20 16:54:25 INFO  AbstractDao - All entities was found
-2021-07-20 16:54:25 INFO  AbstractDao - Entity with id 407 was deleted
-2021-07-20 16:54:25 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:10 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$Bc.Ku7P1TW2ZXRb9mbRu8O57zZ3bJMEFnfQKFI9mEKwL1DzudQPb2', role=READER, userSubscription=null} was saved
+2021-07-20 21:23:11 INFO  AbstractDao - All entities was found
+2021-07-20 21:23:11 INFO  AbstractDao - Entity with id 460 was deleted
+2021-07-20 21:23:11 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:25 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$hGA9e.6UK9oLyeTNRRfNXuwA3O1XnP1veE4GOTo/uQZE3PnyKnnIW', role=READER, userSubscription=null} was saved
-2021-07-20 16:54:25 INFO  AbstractDao - Entity with id 408 was deleted
-2021-07-20 16:54:25 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:11 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$hIEP0fecm3/i8coRtJ8cFeyw/NRGsSWTsdT38SJubsi8ewlivTyc6', role=READER, userSubscription=null} was saved
+2021-07-20 21:23:12 INFO  AbstractDao - Entity with id 461 was deleted
+2021-07-20 21:23:12 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:25 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$v03A2CY05m1UgeJmb2uVsegeHShtAHjs78rpt8VOw810taF1BiEqS', role=READER, userSubscription=null} was saved
-2021-07-20 16:54:25 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:12 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$zMQNMuy0AYmz6b9Va23Gku.r3bEtLIyoMwOCVLyUrbSMLEKmDovLW', role=READER, userSubscription=null} was saved
+2021-07-20 21:23:12 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.login = ?
-2021-07-20 16:54:26 INFO  AbstractDao - Entity LibraryUser{id=409, login='NEW LOGIN', password='$2a$04$v03A2CY05m1UgeJmb2uVsegeHShtAHjs78rpt8VOw810taF1BiEqS', role=READER, userSubscription=null} was updated
-2021-07-20 16:54:26 INFO  AbstractDao - Entity with id 409 was deleted
-2021-07-20 16:54:26 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:12 INFO  AbstractDao - Entity LibraryUser{id=462, login='NEW LOGIN', password='$2a$04$zMQNMuy0AYmz6b9Va23Gku.r3bEtLIyoMwOCVLyUrbSMLEKmDovLW', role=READER, userSubscription=null} was updated
+2021-07-20 21:23:13 INFO  AbstractDao - Entity with id 462 was deleted
+2021-07-20 21:23:13 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:26 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$3HdrJVYleFfdxtFleSfz7eOBAshetFKA6jBYxq2s7CZqa3MfIMCVu', role=READER, userSubscription=null} was saved
-2021-07-20 16:54:26 INFO  AbstractDao - Entity with id 410 was deleted
-2021-07-20 16:54:26 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:13 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$5prjrZzop46ZmYykGF8wrOwm7YXx73JAxA4WrcqQ9PW6jLm428AFS', role=READER, userSubscription=null} was saved
+2021-07-20 21:23:13 INFO  AbstractDao - Entity with id 463 was deleted
+2021-07-20 21:23:13 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.login = ?
-2021-07-20 16:54:26 INFO  AbstractDao - Entity with id 410 was deleted
-2021-07-20 16:54:26 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:13 INFO  AbstractDao - Entity with id 463 was deleted
+2021-07-20 21:23:14 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:26 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$fDs493MZuqcNnR3QqQTyDOo.DVX2iTyGAMoQpAeExDQwYom9FlcCO', role=READER, userSubscription=null} was saved
-2021-07-20 16:54:26 INFO  AbstractDao - Entity LibraryUser{id=411, login='123', password='$2a$04$fDs493MZuqcNnR3QqQTyDOo.DVX2iTyGAMoQpAeExDQwYom9FlcCO', role=LIBRARIAN, userSubscription=null} was updated
-2021-07-20 16:54:26 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:14 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$RnL5YHf8Hk39rI0gKza/JeJPfmhSeKFte/RGlohWFaMfsPB54C7oG', role=READER, userSubscription=null} was saved
+2021-07-20 21:23:14 INFO  AbstractDao - Entity LibraryUser{id=464, login='123', password='$2a$04$RnL5YHf8Hk39rI0gKza/JeJPfmhSeKFte/RGlohWFaMfsPB54C7oG', role=LIBRARIAN, userSubscription=null} was updated
+2021-07-20 21:23:14 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:26 INFO  AbstractDao - Entity with id 411 was deleted
-2021-07-20 16:54:27 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:15 INFO  AbstractDao - Entity with id 464 was deleted
+2021-07-20 21:23:15 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:27 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$N4.aef6se.Il0YeJO7ILMO0ncjz.DPOGZKwgr7bIrrYDYyU5.naO.', role=READER, userSubscription=null} was saved
-2021-07-20 16:54:27 INFO  AbstractDao - Entities by prepared sql was found select subscription.id, subscription.start_date, subscription.end_date from subscription where subscription.id = ?
-2021-07-20 16:54:27 INFO  AbstractDao - Entity Subscription{id=null, startDate=2021-07-20, endDate=2021-07-22} was saved
-2021-07-20 16:54:27 INFO  AbstractDao - Entity LibraryUser{id=412, login='123', password='$2a$04$N4.aef6se.Il0YeJO7ILMO0ncjz.DPOGZKwgr7bIrrYDYyU5.naO.', role=READER, userSubscription=Subscription{id=223, startDate=2021-07-20, endDate=2021-07-22}} was updated
-2021-07-20 16:54:27 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:15 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$gkUPFQZziEeTT.9sPxjTqOQLiNyXXTNi.O9VY5I/OWAZkvxAiFbu6', role=READER, userSubscription=null} was saved
+2021-07-20 21:23:16 INFO  AbstractDao - Entities by prepared sql was found select subscription.id, subscription.start_date, subscription.end_date from subscription where subscription.id = ?
+2021-07-20 21:23:16 INFO  AbstractDao - Entity Subscription{id=null, startDate=2021-07-20, endDate=2021-07-22} was saved
+2021-07-20 21:23:16 INFO  AbstractDao - Entity LibraryUser{id=465, login='123', password='$2a$04$gkUPFQZziEeTT.9sPxjTqOQLiNyXXTNi.O9VY5I/OWAZkvxAiFbu6', role=READER, userSubscription=Subscription{id=237, startDate=2021-07-20, endDate=2021-07-22}} was updated
+2021-07-20 21:23:16 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:27 INFO  AbstractDao - Entity with id 412 was deleted
-2021-07-20 16:54:27 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:16 INFO  AbstractDao - Entity with id 465 was deleted
+2021-07-20 21:23:17 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:27 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$JQLsl4.oScbcFXSu/5TMc.GD9cQHrOuFk.KjL8wINRdW1IAdqYo6K', role=READER, userSubscription=null} was saved
-2021-07-20 16:54:27 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:17 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$eudas71r36/xl8R51gBuNOvh5P/Ry5qphPp8aXBH5baMoIUZBoJCO', role=READER, userSubscription=null} was saved
+2021-07-20 21:23:17 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.login = ?
-2021-07-20 16:54:28 INFO  AbstractDao - Entity with id 413 was deleted
-2021-07-20 16:54:28 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:17 INFO  AbstractDao - Entity with id 466 was deleted
+2021-07-20 21:23:17 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:28 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$Auw1koU91kv6EmUSgomMOet.t96YO3KVSK.B7aZkJZ/y/iC6hzczi', role=READER, userSubscription=null} was saved
-2021-07-20 16:54:28 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:17 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$NVDwhjfZW/7i5hOB/1oxFOoZg31L1Y0tAMjJhPdob7A7er3jh7k/m', role=READER, userSubscription=null} was saved
+2021-07-20 21:23:17 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:28 INFO  AbstractDao - Entity with id 414 was deleted
-2021-07-20 16:54:28 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:18 INFO  AbstractDao - Entity with id 467 was deleted
+2021-07-20 21:23:19 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:28 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$Bfu62GS8eJ1hqWRl7N4fUOPEX9tLJz8MYdATBfAfmDjvRKG3sRspe', role=READER, userSubscription=null} was saved
-2021-07-20 16:54:28 INFO  AbstractDao - Entity with id 415 was deleted
-2021-07-20 16:54:28 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:19 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$gJ0WR/QGMcg6bNLVAlLnQugoVjIrAg9GRKdu.RJk5EByqJ6Zd3bC6', role=READER, userSubscription=null} was saved
+2021-07-20 21:23:21 INFO  AbstractDao - Entity with id 468 was deleted
+2021-07-20 21:23:21 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:28 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$Q3p.Z/Wu/w58YPGuQvY84Obgu3PYBB42/MMiKxTNGw/bZJuTktS4i', role=READER, userSubscription=null} was saved
-2021-07-20 16:54:29 INFO  AbstractDao - Entity LibraryUser{id=416, login='123', password='$2a$04$CzVtYL3fPTUN638Pk32VnuuZ2Aaw1hTvrzOqHiwRTzxit7QmYi1kS', role=READER, userSubscription=null} was updated
-2021-07-20 16:54:29 INFO  AbstractDao - Entity with id 416 was deleted
-2021-07-20 16:54:29 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:21 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$JJcGiq3RM6yNntXV7Wg0rO0diaJCaXtkXtfbngKXZP5W75nCoKJkq', role=READER, userSubscription=null} was saved
+2021-07-20 21:23:22 INFO  AbstractDao - Entity LibraryUser{id=469, login='123', password='$2a$04$Gll9N0IRlGar0gD0mcnNcOvqgfa6noCIVpiACn2g6.BDhU.q/2A2e', role=READER, userSubscription=null} was updated
+2021-07-20 21:23:22 INFO  AbstractDao - Entity with id 469 was deleted
+2021-07-20 21:23:23 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:29 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$/jZErRZjwl9kJtHvux4m6uDhcpYI7Zv6m74UNOIbn90p2T4GBN6py', role=READER, userSubscription=null} was saved
-2021-07-20 16:54:29 INFO  AbstractDao - Entity with id 417 was deleted
-2021-07-20 16:54:29 INFO  AbstractDao - All entities was found
-2021-07-20 16:54:29 INFO  AbstractDao - Entity with id 417 was deleted
-2021-07-20 16:54:29 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:23 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$1kykrRuWjFlaNVi5kldLiuS6Goy3vJ3NbwuzWxzpIRexJm/cKKSm6', role=READER, userSubscription=null} was saved
+2021-07-20 21:23:24 INFO  AbstractDao - Entity with id 470 was deleted
+2021-07-20 21:23:24 INFO  AbstractDao - All entities was found
+2021-07-20 21:23:24 INFO  AbstractDao - Entity with id 470 was deleted
+2021-07-20 21:23:24 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:29 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$GUBZlirH0HWgd3QdHdpPC.7DQRomcB068N5vfBRitay7jf82VL28W', role=READER, userSubscription=null} was saved
-2021-07-20 16:54:29 INFO  AbstractDao - Entity with id 418 was deleted
-2021-07-20 16:54:29 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:24 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$wrrk4/u8EUXLxWU4x2DzUeh2GN02AixG9U/38tukfcGLkbuIOP812', role=READER, userSubscription=null} was saved
+2021-07-20 21:23:25 INFO  AbstractDao - Entity with id 471 was deleted
+2021-07-20 21:23:25 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:29 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$NT0rQa1NDNm0tTsKJiQ.jOGD6oW2Yo/0Q7hKql1CccB3vNElRssMO', role=READER, userSubscription=null} was saved
-2021-07-20 16:54:30 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:25 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$0o.iCUbAO5/fD868TCrCyuxmBIqDUvhHXt2YopiwpIQJWMm8LB8v6', role=READER, userSubscription=null} was saved
+2021-07-20 21:23:25 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:30 INFO  AbstractDao - Entity with id 419 was deleted
-2021-07-20 16:54:30 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:27 INFO  AbstractDao - Entity with id 472 was deleted
+2021-07-20 21:23:27 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:30 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$Siz.aoQ1G1Yxj/2y/7idTutPdJg7NYJDKTeTHgKmVWZhOW5rxPr92', role=READER, userSubscription=null} was saved
-2021-07-20 16:54:30 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:27 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$p3K/HiMZcP4D.OI2x9AIzexTHrMGDk2Asu5SL1VPHgvH7MKPgDnoi', role=READER, userSubscription=null} was saved
+2021-07-20 21:23:27 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id limit ?, ?
-2021-07-20 16:54:30 INFO  AbstractDao - Entities on page 1 was found
-2021-07-20 16:54:30 INFO  AbstractDao - All entities was found
-2021-07-20 16:54:30 INFO  AbstractDao - Entity with id 420 was deleted
-2021-07-20 16:54:30 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:27 INFO  AbstractDao - Entities on page 1 was found
+2021-07-20 21:23:28 INFO  AbstractDao - All entities was found
+2021-07-20 21:23:28 INFO  AbstractDao - Entity with id 473 was deleted
+2021-07-20 21:23:28 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:30 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$PkSb5KL3Fdv5Sh350CMlFe0/J/2QOLrXaWvBwFipaJ/nIQkRCNmuW', role=READER, userSubscription=null} was saved
-2021-07-20 16:54:30 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:28 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$/GJ3JaApBcsXes.XTVfiHex7QY9XpDCgSwWpM.T6MWFn1YmdZ4soK', role=READER, userSubscription=null} was saved
+2021-07-20 21:23:28 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.login = ?
-2021-07-20 16:54:30 INFO  AbstractDao - Entity with id 421 was deleted
-2021-07-20 16:54:31 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:28 INFO  AbstractDao - Entity with id 474 was deleted
+2021-07-20 21:23:29 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:31 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$rF4ROYc095Jl4fht5bYLIuq4xl4DY.95UrIVSSGSIQ1v9T5mg3ml2', role=READER, userSubscription=null} was saved
-2021-07-20 16:54:31 INFO  AbstractDao - Entity with id 422 was deleted
-2021-07-20 16:54:31 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:29 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$NNC4aPJSeXcPOOt0O0U0AuARpCDZeyLMxUmn156CR9882gqy6F87y', role=READER, userSubscription=null} was saved
+2021-07-20 21:23:29 INFO  AbstractDao - Entity with id 475 was deleted
+2021-07-20 21:23:29 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.login = ?
-2021-07-20 16:54:31 INFO  AbstractDao - Entity with id 422 was deleted
-2021-07-20 16:54:31 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
+2021-07-20 21:23:29 INFO  AbstractDao - Entity with id 475 was deleted
+2021-07-20 21:23:29 INFO  AbstractDao - Entities by prepared sql was found select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user
 inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id where user.id = ?
-2021-07-20 16:54:31 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$olpiBXSQNjWbcpgB7bmD2ejm.dlO.ALEqrnLLe4cnCzLH18CGhNiG', role=READER, userSubscription=null} was saved
-2021-07-20 16:54:31 INFO  AbstractDao - Entity with id 423 was deleted
+2021-07-20 21:23:29 INFO  AbstractDao - Entity LibraryUser{id=null, login='123', password='$2a$04$pg6lbejEY8ByDjfXvykOVOW52Jw7OPtWSRzRFAqUEWNHbufRhvC5W', role=READER, userSubscription=null} was saved
+2021-07-20 21:23:30 INFO  AbstractDao - Entity with id 476 was deleted

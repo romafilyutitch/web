@@ -41,7 +41,7 @@ public class AddBookCommand implements ActionCommand {
         final LocalDate date = LocalDate.parse(request.getParameter(REQUEST_DATE_PARAMETER_KEY));
         final int pages = Integer.parseInt(request.getParameter(REQUEST_PAGES_PARAMETER_KEY));
         final String description = request.getParameter(REQUEST_DESCRIPTION_PARAMETER_KEY);
-        final Book book = new Book(name, new Author(author), genre, date, pages, 0, description, 0);
+        final Book book = new Book(name, new Author(author), genre, date, pages, description);
         final Optional<Book> optionalBook = bookService.findByName(name);
         if (optionalBook.isPresent()) {
             request.getSession().setAttribute(SESSION_FAIL_ATTRIBUTE_KEY, BOOK_EXISTS_LOCALIZATION_MESSAGE_KEY);

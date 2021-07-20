@@ -22,8 +22,7 @@ public class MySQLBookDaoTest {
     private static final ConnectionPool POOL = ConnectionPool.getConnectionPool();
     private final MySQLBookDao testDao = MySQLBookDao.getInstance();
     private final Author testAuthor = MySQLAuthorDao.getInstance().findAll().stream().findAny().get();
-    private final User testUser = MySQLUserDao.getInstance().findAll().stream().findAny().get();
-    private Book testBook = new Book("Test Book", testAuthor , Genre.SCIENCE, LocalDate.now(), 100, 1, "Test book for unit test", 0);
+    private Book testBook = new Book("Test Book", testAuthor , Genre.SCIENCE, LocalDate.now(), 100, "Test book for unit test");
 
     @BeforeClass
     public static void initPool() throws ConnectionPoolInitializationException {
@@ -80,7 +79,7 @@ public class MySQLBookDaoTest {
     @Test
     public void update_mustUpdateTestBookDescription() {
         String updatedDescription = "Updated description";
-        testBook = new Book(testBook.getId(), testBook.getName(), testBook.getAuthor(), testBook.getGenre(), testBook.getDate(), testBook.getPagesAmount(), testBook.getCopiesAmount(), updatedDescription, testBook.getLikes());
+        testBook = new Book(testBook.getId(), testBook.getName(), testBook.getAuthor(), testBook.getGenre(), testBook.getDate(), testBook.getPagesAmount(), testBook.getCopiesAmount(), updatedDescription, testBook.getLikesAmount(), testBook.getCommentsAmount());
         final Book updatedBook = testDao.update(testBook);
         assertNotNull("Updated book must be not null", updatedBook);
         assertEquals("Updated book description must be equal to updated string", updatedDescription, updatedBook.getDescription());

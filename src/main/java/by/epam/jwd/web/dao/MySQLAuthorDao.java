@@ -18,8 +18,8 @@ public class MySQLAuthorDao extends AbstractDao<Author> implements AuthorDao {
     private static final String DELETE_SQL = "delete from author where id = ?";
     private static final String FIND_BY_NAME_SQL = "select author.id, author.name from author where name = ?";
 
-    private static final String ID_COLUMN = "id";
-    private static final String NAME_COLUMN = "name";
+    private static final String AUTHOR_ID_COLUMN = "author.id";
+    private static final String AUTHOR_NAME_COLUMN = "author.name";
 
     private MySQLAuthorDao() {
        super(TABLE_NAME, FIND_ALL_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
@@ -31,8 +31,8 @@ public class MySQLAuthorDao extends AbstractDao<Author> implements AuthorDao {
 
     @Override
     protected Author mapResultSet(ResultSet result) throws SQLException {
-        final long id = result.getLong(ID_COLUMN);
-        final String name = result.getString(NAME_COLUMN);
+        final long id = result.getLong(AUTHOR_ID_COLUMN);
+        final String name = result.getString(AUTHOR_NAME_COLUMN);
         return new Author(id, name);
     }
 

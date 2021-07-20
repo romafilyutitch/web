@@ -8,9 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
-import java.util.StringJoiner;
 
 public class MySQLSubscriptionDao extends AbstractDao<Subscription> implements SubscriptionDao {
     private static final String TABLE_NAME = "subscription";
@@ -26,9 +24,9 @@ public class MySQLSubscriptionDao extends AbstractDao<Subscription> implements S
     private static final String FIND_BY_START_DATE_SQL = String.format(FIND_BY_START_DATE_TEMPLATE, FIND_ALL_SQL);
     private static final String FIND_BY_END_DATE_SQL = String.format(FIND_BY_END_DATE_TEMPLATE, FIND_ALL_SQL);
 
-    private static final String ID_COLUMN = "subscription.id";
-    private static final String START_DATE_COLUMN = "subscription.start_date";
-    private static final String END_DATE_COLUMN = "subscription.end_date";
+    private static final String SUBSCRIPTION_ID_COLUMN = "subscription.id";
+    private static final String SUBSCRIPTION_START_DATE_COLUMN = "subscription.start_date";
+    private static final String SUBSCRIPTION_END_DATE_COLUMN = "subscription.end_date";
 
 
     private MySQLSubscriptionDao() {
@@ -41,9 +39,9 @@ public class MySQLSubscriptionDao extends AbstractDao<Subscription> implements S
 
     @Override
     protected Subscription mapResultSet(ResultSet result) throws SQLException {
-        final long id = result.getLong(ID_COLUMN);
-        final LocalDate startDate = result.getObject(START_DATE_COLUMN, LocalDate.class);
-        final LocalDate endDate = result.getObject(END_DATE_COLUMN, LocalDate.class);
+        final long id = result.getLong(SUBSCRIPTION_ID_COLUMN);
+        final LocalDate startDate = result.getObject(SUBSCRIPTION_START_DATE_COLUMN, LocalDate.class);
+        final LocalDate endDate = result.getObject(SUBSCRIPTION_END_DATE_COLUMN, LocalDate.class);
         return new Subscription(id, startDate, endDate);
     }
 

@@ -2,7 +2,6 @@ package by.epam.jwd.web.model;
 
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.List;
 
 public class Book implements DbEntity {
     private final Long id;
@@ -13,9 +12,10 @@ public class Book implements DbEntity {
     private final Integer pagesAmount;
     private final Integer copiesAmount;
     private final String description;
-    private final Integer likes;
+    private final Integer likesAmount;
+    private final Integer commentsAmount;
 
-    public Book(Long id, String name, Author author, Genre genre, LocalDate date, Integer pagesAmount, Integer copiesAmount, String description, Integer likes) {
+    public Book(Long id, String name, Author author, Genre genre, LocalDate date, Integer pagesAmount, Integer copiesAmount, String description, Integer likesAmount, Integer commentsAmount) {
         this.id = id;
         this.name = name;
         this.author = author;
@@ -24,11 +24,16 @@ public class Book implements DbEntity {
         this.pagesAmount = pagesAmount;
         this.copiesAmount = copiesAmount;
         this.description = description;
-        this.likes = likes;
+        this.likesAmount = likesAmount;
+        this.commentsAmount = commentsAmount;
     }
 
-    public Book(String name, Author author, Genre genre, LocalDate date, Integer pagesAmount, Integer copiesAmount, String description, Integer likes) {
-        this(null, name, author, genre, date, pagesAmount, copiesAmount, description, likes);
+    public Book(String name, Author author, Genre genre, LocalDate date, Integer pagesAmount, Integer copiesAmount, String description, Integer likesAmount, Integer commentsAmount) {
+        this(null, name, author, genre, date, pagesAmount, copiesAmount, description, likesAmount, commentsAmount);
+    }
+
+    public Book(String name, Author author, Genre genre, LocalDate date, Integer pagesAmount, String description) {
+        this(null, name, author, genre, date, pagesAmount, 1, description, 0, 0);
     }
 
     @Override
@@ -64,8 +69,12 @@ public class Book implements DbEntity {
         return copiesAmount;
     }
 
-    public Integer getLikes() {
-        return likes;
+    public Integer getLikesAmount() {
+        return likesAmount;
+    }
+
+    public Integer getCommentsAmount() {
+        return commentsAmount;
     }
 
     @Override
@@ -73,12 +82,12 @@ public class Book implements DbEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return Objects.equals(id, book.id) && Objects.equals(name, book.name) && Objects.equals(author, book.author) && genre == book.genre && Objects.equals(date, book.date) && Objects.equals(pagesAmount, book.pagesAmount) && Objects.equals(copiesAmount, book.copiesAmount) && Objects.equals(description, book.description) && Objects.equals(likes, book.likes);
+        return Objects.equals(id, book.id) && Objects.equals(name, book.name) && Objects.equals(author, book.author) && genre == book.genre && Objects.equals(date, book.date) && Objects.equals(pagesAmount, book.pagesAmount) && Objects.equals(copiesAmount, book.copiesAmount) && Objects.equals(description, book.description) && Objects.equals(likesAmount, book.likesAmount) && Objects.equals(commentsAmount, book.commentsAmount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, author, genre, date, pagesAmount, copiesAmount, description, likes);
+        return Objects.hash(id, name, author, genre, date, pagesAmount, copiesAmount, description, likesAmount, commentsAmount);
     }
 
     @Override
@@ -92,7 +101,8 @@ public class Book implements DbEntity {
                 ", pagesAmount=" + pagesAmount +
                 ", copiesAmount=" + copiesAmount +
                 ", description='" + description + '\'' +
-                ", likes=" + likes +
+                ", likesAmount=" + likesAmount +
+                ", commentsAmount=" + commentsAmount +
                 '}';
     }
 }
