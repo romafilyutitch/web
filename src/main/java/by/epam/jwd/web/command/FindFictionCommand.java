@@ -1,8 +1,10 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.model.Book;
+import by.epam.jwd.web.model.Comment;
 import by.epam.jwd.web.model.Genre;
 import by.epam.jwd.web.service.BookService;
+import by.epam.jwd.web.service.CommentService;
 import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +12,7 @@ import java.util.List;
 
 public class FindFictionCommand implements ActionCommand {
     private final BookService bookService = ServiceFactory.getInstance().getBookService();
+    private final CommentService commentService = ServiceFactory.getInstance().getCommentService();
 
     private static final String REQUEST_BOOKS_ATTRIBUTE_KEY = "books";
     private static final String REQUEST_FIND_RESULT_ATTRIBUTE_KEY = "findResult";
@@ -33,6 +36,8 @@ public class FindFictionCommand implements ActionCommand {
         } else {
             request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, fictionBooks);
             request.setAttribute(REQUEST_FIND_RESULT_ATTRIBUTE_KEY, BOOKS_WERE_FOUND_LOCALIZATION_MESSAGE_KEY);
+            final List<Comment> comments = commentService.findAll();
+            request.setAttribute("comments", comments);
         }
         return new CommandResult() {
             @Override

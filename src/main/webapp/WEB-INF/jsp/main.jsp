@@ -118,12 +118,21 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <c:forEach items="${book.comments}" var="comment">
-                                                <div class="card card-body">
-                                                    <p class="text text-info"><fmt:message key="commentAuthor"/> ${comment.user.login}</p>
-                                                    <p class="text text-info"><fmt:message key="commentDate"/> ${ctg:localDateParser(comment.date, sessionScope.locale)}</p>
-                                                    <p class="text">${comment.text}</p>
-                                                </div>
+                                            <c:forEach items="${requestScope.comments}" var="comment">
+                                                <c:if test="${comment.book.id eq book.id}">
+                                                    <div class="card card-body">
+                                                        <p class="text text-info"><fmt:message key="commentAuthor"/> ${comment.user.login}</p>
+                                                        <p class="text text-info"><fmt:message key="commentDate"/> ${ctg:localDateParser(comment.date, sessionScope.locale)}</p>
+                                                        <p class="text">${comment.text}</p>
+                                                        <c:if test="${comment.user.id eq sessionScope.user.id}">
+                                                            <form action="controller" method="POST">
+                                                                <input type="hidden" name="command" value="delete_comment"/>
+                                                                <input type="hidden" name="id" value="${comment.id}"/>
+                                                                <button class="btn btn-danger"><fmt:message key="deleteComment"/></button>
+                                                            </form>
+                                                        </c:if>
+                                                    </div>
+                                                </c:if>
                                             </c:forEach>
                                         </div>
                                         <div class="modal-footer">
