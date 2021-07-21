@@ -6,7 +6,7 @@ import by.epam.jwd.web.exception.NoUserWithLoginException;
 import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.exception.UserWithLoginExistsException;
 import by.epam.jwd.web.exception.WrongPasswordException;
-import by.epam.jwd.web.exception.WrongSubscriptionException;
+import by.epam.jwd.web.exception.InvalidSubscriptionException;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.model.UserRole;
@@ -144,7 +144,7 @@ public class SimpleUserServiceTest {
     }
 
     @Test
-    public void setSubscription_mustReturnUserWithNewSubscription() throws WrongSubscriptionException {
+    public void setSubscription_mustReturnUserWithNewSubscription() throws InvalidSubscriptionException {
         final Subscription subscription = new Subscription(LocalDate.now(), LocalDate.now().plusDays(2));
         testService.setSubscription(testUser, subscription);
         final User userWithNewSubscription = testService.findById(testUser.getId());
@@ -152,8 +152,8 @@ public class SimpleUserServiceTest {
         assertNotNull("User with subscription must be not null", userWithNewSubscription);
     }
 
-    @Test(expected = WrongSubscriptionException.class)
-    public void setSubscription_mustThrowException_ifStartDateIsAfterEndDate() throws WrongSubscriptionException {
+    @Test(expected = InvalidSubscriptionException.class)
+    public void setSubscription_mustThrowException_ifStartDateIsAfterEndDate() throws InvalidSubscriptionException {
         final Subscription subscription = new Subscription(LocalDate.now(), LocalDate.now().minusMonths(1));
         testService.setSubscription(testUser, subscription);
     }

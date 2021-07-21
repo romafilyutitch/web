@@ -1,6 +1,6 @@
 package by.epam.jwd.web.command;
 
-import by.epam.jwd.web.exception.WrongSubscriptionException;
+import by.epam.jwd.web.exception.InvalidSubscriptionException;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.service.ServiceFactory;
@@ -39,7 +39,7 @@ public class SetSubscriptionCommand implements ActionCommand {
         try {
             userService.setSubscription(foundUser, subscription);
             request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, SUBSCRIPTION_WAS_SET_LOCALIZATION_MESSAGE_KEY);
-        } catch (WrongSubscriptionException e) {
+        } catch (InvalidSubscriptionException e) {
             request.getSession().setAttribute(SESSION_FAIL_ATTRIBUTE_KEY, WRONG_SUBSCRIPTION_LOCALIZATION_MESSAGE_KEY);
         }
         return new CommandResult() {

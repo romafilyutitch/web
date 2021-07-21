@@ -7,7 +7,7 @@ import by.epam.jwd.web.dao.UserDao;
 import by.epam.jwd.web.exception.UserWithLoginExistsException;
 import by.epam.jwd.web.exception.NoUserWithLoginException;
 import by.epam.jwd.web.exception.ServiceException;
-import by.epam.jwd.web.exception.WrongSubscriptionException;
+import by.epam.jwd.web.exception.InvalidSubscriptionException;
 import by.epam.jwd.web.exception.WrongPasswordException;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
@@ -45,6 +45,7 @@ class SimpleUserService implements UserService {
     private static final String USER_WAS_LOGGED_IN_MESSAGE = "User was logged in %s";
     private static final String USER_BY_LOGIN_WAS_NOT_FOUND_MESSAGE = "User by login %s was not found";
     private static final String USER_BY_LOGIN_WAS_FOUND_MESSAGE = "User by login %s was found %s";
+    private static final String INVALID_SUBSCRIPTION_MESSAGE = "Invalid subscription. Start date is after end date";
 
     private SimpleUserService() {
     }
@@ -150,9 +151,10 @@ class SimpleUserService implements UserService {
     }
 
     @Override
-    public void setSubscription(User user, Subscription newSubscription) throws WrongSubscriptionException {
+    public void setSubscription(User user, Subscription newSubscription) throws InvalidSubscriptionException {
         if (newSubscription.getStartDate().isAfter(newSubscription.getEndDate())) {
-            throw new WrongSubscriptionException(START_DATE_IS_AFTER_END_DATE_MESSAGE);
+            logger.error(INVALID_SUBSCRIPTION_MESSAGE);
+            throw new InvalidSubscriptionException(START_DATE_IS_AFTER_END_DATE_MESSAGE);
         }
         final Subscription savedSubscription = subscriptionDao.save(newSubscription);
         final User userWithNewSubscription = new User(user.getId(), user.getLogin(), user.getPassword(), user.getRole(), savedSubscription);
