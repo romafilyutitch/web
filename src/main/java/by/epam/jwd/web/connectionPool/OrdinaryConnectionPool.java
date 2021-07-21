@@ -38,17 +38,17 @@ class OrdinaryConnectionPool implements ConnectionPool {
     private static final String COULD_NOT_REGISTER_DRIVER_MESSAGE = "Could not register driver";
     private static final String COULD_NOT_DEREGISTER_DRIVER_MESSAGE = "Could not deregister driver";
 
-    private static final ConnectionPoolProperties POOL_PROPERTIES = ConnectionPoolProperties.getInstance();
+    private static final ConnectionPoolProperties CONNECTION_POOL_PROPERTIES = ConnectionPoolProperties.getInstance();
 
-    private static final String DATABASE_URL = POOL_PROPERTIES.getDatabaseUrl();
-    private static final String DATABASE_USERNAME = POOL_PROPERTIES.getUser();
-    private static final String DATABASE_PASSWORD = POOL_PROPERTIES.getPassword();
-    private static final int MINIMUM_POOL_SIZE = POOL_PROPERTIES.getMaxPoolSize();
-    private static final int MAXIMUM_POOL_SIZE = POOL_PROPERTIES.getMinPoolSize();
-    private static final int RESIZE_QUANTITY = POOL_PROPERTIES.getResizeQuantity();
-    private static final int POOL_RESIZE_CHECK_DELAY_TIME = POOL_PROPERTIES.getCheckResizeDelayTime();
-    private static final int POOL_RESIZE_CHECK_PERIOD_TIME = POOL_PROPERTIES.getCheckResizePeriodTime();
-    private static final double RESIZE_FACTOR = POOL_PROPERTIES.getResizeFactor();
+    private static final String DATABASE_URL = CONNECTION_POOL_PROPERTIES.getDatabaseUrl();
+    private static final String DATABASE_USERNAME = CONNECTION_POOL_PROPERTIES.getUser();
+    private static final String DATABASE_PASSWORD = CONNECTION_POOL_PROPERTIES.getPassword();
+    private static final int MINIMUM_POOL_SIZE = CONNECTION_POOL_PROPERTIES.getMaxPoolSize();
+    private static final int MAXIMUM_POOL_SIZE = CONNECTION_POOL_PROPERTIES.getMinPoolSize();
+    private static final int RESIZE_QUANTITY = CONNECTION_POOL_PROPERTIES.getResizeQuantity();
+    private static final int POOL_RESIZE_CHECK_DELAY_TIME = CONNECTION_POOL_PROPERTIES.getCheckResizeDelayTime();
+    private static final int POOL_RESIZE_CHECK_PERIOD_TIME = CONNECTION_POOL_PROPERTIES.getCheckResizePeriodTime();
+    private static final double RESIZE_FACTOR = CONNECTION_POOL_PROPERTIES.getResizeFactor();
 
     private final BlockingQueue<Connection> freeConnectionsQueue = new ArrayBlockingQueue<>(MAXIMUM_POOL_SIZE);
     private final CopyOnWriteArraySet<Connection> takenConnections = new CopyOnWriteArraySet<>();
