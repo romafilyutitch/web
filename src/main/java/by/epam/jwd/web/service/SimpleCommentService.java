@@ -14,12 +14,13 @@ import java.util.Optional;
 public class SimpleCommentService implements CommentService {
     private static final Logger logger = LogManager.getLogger(SimpleCommentService.class);
 
-    private static final String COMMENTS_BY_BOOK_WAS_FOUND_MESSAGE = "Comments by book was found %s";
-    private static final String ALL_COMMENTS_WAS_FOUND = "All comments was found";
-    private static final String COMMENTS_PAGE_WAS_FOUND_MESSAGE = "Comments page number %d was found";
+    private static final String COMMENTS_BY_BOOK_WAS_FOUND_MESSAGE = "Comments by book %s was found size = %d";
+    private static final String ALL_COMMENTS_WAS_FOUND = "All comments was found size = %d";
+    private static final String COMMENTS_PAGE_WAS_FOUND_MESSAGE = "Comments page number %d was found size = %d";
     private static final String SAVED_COMMENT_WAS_NOT_FOUND_BY_ID_MESSAGE = "Saved comment was not found by id %d";
-    private static final String SAVED_COMMENT_WAS_FOUND_BY_ID = "Saved comment was found by id %s";
+    private static final String SAVED_COMMENT_WAS_FOUND_BY_ID = "Saved comment was found by id %d %s";
     private static final String COMMENT_WAS_SAVED_MESSAGE = "Comment was saved %s ";
+    private static final String COMMENT_WAS_DELETED_MESSAGE = "Comment with id %d was deleted";
 
     private final CommentDao commentDao = DAOFactory.getInstance().getCommentDao();
 
@@ -33,14 +34,14 @@ public class SimpleCommentService implements CommentService {
     @Override
     public List<Comment> findByBook(Book book) {
         final List<Comment> foundBookComments = commentDao.findByBook(book);
-        logger.info(String.format(COMMENTS_BY_BOOK_WAS_FOUND_MESSAGE, book));
+        logger.info(String.format(COMMENTS_BY_BOOK_WAS_FOUND_MESSAGE, book.getName(), foundBookComments.size()));
         return foundBookComments;
     }
 
     @Override
     public List<Comment> findAll() {
         final List<Comment> allComments = commentDao.findAll();
-        logger.info(ALL_COMMENTS_WAS_FOUND);
+        logger.info(String.format(ALL_COMMENTS_WAS_FOUND, allComments.size()));
         return allComments;
     }
 
@@ -54,7 +55,7 @@ public class SimpleCommentService implements CommentService {
         } else {
             commentsPage = commentDao.findPage(currentPage);
         }
-        logger.info(String.format(COMMENTS_PAGE_WAS_FOUND_MESSAGE, currentPage));
+        logger.info(String.format(COMMENTS_PAGE_WAS_FOUND_MESSAGE, currentPage, commentsPage.size()));
         return commentsPage;
     }
 
@@ -66,7 +67,7 @@ public class SimpleCommentService implements CommentService {
             throw new ServiceException(String.format(SAVED_COMMENT_WAS_NOT_FOUND_BY_ID_MESSAGE, entityId));
         }
         final Comment foundComment = optionalComment.get();
-        logger.info(String.format(SAVED_COMMENT_WAS_FOUND_BY_ID, foundComment));
+        logger.info(String.format(SAVED_COMMENT_WAS_FOUND_BY_ID, entityId, foundComment));
         return foundComment;
     }
 
@@ -80,7 +81,7 @@ public class SimpleCommentService implements CommentService {
     @Override
     public void delete(Long entityId) {
         commentDao.delete(entityId);
-        logger.info(String.format("Comment with id %d was deleted", entityId));
+        logger.info(String.format(COMMENT_WAS_DELETED_MESSAGE, entityId));
     }
 
     @Override

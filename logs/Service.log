@@ -1,61 +1,251 @@
-2021-07-20 21:07:06 INFO  SimpleUserService - User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
-2021-07-20 21:07:06 INFO  SimpleUserService - User with login 123 already exists
-2021-07-20 21:07:07 INFO  SimpleUserService - User with id 457 was deleted
-2021-07-20 21:07:08 INFO  SimpleUserService - User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
-2021-07-20 21:07:09 INFO  SimpleUserService - Role was demoted for user LibraryUser{id=458, login='123', password='$2a$04$LAQ/ubak9j0go47HG/4saujdlcmR8QXhmpBcL2zPsmJxSGGCZJXym', role=READER, userSubscription=null}
-2021-07-20 21:07:09 INFO  SimpleUserService - User was found by id LibraryUser{id=458, login='123', password='$2a$04$LAQ/ubak9j0go47HG/4saujdlcmR8QXhmpBcL2zPsmJxSGGCZJXym', role=READER, userSubscription=null}
-2021-07-20 21:07:09 INFO  SimpleUserService - User with id 458 was deleted
-2021-07-20 21:07:10 INFO  SimpleUserService - User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
-2021-07-20 21:07:10 INFO  SimpleUserService - Wrong password was entered
-2021-07-20 21:07:10 INFO  SimpleUserService - User with id 459 was deleted
-2021-07-20 21:07:10 INFO  SimpleUserService - User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
-2021-07-20 21:07:11 INFO  SimpleUserService - All users was found
-2021-07-20 21:07:11 INFO  SimpleUserService - User with id 460 was deleted
-2021-07-20 21:07:11 INFO  SimpleUserService - User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
-2021-07-20 21:07:12 INFO  SimpleUserService - User with id 461 was deleted
-2021-07-20 21:07:12 INFO  SimpleUserService - User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
-2021-07-20 21:07:12 INFO  SimpleUserService - New login was set to user LibraryUser{id=462, login='NEW LOGIN', password='$2a$04$zMQNMuy0AYmz6b9Va23Gku.r3bEtLIyoMwOCVLyUrbSMLEKmDovLW', role=READER, userSubscription=null}
-2021-07-20 21:07:13 INFO  SimpleUserService - User with id 462 was deleted
-2021-07-20 21:07:13 INFO  SimpleUserService - User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
-2021-07-20 21:07:13 INFO  SimpleUserService - User with id 463 was deleted
-2021-07-20 21:07:13 INFO  SimpleUserService - User with id 463 was deleted
-2021-07-20 21:07:14 INFO  SimpleUserService - User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
-2021-07-20 21:07:14 INFO  SimpleUserService - Role was promoted for user LibraryUser{id=464, login='123', password='$2a$04$RnL5YHf8Hk39rI0gKza/JeJPfmhSeKFte/RGlohWFaMfsPB54C7oG', role=LIBRARIAN, userSubscription=null}
-2021-07-20 21:07:14 INFO  SimpleUserService - User was found by id LibraryUser{id=464, login='123', password='$2a$04$RnL5YHf8Hk39rI0gKza/JeJPfmhSeKFte/RGlohWFaMfsPB54C7oG', role=LIBRARIAN, userSubscription=null}
-2021-07-20 21:07:15 INFO  SimpleUserService - User with id 464 was deleted
-2021-07-20 21:07:15 INFO  SimpleUserService - User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
-2021-07-20 21:07:16 INFO  SimpleUserService - New subscription was set to user LibraryUser{id=465, login='123', password='$2a$04$gkUPFQZziEeTT.9sPxjTqOQLiNyXXTNi.O9VY5I/OWAZkvxAiFbu6', role=READER, userSubscription=Subscription{id=237, startDate=2021-07-20, endDate=2021-07-22}}
-2021-07-20 21:07:16 INFO  SimpleUserService - User was found by id LibraryUser{id=465, login='123', password='$2a$04$gkUPFQZziEeTT.9sPxjTqOQLiNyXXTNi.O9VY5I/OWAZkvxAiFbu6', role=READER, userSubscription=Subscription{id=237, startDate=2021-07-20, endDate=2021-07-22}}
-2021-07-20 21:07:16 INFO  SimpleUserService - User with id 465 was deleted
-2021-07-20 21:07:17 INFO  SimpleUserService - User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
-2021-07-20 21:07:17 INFO  SimpleUserService - User 123 was logged in
-2021-07-20 21:07:17 INFO  SimpleUserService - User with id 466 was deleted
-2021-07-20 21:07:17 INFO  SimpleUserService - User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
-2021-07-20 21:07:17 INFO  SimpleUserService - User was found by id LibraryUser{id=467, login='123', password='$2a$04$NVDwhjfZW/7i5hOB/1oxFOoZg31L1Y0tAMjJhPdob7A7er3jh7k/m', role=READER, userSubscription=null}
-2021-07-20 21:07:18 INFO  SimpleUserService - User with id 467 was deleted
-2021-07-20 21:07:19 INFO  SimpleUserService - User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
-2021-07-20 21:07:21 INFO  SimpleUserService - User with id 468 was deleted
-2021-07-20 21:07:21 INFO  SimpleUserService - User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
-2021-07-20 21:07:22 INFO  SimpleUserService - New password was set to user LibraryUser{id=469, login='123', password='$2a$04$Gll9N0IRlGar0gD0mcnNcOvqgfa6noCIVpiACn2g6.BDhU.q/2A2e', role=READER, userSubscription=null}
-2021-07-20 21:07:22 INFO  SimpleUserService - User with id 469 was deleted
-2021-07-20 21:07:23 INFO  SimpleUserService - User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
-2021-07-20 21:07:24 INFO  SimpleUserService - User with id 470 was deleted
-2021-07-20 21:07:24 INFO  SimpleUserService - All users was found
-2021-07-20 21:07:24 INFO  SimpleUserService - User with id 470 was deleted
-2021-07-20 21:07:24 INFO  SimpleUserService - User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
-2021-07-20 21:07:25 INFO  SimpleUserService - User with id 471 was deleted
-2021-07-20 21:07:25 INFO  SimpleUserService - User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
-2021-07-20 21:07:25 ERROR SimpleUserService - Saved user with id 0 was not found
-2021-07-20 21:07:27 INFO  SimpleUserService - User with id 472 was deleted
-2021-07-20 21:07:27 INFO  SimpleUserService - User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
-2021-07-20 21:07:27 INFO  SimpleUserService - Page of users number 1 was found
-2021-07-20 21:07:28 INFO  SimpleUserService - All users was found
-2021-07-20 21:07:28 INFO  SimpleUserService - User with id 473 was deleted
-2021-07-20 21:07:28 INFO  SimpleUserService - User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
-2021-07-20 21:07:28 INFO  SimpleUserService - User with id 474 was deleted
-2021-07-20 21:07:29 INFO  SimpleUserService - User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
-2021-07-20 21:07:29 INFO  SimpleUserService - User with id 475 was deleted
-2021-07-20 21:07:29 INFO  SimpleUserService - User with login 123 does not exist
-2021-07-20 21:07:29 INFO  SimpleUserService - User with id 475 was deleted
-2021-07-20 21:07:29 INFO  SimpleUserService - User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
-2021-07-20 21:07:30 INFO  SimpleUserService - User with id 476 was deleted
+21.07.2021 18:56:36 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:56:36 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:56:37 [main] INFO  SimpleOrderService - findAll() All orders were found size = 1
+21.07.2021 18:56:38 [main] INFO  SimpleOrderService - delete() Order with id 753 was deleted
+21.07.2021 18:56:38 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:56:38 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:56:38 [main] INFO  SimpleOrderService - findByUser() Orders by user was found LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}} size = 1
+21.07.2021 18:56:39 [main] INFO  SimpleOrderService - delete() Order with id 754 was deleted
+21.07.2021 18:56:39 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:56:39 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:56:39 [main] INFO  SimpleOrderService - delete() Order with id 755 was deleted
+21.07.2021 18:56:39 [main] INFO  SimpleOrderService - findAll() All orders were found size = 0
+21.07.2021 18:56:39 [main] INFO  SimpleOrderService - delete() Order with id 755 was deleted
+21.07.2021 18:56:39 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:56:39 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:56:40 [main] INFO  SimpleOrderService - returnOrder() Order was returned BookOrder{id=756, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=0, commentsAmount=1}, orderDate=2021-07-21, status=RETURNED}
+21.07.2021 18:56:40 [main] INFO  SimpleOrderService - findById() Order by id 756 was found BookOrder{id=756, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=0, commentsAmount=1}, orderDate=2021-07-21, status=RETURNED}
+21.07.2021 18:56:40 [main] INFO  SimpleOrderService - delete() Order with id 756 was deleted
+21.07.2021 18:56:40 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:56:40 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:56:40 [main] INFO  SimpleOrderService - approveOrder() Order was approved BookOrder{id=757, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=0, commentsAmount=1}, orderDate=2021-07-21, status=APPROVED}
+21.07.2021 18:56:40 [main] INFO  SimpleOrderService - findById() Order by id 757 was found BookOrder{id=757, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=0, commentsAmount=1}, orderDate=2021-07-21, status=APPROVED}
+21.07.2021 18:56:41 [main] INFO  SimpleOrderService - delete() Order with id 757 was deleted
+21.07.2021 18:56:41 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:56:41 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:56:41 [main] INFO  SimpleOrderService - findById() Order by id 758 was found BookOrder{id=758, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=0, commentsAmount=1}, orderDate=2021-07-21, status=APPROVED}
+21.07.2021 18:56:41 [main] INFO  SimpleOrderService - delete() Order with id 758 was deleted
+21.07.2021 18:56:41 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:56:41 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:56:41 [main] INFO  SimpleOrderService - findByBook() Orders by book was found Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=0, commentsAmount=1} size = 1
+21.07.2021 18:56:42 [main] INFO  SimpleOrderService - delete() Order with id 759 was deleted
+21.07.2021 18:56:42 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:56:42 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:56:42 [main] INFO  SimpleOrderService - delete() Order with id 760 was deleted
+21.07.2021 18:56:42 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:56:42 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:56:43 [main] INFO  SimpleOrderService - delete() Order with id 761 was deleted
+21.07.2021 18:56:43 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:56:43 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:56:44 [main] INFO  SimpleOrderService - findPage() Page of orders number 1 was found size = 1
+21.07.2021 18:56:45 [main] INFO  SimpleOrderService - delete() Order with id 762 was deleted
+21.07.2021 18:56:45 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:56:45 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:56:46 [main] INFO  SimpleOrderService - delete() Order with id 763 was deleted
+21.07.2021 18:56:46 [main] ERROR SimpleOrderService - findById() Saved order with id 763 was not found
+21.07.2021 18:56:46 [main] INFO  SimpleOrderService - delete() Order with id 763 was deleted
+21.07.2021 18:56:46 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:56:46 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:56:47 [main] INFO  SimpleOrderService - delete() Order with id 764 was deleted
+21.07.2021 18:57:06 [main] INFO  SimpleUserService - register() User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
+21.07.2021 18:57:06 [main] INFO  SimpleUserService - changeLogin() User with login 123 already exists
+21.07.2021 18:57:06 [main] INFO  SimpleUserService - delete() User with id 809 was deleted
+21.07.2021 18:57:07 [main] INFO  SimpleUserService - register() User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
+21.07.2021 18:57:07 [main] INFO  SimpleUserService - demoteUserRole() Role was demoted to READER for user LibraryUser{id=810, login='123', password='$2a$04$Pxf4nEg5Jb0as4ltQjCyeejGX5Vuad3EuEzV1sK0sshpIt.IqFeO6', role=READER, userSubscription=null}
+21.07.2021 18:57:07 [main] INFO  SimpleUserService - findById() User was found by id 810 LibraryUser{id=810, login='123', password='$2a$04$Pxf4nEg5Jb0as4ltQjCyeejGX5Vuad3EuEzV1sK0sshpIt.IqFeO6', role=READER, userSubscription=null}
+21.07.2021 18:57:07 [main] INFO  SimpleUserService - delete() User with id 810 was deleted
+21.07.2021 18:57:07 [main] INFO  SimpleUserService - register() User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
+21.07.2021 18:57:07 [main] ERROR SimpleUserService - loginUser() Wrong password was entered
+21.07.2021 18:57:07 [main] INFO  SimpleUserService - delete() User with id 811 was deleted
+21.07.2021 18:57:07 [main] INFO  SimpleUserService - register() User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
+21.07.2021 18:57:07 [main] INFO  SimpleUserService - findAll() All users was found size = 4
+21.07.2021 18:57:08 [main] INFO  SimpleUserService - delete() User with id 812 was deleted
+21.07.2021 18:57:08 [main] INFO  SimpleUserService - register() User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
+21.07.2021 18:57:08 [main] INFO  SimpleUserService - delete() User with id 813 was deleted
+21.07.2021 18:57:08 [main] INFO  SimpleUserService - register() User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
+21.07.2021 18:57:08 [main] INFO  SimpleUserService - changeLogin() New login was set to user LibraryUser{id=814, login='NEW LOGIN', password='$2a$04$aalogE.MEWLXiYKUhwGTPOshOyDsveLdGnkVImDmFm.8DINFynLV6', role=READER, userSubscription=null}
+21.07.2021 18:57:09 [main] INFO  SimpleUserService - delete() User with id 814 was deleted
+21.07.2021 18:57:09 [main] INFO  SimpleUserService - register() User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
+21.07.2021 18:57:09 [main] INFO  SimpleUserService - delete() User with id 815 was deleted
+21.07.2021 18:57:09 [main] INFO  SimpleUserService - findByLogin() User by login 123 was not found
+21.07.2021 18:57:09 [main] INFO  SimpleUserService - delete() User with id 815 was deleted
+21.07.2021 18:57:09 [main] INFO  SimpleUserService - register() User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
+21.07.2021 18:57:09 [main] INFO  SimpleUserService - promoteUserRole() Role was promoted to LIBRARIAN for user LibraryUser{id=816, login='123', password='$2a$04$eNjT0Yt9E8ZjIYos1glsdOe.cEXOp9BzXz2hVc46kQxhsSUkFFO7q', role=LIBRARIAN, userSubscription=null}
+21.07.2021 18:57:09 [main] INFO  SimpleUserService - findById() User was found by id 816 LibraryUser{id=816, login='123', password='$2a$04$eNjT0Yt9E8ZjIYos1glsdOe.cEXOp9BzXz2hVc46kQxhsSUkFFO7q', role=LIBRARIAN, userSubscription=null}
+21.07.2021 18:57:10 [main] INFO  SimpleUserService - delete() User with id 816 was deleted
+21.07.2021 18:57:10 [main] INFO  SimpleUserService - register() User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
+21.07.2021 18:57:10 [main] INFO  SimpleUserService - setSubscription() New subscription was set to user LibraryUser{id=817, login='123', password='$2a$04$kOO13twMr8vr.UceQanON.CFvVWO8u2g2MJ0lYHzSY/ODDXv1z3Wm', role=READER, userSubscription=Subscription{id=391, startDate=2021-07-21, endDate=2021-07-23}}
+21.07.2021 18:57:10 [main] INFO  SimpleUserService - findById() User was found by id 817 LibraryUser{id=817, login='123', password='$2a$04$kOO13twMr8vr.UceQanON.CFvVWO8u2g2MJ0lYHzSY/ODDXv1z3Wm', role=READER, userSubscription=Subscription{id=391, startDate=2021-07-21, endDate=2021-07-23}}
+21.07.2021 18:57:10 [main] INFO  SimpleUserService - delete() User with id 817 was deleted
+21.07.2021 18:57:10 [main] INFO  SimpleUserService - register() User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
+21.07.2021 18:57:10 [main] INFO  SimpleUserService - loginUser() User was logged in 123
+21.07.2021 18:57:10 [main] INFO  SimpleUserService - delete() User with id 818 was deleted
+21.07.2021 18:57:11 [main] INFO  SimpleUserService - register() User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
+21.07.2021 18:57:11 [main] INFO  SimpleUserService - findById() User was found by id 819 LibraryUser{id=819, login='123', password='$2a$04$olYWUDmgE/rjtYOa/nFWqewN0ztfDTPYp3hioDcPpT8UoBW9fPuzW', role=READER, userSubscription=null}
+21.07.2021 18:57:11 [main] INFO  SimpleUserService - delete() User with id 819 was deleted
+21.07.2021 18:57:11 [main] INFO  SimpleUserService - register() User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
+21.07.2021 18:57:11 [main] INFO  SimpleUserService - delete() User with id 820 was deleted
+21.07.2021 18:57:11 [main] INFO  SimpleUserService - register() User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
+21.07.2021 18:57:11 [main] INFO  SimpleUserService - changePassword() New password was set to user LibraryUser{id=821, login='123', password='$2a$04$21ub/7rHBusAfjcye6v9r.CEYq2y4Gz0brsc5oIm8IFWdMSYLEzT2', role=READER, userSubscription=null}
+21.07.2021 18:57:12 [main] INFO  SimpleUserService - delete() User with id 821 was deleted
+21.07.2021 18:57:12 [main] INFO  SimpleUserService - register() User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
+21.07.2021 18:57:12 [main] INFO  SimpleUserService - delete() User with id 822 was deleted
+21.07.2021 18:57:12 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:57:12 [main] INFO  SimpleUserService - delete() User with id 822 was deleted
+21.07.2021 18:57:12 [main] INFO  SimpleUserService - register() User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
+21.07.2021 18:57:13 [main] INFO  SimpleUserService - delete() User with id 823 was deleted
+21.07.2021 18:57:13 [main] INFO  SimpleUserService - register() User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
+21.07.2021 18:57:13 [main] ERROR SimpleUserService - findById() Saved user with id 0 was not found
+21.07.2021 18:57:13 [main] INFO  SimpleUserService - delete() User with id 824 was deleted
+21.07.2021 18:57:13 [main] INFO  SimpleUserService - register() User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
+21.07.2021 18:57:13 [main] INFO  SimpleUserService - findPage() Page of users number 1 was found size = 4
+21.07.2021 18:57:13 [main] INFO  SimpleUserService - findAll() All users was found size = 4
+21.07.2021 18:57:13 [main] INFO  SimpleUserService - delete() User with id 825 was deleted
+21.07.2021 18:57:14 [main] INFO  SimpleUserService - register() User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
+21.07.2021 18:57:14 [main] INFO  SimpleUserService - findByLogin() User by login 123 was found LibraryUser{id=826, login='123', password='$2a$04$tsvZrx3THoDKAWLOxkVSmuaQrC3Qx1m897aySC824kP7aeyealAyq', role=READER, userSubscription=null}
+21.07.2021 18:57:14 [main] INFO  SimpleUserService - delete() User with id 826 was deleted
+21.07.2021 18:57:14 [main] INFO  SimpleUserService - register() User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
+21.07.2021 18:57:15 [main] INFO  SimpleUserService - delete() User with id 827 was deleted
+21.07.2021 18:57:15 [main] ERROR SimpleUserService - loginUser() User with entered login 123 does not exist
+21.07.2021 18:57:15 [main] INFO  SimpleUserService - delete() User with id 827 was deleted
+21.07.2021 18:57:15 [main] INFO  SimpleUserService - register() User was saved in database LibraryUser{id=null, login='123', password='123', role=READER, userSubscription=null}
+21.07.2021 18:57:15 [main] INFO  SimpleUserService - delete() User with id 828 was deleted
+21.07.2021 18:57:16 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:57:16 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:57:16 [main] INFO  SimpleLikeService - register() Like was saved Like{id=362, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=1, commentsAmount=1}, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}}
+21.07.2021 18:57:16 [main] INFO  SimpleLikeService - findById() Saved like with id 362 was found Like{id=362, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=1, commentsAmount=1}, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}}
+21.07.2021 18:57:16 [main] INFO  SimpleLikeService - delete() Like with id 362 was deleted
+21.07.2021 18:57:16 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:57:16 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:57:16 [main] INFO  SimpleLikeService - register() Like was saved Like{id=363, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=1, commentsAmount=1}, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}}
+21.07.2021 18:57:16 [main] INFO  SimpleLikeService - findPage() Likes page number 1 was found size = 1
+21.07.2021 18:57:16 [main] INFO  SimpleLikeService - delete() Like with id 363 was deleted
+21.07.2021 18:57:16 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:57:16 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:57:17 [main] INFO  SimpleLikeService - register() Like was saved Like{id=364, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=1, commentsAmount=1}, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}}
+21.07.2021 18:57:17 [main] INFO  SimpleLikeService - delete() Like with id 364 was deleted
+21.07.2021 18:57:17 [main] ERROR SimpleLikeService - findById() Saved like with id 364 was not found
+21.07.2021 18:57:17 [main] INFO  SimpleLikeService - delete() Like with id 364 was deleted
+21.07.2021 18:57:17 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:57:17 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:57:17 [main] INFO  SimpleLikeService - register() Like was saved Like{id=365, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=1, commentsAmount=1}, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}}
+21.07.2021 18:57:17 [main] INFO  SimpleLikeService - findAll() All likes was found size = 1
+21.07.2021 18:57:17 [main] INFO  SimpleLikeService - delete() Like with id 365 was deleted
+21.07.2021 18:57:17 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:57:18 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:57:18 [main] INFO  SimpleLikeService - register() Like was saved Like{id=366, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=1, commentsAmount=1}, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}}
+21.07.2021 18:57:18 [main] INFO  SimpleLikeService - delete() Like with id 366 was deleted
+21.07.2021 18:57:18 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:57:18 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:57:18 [main] INFO  SimpleLikeService - register() Like was saved Like{id=367, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=1, commentsAmount=1}, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}}
+21.07.2021 18:57:18 [main] INFO  SimpleLikeService - delete() Like with id 367 was deleted
+21.07.2021 18:57:18 [main] INFO  SimpleLikeService - delete() Like with id 367 was deleted
+21.07.2021 18:57:18 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:57:18 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:57:18 [main] INFO  SimpleLikeService - register() Like was saved Like{id=368, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=1, commentsAmount=1}, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}}
+21.07.2021 18:57:19 [main] INFO  SimpleLikeService - delete() Like with id 368 was deleted
+21.07.2021 18:57:19 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:57:19 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:57:19 [main] INFO  SimpleLikeService - register() Like was saved Like{id=369, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=1, commentsAmount=1}, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}}
+21.07.2021 18:57:19 [main] INFO  SimpleLikeService - delete() Like with id 369 was deleted
+21.07.2021 18:57:19 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:57:19 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:57:19 [main] INFO  SimpleLikeService - register() Like was saved Like{id=370, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=1, commentsAmount=1}, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}}
+21.07.2021 18:57:19 [main] INFO  SimpleLikeService - delete() Like with id 370 was deleted
+21.07.2021 18:57:19 [main] INFO  SimpleLikeService - findAll() All likes was found size = 0
+21.07.2021 18:57:19 [main] INFO  SimpleLikeService - delete() Like with id 370 was deleted
+21.07.2021 18:57:19 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:57:19 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:57:19 [main] INFO  SimpleLikeService - register() Like was saved Like{id=371, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=1, commentsAmount=1}, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}}
+21.07.2021 18:57:20 [main] INFO  SimpleLikeService - delete() Like with id 371 was deleted
+21.07.2021 18:57:25 [main] INFO  SimpleBookService - register() Book was saved Book{id=726, name='New book', author=BookAuthor{id=93, name='new Author'}, genre=FANTASY, date=2021-07-21, pagesAmount=100, copiesAmount=1, description='New test book', likesAmount=0, commentsAmount=0}
+21.07.2021 18:57:25 [main] INFO  SimpleBookService - delete() Book with id 726 was deleted
+21.07.2021 18:57:25 [main] INFO  SimpleBookService - findByName() Book by name New book was not found
+21.07.2021 18:57:25 [main] INFO  SimpleBookService - delete() Book with id 726 was deleted
+21.07.2021 18:57:26 [main] INFO  SimpleBookService - register() Book was saved Book{id=727, name='New book', author=BookAuthor{id=93, name='new Author'}, genre=FANTASY, date=2021-07-21, pagesAmount=100, copiesAmount=1, description='New test book', likesAmount=0, commentsAmount=0}
+21.07.2021 18:57:26 [main] INFO  SimpleBookService - findByGenre() Book by genre FANTASY was found size = 2
+21.07.2021 18:57:26 [main] INFO  SimpleBookService - delete() Book with id 727 was deleted
+21.07.2021 18:57:26 [main] INFO  SimpleBookService - register() Book was saved Book{id=728, name='New book', author=BookAuthor{id=93, name='new Author'}, genre=FANTASY, date=2021-07-21, pagesAmount=100, copiesAmount=1, description='New test book', likesAmount=0, commentsAmount=0}
+21.07.2021 18:57:26 [main] INFO  SimpleBookService - findById() Book was found by id 728 Book{id=728, name='New book', author=BookAuthor{id=93, name='new Author'}, genre=FANTASY, date=2021-07-21, pagesAmount=100, copiesAmount=1, description='New test book', likesAmount=0, commentsAmount=0}
+21.07.2021 18:57:27 [main] INFO  SimpleBookService - delete() Book with id 728 was deleted
+21.07.2021 18:57:27 [main] INFO  SimpleBookService - register() Book was saved Book{id=729, name='New book', author=BookAuthor{id=93, name='new Author'}, genre=FANTASY, date=2021-07-21, pagesAmount=100, copiesAmount=1, description='New test book', likesAmount=0, commentsAmount=0}
+21.07.2021 18:57:27 [main] INFO  SimpleBookService - delete() Book with id 729 was deleted
+21.07.2021 18:57:27 [main] INFO  SimpleBookService - register() Book was saved Book{id=730, name='New book', author=BookAuthor{id=93, name='new Author'}, genre=FANTASY, date=2021-07-21, pagesAmount=100, copiesAmount=1, description='New test book', likesAmount=0, commentsAmount=0}
+21.07.2021 18:57:28 [main] INFO  SimpleBookService - delete() Book with id 730 was deleted
+21.07.2021 18:57:28 [main] INFO  SimpleBookService - register() Book was saved Book{id=731, name='New book', author=BookAuthor{id=93, name='new Author'}, genre=FANTASY, date=2021-07-21, pagesAmount=100, copiesAmount=1, description='New test book', likesAmount=0, commentsAmount=0}
+21.07.2021 18:57:28 [main] INFO  SimpleBookService - delete() Book with id 731 was deleted
+21.07.2021 18:57:28 [main] ERROR SimpleBookService - findById() Saved book with id 731 was not found
+21.07.2021 18:57:28 [main] INFO  SimpleBookService - delete() Book with id 731 was deleted
+21.07.2021 18:57:28 [main] INFO  SimpleBookService - register() Book was saved Book{id=732, name='New book', author=BookAuthor{id=93, name='new Author'}, genre=FANTASY, date=2021-07-21, pagesAmount=100, copiesAmount=1, description='New test book', likesAmount=0, commentsAmount=0}
+21.07.2021 18:57:28 [main] INFO  SimpleBookService - findAll() All books were found size = 12
+21.07.2021 18:57:29 [main] INFO  SimpleBookService - delete() Book with id 732 was deleted
+21.07.2021 18:57:29 [main] INFO  SimpleBookService - register() Book was saved Book{id=733, name='New book', author=BookAuthor{id=93, name='new Author'}, genre=FANTASY, date=2021-07-21, pagesAmount=100, copiesAmount=1, description='New test book', likesAmount=0, commentsAmount=0}
+21.07.2021 18:57:29 [main] INFO  SimpleBookService - removeOneCopy() One copy for book was removed Book{id=733, name='New book', author=BookAuthor{id=93, name='new Author'}, genre=FANTASY, date=2021-07-21, pagesAmount=100, copiesAmount=0, description='New test book', likesAmount=0, commentsAmount=0}
+21.07.2021 18:57:29 [main] INFO  SimpleBookService - findById() Book was found by id 733 Book{id=733, name='New book', author=BookAuthor{id=93, name='new Author'}, genre=FANTASY, date=2021-07-21, pagesAmount=100, copiesAmount=0, description='New test book', likesAmount=0, commentsAmount=0}
+21.07.2021 18:57:29 [main] INFO  SimpleBookService - delete() Book with id 733 was deleted
+21.07.2021 18:57:30 [main] INFO  SimpleBookService - register() Book was saved Book{id=734, name='New book', author=BookAuthor{id=93, name='new Author'}, genre=FANTASY, date=2021-07-21, pagesAmount=100, copiesAmount=1, description='New test book', likesAmount=0, commentsAmount=0}
+21.07.2021 18:57:30 [main] INFO  SimpleBookService - addOneCopy() One copy for book was added Book{id=734, name='New book', author=BookAuthor{id=93, name='new Author'}, genre=FANTASY, date=2021-07-21, pagesAmount=100, copiesAmount=2, description='New test book', likesAmount=0, commentsAmount=0}
+21.07.2021 18:57:30 [main] INFO  SimpleBookService - findById() Book was found by id 734 Book{id=734, name='New book', author=BookAuthor{id=93, name='new Author'}, genre=FANTASY, date=2021-07-21, pagesAmount=100, copiesAmount=2, description='New test book', likesAmount=0, commentsAmount=0}
+21.07.2021 18:57:30 [main] INFO  SimpleBookService - delete() Book with id 734 was deleted
+21.07.2021 18:57:31 [main] INFO  SimpleBookService - register() Book was saved Book{id=735, name='New book', author=BookAuthor{id=93, name='new Author'}, genre=FANTASY, date=2021-07-21, pagesAmount=100, copiesAmount=1, description='New test book', likesAmount=0, commentsAmount=0}
+21.07.2021 18:57:31 [main] INFO  SimpleBookService - delete() Book with id 735 was deleted
+21.07.2021 18:57:32 [main] INFO  SimpleBookService - register() Book was saved Book{id=736, name='New book', author=BookAuthor{id=93, name='new Author'}, genre=FANTASY, date=2021-07-21, pagesAmount=100, copiesAmount=1, description='New test book', likesAmount=0, commentsAmount=0}
+21.07.2021 18:57:32 [main] INFO  SimpleBookService - findPage() Page of books number 3 was found size = 2
+21.07.2021 18:57:32 [main] INFO  SimpleBookService - delete() Book with id 736 was deleted
+21.07.2021 18:57:32 [main] INFO  SimpleBookService - register() Book was saved Book{id=737, name='New book', author=BookAuthor{id=93, name='new Author'}, genre=FANTASY, date=2021-07-21, pagesAmount=100, copiesAmount=1, description='New test book', likesAmount=0, commentsAmount=0}
+21.07.2021 18:57:32 [main] INFO  SimpleBookService - findByName() Book by name New book was found Book{id=737, name='New book', author=BookAuthor{id=93, name='new Author'}, genre=FANTASY, date=2021-07-21, pagesAmount=100, copiesAmount=1, description='New test book', likesAmount=0, commentsAmount=0}
+21.07.2021 18:57:33 [main] INFO  SimpleBookService - delete() Book with id 737 was deleted
+21.07.2021 18:57:33 [main] INFO  SimpleBookService - register() Book was saved Book{id=738, name='New book', author=BookAuthor{id=93, name='new Author'}, genre=FANTASY, date=2021-07-21, pagesAmount=100, copiesAmount=1, description='New test book', likesAmount=0, commentsAmount=0}
+21.07.2021 18:57:33 [main] INFO  SimpleBookService - delete() Book with id 738 was deleted
+21.07.2021 18:57:33 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:57:33 [main] INFO  SimpleBookService - delete() Book with id 738 was deleted
+21.07.2021 18:57:54 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:57:54 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:57:54 [main] INFO  SimpleCommentService - register() Comment was saved Comment{id=340, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=0, commentsAmount=2}, date=2021-07-21, text='Test text for test'} 
+21.07.2021 18:57:54 [main] INFO  SimpleCommentService - findById() Saved comment was found by id 340 Comment{id=340, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=0, commentsAmount=2}, date=2021-07-21, text='Test text for test'}
+21.07.2021 18:57:54 [main] INFO  SimpleCommentService - delete() Comment with id 340 was deleted
+21.07.2021 18:57:54 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:57:54 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:57:54 [main] INFO  SimpleCommentService - register() Comment was saved Comment{id=341, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=0, commentsAmount=2}, date=2021-07-21, text='Test text for test'} 
+21.07.2021 18:57:54 [main] INFO  SimpleCommentService - delete() Comment with id 341 was deleted
+21.07.2021 18:57:54 [main] ERROR SimpleCommentService - findById() Saved comment was not found by id 341
+21.07.2021 18:57:54 [main] INFO  SimpleCommentService - delete() Comment with id 341 was deleted
+21.07.2021 18:57:54 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:57:54 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:57:55 [main] INFO  SimpleCommentService - register() Comment was saved Comment{id=342, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=0, commentsAmount=2}, date=2021-07-21, text='Test text for test'} 
+21.07.2021 18:57:55 [main] INFO  SimpleCommentService - delete() Comment with id 342 was deleted
+21.07.2021 18:57:55 [main] INFO  SimpleCommentService - findAll() All comments was found size = 1
+21.07.2021 18:57:55 [main] INFO  SimpleCommentService - delete() Comment with id 342 was deleted
+21.07.2021 18:57:55 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:57:55 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:57:55 [main] INFO  SimpleCommentService - register() Comment was saved Comment{id=343, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=0, commentsAmount=2}, date=2021-07-21, text='Test text for test'} 
+21.07.2021 18:57:55 [main] INFO  SimpleCommentService - findAll() All comments was found size = 2
+21.07.2021 18:57:55 [main] INFO  SimpleCommentService - delete() Comment with id 343 was deleted
+21.07.2021 18:57:55 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:57:55 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:57:55 [main] INFO  SimpleCommentService - register() Comment was saved Comment{id=344, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=0, commentsAmount=2}, date=2021-07-21, text='Test text for test'} 
+21.07.2021 18:57:56 [main] INFO  SimpleCommentService - delete() Comment with id 344 was deleted
+21.07.2021 18:57:56 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:57:56 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:57:57 [main] INFO  SimpleCommentService - register() Comment was saved Comment{id=345, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=0, commentsAmount=2}, date=2021-07-21, text='Test text for test'} 
+21.07.2021 18:57:57 [main] INFO  SimpleCommentService - delete() Comment with id 345 was deleted
+21.07.2021 18:57:57 [main] INFO  SimpleCommentService - findByBook() Comments by book Lord of the rings was found size = 1
+21.07.2021 18:57:57 [main] INFO  SimpleCommentService - delete() Comment with id 345 was deleted
+21.07.2021 18:57:57 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:57:57 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:57:57 [main] INFO  SimpleCommentService - register() Comment was saved Comment{id=346, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=0, commentsAmount=2}, date=2021-07-21, text='Test text for test'} 
+21.07.2021 18:57:58 [main] INFO  SimpleCommentService - delete() Comment with id 346 was deleted
+21.07.2021 18:57:58 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:57:58 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:57:58 [main] INFO  SimpleCommentService - register() Comment was saved Comment{id=347, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=0, commentsAmount=2}, date=2021-07-21, text='Test text for test'} 
+21.07.2021 18:57:58 [main] INFO  SimpleCommentService - delete() Comment with id 347 was deleted
+21.07.2021 18:57:58 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:57:58 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:57:58 [main] INFO  SimpleCommentService - register() Comment was saved Comment{id=348, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=0, commentsAmount=2}, date=2021-07-21, text='Test text for test'} 
+21.07.2021 18:57:59 [main] INFO  SimpleCommentService - findPage() Comments page number 1 was found size = 2
+21.07.2021 18:57:59 [main] INFO  SimpleCommentService - delete() Comment with id 348 was deleted
+21.07.2021 18:57:59 [main] INFO  SimpleUserService - findAll() All users was found size = 3
+21.07.2021 18:57:59 [main] INFO  SimpleBookService - findAll() All books were found size = 11
+21.07.2021 18:57:59 [main] INFO  SimpleCommentService - register() Comment was saved Comment{id=349, user=LibraryUser{id=101, login='master', password='$2a$04$vklBIZi/UTd0mkJ0XrfAFulYtvUl7HP2Y1ods9yEuBCpAFuM/1HSq', role=ADMIN, userSubscription=Subscription{id=160, startDate=2021-07-16, endDate=2021-07-23}}, book=Book{id=192, name='Lord of the rings', author=BookAuthor{id=128, name='Tolkien'}, genre=FANTASY, date=2021-06-29, pagesAmount=200, copiesAmount=1, description='Fantasy about hobbits', likesAmount=0, commentsAmount=2}, date=2021-07-21, text='Test text for test'} 
+21.07.2021 18:57:59 [main] INFO  SimpleCommentService - findByBook() Comments by book Lord of the rings was found size = 2
+21.07.2021 18:57:59 [main] INFO  SimpleCommentService - delete() Comment with id 349 was deleted

@@ -20,19 +20,16 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     private static final Logger logger = LogManager.getLogger(AbstractDao.class);
 
     private static final String GENERATED_KEY_COLUMN = "GENERATED_KEY";
-    private static final String SAVED_ENTITY_WAS_NOT_FOUND_BY_ID_MESSAGE = "Saved entity was not found by id %s";
-    private static final String ENTITY_WAS_SAVED_MESSAGE = "Entity %s was saved";
-    private static final String COULD_NOT_SAVE_ENTITY_MESSAGE = "Could not save entity %s ";
-    private static final String ENTITY_WAS_UPDATED_MESSAGE = "Entity %s was updated";
-    private static final String COULD_NOT_UPDATE_ENTITY_MESSAGE = "Could not update entity %s ";
+    private static final String SAVED_ENTITY_WAS_NOT_FOUND_BY_ID_MESSAGE = "Saved entity was not found by id %d %s";
+    private static final String ENTITY_WAS_SAVED_MESSAGE = "Entity was saved %s";
+    private static final String ENTITY_WAS_UPDATED_MESSAGE = "Entity was updated %s";
     private static final String ENTITY_WAS_DELETED_MESSAGE = "Entity with id %d was deleted";
-    private static final String COULD_NOT_DELETE_ENTITY_MESSAGE = "Could not delete entity with id %d";
-    private static final String ENTITIES_BY_PREPARED_SQL_WAS_FOUND_MESSAGE = "Entities by prepared sql was found %s";
-    private static final String COULD_NOT_FIND_ENTITIES_BY_PREPARED_SQL_MESSAGE = "Could not find entities by prepared sql was found %s";
-    private static final String ALL_ENTITIES_WAS_FOUND_MESSAGE = "All entities was found";
-    private static final String ALL_ENTITIES_WAS_NOT_FOUND_MESSAGE = "All entities was not found";
-    private static final String ENTITIES_ON_PAGE_WAS_FOUND_MESSAGE = "Entities on page %d was found";
-    private static final String COULD_NOT_FIND_NUMBER_OF_ROWS_MESSAGE = "Could not find number of rows";
+    private static final String ENTITIES_BY_PREPARED_SQL_WAS_FOUND_MESSAGE = "Entities by prepared sql was found size = %d";
+    private static final String ALL_ENTITIES_WAS_FOUND_MESSAGE = "All entities was found size = %d";
+    private static final String ENTITIES_ON_PAGE_WAS_FOUND_MESSAGE = "Entities on page %d was found size = %d";
+    private static final String SQL_EXCEPTION_HAPPENED_MESSAGE = "Exception happened when sql statement executed";
+    private static final String ENTITY_WAS_FOUND_BY_ID_MESSAGE = "Entity was found by id %d %s";
+    private static final String ENTITY_WAS_NOT_FOUND_BY_ID_MESSAGE = "Entity was not found by id %d";
 
     private static final String FIND_BY_ID_SQL_TEMPLATE = "%s where %s.id = ?";
     private static final String FIND_PAGE_SQL_TEMPLATE = "%s limit ?, ?";
@@ -70,15 +67,15 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
                 savedEntityId = generatedKeyResultSet.getLong(GENERATED_KEY_COLUMN);
             }
         } catch (SQLException e) {
-            logger.error(String.format(COULD_NOT_SAVE_ENTITY_MESSAGE, entity), e);
-            throw new DAOException(String.format(COULD_NOT_SAVE_ENTITY_MESSAGE, entity), e);
+            logger.error(SQL_EXCEPTION_HAPPENED_MESSAGE,e);
+            throw new DAOException(e);
         }
         Optional<T> savedEntity = findById(savedEntityId);
         if (!savedEntity.isPresent()) {
-            logger.error(String.format(SAVED_ENTITY_WAS_NOT_FOUND_BY_ID_MESSAGE, entity));
-            throw new DAOException(String.format(SAVED_ENTITY_WAS_NOT_FOUND_BY_ID_MESSAGE, entity));
+            logger.error(String.format(SAVED_ENTITY_WAS_NOT_FOUND_BY_ID_MESSAGE, savedEntityId, entity));
+            throw new DAOException(String.format(SAVED_ENTITY_WAS_NOT_FOUND_BY_ID_MESSAGE, savedEntityId, entity));
         } else {
-            logger.info(String.format(ENTITY_WAS_SAVED_MESSAGE, entity));
+            logger.info(String.format(ENTITY_WAS_SAVED_MESSAGE, savedEntity.get()));
             return savedEntity.get();
         }
     }
@@ -93,18 +90,33 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
                 final T foundEntity = mapResultSet(resultSet);
                 foundEntities.add(foundEntity);
             }
-            logger.info(ALL_ENTITIES_WAS_FOUND_MESSAGE);
+            logger.info(String.format(ALL_ENTITIES_WAS_FOUND_MESSAGE, foundEntities.size()));
             return foundEntities;
         } catch (SQLException e) {
-            logger.error(ALL_ENTITIES_WAS_NOT_FOUND_MESSAGE, e);
-            throw new DAOException(ALL_ENTITIES_WAS_FOUND_MESSAGE, e);
+            logger.error(SQL_EXCEPTION_HAPPENED_MESSAGE, e);
+            throw new DAOException(e);
         }
     }
 
     @Override
     public Optional<T> findById(Long id) {
-        final List<T> foundEntities = findPreparedEntities(findByIdSql, statement -> statement.setLong(1, id));
-        return foundEntities.stream().findAny();
+        try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
+             PreparedStatement findByIdStatement = connection.prepareStatement(findByIdSql)) {
+            findByIdStatement.setLong(1, id);
+            try (ResultSet resultSet = findByIdStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    final T foundEntity = mapResultSet(resultSet);
+                    logger.info(String.format(ENTITY_WAS_FOUND_BY_ID_MESSAGE, id, foundEntity));
+                    return Optional.of(foundEntity);
+                } else {
+                    logger.info(String.format(ENTITY_WAS_NOT_FOUND_BY_ID_MESSAGE, id));
+                    return Optional.empty();
+                }
+            }
+        } catch (SQLException e) {
+            logger.error(SQL_EXCEPTION_HAPPENED_MESSAGE, e);
+            throw new DAOException(e);
+        }
     }
 
     @Override
@@ -116,8 +128,8 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
             logger.info(String.format(ENTITY_WAS_UPDATED_MESSAGE, entity));
             return entity;
         } catch (SQLException e) {
-            logger.error(String.format(COULD_NOT_UPDATE_ENTITY_MESSAGE, entity), e);
-            throw new DAOException(String.format(COULD_NOT_UPDATE_ENTITY_MESSAGE, entity), e);
+            logger.error(SQL_EXCEPTION_HAPPENED_MESSAGE, e);
+            throw new DAOException(e);
         }
     }
 
@@ -129,8 +141,8 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
             deleteStatement.executeUpdate();
             logger.info(String.format(ENTITY_WAS_DELETED_MESSAGE, id));
         } catch (SQLException e) {
-            logger.error(String.format(COULD_NOT_DELETE_ENTITY_MESSAGE, id), e);
-            throw new DAOException(String.format(COULD_NOT_DELETE_ENTITY_MESSAGE, id), e);
+            logger.error(SQL_EXCEPTION_HAPPENED_MESSAGE, e);
+            throw new DAOException(e);
         }
     }
 
@@ -141,7 +153,7 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
             preparedStatement.setInt(1, offset);
             preparedStatement.setInt(2, RECORDS_PER_PAGE);
         });
-        logger.info(String.format(ENTITIES_ON_PAGE_WAS_FOUND_MESSAGE, pageNumber));
+        logger.info(String.format(ENTITIES_ON_PAGE_WAS_FOUND_MESSAGE, pageNumber, entitiesInCurrentPage.size()));
         return entitiesInCurrentPage;
     }
 
@@ -153,8 +165,8 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
             resultSet.next();
             return resultSet.getInt(1);
         } catch (SQLException e) {
-            logger.error(COULD_NOT_FIND_NUMBER_OF_ROWS_MESSAGE, e);
-            throw new DAOException(COULD_NOT_FIND_NUMBER_OF_ROWS_MESSAGE, e);
+            logger.error(SQL_EXCEPTION_HAPPENED_MESSAGE, e);
+            throw new DAOException(e);
         }
     }
 
@@ -172,16 +184,17 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
         try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(preparedSql)) {
             preparedStatementConsumer.accept(preparedStatement);
-            final ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                final T foundEntity = mapResultSet(resultSet);
-                foundEntities.add(foundEntity);
+            try (final ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    final T foundEntity = mapResultSet(resultSet);
+                    foundEntities.add(foundEntity);
+                }
+                logger.info(String.format(ENTITIES_BY_PREPARED_SQL_WAS_FOUND_MESSAGE, foundEntities.size()));
+                return foundEntities;
             }
-            logger.info(String.format(ENTITIES_BY_PREPARED_SQL_WAS_FOUND_MESSAGE, preparedSql));
-            return foundEntities;
         } catch (SQLException e) {
-            logger.error(String.format(COULD_NOT_FIND_ENTITIES_BY_PREPARED_SQL_MESSAGE, preparedSql), e);
-            throw new DAOException(String.format(COULD_NOT_FIND_ENTITIES_BY_PREPARED_SQL_MESSAGE, preparedSql), e);
+            logger.error(SQL_EXCEPTION_HAPPENED_MESSAGE, e);
+            throw new DAOException(e);
         }
     }
 

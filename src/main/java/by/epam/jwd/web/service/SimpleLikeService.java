@@ -14,10 +14,10 @@ import java.util.Optional;
 
 public class SimpleLikeService implements LikeService {
     private static final Logger logger = LogManager.getLogger(SimpleLikeService.class);
-    private static final String ALL_LIKES_WAS_FOUND_MESSAGE = "All likes was found";
-    private static final String LIKES_PAGE_WAS_FOUND_MESSAGE = "Likes page number %d was found";
+    private static final String ALL_LIKES_WAS_FOUND_MESSAGE = "All likes was found size = %d";
+    private static final String LIKES_PAGE_WAS_FOUND_MESSAGE = "Likes page number %d was found size = %d";
     private static final String SAVED_LIKE_WAS_NOT_FOUND_BY_ID_MESSAGE = "Saved like with id %d was not found";
-    private static final String SAVED_LIKE_WAS_FOUND_BY_UD_MESSAGE = "Saved like with id %d was found";
+    private static final String SAVED_LIKE_WAS_FOUND_BY_UD_MESSAGE = "Saved like with id %d was found %s";
     private static final String LIKE_WAS_SAVED_MESSAGE = "Like was saved %s";
     private static final String LIKE_WAS_DELETED_MESSAGE = "Like with id %d was deleted";
 
@@ -37,7 +37,7 @@ public class SimpleLikeService implements LikeService {
     @Override
     public List<Like> findAll() {
         final List<Like> allLikes = likeDao.findAll();
-        logger.info(ALL_LIKES_WAS_FOUND_MESSAGE);
+        logger.info(String.format(ALL_LIKES_WAS_FOUND_MESSAGE, allLikes.size()));
         return allLikes;
     }
 
@@ -51,7 +51,7 @@ public class SimpleLikeService implements LikeService {
         } else {
             likesPage = likeDao.findPage(currentPage);
         }
-        logger.info(String.format(LIKES_PAGE_WAS_FOUND_MESSAGE, currentPage));
+        logger.info(String.format(LIKES_PAGE_WAS_FOUND_MESSAGE, currentPage, likesPage.size()));
         return likesPage;
     }
 
@@ -63,7 +63,7 @@ public class SimpleLikeService implements LikeService {
             throw new ServiceException(String.format(SAVED_LIKE_WAS_NOT_FOUND_BY_ID_MESSAGE, entityId));
         }
         final Like foundLike = optionalLike.get();
-        logger.info(String.format(SAVED_LIKE_WAS_FOUND_BY_UD_MESSAGE, entityId));
+        logger.info(String.format(SAVED_LIKE_WAS_FOUND_BY_UD_MESSAGE, entityId, foundLike));
         return foundLike;
     }
 

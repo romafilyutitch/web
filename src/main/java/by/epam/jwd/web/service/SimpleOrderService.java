@@ -20,17 +20,16 @@ class SimpleOrderService implements OrderService {
 
     private final OrderDao orderDao = DAOFactory.getInstance().getOrderDao();
 
-    private static final String ALL_ORDERS_WERE_FOUND_MESSAGE = "All orders were found";
-    private static final String NO_FREE_COPY_MESSAGE = "There is no free copy of ordered book %s";
+    private static final String ALL_ORDERS_WERE_FOUND_MESSAGE = "All orders were found size = %d";
     private static final String ORDER_WAS_REGISTERED_MESSAGE = "Order was register %s";
-    private static final String PAGE_OF_ORDERS_WAS_FOUND_MESSAGE = "Page of orders number %d was found";
-    private static final String ORDER_WAS_APPROVED_MESSAGE = "Order %s was approved";
+    private static final String PAGE_OF_ORDERS_WAS_FOUND_MESSAGE = "Page of orders number %d was found size = %d";
+    private static final String ORDER_WAS_APPROVED_MESSAGE = "Order was approved %s";
     private static final String ORDER_WAS_DELETED_MESSAGE = "Order with id %d was deleted";
     private static final String ORDER_WAS_RETURNED_MESSAGE = "Order was returned %s";
-    private static final String ORDERS_BY_USER_WERE_FOUND_MESSAGE = "Orders by user was found %s";
-    private static final String ORDERS_BY_BOOK_WERE_FOUND_MESSAGE = "Orders by book was found %s";
+    private static final String ORDERS_BY_USER_WERE_FOUND_MESSAGE = "Orders by user was found %s size = %d";
+    private static final String ORDERS_BY_BOOK_WERE_FOUND_MESSAGE = "Orders by book was found %s size = %d";
     private static final String ORDER_BY_ID_WAS_NOT_FOUND_MESSAGE = "Saved order with id %d was not found";
-    private static final String ORDER_BY_ID_WAS_FOUND_MESSAGE = "Order by id was found %s";
+    private static final String ORDER_BY_ID_WAS_FOUND_MESSAGE = "Order by id %d was found %s";
 
     private SimpleOrderService() {
     }
@@ -42,7 +41,7 @@ class SimpleOrderService implements OrderService {
     @Override
     public List<Order> findAll() {
         List<Order> allFoundOrders = orderDao.findAll();
-        logger.info(ALL_ORDERS_WERE_FOUND_MESSAGE);
+        logger.info(String.format(ALL_ORDERS_WERE_FOUND_MESSAGE, allFoundOrders.size()));
         return allFoundOrders;
     }
 
@@ -73,7 +72,7 @@ class SimpleOrderService implements OrderService {
         } else {
             foundPage = orderDao.findPage(currentPage);
         }
-        logger.info(String.format(PAGE_OF_ORDERS_WAS_FOUND_MESSAGE, currentPage));
+        logger.info(String.format(PAGE_OF_ORDERS_WAS_FOUND_MESSAGE, currentPage, foundPage.size()));
         return foundPage;
     }
 
@@ -104,16 +103,16 @@ class SimpleOrderService implements OrderService {
 
     @Override
     public List<Order> findByUser(User user) {
-        List<Order> foundOrdersByReaderId = orderDao.findByUser(user);
-        logger.info(String.format(ORDERS_BY_USER_WERE_FOUND_MESSAGE, user));
-        return foundOrdersByReaderId;
+        List<Order> foundOrdersByUser = orderDao.findByUser(user);
+        logger.info(String.format(ORDERS_BY_USER_WERE_FOUND_MESSAGE, user, foundOrdersByUser.size()));
+        return foundOrdersByUser;
     }
 
     @Override
     public List<Order> findByBook(Book book) {
-        List<Order> foundOrdersByBookId = orderDao.findByBook(book);
-        logger.info(String.format(ORDERS_BY_BOOK_WERE_FOUND_MESSAGE, book));
-        return foundOrdersByBookId;
+        List<Order> foundOrdersByBook = orderDao.findByBook(book);
+        logger.info(String.format(ORDERS_BY_BOOK_WERE_FOUND_MESSAGE, book, foundOrdersByBook.size()));
+        return foundOrdersByBook;
     }
 
     @Override
@@ -124,7 +123,7 @@ class SimpleOrderService implements OrderService {
             throw new ServiceException(String.format(ORDER_BY_ID_WAS_NOT_FOUND_MESSAGE, orderId));
         }
         Order foundOrder = optionalBookOrder.get();
-        logger.info(String.format(ORDER_BY_ID_WAS_FOUND_MESSAGE, foundOrder));
+        logger.info(String.format(ORDER_BY_ID_WAS_FOUND_MESSAGE, orderId, foundOrder));
         return foundOrder;
     }
 

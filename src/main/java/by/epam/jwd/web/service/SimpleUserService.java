@@ -28,22 +28,23 @@ class SimpleUserService implements UserService {
     private final BCrypt.Verifyer verifyer = BCrypt.verifyer();
 
     private static final String START_DATE_IS_AFTER_END_DATE_MESSAGE = "Start date is after end date";
-    private static final String ALL_USERS_WERE_FOUND_MESSAGE = "All users was found";
-    private static final String USER_WITH_LOGIN_DOES_NOT_EXIST_MESSAGE = "User with login %s does not exist";
+    private static final String ALL_USERS_WERE_FOUND_MESSAGE = "All users was found size = %d";
+    private static final String USER_WITH_LOGIN_DOES_NOT_EXIST_MESSAGE = "User with entered login %s does not exist";
     private static final String WRONG_PASSWORD_WAS_ENTERED_MESSAGE = "Wrong password was entered";
-    private static final String PAGE_OF_USERS_WAS_FOUND_MESSAGE = "Page of users number %s was found";
+    private static final String PAGE_OF_USERS_WAS_FOUND_MESSAGE = "Page of users number %d was found size = %d";
     private static final String USER_WITH_LOGIN_ALREADY_EXISTS_MESSAGE = "User with login %s already exists";
     private static final String USER_WAS_SAVED_MESSAGE = "User was saved in database %s";
     private static final String USER_BY_ID_WAS_NOT_FOUND_MESSAGE = "Saved user with id %d was not found";
-    private static final String USER_BY_ID_WAS_FOUND_MESSAGE = "User was found by id %s";
-    private static final String USER_ROLE_WAS_PROMOTED_MESSAGE = "Role was promoted for user %s";
-    private static final String USER_ROLE_WAS_DEMOTED_MESSAGE = "Role was demoted for user %s";
+    private static final String USER_BY_ID_WAS_FOUND_MESSAGE = "User was found by id %d %s";
+    private static final String USER_ROLE_WAS_PROMOTED_MESSAGE = "Role was promoted to %s for user %s";
+    private static final String USER_ROLE_WAS_DEMOTED_MESSAGE = "Role was demoted to %s for user %s";
     private static final String USER_WAS_DELETED_MESSAGE = "User with id %d was deleted";
     private static final String SUBSCRIPTION_WAS_SET_MESSAGE = "New subscription was set to user %s";
     private static final String LOGIN_WAS_CHANGED_MESSAGE = "New login was set to user %s";
     private static final String PASSWORD_WAS_CHANGED_MESSAGE = "New password was set to user %s";
-    private static final String SUBSCRIPTION_WAS_NOT_FOUND_MESSAGE = "Saved subscription with id %d was not found";
-    private static final String USER_WAS_LOGGED_IN_MESSAGE = "User %s was logged in";
+    private static final String USER_WAS_LOGGED_IN_MESSAGE = "User was logged in %s";
+    private static final String USER_BY_LOGIN_WAS_NOT_FOUND_MESSAGE = "User by login %s was not found";
+    private static final String USER_BY_LOGIN_WAS_FOUND_MESSAGE = "User by login %s was found %s";
 
     private SimpleUserService() {
     }
@@ -55,26 +56,32 @@ class SimpleUserService implements UserService {
     @Override
     public List<User> findAll() {
         List<User> allUsers = userDao.findAll();
-        logger.info(ALL_USERS_WERE_FOUND_MESSAGE);
+        logger.info(String.format(ALL_USERS_WERE_FOUND_MESSAGE, allUsers.size()));
         return allUsers;
     }
 
     @Override
     public Optional<User> findByLogin(String login) {
-        return userDao.findUserByLogin(login);
+        final Optional<User> optionalUser = userDao.findUserByLogin(login);
+        if (optionalUser.isPresent()) {
+            logger.info(String.format(USER_BY_LOGIN_WAS_FOUND_MESSAGE, login, optionalUser.get()));
+        } else {
+            logger.info(String.format(USER_BY_LOGIN_WAS_NOT_FOUND_MESSAGE, login));
+        }
+        return optionalUser;
     }
 
     @Override
     public User loginUser(User user) throws NoUserWithLoginException, WrongPasswordException {
         final Optional<User> optionalUser = userDao.findUserByLogin(user.getLogin());
         if (!optionalUser.isPresent()) {
-            logger.info(String.format(USER_WITH_LOGIN_DOES_NOT_EXIST_MESSAGE, user.getLogin()));
+            logger.error(String.format(USER_WITH_LOGIN_DOES_NOT_EXIST_MESSAGE, user.getLogin()));
             throw new NoUserWithLoginException();
         }
         User foundUser = optionalUser.get();
         final BCrypt.Result verifyResult = verifyer.verify(user.getPassword().toCharArray(), foundUser.getPassword().toCharArray());
         if (!verifyResult.verified) {
-            logger.info(WRONG_PASSWORD_WAS_ENTERED_MESSAGE);
+            logger.error(WRONG_PASSWORD_WAS_ENTERED_MESSAGE);
             throw new WrongPasswordException();
         }
         logger.info(String.format(USER_WAS_LOGGED_IN_MESSAGE, foundUser.getLogin()));
@@ -91,7 +98,7 @@ class SimpleUserService implements UserService {
         } else {
             foundPage = userDao.findPage(currentPage);
         }
-        logger.info(String.format(PAGE_OF_USERS_WAS_FOUND_MESSAGE, currentPage));
+        logger.info(String.format(PAGE_OF_USERS_WAS_FOUND_MESSAGE, currentPage, foundPage.size()));
         return foundPage;
     }
 
@@ -104,7 +111,7 @@ class SimpleUserService implements UserService {
     public User register(User user) {
         final String encryptedPassword = hasher.hashToString(BCrypt.MIN_COST, user.getPassword().toCharArray());
         final User savedUser = userDao.save(new User(user.getLogin(), encryptedPassword, UserRole.READER, null));
-        logger.info(String.format(USER_WAS_SAVED_MESSAGE, user));
+        logger.info(String.format(USER_WAS_SAVED_MESSAGE, savedUser));
         return savedUser;
     }
 
@@ -116,7 +123,7 @@ class SimpleUserService implements UserService {
             throw new ServiceException(String.format(USER_BY_ID_WAS_NOT_FOUND_MESSAGE, userId));
         }
         User foundUser = optionalUser.get();
-        logger.info(String.format(USER_BY_ID_WAS_FOUND_MESSAGE, foundUser));
+        logger.info(String.format(USER_BY_ID_WAS_FOUND_MESSAGE, userId, foundUser));
         return foundUser;
     }
 
@@ -125,7 +132,7 @@ class SimpleUserService implements UserService {
         final UserRole promotedRole = user.getRole().promote();
         final User userToPromote = new User(user.getId(), user.getLogin(), user.getPassword(), promotedRole, user.getSubscription());
         final User promotedUser = userDao.update(userToPromote);
-        logger.info(String.format(USER_ROLE_WAS_PROMOTED_MESSAGE, promotedUser));
+        logger.info(String.format(USER_ROLE_WAS_PROMOTED_MESSAGE, promotedRole, promotedUser));
     }
 
     @Override
@@ -133,7 +140,7 @@ class SimpleUserService implements UserService {
         final UserRole demotedRole = user.getRole().demote();
         final User userToDemote = new User(user.getId(), user.getLogin(), user.getPassword(), demotedRole, user.getSubscription());
         final User demotedUser = userDao.update(userToDemote);
-        logger.info(String.format(USER_ROLE_WAS_DEMOTED_MESSAGE, demotedUser));
+        logger.info(String.format(USER_ROLE_WAS_DEMOTED_MESSAGE, demotedRole, demotedUser));
     }
 
     @Override

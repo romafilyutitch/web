@@ -6,4 +6,8 @@ public class ConnectionPoolActionException extends RuntimeException {
         super(message, cause);
     }
 
+    public ConnectionPoolActionException(Throwable cause) {
+        super(cause);
+    }
+
 }

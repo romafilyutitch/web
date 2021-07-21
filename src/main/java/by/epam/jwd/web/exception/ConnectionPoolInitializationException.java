@@ -6,4 +6,8 @@ public class ConnectionPoolInitializationException extends Exception {
         super(message, cause);
     }
 
+    public ConnectionPoolInitializationException(Throwable cause) {
+        super(cause);
+    }
+
 }
