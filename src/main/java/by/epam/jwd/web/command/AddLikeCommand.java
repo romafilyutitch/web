@@ -8,6 +8,7 @@ import by.epam.jwd.web.service.LikeService;
 import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 public class AddLikeCommand implements ActionCommand {
@@ -16,6 +17,9 @@ public class AddLikeCommand implements ActionCommand {
 
     private static final String REQUEST_BOOK_ID_PARAMETER_KEY = "id";
     private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
+    private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
+    private static final String LIKE_ADDED_LOCALIZATION_MESSAGE_KEY = "likeAdded";
+    private static final String LIKE_REMOVED_LOCALIZATION_MESSAGE_KEY = "likeRemoved";
 
     private static final String RESULT_PATH = "index.jsp";
 
@@ -28,16 +32,19 @@ public class AddLikeCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        final User user = (User) request.getSession().getAttribute(SESSION_USER_ATTRIBUTE_KEY);
+        final HttpSession session = request.getSession();
+        final User user = (User) session.getAttribute(SESSION_USER_ATTRIBUTE_KEY);
         final Long bookId = Long.valueOf(request.getParameter(REQUEST_BOOK_ID_PARAMETER_KEY));
         final Book foundBook = bookService.findById(bookId);
         final Optional<Like> optionalLike = likeService.findByUserAndBook(user, foundBook);
         if (optionalLike.isPresent()) {
             final Like foundLike = optionalLike.get();
             likeService.delete(foundLike.getId());
+            session.setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, LIKE_REMOVED_LOCALIZATION_MESSAGE_KEY);
         } else {
             final Like like = new Like(user, foundBook);
             likeService.register(like);
+            session.setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, LIKE_ADDED_LOCALIZATION_MESSAGE_KEY);
         }
         return new CommandResult() {
             @Override
