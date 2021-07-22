@@ -68,7 +68,7 @@ public class SimpleLikeService implements LikeService {
     }
 
     @Override
-    public Like register(Like entity) {
+    public Like save(Like entity) {
         final Like savedLike = likeDao.save(entity);
         logger.info(String.format(LIKE_WAS_SAVED_MESSAGE, savedLike));
         return savedLike;

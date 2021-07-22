@@ -46,7 +46,7 @@ public class AddBookCommand implements ActionCommand {
         if (optionalBook.isPresent()) {
             request.getSession().setAttribute(SESSION_FAIL_ATTRIBUTE_KEY, BOOK_EXISTS_LOCALIZATION_MESSAGE_KEY);
         } else {
-            bookService.register(book);
+            bookService.save(book);
             request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, BOOK_REGISTERED_LOCALIZATION_MESSAGE_KEY);
         }
         return new CommandResult() {

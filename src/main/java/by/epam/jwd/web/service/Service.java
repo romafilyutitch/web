@@ -12,7 +12,7 @@ public interface Service<T extends DbEntity> {
 
     T findById(Long entityId);
 
-    T register(T entity);
+    T save(T entity);
 
     void delete(Long entityId);
 

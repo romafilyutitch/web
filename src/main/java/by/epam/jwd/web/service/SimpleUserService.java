@@ -73,7 +73,7 @@ class SimpleUserService implements UserService {
     }
 
     @Override
-    public User loginUser(User user) throws NoUserWithLoginException, WrongPasswordException {
+    public User login(User user) throws NoUserWithLoginException, WrongPasswordException {
         final Optional<User> optionalUser = userDao.findUserByLogin(user.getLogin());
         if (!optionalUser.isPresent()) {
             logger.error(String.format(USER_WITH_LOGIN_DOES_NOT_EXIST_MESSAGE, user.getLogin()));
@@ -109,7 +109,7 @@ class SimpleUserService implements UserService {
     }
 
     @Override
-    public User register(User user) {
+    public User save(User user) {
         final String encryptedPassword = hasher.hashToString(BCrypt.MIN_COST, user.getPassword().toCharArray());
         final User savedUser = userDao.save(new User(user.getLogin(), encryptedPassword, UserRole.READER, null));
         logger.info(String.format(USER_WAS_SAVED_MESSAGE, savedUser));
@@ -129,7 +129,7 @@ class SimpleUserService implements UserService {
     }
 
     @Override
-    public void promoteUserRole(User user) {
+    public void promoteRole(User user) {
         final UserRole promotedRole = user.getRole().promote();
         final User userToPromote = new User(user.getId(), user.getLogin(), user.getPassword(), promotedRole, user.getSubscription());
         final User promotedUser = userDao.update(userToPromote);
@@ -137,7 +137,7 @@ class SimpleUserService implements UserService {
     }
 
     @Override
-    public void demoteUserRole(User user) {
+    public void demoteRole(User user) {
         final UserRole demotedRole = user.getRole().demote();
         final User userToDemote = new User(user.getId(), user.getLogin(), user.getPassword(), demotedRole, user.getSubscription());
         final User demotedUser = userDao.update(userToDemote);

@@ -37,7 +37,7 @@ public class SimpleLikeServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        testLike = testService.register(testLike);
+        testLike = testService.save(testLike);
     }
 
     @After

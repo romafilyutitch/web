@@ -38,7 +38,7 @@ public class LoginCommand implements ActionCommand {
         String password = request.getParameter(REQUEST_PASSWORD_PARAMETER_KEY);
         final User user = new User(login, password, UserRole.READER, null);
         try {
-            final User savedUser = userService.loginUser(user);
+            final User savedUser = userService.login(user);
             final HttpSession session = request.getSession();
             session.setAttribute(SESSION_USER_ATTRIBUTE_KEY, savedUser);
             session.setAttribute(SESSION_CURRENT_DATE_ATTRIBUTE_KEY, LocalDate.now());

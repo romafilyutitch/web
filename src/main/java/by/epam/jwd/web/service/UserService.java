@@ -11,13 +11,13 @@ import java.util.Optional;
 
 public interface UserService extends Service<User> {
 
-    User loginUser(User user) throws NoUserWithLoginException, WrongPasswordException;
+    User login(User user) throws NoUserWithLoginException, WrongPasswordException;
 
     Optional<User> findByLogin(String login);
 
-    void promoteUserRole(User user);
+    void promoteRole(User user);
 
-    void demoteUserRole(User user);
+    void demoteRole(User user);
 
     void setSubscription(User user, Subscription newSubscription) throws InvalidSubscriptionException;
 

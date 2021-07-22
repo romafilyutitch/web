@@ -45,7 +45,7 @@ public class SimpleUserServiceTest {
 
     @Before
     public void saveUser() {
-        testUser = testService.register(testUser);
+        testUser = testService.save(testUser);
     }
 
     @After
@@ -67,7 +67,7 @@ public class SimpleUserServiceTest {
 
     @Test
     public void loginUser_mustLogInExistUser() throws NoUserWithLoginException, WrongPasswordException {
-        final User loggedInUser = testService.loginUser(new User("123", "123", UserRole.READER));
+        final User loggedInUser = testService.login(new User("123", "123", UserRole.READER));
         assertNotNull("Logged in user instance must be not null", loggedInUser);
         assertEquals("Logged in user must be equal to test user", loggedInUser, testUser);
     }
@@ -75,12 +75,12 @@ public class SimpleUserServiceTest {
     @Test(expected = NoUserWithLoginException.class)
     public void loginUser_mustThrowException_whenUserWithLoginDoesNotExist() throws NoUserWithLoginException, WrongPasswordException {
         testService.delete(testUser.getId());
-        testService.loginUser(testUser);
+        testService.login(testUser);
     }
 
     @Test(expected = WrongPasswordException.class)
     public void loginUser_mustThrowException_whenWrongPasswordPassed() throws NoUserWithLoginException, WrongPasswordException {
-        testService.loginUser(new User("123", "WRONG_PASSWORD", UserRole.READER, null));
+        testService.login(new User("123", "WRONG_PASSWORD", UserRole.READER, null));
     }
 
     @Test
@@ -119,7 +119,7 @@ public class SimpleUserServiceTest {
     @Test
     public void promoteUserRole_mustReturnUserWithPromotedRole() {
         final UserRole startUserRole = testUser.getRole();
-        testService.promoteUserRole(testUser);
+        testService.promoteRole(testUser);
         final User foundUser = testService.findById(testUser.getId());
         final UserRole promotedRole = foundUser.getRole();
 
@@ -129,7 +129,7 @@ public class SimpleUserServiceTest {
     @Test
     public void demoteUserRole_mustReturnUserWithDemotedRole() {
         final UserRole startUserRole = testUser.getRole();
-        testService.demoteUserRole(testUser);
+        testService.demoteRole(testUser);
         final User foundUser = testService.findById(testUser.getId());
         final UserRole demotedUserRole = foundUser.getRole();
 

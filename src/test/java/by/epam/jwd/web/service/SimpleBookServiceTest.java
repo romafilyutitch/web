@@ -38,7 +38,7 @@ public class SimpleBookServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        testBook = testService.register(testBook);
+        testBook = testService.save(testBook);
     }
 
     @After

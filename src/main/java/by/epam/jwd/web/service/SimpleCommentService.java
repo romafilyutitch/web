@@ -72,7 +72,7 @@ public class SimpleCommentService implements CommentService {
     }
 
     @Override
-    public Comment register(Comment entity) {
+    public Comment save(Comment entity) {
         final Comment savedComment = commentDao.save(entity);
         logger.info(String.format(COMMENT_WAS_SAVED_MESSAGE, savedComment));
         return savedComment;

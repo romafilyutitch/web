@@ -46,7 +46,7 @@ class SimpleOrderService implements OrderService {
     }
 
     @Override
-    public Order register(Order order) {
+    public Order save(Order order) {
         final Subscription subscription = order.getUser().getSubscription();
         Order savedOrder = orderDao.save(order);
         if (subscription != null) {

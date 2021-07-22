@@ -95,7 +95,7 @@ class SimpleBookService implements BookService {
     }
 
     @Override
-    public Book register(Book book) {
+    public Book save(Book book) {
         final Book bookToSave;
         final Optional<Author> optionalAuthor = authorDao.getByName(book.getAuthor().getName());
         if (!optionalAuthor.isPresent()) {

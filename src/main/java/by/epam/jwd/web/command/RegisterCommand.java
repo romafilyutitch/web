@@ -47,7 +47,7 @@ public class RegisterCommand implements ActionCommand {
                 }
             };
         } else {
-            final User registeredUser = userService.register(user);
+            final User registeredUser = userService.save(user);
             request.getSession().setAttribute(SESSION_USER_ATTRIBUTE_KEY, registeredUser);
             return new CommandResult() {
                 @Override

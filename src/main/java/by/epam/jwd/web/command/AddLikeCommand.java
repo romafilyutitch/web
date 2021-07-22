@@ -43,7 +43,7 @@ public class AddLikeCommand implements ActionCommand {
             session.setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, LIKE_REMOVED_LOCALIZATION_MESSAGE_KEY);
         } else {
             final Like like = new Like(user, foundBook);
-            likeService.register(like);
+            likeService.save(like);
             session.setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, LIKE_ADDED_LOCALIZATION_MESSAGE_KEY);
         }
         return new CommandResult() {

@@ -36,7 +36,7 @@ public class SimpleCommentServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        testComment = testService.register(testComment);
+        testComment = testService.save(testComment);
     }
 
     @After

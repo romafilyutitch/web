@@ -38,7 +38,7 @@ public class SimpleOrderServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        testOrder = testService.register(testOrder);
+        testOrder = testService.save(testOrder);
     }
 
     @After

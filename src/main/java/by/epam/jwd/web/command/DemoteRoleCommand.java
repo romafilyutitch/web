@@ -26,7 +26,7 @@ public class DemoteRoleCommand implements ActionCommand {
     public CommandResult execute(HttpServletRequest request) {
         final Long id = Long.valueOf(request.getParameter(REQUEST_USER_ID_PARAMETER_KEY));
         final User foundUser = userService.findById(id);
-        userService.demoteUserRole(foundUser);
+        userService.demoteRole(foundUser);
         request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, ROLE_DEMOTED_LOCALIZATION_MESSAGE_KEY);
         return new CommandResult() {
             @Override

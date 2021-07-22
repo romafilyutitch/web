@@ -37,7 +37,7 @@ public class AddCommentCommand implements ActionCommand {
         final String text = request.getParameter(REQUEST_TEXT_PARAMETER_KEY);
         final Book book = bookService.findById(bookId);
         final Comment comment = new Comment(user, book, LocalDate.now(), text);
-        commentService.register(comment);
+        commentService.save(comment);
         session.setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, COMMENT_ADDED_LOCALIZATION_MESSAGE_KEY);
         return new CommandResult() {
             @Override

@@ -40,7 +40,7 @@ public class OrderBookCommand implements ActionCommand {
         if (book.getCopiesAmount() == 0) {
             request.getSession().setAttribute(SESSION_FAIL_ATTRIBUTE_KEY, NO_COPY_LOCALIZATION_MESSAGE_KEY);
         } else {
-            orderService.register(order);
+            orderService.save(order);
             bookService.removeOneCopy(book);
             request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, BOOK_WAS_ORDER_LOCALIZATION_MESSAGE_KEY);
         }
