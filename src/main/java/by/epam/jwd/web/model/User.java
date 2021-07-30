@@ -25,6 +25,10 @@ public class User implements DbEntity {
         this(null, login, password, role, null);
     }
 
+    public User(String login , String password) {
+        this(login, password, UserRole.READER);
+    }
+
     @Override
     public Long getId() {
         return id;

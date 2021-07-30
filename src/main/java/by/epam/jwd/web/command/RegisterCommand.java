@@ -16,9 +16,10 @@ public class RegisterCommand implements ActionCommand {
     private static final String REQUEST_ERROR_ATTRIBUTE_KEY = "error";
     private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
     private static final String LOGIN_EXISTS_LOCALIZATION_MESSAGE_KEY = "loginExists";
+    private static final String REQUEST_SUCCESS_ATTRIBUTE_KEY = "success";
+    private static final String USER_WAS_REGISTERED_LOCALIZATION_MESSAGE_KEY = "userWasRegistered";
 
-    private static final String SUCCESS_RESULT_PATH = "index.jsp";
-    private static final String ERROR_RESULT_PATH = "WEB-INF/jsp/register.jsp";
+    private static final String RESULT_PATH = "WEB-INF/jsp/register.jsp";
 
     private RegisterCommand() {
     }
@@ -31,36 +32,26 @@ public class RegisterCommand implements ActionCommand {
     public CommandResult execute(HttpServletRequest request) {
         final String login = request.getParameter(REQUEST_LOGIN_PARAMETER_KEY);
         final String password = request.getParameter(REQUEST_PASSWORD_PARAMETER_KEY);
-        final User user = new User(login, password, UserRole.READER, null);
+        final User user = new User(login, password);
         final Optional<User> optionalUserByLogin = userService.findByLogin(login);
         if (optionalUserByLogin.isPresent()) {
             request.setAttribute(REQUEST_ERROR_ATTRIBUTE_KEY, LOGIN_EXISTS_LOCALIZATION_MESSAGE_KEY);
-            return new CommandResult() {
-                @Override
-                public String getResultPath() {
-                    return ERROR_RESULT_PATH;
-                }
-
-                @Override
-                public boolean isRedirect() {
-                    return false;
-                }
-            };
         } else {
             final User registeredUser = userService.save(user);
             request.getSession().setAttribute(SESSION_USER_ATTRIBUTE_KEY, registeredUser);
-            return new CommandResult() {
-                @Override
-                public String getResultPath() {
-                    return SUCCESS_RESULT_PATH;
-                }
-
-                @Override
-                public boolean isRedirect() {
-                    return true;
-                }
-            };
+            request.setAttribute(REQUEST_SUCCESS_ATTRIBUTE_KEY, USER_WAS_REGISTERED_LOCALIZATION_MESSAGE_KEY);
         }
+        return new CommandResult() {
+            @Override
+            public String getResultPath() {
+                return RESULT_PATH;
+            }
+
+            @Override
+            public boolean isRedirect() {
+                return false;
+            }
+        };
     }
 
     private static class Singleton {

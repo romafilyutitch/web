@@ -21,9 +21,9 @@ public class AddCommentCommand implements ActionCommand {
     private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
     private static final String COMMENT_ADDED_LOCALIZATION_MESSAGE_KEY = "commentAdded";
 
-    private static final String RESULT_PATH = "index.jsp";
+    private static final String RESULT_PATH = "controller?command=main";
 
-    private AddCommentCommand() {};
+    private AddCommentCommand() {}
 
     public static AddCommentCommand getInstance() {
         return Singleton.INSTANCE;
@@ -47,7 +47,7 @@ public class AddCommentCommand implements ActionCommand {
 
             @Override
             public boolean isRedirect() {
-                return true;
+                return false;
             }
         };
     }

@@ -15,7 +15,7 @@ public class ChangePasswordCommand implements ActionCommand {
     private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
     private static final String PASSWORD_CHANGED_LOCALIZATION_MESSAGE_KEY = "passwordChanged";
 
-    private static final String RESULT_PATH = "index.jsp";
+    private static final String RESULT_PATH = "WEB-INF/jsp/account.jsp";
 
     private ChangePasswordCommand() {
     }
@@ -30,7 +30,7 @@ public class ChangePasswordCommand implements ActionCommand {
         final HttpSession session = request.getSession();
         final User user = (User) session.getAttribute(SESSION_USER_ATTRIBUTE_KEY);
         final User userWithChangedPassword = userService.changePassword(user, newPassword);
-        session.setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, PASSWORD_CHANGED_LOCALIZATION_MESSAGE_KEY);
+        request.setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, PASSWORD_CHANGED_LOCALIZATION_MESSAGE_KEY);
         session.setAttribute(SESSION_USER_ATTRIBUTE_KEY, userWithChangedPassword);
         return new CommandResult() {
             @Override
@@ -40,7 +40,7 @@ public class ChangePasswordCommand implements ActionCommand {
 
             @Override
             public boolean isRedirect() {
-                return true;
+                return false;
             }
         };
     }

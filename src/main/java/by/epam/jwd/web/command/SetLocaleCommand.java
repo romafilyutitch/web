@@ -7,7 +7,7 @@ public class SetLocaleCommand implements ActionCommand {
     private static final String REQUEST_LOCALE_PARAMETER_KEY = "locale";
     private static final String SESSION_LOCALE_ATTRIBUTE_KEY = "locale";
 
-    private static final String RESULT_PATH = "index.jsp";
+    private static final String RESULT_PATH = "controller?command=main";
 
     private SetLocaleCommand() {
     }

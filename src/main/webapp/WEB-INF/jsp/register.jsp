@@ -18,12 +18,18 @@
             <a class="alert-link" href="controller?command=show_register"><fmt:message key="try"/></a>
         </div>
     </c:when>
+    <c:when test="${not empty requestScope.success}">
+        <div class="alert alert-success">
+            <fmt:message key="${requestScope.success}"/>
+            <a class="alert-link" href="controller?command=main"><fmt:message key="main"/></a>
+        </div>
+    </c:when>
     <c:otherwise>
         <div class="container">
             <div class="row justify-content-center align-items-center">
                 <div class="col-md-6">
                     <div class="col-md-12">
-                        <form class="needs-validation" name="loginForm" method="POST" action="controller" novalidate>
+                        <form id="registerForm"  method="POST" action="controller" novalidate>
                             <input type="hidden" name="command" value="register">
                             <div class="mb-3">
                                 <label for="login"><fmt:message key="login"/></label>
@@ -48,6 +54,6 @@
         </div>
     </c:otherwise>
 </c:choose>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/formValidation.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/register.js"></script>
 </body>
 </html>

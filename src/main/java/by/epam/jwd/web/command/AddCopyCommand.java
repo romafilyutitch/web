@@ -13,7 +13,7 @@ public class AddCopyCommand implements ActionCommand {
     private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
     private static final String COPY_ADDED_LOCALIZATION_MESSAGE_KEY = "copyAdded";
 
-    private static final String RESULT_PATH = "index.jsp";
+    private static final String RESULT_PATH = "controller?command=show_books";
 
     private AddCopyCommand() {
     }
@@ -36,7 +36,7 @@ public class AddCopyCommand implements ActionCommand {
 
             @Override
             public boolean isRedirect() {
-                return true;
+                return false;
             }
         };
     }

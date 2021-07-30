@@ -36,38 +36,26 @@
                         <td><fmt:message key="deleteBook"/></td>
                     </tr>
                     </thead>
-                    <c:forEach var="book" items="${requestScope.books}">
+                    <c:forEach var="order" items="${requestScope.books}">
                         <tr>
-                            <td>${book.name}</td>
-                            <td>${book.author.name}</td>
-                            <td><fmt:message key="${book.genre}"/></td>
-                            <td>${ctg:localDateParser(book.date, sessionScope.locale)}</td>
-                            <td>${book.pagesAmount}</td>
-                            <td>${book.copiesAmount}</td>
-                            <td>${book.description}</td>
+                            <td>${order.name}</td>
+                            <td>${order.author.name}</td>
+                            <td><fmt:message key="${order.genre}"/></td>
+                            <td>${ctg:localDateParser(order.date, sessionScope.locale)}</td>
+                            <td>${order.pagesAmount}</td>
+                            <td>${order.copiesAmount}</td>
+                            <td>${order.description}</td>
                             <td>
-                                <form name="add one copy" action="controller" method="POST">
-                                    <input type="hidden" name="command" value="add_copy">
-                                    <input type="hidden" name="id" value="${book.id}">
-                                    <button class="btn btn-outline-primary" type="submit"><fmt:message key="addCopy"/></button>
-                                </form>
+                                <button class="btn btn-outline-primary" onclick="addOneCopyOfBook(${order.id})"><fmt:message key="addCopy"/></button>
                             </td>
                             <td>
-                                <c:if test="${book.copiesAmount gt 0}">
-                                    <form name="remove one copy" action="controller" method="POST">
-                                        <input type="hidden" name="command" value="remove_copy">
-                                        <input type="hidden" name="id" value="${book.id}">
-                                        <button class="btn btn-outline-primary" type="submit"><fmt:message key="removeCopy"/></button>
-                                    </form>
+                                <c:if test="${order.copiesAmount gt 0}">
+                                    <button class="btn btn-outline-primary" onclick="removeOneCopyOfBook(${order.id})"><fmt:message key="removeCopy"/></button>
                                 </c:if>
                             </td>
                             <td>
-                                <c:if test="${book.copiesAmount eq 0}">
-                                    <form name="delete book" action="controller" method="POST">
-                                        <input type="hidden" name="command" value="delete_book">
-                                        <input type="hidden" name="id" value="${book.id}">
-                                        <button class="btn btn-danger" type="submit"><fmt:message key="deleteBook"/></button>
-                                    </form>
+                                <c:if test="${order.copiesAmount eq 1}">
+                                    <button class="btn btn-danger" onclick="deleteBook(${order.id})"><fmt:message key="deleteBook"/></button>
                                 </c:if>
                             </td>
                         </tr>
@@ -81,24 +69,28 @@
             <nav>
                 <ul class="pagination pagination-lg justify-content-center">
                     <c:if test="${requestScope.currentPageNumber ne 1}">
-                        <li class="page-item"><a class="page-link" href="controller?command=show_books&page=${requestScope.currentPageNumber - 1}"><fmt:message key="previous"/></a></li>
+                        <li class="page-item">
+                            <button class="page-link" onclick="findPage(${requestScope.currentPageNumber - 1})"><fmt:message key="previous"/></button>
+                        </li>
                     </c:if>
                     <c:forEach begin="1" end="${requestScope.pagesAmount}" var="i">
                         <c:choose>
                             <c:when test="${i eq requestScope.currentPageNumber}">
                                 <li class="page-item active">
-                                    <a class="page-link" href="controller?command=show_books&page=${i}">${i}</a>
+                                    <button class="page-link" onclick="findPage(${i})">${i}</button>
                                 </li>
                             </c:when>
                             <c:otherwise>
                                 <li class="page-item">
-                                    <a class="page-link" href="controller?command=show_books&page=${i}">${i}</a>
+                                    <button class="page-link" onclick="findPage(${i})">${i}</button>
                                 </li>
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>
                     <c:if test="${requestScope.currentPageNumber lt requestScope.pagesAmount}">
-                        <li class="page-item"><a class="page-link" href="controller?command=show_books&page=${requestScope.currentPageNumber + 1}"><fmt:message key="next"/></a></li>
+                        <li class="page-item">
+                            <button class="page-link" onclick="findPage(${requestScope.currentPageNumber + 1})"><fmt:message key="next"/></button>
+                        </li>
                     </c:if>
                 </ul>
             </nav>
@@ -107,17 +99,17 @@
 </div>
 <div class="container">
     <div class="row row-cols-auto justify-content-center">
-            <form class="needs-validation" action="controller" method="post" novalidate>
+            <form id="addNewBookForm" action="controller" method="post" novalidate>
                 <input type="hidden" name="command" value="add_book">
                 <div class="col">
                     <label for="name" class="form-label"><fmt:message key="name"/></label>
-                    <input id="name" class="form-control" type="text" name="name" required pattern="^\S[A-Za-z0-9\s]+$">
+                    <input id="name" class="form-control" type="text" name="name" required pattern="[A-Za-z0-9\s]+">
                     <div class="valid-feedback"><fmt:message key="validName"/></div>
                     <div class="invalid-feedback"><fmt:message key="invalidName"/></div>
                 </div>
                 <div class=col">
                     <label for="author" class="form-label"><fmt:message key="author"/></label>
-                    <input id="author" class="form-control" type="text" name="author" required pattern="^\S[A-Za-z\s]+$">
+                    <input id="author" class="form-control" type="text" name="author" required pattern="[A-Za-z\s]+">
                     <div class="valid-feedback"><fmt:message key="validAuthor"/></div>
                     <div class="invalid-feedback"><fmt:message key="invalidAuthor"/></div>
                 </div>
@@ -130,12 +122,6 @@
                         </select>
                 </div>
                 <div class="col">
-                    <label for="date" class="form-label"><fmt:message key="date"/></label>
-                    <input id="date" class="form-control" type="date" required max="${sessionScope.currentDate}" name="date">
-                    <div class="valid-feedback"><fmt:message key="validDate"/></div>
-                    <div class="invalid-feedback"><fmt:message key="invalidDate"/></div>
-                </div>
-                <div class="col">
                     <label for="pages" class="form-label"><fmt:message key="pages"/></label>
                     <input id="pages" class="form-control" type="number" required min = "1" step = "1" name="pages">
                     <div class="valid-feedback"><fmt:message key="validPages"/></div>
@@ -143,7 +129,7 @@
                 </div>
                 <div class="col">
                     <label for="description" class="form-label"><fmt:message key="description"/></label>
-                    <input id="description" class="form-control" type="text" required pattern="^\S[A-Za-z0-9.,-'\s]+$" name="description">
+                    <textarea id="description" class="form-control" name="description" required></textarea>
                     <div class="valid-feedback"><fmt:message key="validDescription"/></div>
                     <div class="invalid-feedback"><fmt:message key="invalidDescription"/></div>
                 </div>
@@ -152,6 +138,6 @@
         </div>
 </div>
 <a class="btn btn-primary" href="controller?command=main"><fmt:message key="main"/></a>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/formValidation.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/books.js"></script>
 </body>
 </html>

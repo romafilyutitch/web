@@ -13,7 +13,7 @@ public class DeleteCommentCommand implements ActionCommand{
     private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
     private static final String COMMENT_DELETED_LOCALIZATION_MESSAGE_KEY = "commentDeleted";
 
-    private static final String RESULT_PATH = "index.jsp";
+    private static final String RESULT_PATH = "controller?command=main";
 
     private DeleteCommentCommand() {}
 

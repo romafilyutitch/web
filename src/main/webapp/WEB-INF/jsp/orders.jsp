@@ -33,26 +33,18 @@
                             <td><fmt:message key="action"/></td>
                         </tr>
                         </thead>
-                        <c:forEach var="book" items="${requestScope.orders}">
+                        <c:forEach var="order" items="${requestScope.orders}">
                             <tr>
-                                <td>${book.user.login}</td>
-                                <td>${book.book.name}</td>
-                                <td>${ctg:localDateParser(book.orderDate, sessionScope.locale)}</td>
-                                <td><fmt:message key="${book.status}"/></td>
+                                <td>${order.user.login}</td>
+                                <td>${order.book.name}</td>
+                                <td>${ctg:localDateParser(order.orderDate, sessionScope.locale)}</td>
+                                <td><fmt:message key="${order.status}"/></td>
                                 <td><c:choose>
-                                    <c:when test="${book.status eq Status.ORDERED}">
-                                        <form method="POST" action="controller">
-                                            <input type="hidden" name="command" value="approve_order">
-                                            <input type="hidden" name="id" value="${book.id}">
-                                            <button class="btn btn-outline-success" type="submit"><fmt:message key="approveOrder"/></button>
-                                        </form>
+                                    <c:when test="${order.status eq Status.ORDERED}">
+                                        <button class="btn btn-outline-success" onclick="approveOrder(${order.id})"><fmt:message key="approveOrder"/></button>
                                     </c:when>
-                                    <c:when test="${book.status eq Status.RETURNED}">
-                                        <form method="POST" action="controller">
-                                            <input type="hidden" name="command" value="delete_order">
-                                            <input type="hidden" name="id" value="${book.id}">
-                                            <button class="btn btn-outline-danger" type="submit"><fmt:message key="deleteOrder"/></button>
-                                        </form>
+                                    <c:when test="${order.status eq Status.RETURNED}">
+                                        <button class="btn btn-outline-danger" onclick="deleteOrder(${order.id})"><fmt:message key="deleteOrder"/></button>
                                     </c:when>
                                 </c:choose></td>
                             </tr>
@@ -65,23 +57,32 @@
                     <nav>
                         <ul class="pagination pagination-lg justify-content-center">
                             <c:if test="${requestScope.currentPageNumber ne 1}">
-                                <li class="page-item"><a class="page-link" href="controller?command=show_orders&page=${requestScope.currentPageNumber - 1}"><fmt:message key="previous"/></a></li>
+                                <li class="page-item">
+                                    <button class="page-link" onclick="findPage(${requestScope.currentPageNumber - 1})">
+                                        <fmt:message key="previous"/>
+                                    </button>
+                                </li>
                             </c:if>
                             <c:forEach begin="1" end="${requestScope.pagesAmount}" var="i">
                                 <c:choose>
                                     <c:when test="${i eq requestScope.currentPageNumber}">
                                         <li class="page-item active">
-                                        <a class="page-link" href="controller?command=show_orders&page=${i}">${i}</a>
+                                            <button class="page-link" onclick="findPage(${i})">${i}</button>
                                         </li>
                                     </c:when>
                                     <c:otherwise>
-                                        <li class="page-item"><a class="page-link" href="controller?command=show_orders&page=${i}">${i}</a></li>
+                                        <li class="page-item">
+                                            <button class="page-link" onclick="findPage(${i})">${i}</button>
+                                        </li>
                                     </c:otherwise>
                                 </c:choose>
                             </c:forEach>
                             <c:if test="${requestScope.currentPageNumber lt requestScope.pagesAmount}">
-                                <li class="page-item"><a class="page-link" href="controller?command=show_orders&page=${requestScope.currentPageNumber + 1}"><fmt:message
-                                        key="next"/></a></li>
+                                <li class="page-item">
+                                    <button class="page-link" onclick="findPage(${requestScope.currentPageNumber + 1})">
+                                        <fmt:message key="next"/>
+                                    </button>
+                                </li>
                             </c:if>
                         </ul>
                     </nav>
@@ -102,5 +103,6 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/orders.js"></script>
 </body>
 </html>

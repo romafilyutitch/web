@@ -21,9 +21,10 @@ public class LoginCommand implements ActionCommand {
     private static final String SESSION_CURRENT_DATE_ATTRIBUTE_KEY = "currentDate";
     private static final String WRONG_PASSWORD_LOCALIZATION_MESSAGE_KEY = "wrongPassword";
     private static final String NO_LOGIN_LOCALIZATION_MESSAGE_KEY = "noLogin";
+    private static final String REQUEST_SUCCESS_ATTRIBUTE_KEY = "success";
+    private static final String USER_WAS_LOGGED_IN_LOCALIZATION_MESSAGE_KEY = "userWasLoggedIn";
 
-    private static final String SUCCESS_RESULT_PATH = "index.jsp";
-    private static final String ERROR_RESULT_PATH = "WEB-INF/jsp/login.jsp";
+    private static final String RESULT_PATH = "WEB-INF/jsp/login.jsp";
 
     private LoginCommand() {
     }
@@ -36,50 +37,29 @@ public class LoginCommand implements ActionCommand {
     public CommandResult execute(HttpServletRequest request) {
         String login = request.getParameter(REQUEST_LOGIN_PARAMETER_KEY);
         String password = request.getParameter(REQUEST_PASSWORD_PARAMETER_KEY);
-        final User user = new User(login, password, UserRole.READER, null);
+        final User user = new User(login, password);
         try {
             final User savedUser = userService.login(user);
             final HttpSession session = request.getSession();
             session.setAttribute(SESSION_USER_ATTRIBUTE_KEY, savedUser);
             session.setAttribute(SESSION_CURRENT_DATE_ATTRIBUTE_KEY, LocalDate.now());
-            return new CommandResult() {
-                @Override
-                public String getResultPath() {
-                    return SUCCESS_RESULT_PATH;
-                }
-
-                @Override
-                public boolean isRedirect() {
-                    return true;
-                }
-            };
+            request.setAttribute(REQUEST_SUCCESS_ATTRIBUTE_KEY, USER_WAS_LOGGED_IN_LOCALIZATION_MESSAGE_KEY);
         } catch (NoUserWithLoginException e) {
             request.setAttribute(REQUEST_ERROR_ATTRIBUTE_KEY, NO_LOGIN_LOCALIZATION_MESSAGE_KEY);
-            return new CommandResult() {
-                @Override
-                public String getResultPath() {
-                    return ERROR_RESULT_PATH;
-                }
-
-                @Override
-                public boolean isRedirect() {
-                    return false;
-                }
-            };
         } catch (WrongPasswordException e) {
             request.setAttribute(REQUEST_ERROR_ATTRIBUTE_KEY, WRONG_PASSWORD_LOCALIZATION_MESSAGE_KEY);
-            return new CommandResult() {
-                @Override
-                public String getResultPath() {
-                    return ERROR_RESULT_PATH;
-                }
-
-                @Override
-                public boolean isRedirect() {
-                    return false;
-                }
-            };
         }
+        return new CommandResult() {
+            @Override
+            public String getResultPath() {
+                return RESULT_PATH;
+            }
+
+            @Override
+            public boolean isRedirect() {
+                return false;
+            }
+        };
     }
 
     private static class Singleton {

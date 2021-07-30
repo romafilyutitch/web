@@ -64,14 +64,10 @@ class SimpleOrderService implements OrderService {
 
     @Override
     public List<Order> findPage(int currentPage) {
-        List<Order> foundPage;
-        if (currentPage < 1) {
-            foundPage = orderDao.findPage(1);
-        } else if (currentPage >= getPagesAmount()) {
-            foundPage = orderDao.findPage(getPagesAmount());
-        } else {
-            foundPage = orderDao.findPage(currentPage);
+        if (currentPage <= 0 || currentPage > getPagesAmount()) {
+            throw new IllegalArgumentException();
         }
+        List<Order> foundPage = orderDao.findPage(currentPage);
         logger.info(String.format(PAGE_OF_ORDERS_WAS_FOUND_MESSAGE, currentPage, foundPage.size()));
         return foundPage;
     }

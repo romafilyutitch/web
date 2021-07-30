@@ -47,14 +47,10 @@ public class SimpleCommentService implements CommentService {
 
     @Override
     public List<Comment> findPage(int currentPage) {
-        final List<Comment> commentsPage;
-        if (currentPage < 1) {
-            commentsPage = commentDao.findPage(1);
-        } else if (currentPage >= commentDao.getPagesAmount()) {
-            commentsPage = commentDao.findPage(getPagesAmount());
-        } else {
-            commentsPage = commentDao.findPage(currentPage);
+        if (currentPage <= 0 || currentPage > getPagesAmount()) {
+            throw new IllegalArgumentException();
         }
+        final List<Comment> commentsPage = commentDao.findPage(currentPage);
         logger.info(String.format(COMMENTS_PAGE_WAS_FOUND_MESSAGE, currentPage, commentsPage.size()));
         return commentsPage;
     }

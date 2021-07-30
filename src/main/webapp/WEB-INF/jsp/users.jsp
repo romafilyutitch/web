@@ -9,8 +9,13 @@
 <head>
     <title><fmt:message key="title"/></title>
     <link rel="stylesheet" href="webjars/bootstrap/5.0.1/css/bootstrap.css"/>
+    <link rel="stylesheet" href="webjars/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.css">
     <script type="text/javascript" src="webjars/jquery/2.1.1/jquery.js"></script>
     <script type="text/javascript" src="webjars/bootstrap/5.0.1/js/bootstrap.js"></script>
+    <script type="text/javascript" src="webjars/momentjs/2.29.1/min/moment-with-locales.js"></script>
+    <script type="text/javascript" src="webjars/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="webjars/bootstrap-datepicker/1.7.1/locales/bootstrap-datepicker.ru.min.js"></script>
+    <script type="text/javascript" src="webjars/bootstrap-datepicker/1.7.1/locales/bootstrap-datepicker.en-GB.min.js"></script>
 </head>
 <body class="text-center">
 <div class="container">
@@ -33,50 +38,38 @@
                         <td><fmt:message key="setRole"/></td>
                     </tr>
                     </thead>
-                    <c:forEach var="book" items="${requestScope.users}">
+                    <c:forEach var="order" items="${requestScope.users}">
                         <tr>
-                            <td>${book.login}</td>
-                            <td>${book.role}</td>
-                            <td><c:if test="${not empty book.subscription}">
-                                ${ctg:localDateParser(book.subscription.startDate, sessionScope.locale)}
+                            <td>${order.login}</td>
+                            <td>${order.role}</td>
+                            <td><c:if test="${not empty order.subscription}">
+                                ${ctg:localDateParser(order.subscription.startDate, sessionScope.locale)}
                             </c:if></td>
-                            <td><c:if test="${not empty book.subscription}">
-                                ${ctg:localDateParser(book.subscription.endDate, sessionScope.locale)}
+                            <td><c:if test="${not empty order.subscription}">
+                                ${ctg:localDateParser(order.subscription.endDate, sessionScope.locale)}
                             </c:if></td>
                             <td>
                                 <form class="needs-validation" action="controller" method="post" novalidate>
                                     <input type="hidden" name="command" value="set_subscription">
-                                    <input type="hidden" name="id" value="${book.id}">
+                                    <input type="hidden" id="locale" name="locale" value="${sessionScope.locale}">
+                                    <input type="hidden" name="id" value="${order.id}">
                                     <label class="form-label" for="startDate"><fmt:message key="startDate"/></label>
-                                    <input class="date" id="startDate" type="date" required
-                                           min="${sessionScope.currentDate}" name="start_date">
+                                    <input class="form-control datepicker" id="startDate" type="text" name="start_date" required pattern="\d{2}.\d{2}.\d{4}">
                                     <div class="valid-feedback"><fmt:message key="validStartDate"/></div>
                                     <div class="invalid-feedback"><fmt:message key="invalidStartDate"/></div>
                                     <label class="form-label" for="endDate"><fmt:message key="endDate"/></label>
-                                    <input class="datepicker" id="endDate" type="date" required
-                                           min="${sessionScope.currentDate}" name="end_date">
+                                    <input class="form-control datepicker" id="endDate" type="text" name="end_date" required pattern="\d{2}.\d{2}.\d{4}">
                                     <div class="valid-feedback"><fmt:message key="validEndDate"/></div>
                                     <div class="invalid-feedback"><fmt:message key="invalidEndDate"/></div>
-                                    <button class="btn btn-outline-success" type="submit"><fmt:message
-                                            key="setSubscription"/></button>
+                                    <button class="btn btn-outline-success" type="submit"><fmt:message key="setSubscription"/></button>
                                 </form>
                             </td>
                             <td>
-                                <c:if test="${book.role ne UserRole.ADMIN}">
-                                    <form name="promote role" method="POST" action="controller">
-                                        <input type="hidden" name="command" value="promote_role">
-                                        <input type="hidden" name="id" value="${book.id}">
-                                        <button class="btn btn-outline-success" type="submit"><fmt:message
-                                                key="promoteRole"/></button>
-                                    </form>
+                                <c:if test="${order.role ne UserRole.ADMIN}">
+                                    <button class="btn btn-outline-success" onclick="promoteUserRole(${order.id})"><fmt:message key="promoteRole"/></button>
                                 </c:if>
-                                <c:if test="${book.role ne UserRole.READER}">
-                                    <form name="demote role" method="POST" action="controller?command=demote_role">
-                                        <input type="hidden" name="command" value="demote_role">
-                                        <input type="hidden" name="id" value="${book.id}">
-                                        <button class="btn btn-outline-danger" type="submit"><fmt:message
-                                                key="demoteRole"/></button>
-                                    </form>
+                                <c:if test="${order.role ne UserRole.READER}">
+                                    <button class="btn btn-outline-danger" onclick="demoteUserRole(${order.id})"><fmt:message key="demoteRole"/></button>
                                 </c:if>
                             </td>
                         </tr>
@@ -86,24 +79,26 @@
                     <ul class="pagination pagination-lg justify-content-center">
                         <c:if test="${not empty requestScope.currentPageNumber and requestScope.currentPageNumber ne 1}">
                             <li class="page-item">
-                                <a class="page-link"
-                                   href="controller?command=show_users&page=${requestScope.currentPageNumber - 1}"><fmt:message
-                                        key="previous"/></a>
+                                <button class="page-link" onclick="findPage(${requestScope.currentPageNumber - 1})"><fmt:message key="previous"/></button>
                             </li>
                         </c:if>
                         <c:forEach begin="1" end="${requestScope.pagesAmount}" var="i">
                             <c:choose>
                                 <c:when test="${i eq requestScope.currentPageNumber}">
                                     <li class="page-item active">
-                                        <a class="page-link" href="controller?command=show_users&page=${i}">${i}</a>
+                                        <button class="page-link" onclick="findPage(${i})">${i}</button>
                                     </li>
                                 </c:when>
+                                <c:otherwise>
+                                    <li class="page-item">
+                                        <button class="page-link" onclick="findPage(${i})">${i}</button>
+                                    </li>
+                                </c:otherwise>
                             </c:choose>
                         </c:forEach>
                         <c:if test="${not empty requestScope.currentPageNumber and requestScope.currentPageNumber lt requestScope.pagesAmount}">
                             <li class="page-item">
-                                <a href="controller?command=show_users&page=${requestScope.currentPageNumber + 1}"><fmt:message
-                                        key="next"/></a>
+                                <button class="page-link" onclick="findPage(${requestScope.currentPageNumber + 1})"><fmt:message key="next"/></button>
                             </li>
                         </c:if>
                     </ul>
@@ -117,6 +112,6 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/formValidation.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/users.js"></script>
 </body>
 </html>

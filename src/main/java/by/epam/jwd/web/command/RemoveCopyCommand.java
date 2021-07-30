@@ -13,10 +13,9 @@ public class RemoveCopyCommand implements ActionCommand {
     private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
     private static final String COPY_WAS_REMOVED_LOCALIZATION_MESSAGE_KEY = "copyRemoved";
 
-    private static final String RESULT_PATH = "index.jsp";
+    private static final String RESULT_PATH = "controller?command=show_books";
 
-    private RemoveCopyCommand() {
-    }
+    private RemoveCopyCommand() {}
 
     public static RemoveCopyCommand getInstance() {
         return Singleton.INSTANCE;
@@ -36,7 +35,7 @@ public class RemoveCopyCommand implements ActionCommand {
 
             @Override
             public boolean isRedirect() {
-                return true;
+                return false;
             }
         };
     }

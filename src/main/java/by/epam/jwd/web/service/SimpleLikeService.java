@@ -43,14 +43,10 @@ public class SimpleLikeService implements LikeService {
 
     @Override
     public List<Like> findPage(int currentPage) {
-        final List<Like> likesPage;
-        if (currentPage < 1) {
-            likesPage = likeDao.findPage(1);
-        } else if (currentPage >= likeDao.getPagesAmount()) {
-            likesPage = likeDao.findPage(getPagesAmount());
-        } else {
-            likesPage = likeDao.findPage(currentPage);
+        if (currentPage <= 0 || currentPage > getPagesAmount()) {
+            throw new IllegalArgumentException();
         }
+        final List<Like> likesPage = likeDao.findPage(currentPage);
         logger.info(String.format(LIKES_PAGE_WAS_FOUND_MESSAGE, currentPage, likesPage.size()));
         return likesPage;
     }

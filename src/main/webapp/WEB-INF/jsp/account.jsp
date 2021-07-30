@@ -19,6 +19,18 @@
             <a class="alert-link" href="controller?command=show_account"><fmt:message key="try"/></a>
         </div>
     </c:when>
+    <c:when test="${not empty requestScope.success}">
+        <div class="alert alert-success">
+            <fmt:message key="${requestScope.success}"/>
+            <a class="alert-link" href="controller?command=show_account"><fmt:message key="${requestScope.success}"/></a>
+        </div>
+    </c:when>
+    <c:when test="${not empty requestScope.deleted}">
+        <div class="alert alert-primary">
+            <fmt:message key="${requestScope.deleted}"/>
+            <a class="alert-link" href="controller?command=main"><fmt:message key="main"/></a>
+        </div>
+    </c:when>
     <c:otherwise>
         <div class="container">
             <div class="row justify-content-center">
@@ -50,24 +62,22 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col-5 justify-content-center">
-                    <form class="needs-validation" method="post" action="controller" novalidate>
+                    <form id="changeLoginForm" class="needs-validation" method="post" action="controller" novalidate>
                         <input type="hidden" name="command" value="change_login">
                         <input type="hidden" name="id" value="${sessionScope.user.id}">
                         <label class="form-label" for="loginInput"><fmt:message key="login"/></label>
-                        <input class="form-control" id="loginInput" type="text" name="login" required
-                               pattern="[A-Za-z0-9]+">
+                        <input class="form-control" id="loginInput" type="text" name="login" required pattern="[A-Za-z0-9]+">
                         <div class="valid-feedback"><fmt:message key="validLogin"/></div>
                         <div class="invalid-feedback"><fmt:message key="invalidLogin"/></div>
                         <button class="btn btn-primary" type="submit"><fmt:message key="changeLogin"/></button>
                     </form>
                 </div>
                 <div class="col-5 justify-content-center">
-                    <form class="needs-validation" method="post" action="controller" novalidate>
+                    <form id="changePasswordForm" class="needs-validation" method="post" action="controller" novalidate>
                         <input type="hidden" name="command" value="change_password">
                         <input type="hidden" name="id" value="${sessionScope.user.id}">
                         <label class="form-label" for="password"><fmt:message key="changePassword"/></label>
-                        <input class="form-control" id="password" type="password" name="password" required
-                               pattern="[A-Za-z0-9]+">
+                        <input class="form-control" id="password" type="password" name="password" required pattern="[A-Za-z0-9]+">
                         <div class="valid-feedback"><fmt:message key="validPassword"/></div>
                         <div class="invalid-feedback"><fmt:message key="invalidPassword"/></div>
                         <button class="btn btn-primary" type="submit"><fmt:message key="changePassword"/></button>
@@ -76,11 +86,7 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col">
-                    <form name="delete account" method="POST" action="controller">
-                        <input type="hidden" name="command" value="delete_user">
-                        <input type="hidden" name="id" value="${sessionScope.user.id}">
-                        <button class="btn btn-danger" type="submit"><fmt:message key="deleteAccount"/></button>
-                    </form>
+                    <button class="btn btn-danger" onclick="deleteAccount(${sessionScope.user.id})"><fmt:message key="deleteAccount"/></button>
                 </div>
                 <div class="col">
                     <a class="btn btn-primary" href="controller?command=main"><fmt:message key="main"/></a>
@@ -89,7 +95,6 @@
         </div>
     </c:otherwise>
 </c:choose>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/formValidation.js"></script>
-
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/account.js"></script>
 </body>
 </html>

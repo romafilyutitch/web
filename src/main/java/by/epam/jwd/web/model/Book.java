@@ -36,6 +36,10 @@ public class Book implements DbEntity {
         this(null, name, author, genre, date, pagesAmount, 1, description, 0, 0);
     }
 
+    public Book(String name, Author author, Genre genre, Integer pagesAmount, String description) {
+        this(name, author, genre, LocalDate.now(), pagesAmount, description);
+    }
+
     @Override
     public Long getId() {
         return id;

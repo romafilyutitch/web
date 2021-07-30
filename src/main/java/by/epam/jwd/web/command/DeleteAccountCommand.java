@@ -7,17 +7,19 @@ import by.epam.jwd.web.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-public class DeleteUserCommand implements ActionCommand {
+public class DeleteAccountCommand implements ActionCommand {
     private UserService userService = ServiceFactory.getInstance().getUserService();
 
     private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
+    private static final String REQUEST_ACCOUNT_DELETED_ATTRIBUTE_KEY = "deleted";
+    private static final String ACCOUNT_DELETED_LOCALIZATION_MESSAGE_KEY = "accountDeleted";
 
-    private static final String RESULT_PATH = "index.jsp";
+    private static final String RESULT_PATH = "WEB-INF/jsp/account.jsp";
 
-    private DeleteUserCommand() {
+    private DeleteAccountCommand() {
     }
 
-    public static DeleteUserCommand getInstance() {
+    public static DeleteAccountCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
@@ -26,7 +28,8 @@ public class DeleteUserCommand implements ActionCommand {
         final HttpSession session = request.getSession();
         final User user = (User) session.getAttribute(SESSION_USER_ATTRIBUTE_KEY);
         userService.delete(user.getId());
-        request.getSession().invalidate();
+        session.invalidate();
+        request.setAttribute(REQUEST_ACCOUNT_DELETED_ATTRIBUTE_KEY, ACCOUNT_DELETED_LOCALIZATION_MESSAGE_KEY);
         return new CommandResult() {
             @Override
             public String getResultPath() {
@@ -35,12 +38,12 @@ public class DeleteUserCommand implements ActionCommand {
 
             @Override
             public boolean isRedirect() {
-                return true;
+                return false;
             }
         };
     }
 
     private static class Singleton {
-        private static final DeleteUserCommand INSTANCE = new DeleteUserCommand();
+        private static final DeleteAccountCommand INSTANCE = new DeleteAccountCommand();
     }
 }

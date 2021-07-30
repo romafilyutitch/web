@@ -22,7 +22,7 @@ public class OrderBookCommand implements ActionCommand {
     private static final String NO_COPY_LOCALIZATION_MESSAGE_KEY = "noCopy";
     private static final String BOOK_WAS_ORDER_LOCALIZATION_MESSAGE_KEY = "bookOrdered";
 
-    private static final String RESULT_PATH = "index.jsp";
+    private static final String RESULT_PATH = "controller?command=main";
 
     private OrderBookCommand() {
     }
@@ -52,7 +52,7 @@ public class OrderBookCommand implements ActionCommand {
 
             @Override
             public boolean isRedirect() {
-                return true;
+                return false;
             }
         };
     }

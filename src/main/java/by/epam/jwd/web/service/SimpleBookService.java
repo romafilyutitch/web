@@ -49,14 +49,10 @@ class SimpleBookService implements BookService {
 
     @Override
     public List<Book> findPage(int pageNumber) {
-        List<Book> foundPage;
-        if (pageNumber < 1) {
-            foundPage = bookDao.findPage(1);
-        } else if (pageNumber >= getPagesAmount()) {
-            foundPage = bookDao.findPage(getPagesAmount());
-        } else {
-            foundPage = bookDao.findPage(pageNumber);
+        if (pageNumber <= 0 || pageNumber > getPagesAmount()) {
+            throw new IllegalArgumentException();
         }
+        List<Book> foundPage = bookDao.findPage(pageNumber);
         logger.info(String.format(PAGE_WAS_FOUND_MESSAGE, pageNumber, foundPage.size()));
         return foundPage;
     }

@@ -14,7 +14,7 @@ public class DeleteBookCommand implements ActionCommand {
     private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
     private static final String BOOK_DELETED_LOCALIZATION_MESSAGE_KEY = "bookDeleted";
 
-    private static final String RESULT_PATH = "index.jsp";
+    private static final String RESULT_PATH = "controller?command=show_books";
 
     private DeleteBookCommand() {
     }
@@ -37,7 +37,7 @@ public class DeleteBookCommand implements ActionCommand {
 
             @Override
             public boolean isRedirect() {
-                return true;
+                return false;
             }
         };
     }

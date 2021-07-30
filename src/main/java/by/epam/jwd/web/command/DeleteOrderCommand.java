@@ -17,7 +17,7 @@ public class DeleteOrderCommand implements ActionCommand {
     private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
     private static final String ORDER_DELETED_LOCALIZATION_MESSAGE_KEY = "orderDeleted";
 
-    private static final String RESULT_PATH = "index.jsp";
+    private static final String RESULT_PATH = "controller?command=show_orders";
 
     private DeleteOrderCommand() {
     }
@@ -42,7 +42,7 @@ public class DeleteOrderCommand implements ActionCommand {
 
             @Override
             public boolean isRedirect() {
-                return true;
+                return false;
             }
         };
     }

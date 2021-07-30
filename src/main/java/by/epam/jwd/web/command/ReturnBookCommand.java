@@ -13,10 +13,9 @@ public class ReturnBookCommand implements ActionCommand {
     private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
     private static final String BOOK_WAS_RETURNED_LOCALIZATION_MESSAGE_KEY = "bookReturned";
 
-    private static final String RESULT_PATH = "index.jsp";
+    private static final String RESULT_PATH = "controller?command=show_user_orders";
 
-    private ReturnBookCommand() {
-    }
+    private ReturnBookCommand() {}
 
     public static ReturnBookCommand getInstance() {
         return Singleton.INSTANCE;
@@ -36,7 +35,7 @@ public class ReturnBookCommand implements ActionCommand {
 
             @Override
             public boolean isRedirect() {
-                return true;
+                return false;
             }
         };
     }

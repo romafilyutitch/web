@@ -30,7 +30,7 @@ public enum CommandEnum {
     CHANGE_LOGIN(ChangeLoginCommand.getInstance(), UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
     CHANGE_PASSWORD(ChangePasswordCommand.getInstance(), UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
     DELETE_ORDER(DeleteOrderCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN),
-    DELETE_USER(DeleteUserCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
+    DELETE_ACCOUNT(DeleteAccountCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
     SET_SUBSCRIPTION(SetSubscriptionCommand.getInstance(), UserRole.ADMIN),
     ORDER_BOOK(OrderBookCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
     APPROVE_ORDER(ApproveOrderCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN),

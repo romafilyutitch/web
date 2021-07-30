@@ -30,11 +30,9 @@
                             <h6 class="card-subtitle mb-2 text-info"><fmt:message key="orderStatus"/> <fmt:message key="${order.status}"/></h6>
                             <h6 class="card-subtitle mb-2 text-info"><fmt:message key="bookPages"/> ${order.book.pagesAmount}</h6>
                             <c:if test="${order.status eq Status.APPROVED}">
-                                <form name="return" action="controller" method="POST">
-                                    <input type="hidden" name="command" value="return_book">
-                                    <input type="hidden" name="id" value="${order.id}">
-                                    <button class="btn btn-primary" type="submit"><fmt:message key="returnBook"/></button>
-                                </form>
+                                <button class="btn btn-primary" onclick="returnOrder(${order.id})">
+                                    <fmt:message key="returnBook"/>
+                                </button>
                                 <p>
                                     <button class="btn btn-outline-success" type="button" data-bs-toggle="collapse"
                                             data-bs-target="#collapse${order.id}" aria-expanded="false" aria-controls="collapse">
@@ -58,5 +56,6 @@
     </c:choose>
     <a class="btn btn-primary" href="controller?command=main"><fmt:message key="main"/></a>
 </div>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/userOrders.js"></script>
 </body>
 </html>

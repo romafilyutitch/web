@@ -21,7 +21,7 @@ public class AddLikeCommand implements ActionCommand {
     private static final String LIKE_ADDED_LOCALIZATION_MESSAGE_KEY = "likeAdded";
     private static final String LIKE_REMOVED_LOCALIZATION_MESSAGE_KEY = "likeRemoved";
 
-    private static final String RESULT_PATH = "index.jsp";
+    private static final String RESULT_PATH = "controller?command=main";
 
     private AddLikeCommand() {
     }
@@ -54,7 +54,7 @@ public class AddLikeCommand implements ActionCommand {
 
             @Override
             public boolean isRedirect() {
-                return true;
+                return false;
             }
         };
     }

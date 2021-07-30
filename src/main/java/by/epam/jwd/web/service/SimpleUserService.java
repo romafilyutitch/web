@@ -91,14 +91,10 @@ class SimpleUserService implements UserService {
 
     @Override
     public List<User> findPage(int currentPage) {
-        List<User> foundPage;
-        if (currentPage < 1) {
-            foundPage = userDao.findPage(1);
-        } else if (currentPage >= getPagesAmount()) {
-            foundPage = userDao.findPage(getPagesAmount());
-        } else {
-            foundPage = userDao.findPage(currentPage);
+        if (currentPage <= 0 || currentPage > getPagesAmount()) {
+            throw new IllegalArgumentException();
         }
+        List<User> foundPage = userDao.findPage(currentPage);
         logger.info(String.format(PAGE_OF_USERS_WAS_FOUND_MESSAGE, currentPage, foundPage.size()));
         return foundPage;
     }
