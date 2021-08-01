@@ -1,10 +1,11 @@
 package by.epam.jwd.web.command;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 public class LogoutCommand implements ActionCommand {
 
-    private static final String RESULT_PATH = "index.jsp";
+    private static final String RESULT_PATH = "controller?command=main";
 
     private LogoutCommand() {
     }
@@ -14,19 +15,10 @@ public class LogoutCommand implements ActionCommand {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request) {
-        request.getSession().invalidate();
-        return new CommandResult() {
-            @Override
-            public String getResultPath() {
-                return RESULT_PATH;
-            }
-
-            @Override
-            public boolean isRedirect() {
-                return true;
-            }
-        };
+    public String execute(HttpServletRequest request) {
+        final HttpSession session = request.getSession();
+        session.invalidate();
+        return RESULT_PATH;
     }
 
     private static class Singleton {

@@ -14,18 +14,8 @@ public class ShowAccountCommand implements ActionCommand {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request) {
-        return new CommandResult() {
-            @Override
-            public String getResultPath() {
-                return RESULT_PATH;
-            }
-
-            @Override
-            public boolean isRedirect() {
-                return false;
-            }
-        };
+    public String execute(HttpServletRequest request) {
+        return RESULT_PATH;
     }
 
     private static class Singleton {

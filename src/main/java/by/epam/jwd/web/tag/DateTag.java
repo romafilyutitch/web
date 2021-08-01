@@ -8,20 +8,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Locale;
-import java.util.StringJoiner;
 
 public class DateTag extends TagSupport {
-    private static final Locale RUSSIAN_LOCALE = new Locale("ru", "RU");
-    private static final Locale ENGLISH_LOCALE = new Locale("en", "US");
-
     @Override
     public int doStartTag() throws JspException {
-
-        final DateTimeFormatter englishFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(RUSSIAN_LOCALE);
-        final DateTimeFormatter russianFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(ENGLISH_LOCALE);
-        final StringJoiner joiner = new StringJoiner(",");
-        joiner.add(englishFormatter.format(LocalDate.now())).add(russianFormatter.format(LocalDate.now()));
-        final String currentDate = joiner.toString();
+        final DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(Locale.getDefault());
+        final String currentDate = formatter.format(LocalDate.now());
         final JspWriter out = pageContext.getOut();
         try {
             out.println(currentDate);
@@ -32,7 +24,7 @@ public class DateTag extends TagSupport {
     }
 
     @Override
-    public int doEndTag() throws JspException {
+    public int doEndTag() {
         return EVAL_PAGE;
     }
 }

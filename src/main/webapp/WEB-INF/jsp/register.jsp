@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setLocale value="${sessionScope.language}"/>
 <fmt:setBundle basename="register"/>
 <html>
 <head>
@@ -12,16 +12,10 @@
 </head>
 <body class="text-center">
 <c:choose>
-    <c:when test="${not empty requestScope.error}">
-        <div class="alert alert-danger">
-            <fmt:message key="${requestScope.error}"/>
-            <a class="alert-link" href="controller?command=show_register"><fmt:message key="try"/></a>
-        </div>
-    </c:when>
-    <c:when test="${not empty requestScope.success}">
-        <div class="alert alert-success">
-            <fmt:message key="${requestScope.success}"/>
-            <a class="alert-link" href="controller?command=main"><fmt:message key="main"/></a>
+    <c:when test="${not empty requestScope.message}">
+        <div class="alert alrt-info">
+            ${requestScope.message}
+            <a class="link-info" href="controller?command=main"><fmt:message key="main"/></a>
         </div>
     </c:when>
     <c:otherwise>

@@ -3,11 +3,13 @@ package by.epam.jwd.web.command;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Comment;
 import by.epam.jwd.web.model.Genre;
+import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.BookService;
 import by.epam.jwd.web.service.CommentService;
 import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FindFictionCommand implements ActionCommand {
@@ -15,9 +17,10 @@ public class FindFictionCommand implements ActionCommand {
     private final CommentService commentService = ServiceFactory.getInstance().getCommentService();
 
     private static final String REQUEST_BOOKS_ATTRIBUTE_KEY = "books";
-    private static final String REQUEST_FIND_RESULT_ATTRIBUTE_KEY = "findResult";
-    private static final String BOOKS_WERE_FOUND_LOCALIZATION_MESSAGE_KEY = "booksFound";
-    private static final String BOOKS_WAS_NOT_FOUND_LOCALIZATION_MESSAGE_KEY = "booksNotFound";
+    private static final String REQUEST_COMMENTS_ATTRIBUTE_KEY = "comments";
+    private static final String REQUEST_MESSAGE_ATTRIBUTE_KEY = "message";
+    private static final String FICTION_BOOKS_WERE_FOUND_MESSAGE_KEY = "book.find.fiction.found";
+    private static final String FICTION_BOOKS_WERE_NOT_FOUND_MESSAGE_KEY = "book.find.fiction.notFound";
 
     private static final String RESULT_PATH = "WEB-INF/jsp/main.jsp";
 
@@ -29,27 +32,25 @@ public class FindFictionCommand implements ActionCommand {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request) {
         final List<Book> fictionBooks = bookService.findByGenre(Genre.FICTION);
         if (fictionBooks.isEmpty()) {
-            request.setAttribute(REQUEST_FIND_RESULT_ATTRIBUTE_KEY, BOOKS_WAS_NOT_FOUND_LOCALIZATION_MESSAGE_KEY);
+            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(FICTION_BOOKS_WERE_NOT_FOUND_MESSAGE_KEY));
         } else {
             request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, fictionBooks);
-            request.setAttribute(REQUEST_FIND_RESULT_ATTRIBUTE_KEY, BOOKS_WERE_FOUND_LOCALIZATION_MESSAGE_KEY);
-            final List<Comment> comments = commentService.findAll();
-            request.setAttribute("comments", comments);
+            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(FICTION_BOOKS_WERE_FOUND_MESSAGE_KEY));
+            final List<Comment> comments = findComments(fictionBooks);
+            request.setAttribute(REQUEST_COMMENTS_ATTRIBUTE_KEY, comments);
         }
-        return new CommandResult() {
-            @Override
-            public String getResultPath() {
-                return RESULT_PATH;
-            }
+        return RESULT_PATH;
+    }
 
-            @Override
-            public boolean isRedirect() {
-                return false;
-            }
-        };
+    private List<Comment> findComments(List<Book> books) {
+        final ArrayList<Comment> comments = new ArrayList<>();
+        for (Book book : books) {
+            comments.addAll(commentService.findByBook(book));
+        }
+        return comments;
     }
 
     private static class Singleton {

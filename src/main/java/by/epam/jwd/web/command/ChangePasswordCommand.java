@@ -1,6 +1,7 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.model.User;
+import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.ServiceFactory;
 import by.epam.jwd.web.service.UserService;
 
@@ -10,10 +11,10 @@ import javax.servlet.http.HttpSession;
 public class ChangePasswordCommand implements ActionCommand {
     private final UserService userService = ServiceFactory.getInstance().getUserService();
 
-    private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
     private static final String REQUEST_USER_PASSWORD_PARAMETER_KEY = "password";
-    private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
-    private static final String PASSWORD_CHANGED_LOCALIZATION_MESSAGE_KEY = "passwordChanged";
+    private static final String REQUEST_MESSAGE_ATTRIBUTE_KEY = "message";
+    private static final String USER_PASSWORD_WAS_CHANGED_MESSAGE_KEY = "user.password.changed";
+    private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
 
     private static final String RESULT_PATH = "WEB-INF/jsp/account.jsp";
 
@@ -25,24 +26,14 @@ public class ChangePasswordCommand implements ActionCommand {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request) {
-        final String newPassword = request.getParameter(REQUEST_USER_PASSWORD_PARAMETER_KEY);
+    public String execute(HttpServletRequest request) {
         final HttpSession session = request.getSession();
         final User user = (User) session.getAttribute(SESSION_USER_ATTRIBUTE_KEY);
+        final String newPassword = request.getParameter(REQUEST_USER_PASSWORD_PARAMETER_KEY);
         final User userWithChangedPassword = userService.changePassword(user, newPassword);
-        request.setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, PASSWORD_CHANGED_LOCALIZATION_MESSAGE_KEY);
+        request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(USER_PASSWORD_WAS_CHANGED_MESSAGE_KEY));
         session.setAttribute(SESSION_USER_ATTRIBUTE_KEY, userWithChangedPassword);
-        return new CommandResult() {
-            @Override
-            public String getResultPath() {
-                return RESULT_PATH;
-            }
-
-            @Override
-            public boolean isRedirect() {
-                return false;
-            }
-        };
+        return RESULT_PATH;
     }
 
     private static class Singleton {

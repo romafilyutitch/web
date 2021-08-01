@@ -5,7 +5,7 @@ import by.epam.jwd.web.dao.DAOFactory;
 import by.epam.jwd.web.dao.SubscriptionDao;
 import by.epam.jwd.web.dao.UserDao;
 import by.epam.jwd.web.exception.UserWithLoginExistsException;
-import by.epam.jwd.web.exception.NoUserWithLoginException;
+import by.epam.jwd.web.exception.WrongLoginException;
 import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.exception.InvalidSubscriptionException;
 import by.epam.jwd.web.exception.WrongPasswordException;
@@ -73,11 +73,11 @@ class SimpleUserService implements UserService {
     }
 
     @Override
-    public User login(User user) throws NoUserWithLoginException, WrongPasswordException {
+    public User login(User user) throws WrongLoginException, WrongPasswordException {
         final Optional<User> optionalUser = userDao.findUserByLogin(user.getLogin());
         if (!optionalUser.isPresent()) {
             logger.error(String.format(USER_WITH_LOGIN_DOES_NOT_EXIST_MESSAGE, user.getLogin()));
-            throw new NoUserWithLoginException();
+            throw new WrongLoginException();
         }
         User foundUser = optionalUser.get();
         final BCrypt.Result verifyResult = verifyer.verify(user.getPassword().toCharArray(), foundUser.getPassword().toCharArray());

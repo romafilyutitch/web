@@ -3,6 +3,7 @@ package by.epam.jwd.web.command;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Like;
 import by.epam.jwd.web.model.User;
+import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.BookService;
 import by.epam.jwd.web.service.LikeService;
 import by.epam.jwd.web.service.ServiceFactory;
@@ -16,10 +17,10 @@ public class AddLikeCommand implements ActionCommand {
     private final BookService bookService = ServiceFactory.getInstance().getBookService();
 
     private static final String REQUEST_BOOK_ID_PARAMETER_KEY = "id";
+    private static final String REQUEST_MESSAGE_ATTRIBUTE_KEY = "message";
     private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
-    private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
-    private static final String LIKE_ADDED_LOCALIZATION_MESSAGE_KEY = "likeAdded";
-    private static final String LIKE_REMOVED_LOCALIZATION_MESSAGE_KEY = "likeRemoved";
+    private static final String LIKE_REMOVED_MESSAGE_KEY = "like.removed";
+    private static final String LIKE_ADDED_MESSAGE_KEY = "like.added";
 
     private static final String RESULT_PATH = "controller?command=main";
 
@@ -31,7 +32,7 @@ public class AddLikeCommand implements ActionCommand {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request) {
         final HttpSession session = request.getSession();
         final User user = (User) session.getAttribute(SESSION_USER_ATTRIBUTE_KEY);
         final Long bookId = Long.valueOf(request.getParameter(REQUEST_BOOK_ID_PARAMETER_KEY));
@@ -40,23 +41,13 @@ public class AddLikeCommand implements ActionCommand {
         if (optionalLike.isPresent()) {
             final Like foundLike = optionalLike.get();
             likeService.delete(foundLike.getId());
-            session.setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, LIKE_REMOVED_LOCALIZATION_MESSAGE_KEY);
+            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(LIKE_REMOVED_MESSAGE_KEY));
         } else {
             final Like like = new Like(user, foundBook);
             likeService.save(like);
-            session.setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, LIKE_ADDED_LOCALIZATION_MESSAGE_KEY);
+            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(LIKE_ADDED_MESSAGE_KEY));
         }
-        return new CommandResult() {
-            @Override
-            public String getResultPath() {
-                return RESULT_PATH;
-            }
-
-            @Override
-            public boolean isRedirect() {
-                return false;
-            }
-        };
+        return RESULT_PATH;
     }
 
     private static class Singleton {

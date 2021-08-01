@@ -2,7 +2,7 @@ package by.epam.jwd.web.service;
 
 import by.epam.jwd.web.connectionPool.ConnectionPool;
 import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
-import by.epam.jwd.web.exception.NoUserWithLoginException;
+import by.epam.jwd.web.exception.WrongLoginException;
 import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.exception.UserWithLoginExistsException;
 import by.epam.jwd.web.exception.WrongPasswordException;
@@ -66,20 +66,20 @@ public class SimpleUserServiceTest {
     }
 
     @Test
-    public void loginUser_mustLogInExistUser() throws NoUserWithLoginException, WrongPasswordException {
+    public void loginUser_mustLogInExistUser() throws WrongLoginException, WrongPasswordException {
         final User loggedInUser = testService.login(new User("123", "123", UserRole.READER));
         assertNotNull("Logged in user instance must be not null", loggedInUser);
         assertEquals("Logged in user must be equal to test user", loggedInUser, testUser);
     }
 
-    @Test(expected = NoUserWithLoginException.class)
-    public void loginUser_mustThrowException_whenUserWithLoginDoesNotExist() throws NoUserWithLoginException, WrongPasswordException {
+    @Test(expected = WrongLoginException.class)
+    public void loginUser_mustThrowException_whenUserWithLoginDoesNotExist() throws WrongLoginException, WrongPasswordException {
         testService.delete(testUser.getId());
         testService.login(testUser);
     }
 
     @Test(expected = WrongPasswordException.class)
-    public void loginUser_mustThrowException_whenWrongPasswordPassed() throws NoUserWithLoginException, WrongPasswordException {
+    public void loginUser_mustThrowException_whenWrongPasswordPassed() throws WrongLoginException, WrongPasswordException {
         testService.login(new User("123", "WRONG_PASSWORD", UserRole.READER, null));
     }
 
@@ -159,7 +159,7 @@ public class SimpleUserServiceTest {
     }
 
     @Test
-    public void changeLogin_mustChangeLogin_ifNoUserWithSpecifiedLogin() throws NoUserWithLoginException, UserWithLoginExistsException {
+    public void changeLogin_mustChangeLogin_ifNoUserWithSpecifiedLogin() throws WrongLoginException, UserWithLoginExistsException {
         final String newLogin = "NEW LOGIN";
         final User userWithChangedLogin = testService.changeLogin(testUser, newLogin);
 
@@ -168,7 +168,7 @@ public class SimpleUserServiceTest {
     }
 
     @Test(expected = UserWithLoginExistsException.class)
-    public void changeLogin_mustThrowException_whenUserWithThatLoginAlreadyExists() throws NoUserWithLoginException, UserWithLoginExistsException {
+    public void changeLogin_mustThrowException_whenUserWithThatLoginAlreadyExists() throws WrongLoginException, UserWithLoginExistsException {
         final String newLogin = "123";
         final User userWithChangedLogin = testService.changeLogin(testUser, newLogin);
     }

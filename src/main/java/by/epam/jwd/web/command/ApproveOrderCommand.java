@@ -1,6 +1,7 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.model.Order;
+import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.OrderService;
 import by.epam.jwd.web.service.ServiceFactory;
 
@@ -10,8 +11,9 @@ public class ApproveOrderCommand implements ActionCommand {
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     private static final String REQUEST_ORDER_ID_PARAMETER_KEY = "id";
-    private static final String SESSION_SUCCESS_ATTRIBUTE_KEY = "success";
-    private static final String ORDER_APPROVED_LOCALIZATION_MESSAGE_KEY = "orderApproved";
+    private static final String REQUEST_MESSAGE_ATTRIBUTE_KEY = "message";
+    private static final String ORDER_APPROVED_MESSAGE_KEY = "order.approved";
+
 
     private static final String RESULT_PATH = "controller?command=show_orders";
 
@@ -23,22 +25,12 @@ public class ApproveOrderCommand implements ActionCommand {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request) {
         final Long id = Long.valueOf(request.getParameter(REQUEST_ORDER_ID_PARAMETER_KEY));
         final Order foundOrder = orderService.findById(id);
         orderService.approveOrder(foundOrder);
-        request.getSession().setAttribute(SESSION_SUCCESS_ATTRIBUTE_KEY, ORDER_APPROVED_LOCALIZATION_MESSAGE_KEY);
-        return new CommandResult() {
-            @Override
-            public String getResultPath() {
-                return RESULT_PATH;
-            }
-
-            @Override
-            public boolean isRedirect() {
-                return false;
-            }
-        };
+        request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(ORDER_APPROVED_MESSAGE_KEY));
+        return RESULT_PATH;
     }
 
     private static class Singleton {

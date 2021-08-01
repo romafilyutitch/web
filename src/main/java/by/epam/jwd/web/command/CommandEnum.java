@@ -35,7 +35,7 @@ public enum CommandEnum {
     ORDER_BOOK(OrderBookCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
     APPROVE_ORDER(ApproveOrderCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN),
     RETURN_BOOK(ReturnBookCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
-    SET_LOCALE(SetLocaleCommand.getInstance(), UserRole.UNAUTHORIZED, UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
+    SET_LANGUAGE(SetLanguageCommand.getInstance(), UserRole.UNAUTHORIZED, UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.READER),
     ADD_LIKE(AddLikeCommand.getInstance(), UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
     DELETE_COMMENT(DeleteCommentCommand.getInstance(), UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
     ADD_COMMENT(AddCommentCommand.getInstance(), UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN);

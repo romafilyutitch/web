@@ -16,6 +16,6 @@
     <function>
         <name>localDateParser</name>
         <function-class>by.epam.jwd.web.tag.LocalDateParser</function-class>
-        <function-signature>java.lang.String parseLocalDate(java.time.LocalDate,java.lang.String)</function-signature>
+        <function-signature>java.lang.String parseLocalDate(java.time.LocalDate)</function-signature>
     </function>
 </taglib>

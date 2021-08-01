@@ -3,7 +3,7 @@
 <%@ page import="by.epam.jwd.web.model.Status" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="ctg" uri="customtags" %>
-<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setLocale value="${sessionScope.language}"/>
 <fmt:setBundle basename="orders"/>
 <html>
 <head>
@@ -19,6 +19,13 @@
             <h2 class="text text-info"><fmt:message key="orders"/></h2>
         </div>
     </div>
+    <c:if test="${not empty requestScope.message}">
+        <div class="row justify-content-center">
+            <div class="alert alert-info">
+                ${requestScope.message}
+            </div>
+        </div>
+    </c:if>
     <c:choose>
         <c:when test="${not empty requestScope.orders}">
             <div class="row align-items-center justify-content-center">
@@ -33,18 +40,30 @@
                             <td><fmt:message key="action"/></td>
                         </tr>
                         </thead>
-                        <c:forEach var="order" items="${requestScope.orders}">
+                        <c:forEach var="user" items="${requestScope.orders}">
                             <tr>
-                                <td>${order.user.login}</td>
-                                <td>${order.book.name}</td>
-                                <td>${ctg:localDateParser(order.orderDate, sessionScope.locale)}</td>
-                                <td><fmt:message key="${order.status}"/></td>
+                                <td>${user.user.login}</td>
+                                <td>${user.book.name}</td>
+                                <td>${ctg:localDateParser(user.orderDate)}</td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${user.status eq Status.ORDERED}">
+                                            <fmt:message key="ordered"/>
+                                        </c:when>
+                                        <c:when test="${user.status eq Status.APPROVED}">
+                                            <fmt:message key="approved"/>
+                                        </c:when>
+                                        <c:when test="${user.status eq Status.RETURNED}">
+                                            <fmt:message key="returned"/>
+                                        </c:when>
+                                    </c:choose>
+                                </td>
                                 <td><c:choose>
-                                    <c:when test="${order.status eq Status.ORDERED}">
-                                        <button class="btn btn-outline-success" onclick="approveOrder(${order.id})"><fmt:message key="approveOrder"/></button>
+                                    <c:when test="${user.status eq Status.ORDERED}">
+                                        <button class="btn btn-outline-success" onclick="approveOrder(${user.id})"><fmt:message key="approveOrder"/></button>
                                     </c:when>
-                                    <c:when test="${order.status eq Status.RETURNED}">
-                                        <button class="btn btn-outline-danger" onclick="deleteOrder(${order.id})"><fmt:message key="deleteOrder"/></button>
+                                    <c:when test="${user.status eq Status.RETURNED}">
+                                        <button class="btn btn-outline-danger" onclick="deleteOrder(${user.id})"><fmt:message key="deleteOrder"/></button>
                                     </c:when>
                                 </c:choose></td>
                             </tr>

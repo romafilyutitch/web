@@ -25,7 +25,7 @@ public class ShowOrdersListCommand implements ActionCommand {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request) {
         int currentPageNumber = 1;
         final String pageParameter = request.getParameter(REQUEST_PAGE_PARAMETER_KEY);
         if (pageParameter != null) {
@@ -36,17 +36,7 @@ public class ShowOrdersListCommand implements ActionCommand {
         request.setAttribute(REQUEST_ORDERS_ATTRIBUTE_KEY, currentPage);
         request.setAttribute(REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY, currentPageNumber);
         request.setAttribute(REQUEST_PAGES_AMOUNT_ATTRIBUTE_KEY, pagesAmount);
-        return new CommandResult() {
-            @Override
-            public String getResultPath() {
-                return RESULT_PATH;
-            }
-
-            @Override
-            public boolean isRedirect() {
-                return false;
-            }
-        };
+        return RESULT_PATH;
     }
 
     private static class Singleton {

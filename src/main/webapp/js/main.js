@@ -5,7 +5,6 @@ $(document).ready(function(){
         event.stopPropagation();
         if (form.checkValidity){
             const formValues = $(this).serialize();
-            alert(formValues);
             $.ajax({
                 url:"controller",
                 method:"get",
@@ -19,23 +18,24 @@ $(document).ready(function(){
     })
 })
 $(document).ready(function() {
-    const addCommentForm = document.querySelector("#addCommentForm");
-    addCommentForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        if (addCommentForm.checkValidity()) {
-            const formValues = $(this).serialize();
-            alert(formValues);
-            $.ajax({
-                url:"controller",
-                method:"post",
-                data:formValues,
-                success: function (response) {
-                    $("body").html(response);
-                }
-            })
-        }
-        addCommentForm.classList.add("was-validated");
+    const addCommentForms = document.querySelectorAll(".addCommentForm");
+    Array.from(addCommentForms).forEach(function (form) {
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            if (form.checkValidity()) {
+                const formValues = $(this).serialize();
+                $.ajax({
+                    url:"controller",
+                    method:"post",
+                    data:formValues,
+                    success:function (response) {
+                        $("body").html(response)
+                    }
+                })
+            }
+            form.classList.add("was-validated")
+        })
     })
 })
 function findFiction() {
@@ -88,11 +88,11 @@ function findPage(pageNumber) {
         }
     })
 }
-function setLocale(currentLocale) {
+function setLanguage(currentLanguage) {
     $.ajax({
         url:"controller",
         method:"get",
-        data:{command:"set_locale", locale:currentLocale},
+        data:{command:"set_language", language:currentLanguage},
         success:function (response) {
             $("body").html(response);
         }

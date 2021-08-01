@@ -3,7 +3,7 @@
 <%@ page import="by.epam.jwd.web.model.UserRole" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="ctg" uri="customtags" %>
-<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setLocale value="${sessionScope.language}"/>
 <fmt:setBundle basename="users"/>
 <html>
 <head>
@@ -24,6 +24,13 @@
             <h1><fmt:message key="list"/></h1>
         </div>
     </div>
+    <c:if test="${not empty requestScope.message}">
+        <div calss="row">
+            <div class="alert alert-info">
+                ${requestScope.message}
+            </div>
+        </div>
+    </c:if>
     <div class="row align-items-center">
         <div class="col justify-content-center">
             <c:if test="${not empty requestScope.users}">
@@ -38,21 +45,21 @@
                         <td><fmt:message key="setRole"/></td>
                     </tr>
                     </thead>
-                    <c:forEach var="order" items="${requestScope.users}">
+                    <c:forEach var="user" items="${requestScope.users}">
                         <tr>
-                            <td>${order.login}</td>
-                            <td>${order.role}</td>
-                            <td><c:if test="${not empty order.subscription}">
-                                ${ctg:localDateParser(order.subscription.startDate, sessionScope.locale)}
+                            <td>${user.login}</td>
+                            <td>${user.role}</td>
+                            <td><c:if test="${not empty user.subscription}">
+                                ${ctg:localDateParser(user.subscription.startDate)}
                             </c:if></td>
-                            <td><c:if test="${not empty order.subscription}">
-                                ${ctg:localDateParser(order.subscription.endDate, sessionScope.locale)}
+                            <td><c:if test="${not empty user.subscription}">
+                                ${ctg:localDateParser(user.subscription.endDate)}
                             </c:if></td>
                             <td>
                                 <form class="needs-validation" action="controller" method="post" novalidate>
                                     <input type="hidden" name="command" value="set_subscription">
-                                    <input type="hidden" id="locale" name="locale" value="${sessionScope.locale}">
-                                    <input type="hidden" name="id" value="${order.id}">
+                                    <input type="hidden" id="locale" name="locale" value="${sessionScope.language}">
+                                    <input type="hidden" name="id" value="${user.id}">
                                     <label class="form-label" for="startDate"><fmt:message key="startDate"/></label>
                                     <input class="form-control datepicker" id="startDate" type="text" name="start_date" required pattern="\d{2}.\d{2}.\d{4}">
                                     <div class="valid-feedback"><fmt:message key="validStartDate"/></div>
@@ -65,11 +72,11 @@
                                 </form>
                             </td>
                             <td>
-                                <c:if test="${order.role ne UserRole.ADMIN}">
-                                    <button class="btn btn-outline-success" onclick="promoteUserRole(${order.id})"><fmt:message key="promoteRole"/></button>
+                                <c:if test="${user.role eq UserRole.READER}">
+                                    <button class="btn btn-outline-success" onclick="promoteUserRole(${user.id})"><fmt:message key="promoteRole"/></button>
                                 </c:if>
-                                <c:if test="${order.role ne UserRole.READER}">
-                                    <button class="btn btn-outline-danger" onclick="demoteUserRole(${order.id})"><fmt:message key="demoteRole"/></button>
+                                <c:if test="${user.role eq UserRole.LIBRARIAN}">
+                                    <button class="btn btn-outline-danger" onclick="demoteUserRole(${user.id})"><fmt:message key="demoteRole"/></button>
                                 </c:if>
                             </td>
                         </tr>

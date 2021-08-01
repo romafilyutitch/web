@@ -2,7 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="ctg" uri="customtags"%>
-<fmt:setLocale value="${sessionScope.locale}"/>
+<%@ page import="by.epam.jwd.web.model.Genre" %>
+<fmt:setLocale value="${sessionScope.language}"/>
 <fmt:setBundle basename="books"/>
 <html>
 <head>
@@ -18,6 +19,13 @@
             <h2 class="text text-info"><fmt:message key="books"/></h2>
         </div>
     </div>
+    <c:if test="${not empty requestScope.message}">
+        <div class="row justify-content-center">
+            <div class="alert alert-info">
+                    ${requestScope.message}
+            </div>
+        </div>
+    </c:if>
     <div class="row">
         <div class="col">
             <c:if test="${not empty requestScope.books }" >
@@ -36,26 +44,38 @@
                         <td><fmt:message key="deleteBook"/></td>
                     </tr>
                     </thead>
-                    <c:forEach var="order" items="${requestScope.books}">
+                    <c:forEach var="user" items="${requestScope.books}">
                         <tr>
-                            <td>${order.name}</td>
-                            <td>${order.author.name}</td>
-                            <td><fmt:message key="${order.genre}"/></td>
-                            <td>${ctg:localDateParser(order.date, sessionScope.locale)}</td>
-                            <td>${order.pagesAmount}</td>
-                            <td>${order.copiesAmount}</td>
-                            <td>${order.description}</td>
+                            <td>${user.name}</td>
+                            <td>${user.author.name}</td>
                             <td>
-                                <button class="btn btn-outline-primary" onclick="addOneCopyOfBook(${order.id})"><fmt:message key="addCopy"/></button>
+                                <c:choose>
+                                    <c:when test="${user.genre eq Genre.FICTION}">
+                                        <fmt:message key="fiction"/>
+                                    </c:when>
+                                    <c:when test="${user.genre eq Genre.FANTASY}">
+                                        <fmt:message key="fantasy"/>
+                                    </c:when>
+                                    <c:when test="${user.genre eq Genre.SCIENCE}">
+                                        <fmt:message key="science"/>
+                                    </c:when>
+                                </c:choose>
+                            </td>
+                            <td>${ctg:localDateParser(user.date)}</td>
+                            <td>${user.pagesAmount}</td>
+                            <td>${user.copiesAmount}</td>
+                            <td>${user.description}</td>
+                            <td>
+                                <button class="btn btn-outline-primary" onclick="addOneCopyOfBook(${user.id})"><fmt:message key="addCopy"/></button>
                             </td>
                             <td>
-                                <c:if test="${order.copiesAmount gt 0}">
-                                    <button class="btn btn-outline-primary" onclick="removeOneCopyOfBook(${order.id})"><fmt:message key="removeCopy"/></button>
+                                <c:if test="${user.copiesAmount gt 1}">
+                                    <button class="btn btn-outline-primary" onclick="removeOneCopyOfBook(${user.id})"><fmt:message key="removeCopy"/></button>
                                 </c:if>
                             </td>
                             <td>
-                                <c:if test="${order.copiesAmount eq 1}">
-                                    <button class="btn btn-danger" onclick="deleteBook(${order.id})"><fmt:message key="deleteBook"/></button>
+                                <c:if test="${user.copiesAmount eq 1}">
+                                    <button class="btn btn-danger" onclick="deleteBook(${user.id})"><fmt:message key="deleteBook"/></button>
                                 </c:if>
                             </td>
                         </tr>
@@ -116,9 +136,9 @@
                 <div class="col">
                     <label for="genre" class="form-label"><fmt:message key="genre"/></label>
                         <select id="genre" class="form-select" name="genre" required>
-                            <option value="FICTION"><fmt:message key="FICTION"/></option>
-                            <option value="FANTASY"><fmt:message key="FANTASY"/></option>
-                            <option value="SCIENCE"><fmt:message key="SCIENCE"/></option>
+                            <option value="FICTION"><fmt:message key="fiction"/></option>
+                            <option value="FANTASY"><fmt:message key="fantasy"/></option>
+                            <option value="SCIENCE"><fmt:message key="science"/></option>
                         </select>
                 </div>
                 <div class="col">

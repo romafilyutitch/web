@@ -7,9 +7,8 @@ import java.util.Locale;
 
 public class LocalDateParser {
 
-    public static String parseLocalDate(LocalDate date, String language) {
-        final Locale locale = new Locale(language);
-        final DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale);
+    public static String parseLocalDate(LocalDate date) {
+        final DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(Locale.getDefault());
         return formatter.format(date);
     }
 }
