@@ -1,6 +1,7 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.model.Order;
+import by.epam.jwd.web.resource.ConfigurationManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.OrderService;
 import by.epam.jwd.web.service.ServiceFactory;
@@ -13,8 +14,6 @@ public class ReturnBookCommand implements ActionCommand {
     private static final String REQUEST_BOOK_ID_PARAMETER_KEY = "id";
     private static final String REQUEST_MESSAGE_ATTRIBUTE_KEY = "message";
     private static final String BOOK_WAS_RETURNED_MESSAGE_KEY = "book.returned";
-
-    private static final String RESULT_PATH = "controller?command=show_user_orders";
 
     private ReturnBookCommand() {
     }
@@ -29,7 +28,7 @@ public class ReturnBookCommand implements ActionCommand {
         final Order foundOrder = orderService.findById(orderId);
         orderService.returnOrder(foundOrder);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(BOOK_WAS_RETURNED_MESSAGE_KEY));
-        return RESULT_PATH;
+        return ConfigurationManager.getShowUserOrdersCommand();
     }
 
     private static class Singleton {

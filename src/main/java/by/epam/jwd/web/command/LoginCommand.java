@@ -3,6 +3,7 @@ package by.epam.jwd.web.command;
 import by.epam.jwd.web.exception.WrongLoginException;
 import by.epam.jwd.web.exception.WrongPasswordException;
 import by.epam.jwd.web.model.User;
+import by.epam.jwd.web.resource.ConfigurationManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.ServiceFactory;
 import by.epam.jwd.web.service.UserService;
@@ -22,8 +23,6 @@ public class LoginCommand implements ActionCommand {
     private static final String USER_WAS_LOGGED_IN_MESSAGE_KEY = "user.login.loggedIn";
     private static final String WRONG_LOGIN_MESSAGE_KEY = "user.login.wrongLogin";
     private static final String WRONG_PASSWORD_MESSAGE_KEY = "user.login.wrongPassword";
-
-    private static final String RESULT_PATH = "WEB-INF/jsp/login.jsp";
 
     private LoginCommand() {
     }
@@ -48,7 +47,7 @@ public class LoginCommand implements ActionCommand {
         } catch (WrongPasswordException e) {
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(WRONG_PASSWORD_MESSAGE_KEY));
         }
-        return RESULT_PATH;
+        return ConfigurationManager.getLoginPagePath();
     }
 
     private static class Singleton {

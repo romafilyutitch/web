@@ -1,6 +1,7 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.model.User;
+import by.epam.jwd.web.resource.ConfigurationManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.ServiceFactory;
 import by.epam.jwd.web.service.UserService;
@@ -18,8 +19,6 @@ public class RegisterCommand implements ActionCommand {
     private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
     private static final String USER_WITH_ENTERED_LOGIN_EXITS_MESSAGE_KEY = "user.register.exists";
     private static final String USER_WAS_REGISTERED_MESSAGE_KEY = "user.registered";
-
-    private static final String RESULT_PATH = "WEB-INF/jsp/register.jsp";
 
     private RegisterCommand() {
     }
@@ -42,7 +41,7 @@ public class RegisterCommand implements ActionCommand {
             currentSession.setAttribute(SESSION_USER_ATTRIBUTE_KEY, registeredUser);
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(USER_WAS_REGISTERED_MESSAGE_KEY));
         }
-        return RESULT_PATH;
+        return ConfigurationManager.getRegisterPagePath();
     }
 
     private static class Singleton {

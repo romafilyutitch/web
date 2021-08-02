@@ -1,10 +1,10 @@
 package by.epam.jwd.web.command;
 
+import by.epam.jwd.web.resource.ConfigurationManager;
+
 import javax.servlet.http.HttpServletRequest;
 
 public class ShowAccountCommand implements ActionCommand {
-
-    private static final String RESULT_PATH = "WEB-INF/jsp/account.jsp";
 
     private ShowAccountCommand() {
     }
@@ -15,7 +15,7 @@ public class ShowAccountCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        return RESULT_PATH;
+        return ConfigurationManager.getAccountPagePath();
     }
 
     private static class Singleton {

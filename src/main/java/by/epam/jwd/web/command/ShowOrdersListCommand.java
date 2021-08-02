@@ -1,6 +1,7 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.model.Order;
+import by.epam.jwd.web.resource.ConfigurationManager;
 import by.epam.jwd.web.service.OrderService;
 import by.epam.jwd.web.service.ServiceFactory;
 
@@ -14,8 +15,6 @@ public class ShowOrdersListCommand implements ActionCommand {
     private static final String REQUEST_ORDERS_ATTRIBUTE_KEY = "orders";
     private static final String REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY = "currentPageNumber";
     private static final String REQUEST_PAGES_AMOUNT_ATTRIBUTE_KEY = "pagesAmount";
-
-    private static final String RESULT_PATH = "WEB-INF/jsp/orders.jsp";
 
     private ShowOrdersListCommand() {
     }
@@ -36,7 +35,7 @@ public class ShowOrdersListCommand implements ActionCommand {
         request.setAttribute(REQUEST_ORDERS_ATTRIBUTE_KEY, currentPage);
         request.setAttribute(REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY, currentPageNumber);
         request.setAttribute(REQUEST_PAGES_AMOUNT_ATTRIBUTE_KEY, pagesAmount);
-        return RESULT_PATH;
+        return ConfigurationManager.getOrdersPagePath();
     }
 
     private static class Singleton {

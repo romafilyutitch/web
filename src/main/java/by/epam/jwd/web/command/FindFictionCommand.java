@@ -3,6 +3,7 @@ package by.epam.jwd.web.command;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Comment;
 import by.epam.jwd.web.model.Genre;
+import by.epam.jwd.web.resource.ConfigurationManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.BookService;
 import by.epam.jwd.web.service.CommentService;
@@ -22,8 +23,6 @@ public class FindFictionCommand implements ActionCommand {
     private static final String FICTION_BOOKS_WERE_FOUND_MESSAGE_KEY = "book.find.fiction.found";
     private static final String FICTION_BOOKS_WERE_NOT_FOUND_MESSAGE_KEY = "book.find.fiction.notFound";
 
-    private static final String RESULT_PATH = "WEB-INF/jsp/main.jsp";
-
     private FindFictionCommand() {
     }
 
@@ -42,7 +41,7 @@ public class FindFictionCommand implements ActionCommand {
             final List<Comment> comments = findComments(fictionBooks);
             request.setAttribute(REQUEST_COMMENTS_ATTRIBUTE_KEY, comments);
         }
-        return RESULT_PATH;
+        return ConfigurationManager.getMainPagePath();
     }
 
     private List<Comment> findComments(List<Book> books) {

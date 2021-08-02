@@ -2,6 +2,7 @@ package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.model.User;
+import by.epam.jwd.web.resource.ConfigurationManager;
 import by.epam.jwd.web.service.OrderService;
 import by.epam.jwd.web.service.ServiceFactory;
 
@@ -13,8 +14,6 @@ public class ShowUserOrdersPageCommand implements ActionCommand {
 
     private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
     private static final String REQUEST_ORDERS_ATTRIBUTE_KEY = "orders";
-
-    private static final String RESULT_PATH = "WEB-INF/jsp/user_orders.jsp";
 
     private ShowUserOrdersPageCommand() {
     }
@@ -28,7 +27,7 @@ public class ShowUserOrdersPageCommand implements ActionCommand {
         final User user = (User) request.getSession().getAttribute(SESSION_USER_ATTRIBUTE_KEY);
         final List<Order> userOrders = orderService.findByUser(user);
         request.setAttribute(REQUEST_ORDERS_ATTRIBUTE_KEY, userOrders);
-        return RESULT_PATH;
+        return ConfigurationManager.getUserOrdersPagePath();
     }
 
     private static class Singleton {

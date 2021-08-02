@@ -2,6 +2,7 @@ package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
+import by.epam.jwd.web.resource.ConfigurationManager;
 import by.epam.jwd.web.service.BookService;
 import by.epam.jwd.web.service.ServiceFactory;
 
@@ -16,8 +17,6 @@ public class ShowBooksListCommand implements ActionCommand {
     private static final String REQUEST_BOOKS_ATTRIBUTE_KEY = "books";
     private static final String REQUEST_PAGE_AMOUNT_ATTRIBUTE_KEY = "pagesAmount";
     private static final String REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY = "currentPageNumber";
-
-    private static final String RESULT_PATH = "WEB-INF/jsp/books.jsp";
 
     private ShowBooksListCommand() {
     }
@@ -40,7 +39,7 @@ public class ShowBooksListCommand implements ActionCommand {
         request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, currentPage);
         request.setAttribute(REQUEST_PAGE_AMOUNT_ATTRIBUTE_KEY, pagesAmount);
         request.setAttribute(REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY, currentPageNumber);
-        return RESULT_PATH;
+        return ConfigurationManager.getBooksPagePath();
     }
 
     private static class Singleton {

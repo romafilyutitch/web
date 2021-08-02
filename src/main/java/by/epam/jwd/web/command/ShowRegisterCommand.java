@@ -1,10 +1,10 @@
 package by.epam.jwd.web.command;
 
+import by.epam.jwd.web.resource.ConfigurationManager;
+
 import javax.servlet.http.HttpServletRequest;
 
 public class ShowRegisterCommand implements ActionCommand {
-
-    private static final String RESULT_PATH = "WEB-INF/jsp/register.jsp";
 
     private ShowRegisterCommand() {
     }
@@ -15,7 +15,7 @@ public class ShowRegisterCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        return RESULT_PATH;
+        return ConfigurationManager.getRegisterPagePath();
     }
 
     private static class Singleton {

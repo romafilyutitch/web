@@ -1,6 +1,7 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.model.Order;
+import by.epam.jwd.web.resource.ConfigurationManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.OrderService;
 import by.epam.jwd.web.service.ServiceFactory;
@@ -15,8 +16,6 @@ public class ApproveOrderCommand implements ActionCommand {
     private static final String ORDER_APPROVED_MESSAGE_KEY = "order.approved";
 
 
-    private static final String RESULT_PATH = "controller?command=show_orders";
-
     private ApproveOrderCommand() {
     }
 
@@ -30,7 +29,7 @@ public class ApproveOrderCommand implements ActionCommand {
         final Order foundOrder = orderService.findById(id);
         orderService.approveOrder(foundOrder);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(ORDER_APPROVED_MESSAGE_KEY));
-        return RESULT_PATH;
+        return ConfigurationManager.getShowOrdersCommand();
     }
 
     private static class Singleton {

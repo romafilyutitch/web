@@ -3,6 +3,7 @@ package by.epam.jwd.web.command;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Like;
 import by.epam.jwd.web.model.User;
+import by.epam.jwd.web.resource.ConfigurationManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.BookService;
 import by.epam.jwd.web.service.LikeService;
@@ -21,8 +22,6 @@ public class AddLikeCommand implements ActionCommand {
     private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
     private static final String LIKE_REMOVED_MESSAGE_KEY = "like.removed";
     private static final String LIKE_ADDED_MESSAGE_KEY = "like.added";
-
-    private static final String RESULT_PATH = "controller?command=main";
 
     private AddLikeCommand() {
     }
@@ -47,7 +46,7 @@ public class AddLikeCommand implements ActionCommand {
             likeService.save(like);
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(LIKE_ADDED_MESSAGE_KEY));
         }
-        return RESULT_PATH;
+        return ConfigurationManager.getMainCommand();
     }
 
     private static class Singleton {

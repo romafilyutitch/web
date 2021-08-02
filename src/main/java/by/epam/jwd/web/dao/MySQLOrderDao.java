@@ -22,7 +22,7 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
 
     private final static String FIND_ALL_SQL = "select book_order.id, book_order.date, status.name,\n" +
             "       user.id, user.login, user.password, role.name, subscription.id, subscription.start_date, subscription.end_date,\n" +
-            "       book.id, book.name, author.id, author.name, genre.name, book.date, book.pages_amount, book.copies_amount, book.description, book.likes_amount, book.comments_amount from book_order\n" +
+            "       book.id, book.name, author.id, author.name, genre.name, book.date, book.pages_amount, book.copies_amount, book.text, book.likes_amount, book.comments_amount from book_order\n" +
             "inner join user on book_order.user_id = user.id inner join book on book_order.book_id = book.id inner join author on book.author_id = author.id inner join  genre on book.genre_id = genre.id\n" +
             "inner join role on user.role_id = role.id inner join status on book_order.status = status.id left join subscription on user.subscription_id = subscription.id\n";
     private final static String SAVE_SQL = "insert into book_order (user_id, book_id, date, status) values (?, ?, ?, ?)";
@@ -48,7 +48,7 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
     private static final String BOOK_DATE_COLUMN = "book.date";
     private static final String BOOK_PAGES_AMOUNT_COLUMN = "book.pages_amount";
     private static final String BOOK_COPIES_AMOUNT_COLUMN = "book.copies_amount";
-    private static final String BOOK_DESCRIPTION_COLUMN = "book.description";
+    private static final String BOOK_TEXT_COLUMN = "book.text";
     private static final String BOOK_LIKES_AMOUNT_COLUMN = "book.likes_amount";
     private static final String BOOK_COMMENTS_AMOUNT_COLUMN = "book.comments_amount";
     private static final String AUTHOR_ID_COLUMN = "author.id";
@@ -94,12 +94,12 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
         final LocalDate bookDate = resultSet.getObject(BOOK_DATE_COLUMN, LocalDate.class);
         final int pagesAmount = resultSet.getInt(BOOK_PAGES_AMOUNT_COLUMN);
         final int copiesAmount = resultSet.getInt(BOOK_COPIES_AMOUNT_COLUMN);
-        final String description = resultSet.getString(BOOK_DESCRIPTION_COLUMN);
+        final String text = resultSet.getString(BOOK_TEXT_COLUMN);
         final int likesAmount = resultSet.getInt(BOOK_LIKES_AMOUNT_COLUMN);
         final int commentsAmount = resultSet.getInt(BOOK_COMMENTS_AMOUNT_COLUMN);
         final Author author = buildAuthor(resultSet);
         final Genre genre = Genre.valueOf(genreName.toUpperCase());
-        return new Book(bookId, bookName, author, genre, bookDate, pagesAmount, copiesAmount, description, likesAmount, commentsAmount);
+        return new Book(bookId, bookName, author, genre, bookDate, pagesAmount, copiesAmount, text, likesAmount, commentsAmount);
     }
 
     private Author buildAuthor(ResultSet resultSet) throws SQLException {

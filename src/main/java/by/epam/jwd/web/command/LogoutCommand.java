@@ -1,11 +1,11 @@
 package by.epam.jwd.web.command;
 
+import by.epam.jwd.web.resource.ConfigurationManager;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class LogoutCommand implements ActionCommand {
-
-    private static final String RESULT_PATH = "controller?command=main";
 
     private LogoutCommand() {
     }
@@ -18,7 +18,7 @@ public class LogoutCommand implements ActionCommand {
     public String execute(HttpServletRequest request) {
         final HttpSession session = request.getSession();
         session.invalidate();
-        return RESULT_PATH;
+        return ConfigurationManager.getMainCommand();
     }
 
     private static class Singleton {

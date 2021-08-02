@@ -1,6 +1,7 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.model.User;
+import by.epam.jwd.web.resource.ConfigurationManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.ServiceFactory;
 import by.epam.jwd.web.service.UserService;
@@ -15,8 +16,6 @@ public class ChangePasswordCommand implements ActionCommand {
     private static final String REQUEST_MESSAGE_ATTRIBUTE_KEY = "message";
     private static final String USER_PASSWORD_WAS_CHANGED_MESSAGE_KEY = "user.password.changed";
     private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
-
-    private static final String RESULT_PATH = "WEB-INF/jsp/account.jsp";
 
     private ChangePasswordCommand() {
     }
@@ -33,7 +32,7 @@ public class ChangePasswordCommand implements ActionCommand {
         final User userWithChangedPassword = userService.changePassword(user, newPassword);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(USER_PASSWORD_WAS_CHANGED_MESSAGE_KEY));
         session.setAttribute(SESSION_USER_ATTRIBUTE_KEY, userWithChangedPassword);
-        return RESULT_PATH;
+        return ConfigurationManager.getAccountPagePath();
     }
 
     private static class Singleton {

@@ -2,6 +2,7 @@ package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.exception.UserWithLoginExistsException;
 import by.epam.jwd.web.model.User;
+import by.epam.jwd.web.resource.ConfigurationManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.ServiceFactory;
 import by.epam.jwd.web.service.UserService;
@@ -17,8 +18,6 @@ public class ChangeLoginCommand implements ActionCommand {
     private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
     private static final String USER_LOGIN_CHANGED_MESSAGE_KEY = "user.login.changed";
     private static final String USER_LOGIN_EXISTS_MESSAGE_KEY = "user.login.exists";
-
-    private static final String RESULT_PATH = "WEB-INF/jsp/account.jsp";
 
     private ChangeLoginCommand() {
     }
@@ -39,7 +38,7 @@ public class ChangeLoginCommand implements ActionCommand {
         } catch (UserWithLoginExistsException e) {
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(USER_LOGIN_EXISTS_MESSAGE_KEY));
         }
-        return RESULT_PATH;
+        return ConfigurationManager.getAccountPagePath();
     }
 
     private static class Singleton {

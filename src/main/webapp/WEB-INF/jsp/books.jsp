@@ -38,44 +38,42 @@
                         <td><fmt:message key="date"/></td>
                         <td><fmt:message key="pages"/></td>
                         <td><fmt:message key="copies"/></td>
-                        <td><fmt:message key="description"/></td>
                         <td><fmt:message key="addCopy"/></td>
                         <td><fmt:message key="removeCopy"/></td>
                         <td><fmt:message key="deleteBook"/></td>
                     </tr>
                     </thead>
-                    <c:forEach var="user" items="${requestScope.books}">
+                    <c:forEach var="order" items="${requestScope.books}">
                         <tr>
-                            <td>${user.name}</td>
-                            <td>${user.author.name}</td>
+                            <td>${order.name}</td>
+                            <td>${order.author.name}</td>
                             <td>
                                 <c:choose>
-                                    <c:when test="${user.genre eq Genre.FICTION}">
+                                    <c:when test="${order.genre eq Genre.FICTION}">
                                         <fmt:message key="fiction"/>
                                     </c:when>
-                                    <c:when test="${user.genre eq Genre.FANTASY}">
+                                    <c:when test="${order.genre eq Genre.FANTASY}">
                                         <fmt:message key="fantasy"/>
                                     </c:when>
-                                    <c:when test="${user.genre eq Genre.SCIENCE}">
+                                    <c:when test="${order.genre eq Genre.SCIENCE}">
                                         <fmt:message key="science"/>
                                     </c:when>
                                 </c:choose>
                             </td>
-                            <td>${ctg:localDateParser(user.date)}</td>
-                            <td>${user.pagesAmount}</td>
-                            <td>${user.copiesAmount}</td>
-                            <td>${user.description}</td>
+                            <td>${ctg:localDateParser(order.date)}</td>
+                            <td>${order.pagesAmount}</td>
+                            <td>${order.copiesAmount}</td>
                             <td>
-                                <button class="btn btn-outline-primary" onclick="addOneCopyOfBook(${user.id})"><fmt:message key="addCopy"/></button>
+                                <button class="btn btn-outline-primary" onclick="addOneCopyOfBook(${order.id})"><fmt:message key="addCopy"/></button>
                             </td>
                             <td>
-                                <c:if test="${user.copiesAmount gt 1}">
-                                    <button class="btn btn-outline-primary" onclick="removeOneCopyOfBook(${user.id})"><fmt:message key="removeCopy"/></button>
+                                <c:if test="${order.copiesAmount gt 1}">
+                                    <button class="btn btn-outline-primary" onclick="removeOneCopyOfBook(${order.id})"><fmt:message key="removeCopy"/></button>
                                 </c:if>
                             </td>
                             <td>
-                                <c:if test="${user.copiesAmount eq 1}">
-                                    <button class="btn btn-danger" onclick="deleteBook(${user.id})"><fmt:message key="deleteBook"/></button>
+                                <c:if test="${order.copiesAmount eq 1}">
+                                    <button class="btn btn-danger" onclick="deleteBook(${order.id})"><fmt:message key="deleteBook"/></button>
                                 </c:if>
                             </td>
                         </tr>
@@ -148,10 +146,10 @@
                     <div class="invalid-feedback"><fmt:message key="invalidPages"/></div>
                 </div>
                 <div class="col">
-                    <label for="description" class="form-label"><fmt:message key="description"/></label>
-                    <textarea id="description" class="form-control" name="description" required></textarea>
-                    <div class="valid-feedback"><fmt:message key="validDescription"/></div>
-                    <div class="invalid-feedback"><fmt:message key="invalidDescription"/></div>
+                    <label for="text" class="form-label"><fmt:message key="text"/></label>
+                    <textarea id="text" class="form-control" name="text" required></textarea>
+                    <div class="valid-feedback"><fmt:message key="validText"/></div>
+                    <div class="invalid-feedback"><fmt:message key="invalidText"/></div>
                 </div>
                 <button class="btn btn-outline-success" type="submit"><fmt:message key="addNewBook"/></button>
             </form>

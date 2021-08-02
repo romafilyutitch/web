@@ -5,7 +5,6 @@ import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
 import by.epam.jwd.web.model.Author;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
-import by.epam.jwd.web.model.User;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -77,12 +76,12 @@ public class MySQLBookDaoTest {
     }
 
     @Test
-    public void update_mustUpdateTestBookDescription() {
-        String updatedDescription = "Updated description";
-        testBook = new Book(testBook.getId(), testBook.getName(), testBook.getAuthor(), testBook.getGenre(), testBook.getDate(), testBook.getPagesAmount(), testBook.getCopiesAmount(), updatedDescription, testBook.getLikesAmount(), testBook.getCommentsAmount());
+    public void update_mustUpdateTestBookText() {
+        String updatedText = "Updated text";
+        testBook = new Book(testBook.getId(), testBook.getName(), testBook.getAuthor(), testBook.getGenre(), testBook.getDate(), testBook.getPagesAmount(), testBook.getCopiesAmount(), updatedText, testBook.getLikesAmount(), testBook.getCommentsAmount());
         final Book updatedBook = testDao.update(testBook);
         assertNotNull("Updated book must be not null", updatedBook);
-        assertEquals("Updated book description must be equal to updated string", updatedDescription, updatedBook.getDescription());
+        assertEquals("Updated book text must be equal to updated string", updatedText, updatedBook.getText());
         assertEquals("Updated book must be equal to saved book", testBook, updatedBook);
     }
 
@@ -102,7 +101,7 @@ public class MySQLBookDaoTest {
 
     @Test
     public void getRowsAmount_mustReturnNotNegativeNumber() {
-        final int rowsAmount = testDao.getRowsAmount();;
+        final int rowsAmount = testDao.getRowsAmount();
         assertTrue("Returned value must be not negative", rowsAmount >= 0);
     }
 

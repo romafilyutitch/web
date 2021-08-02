@@ -45,21 +45,33 @@
                         <td><fmt:message key="setRole"/></td>
                     </tr>
                     </thead>
-                    <c:forEach var="user" items="${requestScope.users}">
+                    <c:forEach var="order" items="${requestScope.users}">
                         <tr>
-                            <td>${user.login}</td>
-                            <td>${user.role}</td>
-                            <td><c:if test="${not empty user.subscription}">
-                                ${ctg:localDateParser(user.subscription.startDate)}
+                            <td>${order.login}</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${order.role eq UserRole.READER}">
+                                        <fmt:message key="reader"/>
+                                    </c:when>
+                                    <c:when test="${order.role eq UserRole.LIBRARIAN}">
+                                        <fmt:message key="librarian"/>
+                                    </c:when>
+                                    <c:when test="${order.role eq UserRole.ADMIN}">
+                                        <fmt:message key="admin"/>
+                                    </c:when>
+                                </c:choose>
+                            </td>
+                            <td><c:if test="${not empty order.subscription}">
+                                ${ctg:localDateParser(order.subscription.startDate)}
                             </c:if></td>
-                            <td><c:if test="${not empty user.subscription}">
-                                ${ctg:localDateParser(user.subscription.endDate)}
+                            <td><c:if test="${not empty order.subscription}">
+                                ${ctg:localDateParser(order.subscription.endDate)}
                             </c:if></td>
                             <td>
                                 <form class="needs-validation" action="controller" method="post" novalidate>
                                     <input type="hidden" name="command" value="set_subscription">
                                     <input type="hidden" id="locale" name="locale" value="${sessionScope.language}">
-                                    <input type="hidden" name="id" value="${user.id}">
+                                    <input type="hidden" name="id" value="${order.id}">
                                     <label class="form-label" for="startDate"><fmt:message key="startDate"/></label>
                                     <input class="form-control datepicker" id="startDate" type="text" name="start_date" required pattern="\d{2}.\d{2}.\d{4}">
                                     <div class="valid-feedback"><fmt:message key="validStartDate"/></div>
@@ -72,11 +84,11 @@
                                 </form>
                             </td>
                             <td>
-                                <c:if test="${user.role eq UserRole.READER}">
-                                    <button class="btn btn-outline-success" onclick="promoteUserRole(${user.id})"><fmt:message key="promoteRole"/></button>
+                                <c:if test="${order.role eq UserRole.READER}">
+                                    <button class="btn btn-outline-success" onclick="promoteUserRole(${order.id})"><fmt:message key="promoteRole"/></button>
                                 </c:if>
-                                <c:if test="${user.role eq UserRole.LIBRARIAN}">
-                                    <button class="btn btn-outline-danger" onclick="demoteUserRole(${user.id})"><fmt:message key="demoteRole"/></button>
+                                <c:if test="${order.role eq UserRole.LIBRARIAN}">
+                                    <button class="btn btn-outline-danger" onclick="demoteUserRole(${order.id})"><fmt:message key="demoteRole"/></button>
                                 </c:if>
                             </td>
                         </tr>

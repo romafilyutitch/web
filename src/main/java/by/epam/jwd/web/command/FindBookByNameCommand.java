@@ -2,6 +2,7 @@ package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Comment;
+import by.epam.jwd.web.resource.ConfigurationManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.BookService;
 import by.epam.jwd.web.service.CommentService;
@@ -23,8 +24,6 @@ public class FindBookByNameCommand implements ActionCommand {
     private static final String REQUEST_MESSAGE_ATTRIBUTE_KEY = "message";
     private static final String BOOK_WAS_FOUND_BY_NAME_MESSAGE_KEY = "book.find.name.found";
     private static final String BOOK_WAS_NOT_FOUND_BY_NAME_MESSAGE_KEY = "book.find.name.notFound";
-
-    private static final String RESULT_PATH = "WEB-INF/jsp/main.jsp";
 
 
     private FindBookByNameCommand() {
@@ -48,7 +47,7 @@ public class FindBookByNameCommand implements ActionCommand {
             request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, Collections.emptyList());
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(BOOK_WAS_NOT_FOUND_BY_NAME_MESSAGE_KEY));
         }
-        return RESULT_PATH;
+        return ConfigurationManager.getMainPagePath();
     }
 
     private List<Comment> findComments(List<Book> books) {

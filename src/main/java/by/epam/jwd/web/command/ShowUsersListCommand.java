@@ -1,6 +1,7 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.model.User;
+import by.epam.jwd.web.resource.ConfigurationManager;
 import by.epam.jwd.web.service.ServiceFactory;
 import by.epam.jwd.web.service.UserService;
 
@@ -14,8 +15,6 @@ public class ShowUsersListCommand implements ActionCommand {
     private static final String REQUEST_USERS_ATTRIBUTE_KEY = "users";
     private static final String REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY = "currentPageNumber";
     private static final String REQUEST_PAGES_AMOUNT_ATTRIBUTE_KEY = "pagesAmount";
-
-    public static final String RESULT_PATH = "WEB-INF/jsp/users.jsp";
 
     private ShowUsersListCommand() {
     }
@@ -37,7 +36,7 @@ public class ShowUsersListCommand implements ActionCommand {
         request.setAttribute(REQUEST_USERS_ATTRIBUTE_KEY, currentPage);
         request.setAttribute(REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY, currentPageNumber);
         request.setAttribute(REQUEST_PAGES_AMOUNT_ATTRIBUTE_KEY, pagesAmount);
-        return RESULT_PATH;
+        return ConfigurationManager.getUsersPagePath();
     }
 
     private static class Singleton {

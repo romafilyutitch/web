@@ -4,6 +4,7 @@ import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.model.Status;
 import by.epam.jwd.web.model.User;
+import by.epam.jwd.web.resource.ConfigurationManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.BookService;
 import by.epam.jwd.web.service.OrderService;
@@ -21,8 +22,6 @@ public class OrderBookCommand implements ActionCommand {
     private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
     private static final String NO_COPIES_MESSAGE_KEY = "order.noCopies";
     private static final String ORDER_REGISTERED_MESSAGE_KEY = "order.registered";
-
-    private static final String RESULT_PATH = "controller?command=main";
 
     private OrderBookCommand() {
     }
@@ -44,7 +43,7 @@ public class OrderBookCommand implements ActionCommand {
             bookService.removeOneCopy(book);
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(ORDER_REGISTERED_MESSAGE_KEY));
         }
-        return RESULT_PATH;
+        return ConfigurationManager.getMainCommand();
     }
 
     private static class Singleton {

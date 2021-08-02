@@ -3,6 +3,7 @@ package by.epam.jwd.web.command;
 import by.epam.jwd.web.model.Author;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
+import by.epam.jwd.web.resource.ConfigurationManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.BookService;
 import by.epam.jwd.web.service.ServiceFactory;
@@ -17,12 +18,10 @@ public class AddBookCommand implements ActionCommand {
     private static final String REQUEST_AUTHOR_PARAMETER_KEY = "author";
     private static final String REQUEST_GENRE_PARAMETER_KEY = "genre";
     private static final String REQUEST_PAGES_PARAMETER_KEY = "pages";
-    private static final String REQUEST_DESCRIPTION_PARAMETER_KEY = "description";
+    private static final String REQUEST_DESCRIPTION_PARAMETER_KEY = "text";
     private static final String BOOK_EXISTS_MESSAGE_KEY = "book.register.exists";
     private static final String BOOK_REGISTERED_MESSAGE_KEY = "book.register.registered";
     private static final String REQUEST_MESSAGE_ATTRIBUTE_KEY = "message";
-
-    private static final String RESULT_PATH = "controller?command=show_books";
 
     private AddBookCommand() {}
 
@@ -40,7 +39,7 @@ public class AddBookCommand implements ActionCommand {
             bookService.save(bookFromRequest);
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(BOOK_REGISTERED_MESSAGE_KEY));
         }
-        return RESULT_PATH;
+        return ConfigurationManager.getShowBooksCommand();
     }
 
     private Book buildBookFromRequest(HttpServletRequest request) {

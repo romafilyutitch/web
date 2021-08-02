@@ -77,7 +77,7 @@ class SimpleBookService implements BookService {
     @Override
     public void addOneCopy(Book book) {
         final AtomicInteger bookCurrentCopiesAmount = new AtomicInteger(book.getCopiesAmount());
-        final Book bookWithAddedCopy = new Book(book.getId(), book.getName(), book.getAuthor(), book.getGenre(), book.getDate(), book.getPagesAmount(), bookCurrentCopiesAmount.incrementAndGet(), book.getDescription(), book.getLikesAmount(), book.getCommentsAmount());
+        final Book bookWithAddedCopy = new Book(book.getId(), book.getName(), book.getAuthor(), book.getGenre(), book.getDate(), book.getPagesAmount(), bookCurrentCopiesAmount.incrementAndGet(), book.getText(), book.getLikesAmount(), book.getCommentsAmount());
         final Book updatedBook = bookDao.update(bookWithAddedCopy);
         logger.info(String.format(COPY_WAS_ADDED_MESSAGE, updatedBook));
     }
@@ -85,7 +85,7 @@ class SimpleBookService implements BookService {
     @Override
     public void removeOneCopy(Book book) {
         final AtomicInteger copiesAmount = new AtomicInteger(book.getCopiesAmount());
-        final Book bookWithRemovedCopy = new Book(book.getId(), book.getName(), book.getAuthor(), book.getGenre(), book.getDate(), book.getPagesAmount(), copiesAmount.decrementAndGet(), book.getDescription(), book.getLikesAmount(), book.getCommentsAmount());
+        final Book bookWithRemovedCopy = new Book(book.getId(), book.getName(), book.getAuthor(), book.getGenre(), book.getDate(), book.getPagesAmount(), copiesAmount.decrementAndGet(), book.getText(), book.getLikesAmount(), book.getCommentsAmount());
         final Book updatedBook = bookDao.update(bookWithRemovedCopy);
         logger.info(String.format(COPY_WAS_REMOVED_MESSAGE, updatedBook));
     }
@@ -97,9 +97,9 @@ class SimpleBookService implements BookService {
         if (!optionalAuthor.isPresent()) {
             logger.info(String.format(AUTHOR_DOES_NOT_EXIST_MESSAGE, book.getAuthor()));
             final Author savedAuthor = authorDao.save(book.getAuthor());
-            bookToSave = new Book(book.getName(), savedAuthor, book.getGenre(), book.getDate(), book.getPagesAmount(), book.getDescription());
+            bookToSave = new Book(book.getName(), savedAuthor, book.getGenre(), book.getDate(), book.getPagesAmount(), book.getText());
         } else {
-            bookToSave = new Book(book.getName(), optionalAuthor.get(), book.getGenre(), book.getDate(), book.getPagesAmount(), book.getDescription());
+            bookToSave = new Book(book.getName(), optionalAuthor.get(), book.getGenre(), book.getDate(), book.getPagesAmount(), book.getText());
         }
         Book savedBook = bookDao.save(bookToSave);
         logger.info(String.format(BOOK_WAS_SAVED_MESSAGE, savedBook));

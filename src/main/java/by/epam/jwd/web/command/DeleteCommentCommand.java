@@ -1,5 +1,6 @@
 package by.epam.jwd.web.command;
 
+import by.epam.jwd.web.resource.ConfigurationManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.CommentService;
 import by.epam.jwd.web.service.ServiceFactory;
@@ -13,8 +14,6 @@ public class DeleteCommentCommand implements ActionCommand {
     private static final String REQUEST_MESSAGE_ATTRIBUTE_KEY = "message";
     private static final String COMMENT_WAS_DELETED_MESSAGE_KEY = "comment.deleted";
 
-    private static final String RESULT_PATH = "controller?command=main";
-
     private DeleteCommentCommand() {
     }
 
@@ -27,7 +26,7 @@ public class DeleteCommentCommand implements ActionCommand {
         final Long commentId = Long.valueOf(request.getParameter(REQUEST_COMMENT_ID_PARAMETER_KEY));
         commentService.delete(commentId);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(COMMENT_WAS_DELETED_MESSAGE_KEY));
-        return RESULT_PATH;
+        return ConfigurationManager.getMainCommand();
     }
 
     private static class Singleton {

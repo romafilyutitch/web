@@ -27,55 +27,55 @@
                 </div>
             </div>
             <div class="row row-cols-auto">
-                <c:forEach var="user" items="${requestScope.orders}">
+                <c:forEach var="order" items="${requestScope.orders}">
                     <div class="card col-md-2 offset-md-1" style="width: 20rem; margin-bottom: 5rem">
                         <div class="card-body">
-                            <h5 class="card-title text-success text-center"> ${user.book.name}</h5>
-                            <h6 class="card-subtitle mb-2 text-info"><fmt:message key="bookAuthor"/> ${user.book.author.name}</h6>
+                            <h5 class="card-title text-success text-center"> ${order.book.name}</h5>
+                            <h6 class="card-subtitle mb-2 text-info"><fmt:message key="bookAuthor"/> ${order.book.author.name}</h6>
                             <h6 class="card-subtitle mb-2 text-info"><fmt:message key="bookGenre"/>
                                 <c:choose>
-                                    <c:when test="${user.book.genre eq Genre.FICTION}">
+                                    <c:when test="${order.book.genre eq Genre.FICTION}">
                                         <fmt:message key="fiction"/>
                                     </c:when>
-                                    <c:when test="${user.book.genre eq Genre.FANTASY}">
+                                    <c:when test="${order.book.genre eq Genre.FANTASY}">
                                         <fmt:message key="fantasy"/>
                                     </c:when>
-                                    <c:when test="${user.book.genre eq Genre.SCIENCE}">
+                                    <c:when test="${order.book.genre eq Genre.SCIENCE}">
                                         <fmt:message key="science"/>
                                     </c:when>
                                 </c:choose>
                             </h6>
                             <h6 class="card-subtitle mb-2 text-info"><fmt:message key="orderStatus"/>
                                 <c:choose>
-                                    <c:when test="${user.status eq Status.ORDERED}">
+                                    <c:when test="${order.status eq Status.ORDERED}">
                                         <fmt:message key="ordered"/>
                                     </c:when>
-                                    <c:when test="${user.status eq Status.APPROVED}">
+                                    <c:when test="${order.status eq Status.APPROVED}">
                                         <fmt:message key="approved"/>
                                     </c:when>
-                                    <c:when test="${user.status eq Status.RETURNED}">
+                                    <c:when test="${order.status eq Status.RETURNED}">
                                         <fmt:message key="returned"/>
                                     </c:when>
                                 </c:choose>
                             </h6>
-                            <h6 class="card-subtitle mb-2 text-info"><fmt:message key="bookPages"/> ${user.book.pagesAmount}</h6>
-                            <c:if test="${user.status eq Status.APPROVED}">
-                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#readModal${user.id}">
+                            <h6 class="card-subtitle mb-2 text-info"><fmt:message key="bookPages"/> ${order.book.pagesAmount}</h6>
+                            <c:if test="${order.status eq Status.APPROVED}">
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#readModal${order.id}">
                                     <fmt:message key="read"/>
                                 </button>
-                                <div class="modal fade" id="readModal${user.id}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                                <div class="modal fade" id="readModal${order.id}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="modalLabel">${user.book.name}</h5>
+                                                <h5 class="modal-title" id="modalLabel">${order.book.name}</h5>
                                                 <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                ${user.book.description}
+                                                ${order.book.text}
                                             </div>
                                             <div class="modal-footer">
                                                 <button class="btn btn-primary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
-                                                <button class="btn btn-secondary" onclick="returnOrder(${user.id})"><fmt:message key="returnBook"/></button>
+                                                <button class="btn btn-secondary" onclick="returnOrder(${order.id})"><fmt:message key="returnBook"/></button>
                                             </div>
                                         </div>
                                     </div>

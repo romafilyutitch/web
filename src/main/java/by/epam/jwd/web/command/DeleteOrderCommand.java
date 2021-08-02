@@ -2,6 +2,7 @@ package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Order;
+import by.epam.jwd.web.resource.ConfigurationManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.BookService;
 import by.epam.jwd.web.service.OrderService;
@@ -16,8 +17,6 @@ public class DeleteOrderCommand implements ActionCommand {
     private static final String REQUEST_ORDER_ID_PARAMETER_KEY = "id";
     private static final String REQUEST_MESSAGE_ATTRIBUTE_KEY = "message";
     private static final String ORDER_WAS_DELETED_MESSAGE_KEY = "order.deleted";
-
-    private static final String RESULT_PATH = "controller?command=show_orders";
 
     private DeleteOrderCommand() {
     }
@@ -34,7 +33,7 @@ public class DeleteOrderCommand implements ActionCommand {
         bookService.addOneCopy(book);
         orderService.delete(orderId);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(ORDER_WAS_DELETED_MESSAGE_KEY));
-        return RESULT_PATH;
+        return ConfigurationManager.getShowOrdersCommand();
     }
 
     private static class Singleton {

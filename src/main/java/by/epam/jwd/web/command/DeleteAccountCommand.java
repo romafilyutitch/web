@@ -1,6 +1,7 @@
 package by.epam.jwd.web.command;
 
 import by.epam.jwd.web.model.User;
+import by.epam.jwd.web.resource.ConfigurationManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.ServiceFactory;
 import by.epam.jwd.web.service.UserService;
@@ -14,8 +15,6 @@ public class DeleteAccountCommand implements ActionCommand {
     private static final String REQUEST_MESSAGE_ATTRIBUTE_KEY = "message";
     private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
     private static final String ACCOUNT_WAS_DELETED_MESSAGE_KEY = "account.deleted";
-
-    private static final String RESULT_PATH = "WEB-INF/jsp/account.jsp";
 
     private DeleteAccountCommand() {
     }
@@ -31,7 +30,7 @@ public class DeleteAccountCommand implements ActionCommand {
         userService.delete(user.getId());
         session.invalidate();
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(ACCOUNT_WAS_DELETED_MESSAGE_KEY));
-        return RESULT_PATH;
+        return ConfigurationManager.getAccountPagePath();
     }
 
     private static class Singleton {

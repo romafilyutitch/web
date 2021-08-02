@@ -3,6 +3,7 @@ package by.epam.jwd.web.command;
 import by.epam.jwd.web.exception.InvalidSubscriptionException;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
+import by.epam.jwd.web.resource.ConfigurationManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.ServiceFactory;
 import by.epam.jwd.web.service.UserService;
@@ -24,8 +25,6 @@ public class SetSubscriptionCommand implements ActionCommand {
 
     private static final String LOCAL_DATE_PARSE_PATTERN = "dd.MM.yyyy";
 
-    private static final String RESULT_PATH = "controller?command=show_users";
-
     private SetSubscriptionCommand() {
     }
 
@@ -44,7 +43,7 @@ public class SetSubscriptionCommand implements ActionCommand {
         } catch (InvalidSubscriptionException e) {
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(INVALID_SUBSCRIPTION_MESSAGE_KEY));
         }
-        return RESULT_PATH;
+        return ConfigurationManager.getShowUsersCommand();
     }
 
     private Subscription buildSubscriptionFromRequest(HttpServletRequest request) {
