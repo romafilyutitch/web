@@ -53,7 +53,7 @@
                 <input type="hidden" name="command" value="change_login">
                 <input type="hidden" name="id" value="${sessionScope.user.id}">
                 <label class="form-label" for="loginInput"><fmt:message key="login"/></label>
-                <input class="form-control" id="loginInput" type="text" name="login" required pattern="[A-Za-z0-9]+">
+                <input class="form-control" id="loginInput" type="text" name="login" required pattern="\w{1,10}">
                 <div class="valid-feedback"><fmt:message key="validLogin"/></div>
                 <div class="invalid-feedback"><fmt:message key="invalidLogin"/></div>
                 <button class="btn btn-primary" type="submit"><fmt:message key="changeLogin"/></button>
@@ -64,8 +64,7 @@
                 <input type="hidden" name="command" value="change_password">
                 <input type="hidden" name="id" value="${sessionScope.user.id}">
                 <label class="form-label" for="password"><fmt:message key="changePassword"/></label>
-                <input class="form-control" id="password" type="password" name="password" required
-                       pattern="[A-Za-z0-9]+">
+                <input class="form-control" id="password" type="password" name="password" required pattern="\w{1,10}">
                 <div class="valid-feedback"><fmt:message key="validPassword"/></div>
                 <div class="invalid-feedback"><fmt:message key="invalidPassword"/></div>
                 <button class="btn btn-primary" type="submit"><fmt:message key="changePassword"/></button>

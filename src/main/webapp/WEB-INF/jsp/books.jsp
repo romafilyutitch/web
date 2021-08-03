@@ -123,7 +123,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addBookModalLabel">Modal title</h5>
+                        <h5 class="modal-title" id="addBookModalLabel"><fmt:message key="addNewBook"/></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -131,13 +131,13 @@
                             <input type="hidden" name="command" value="add_book">
                             <div class="col">
                                 <label for="name" class="form-label"><fmt:message key="name"/></label>
-                                <input id="name" class="form-control" type="text" name="name" required pattern="[A-Za-z0-9\s]+">
+                                <input id="name" class="form-control" type="text" name="name" required pattern="\w+(\w|\s)+">
                                 <div class="valid-feedback"><fmt:message key="validName"/></div>
                                 <div class="invalid-feedback"><fmt:message key="invalidName"/></div>
                             </div>
                             <div class=col">
                                 <label for="author" class="form-label"><fmt:message key="author"/></label>
-                                <input id="author" class="form-control" type="text" name="author" required pattern="[A-Za-z\s]+">
+                                <input id="author" class="form-control" type="text" name="author" required pattern="\w+(\w|\s)+">
                                 <div class="valid-feedback"><fmt:message key="validAuthor"/></div>
                                 <div class="invalid-feedback"><fmt:message key="invalidAuthor"/></div>
                             </div>

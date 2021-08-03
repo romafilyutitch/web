@@ -13,7 +13,7 @@
 <body class="text-center">
 <c:choose>
     <c:when test="${not empty requestScope.message}">
-        <div class="alert alrt-info">
+        <div class="alert alert-info">
             ${requestScope.message}
             <a class="link-info" href="controller?command=main"><fmt:message key="main"/></a>
         </div>
@@ -27,15 +27,13 @@
                             <input type="hidden" name="command" value="register">
                             <div class="mb-3">
                                 <label for="login"><fmt:message key="login"/></label>
-                                <input id="login" class="form-control" type="text" name="login" required
-                                       pattern="[A-Za-z0-9]+"/>
+                                <input id="login" class="form-control" type="text" name="login" required pattern="\w{1,10}"/>
                                 <div class="valid-feedback"><fmt:message key="validLogin"/></div>
                                 <div class="invalid-feedback"><fmt:message key="invalidLogin"/></div>
                             </div>
                             <div class="mb-3">
                                 <label for="password"><fmt:message key="password"/></label>
-                                <input id="password" class="form-control" type="password" name="password" required
-                                       pattern="[A-Za-z0-9]+"/>
+                                <input id="password" class="form-control" type="password" name="password" required pattern="\w{1,10}"/>
                                 <div class="valid-feedback"><fmt:message key="validPassword"/></div>
                                 <div class="invalid-feedback"><fmt:message key="invalidPassword"/></div>
                             </div>

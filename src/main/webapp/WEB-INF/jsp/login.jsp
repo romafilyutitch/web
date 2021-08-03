@@ -27,15 +27,13 @@
                             <input type="hidden" name="command" value="login">
                             <div class="mb-3">
                                 <label for="login" class="form-label"><fmt:message key="login"/></label>
-                                <input id="login" type="text" class="form-control" name="login" required
-                                       pattern="[A-Za-z0-9]+">
+                                <input id="login" type="text" class="form-control" name="login" required pattern="\w{1,10}">
                                 <div class="valid-feedback"><fmt:message key="validLogin"/></div>
                                 <div class="invalid-feedback"><fmt:message key="invalidLogin"/></div>
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label"><fmt:message key="password"/></label>
-                                <input id="password" type="password" class="form-control" name="password" required
-                                       pattern="[A-Za-z0-9]+">
+                                <input id="password" type="password" class="form-control" name="password" required pattern="\w{1,10}">
                                 <div class="valid-feedback"><fmt:message key="validPassword"/></div>
                                 <div class="invalid-feedback"><fmt:message key="invalidPassword"/></div>
                             </div>
