@@ -102,7 +102,7 @@
             </ul>
             <form id="findBookByNameForm" name="find" method="get" action="controller" class="d-flex" novalidate>
                 <input type="hidden" name="command" value="find_book_by_name">
-                <input class="form-control me-2" type="search" id="bookName" name="name" aria-label="Search" required pattern="[A-Za-z\s]+">
+                <input class="form-control me-2" type="text" id="bookName" name="name" aria-label="Search" required pattern="[A-Za-z\s]+">
                 <div class="invalid-feedback"><fmt:message key="invalidFind"/></div>
                 <div class="valid-feedback"><fmt:message key="validFind"/></div>
                 <button class="btn btn-outline-success" type="submit"><fmt:message key="find"/></button>

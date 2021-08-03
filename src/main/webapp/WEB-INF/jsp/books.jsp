@@ -13,6 +13,7 @@
     <script type="text/javascript" src="webjars/bootstrap/5.0.1/js/bootstrap.js"></script>
 </head>
 <body class="text-center">
+<jsp:include page="navbar.jsp"/>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col">
@@ -20,10 +21,9 @@
         </div>
     </div>
     <c:if test="${not empty requestScope.message}">
-        <div class="row justify-content-center">
-            <div class="alert alert-info">
-                    ${requestScope.message}
-            </div>
+        <div class="alert alert-warning alert-dismissible fade show">
+            <strong><fmt:message key="message"/></strong> ${requestScope.message}
+            <button class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </c:if>
     <div class="row">

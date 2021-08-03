@@ -3,11 +3,11 @@ $(document).ready(function(){
     form.addEventListener("submit", function (event) {
         event.preventDefault();
         event.stopPropagation();
-        if (form.checkValidity){
+        if (form.checkValidity()) {
             const formValues = $(this).serialize();
             $.ajax({
                 url:"controller",
-                method:"get",
+                method:"post",
                 data:formValues,
                 success:function (response) {
                     $("body").html(response);
@@ -15,7 +15,7 @@ $(document).ready(function(){
             })
         }
         form.classList.add("was-validated");
-    });
+    })
     const addCommentForms = document.querySelectorAll(".addCommentForm");
     Array.from(addCommentForms).forEach(function (form) {
         form.addEventListener("submit", function(event) {
