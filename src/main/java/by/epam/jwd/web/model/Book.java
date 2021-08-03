@@ -61,9 +61,7 @@ public class Book implements DbEntity {
         return date;
     }
 
-    public int getPagesAmount() {
-        return pagesAmount;
-    }
+    public int getPagesAmount() { return pagesAmount; }
 
     public String getText() {
         return text;
@@ -73,11 +71,11 @@ public class Book implements DbEntity {
         return copiesAmount;
     }
 
-    public Integer getLikesAmount() {
+    public int getLikesAmount() {
         return likesAmount;
     }
 
-    public Integer getCommentsAmount() {
+    public int getCommentsAmount() {
         return commentsAmount;
     }
 

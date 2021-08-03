@@ -5,6 +5,7 @@ import by.epam.jwd.web.resource.ConfigurationManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.ServiceFactory;
 import by.epam.jwd.web.service.UserService;
+import by.epam.jwd.web.validator.Validator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -12,6 +13,7 @@ import java.util.Optional;
 
 public class RegisterCommand implements ActionCommand {
     private final UserService userService = ServiceFactory.getInstance().getUserService();
+    private final Validator<User> validator = Validator.getUserValidator();
 
     private static final String REQUEST_LOGIN_PARAMETER_KEY = "login";
     private static final String REQUEST_PASSWORD_PARAMETER_KEY = "password";
@@ -33,6 +35,10 @@ public class RegisterCommand implements ActionCommand {
         final String login = request.getParameter(REQUEST_LOGIN_PARAMETER_KEY);
         final String password = request.getParameter(REQUEST_PASSWORD_PARAMETER_KEY);
         final User user = new User(login, password);
+        if (!validator.validate(user)) {
+            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage("user.validation.invalid"));
+            return ConfigurationManager.getRegisterPagePath();
+        }
         final Optional<User> optionalUserByLogin = userService.findByLogin(login);
         if (optionalUserByLogin.isPresent()) {
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(USER_WITH_ENTERED_LOGIN_EXITS_MESSAGE_KEY));

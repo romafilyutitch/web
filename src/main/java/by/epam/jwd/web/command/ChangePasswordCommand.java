@@ -17,8 +17,7 @@ public class ChangePasswordCommand implements ActionCommand {
     private static final String USER_PASSWORD_WAS_CHANGED_MESSAGE_KEY = "user.password.changed";
     private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
 
-    private ChangePasswordCommand() {
-    }
+    private ChangePasswordCommand() {}
 
     public static ChangePasswordCommand getInstance() {
         return Singleton.INSTANCE;
