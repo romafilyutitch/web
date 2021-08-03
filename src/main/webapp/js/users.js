@@ -25,6 +25,7 @@ $(document).ready(function(){
     const datepicker = $(".datepicker");
     datepicker.datepicker({
         language:currentLocale,
+        locale:currentLocale,
         format:'dd.mm.yyyy'
     })
 })

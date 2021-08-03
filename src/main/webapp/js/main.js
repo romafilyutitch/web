@@ -15,9 +15,7 @@ $(document).ready(function(){
             })
         }
         form.classList.add("was-validated");
-    })
-})
-$(document).ready(function() {
+    });
     const addCommentForms = document.querySelectorAll(".addCommentForm");
     Array.from(addCommentForms).forEach(function (form) {
         form.addEventListener("submit", function(event) {

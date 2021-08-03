@@ -7,7 +7,7 @@
 <fmt:setBundle basename="users"/>
 <html>
 <head>
-    <title><fmt:message key="title"/></title>
+    <title>Users</title>
     <link rel="stylesheet" href="webjars/bootstrap/5.0.1/css/bootstrap.css"/>
     <link rel="stylesheet" href="webjars/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.css">
     <script type="text/javascript" src="webjars/jquery/2.1.1/jquery.js"></script>
@@ -15,7 +15,10 @@
     <script type="text/javascript" src="webjars/momentjs/2.29.1/min/moment-with-locales.js"></script>
     <script type="text/javascript" src="webjars/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.js"></script>
     <script type="text/javascript" src="webjars/bootstrap-datepicker/1.7.1/locales/bootstrap-datepicker.ru.min.js"></script>
+    <script type="text/javascript" src="webjars/bootstrap-datepicker/1.7.1/locales/bootstrap-datepicker.zh-CN.min.js"></script>
     <script type="text/javascript" src="webjars/bootstrap-datepicker/1.7.1/locales/bootstrap-datepicker.en-GB.min.js"></script>
+    <script type="text/javascript" src="webjars/bootstrap-datepicker/1.7.1/locales/bootstrap-datepicker.hi.min.js"></script>
+    <script type="text/javascript" src="webjars/bootstrap-datepicker/1.7.1/locales/bootstrap-datepicker.ar.min.js"></script>
 </head>
 <body class="text-center">
 <div class="container">

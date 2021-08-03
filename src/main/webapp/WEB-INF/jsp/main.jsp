@@ -8,70 +8,115 @@
 <fmt:setBundle basename="main"/>
 <html>
 <head>
-    <title><fmt:message key="title"/></title>
+    <title>Library application</title>
     <link rel="stylesheet" href="webjars/bootstrap/5.0.1/css/bootstrap.css"/>
     <script type="text/javascript" src="webjars/jquery/2.1.1/jquery.js"></script>
     <script type="text/javascript" src="webjars/bootstrap/5.0.1/js/bootstrap.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-light navbar-expand-lg bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <fmt:message key="welcome"/>
-        <ctg:date/>
-        <div class="collapse navbar-collapse">
-            <div class="navbar-nav">
+        <a class="navbar-brand" href="#"><fmt:message key="welcome"/></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#"><ctg:date/></a>
+                </li>
                 <c:choose>
                     <c:when test="${not empty sessionScope.user}">
-                        <a class="nav-link" href="#"><fmt:message key="hello"/>${sessionScope.user.login}</a>
-                        <a class="nav-link" href="#" onclick="logout()"><fmt:message key="logout"/></a>
-                        <a class="nav-link" href="controller?command=show_user_orders"><fmt:message key="myOrders"/></a>
-                        <a class="nav-link" href="controller?command=show_account"><fmt:message key="myAccount"/></a>
+                        <li class="nav-item"><a class="nav-link" href="#"><fmt:message key="hello"/> ${sessionScope.user.login}</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#" onclick="logout()"><fmt:message key="logout"/></a></li>
+                        <li class="nav-item"><a class="nav-link" href="controller?command=show_user_orders"><fmt:message key="myOrders"/></a></li>
+                        <li class="nav-item"><a class="nav-link" href="controller?command=show_account"><fmt:message key="myAccount"/></a></li>
                         <c:if test="${sessionScope.user.role eq UserRole.ADMIN or sessionScope.user.role eq UserRole.LIBRARIAN}">
                             <c:if test="${sessionScope.user.role eq UserRole.ADMIN}">
-                                <a class="nav-link" href="controller?command=show_users"><fmt:message key="users"/></a>
+                                <li class="nav-item"><a class="nav-link" href="controller?command=show_users"><fmt:message key="users"/></a></li>
                             </c:if>
-                            <a class="nav-link" href="controller?command=show_books"><fmt:message key="books"/></a>
-                            <a class="nav-link" href="controller?command=show_orders"><fmt:message key="orders"/></a>
+                            <li class="nav-item"><a class="nav-link" href="controller?command=show_books"><fmt:message key="books"/></a></li>
+                            <li class="nav-item"><a class="nav-link" href="controller?command=show_orders"><fmt:message key="orders"/></a></li>
                         </c:if>
                     </c:when>
                     <c:otherwise>
-                        <a class="nav-link" href="controller?command=show_login"><fmt:message key="login"/></a>
-                        <a class="nav-link" href="controller?command=show_register"><fmt:message key="register"/></a>
+                        <li class="nav-item"><a class="nav-link" href="controller?command=show_login"><fmt:message key="login"/></a></li>
+                        <li class="nav-item"><a class="nav-link" href="controller?command=show_register"><fmt:message key="register"/></a></li>
                     </c:otherwise>
                 </c:choose>
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Language
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#" onclick="setLanguage('en')"><fmt:message key="english"/></a></li>
-                    <li><a class="dropdown-item" href="#" onclick="setLanguage('ru')"><fmt:message key="russian"/></a></li>
-                    <li><a class="dropdown-item" href="#" onclick="setLanguage('zh')"><fmt:message key="chinese"/></a></li>
-                    <li><a class="dropdown-item" href="#" onclick="setLanguage('hi')"><fmt:message key="indian"/></a></li>
-                    <li><a class="dropdown-item" href="#" onclick="setLanguage('ar')"><fmt:message key="arabic"/></a></li>
-                </ul>
-            </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#languageModal">
+                        <fmt:message key="language"/>
+                    </a>
+                    <div class="modal fade" id="languageModal" tabindex="-1" aria-labelledby="languageModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="languageModalLabel"><fmt:message key="chooseLanguage"/></h5>
+                                    <button class="btn btn-close" data-bs-dimiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="list-group">
+                                        <button class="list-group-item list-group-item-action" onclick="setLanguage('en')"><fmt:message key="english"/></button>
+                                        <button class="list-group-item list-group-item-action" onclick="setLanguage('ru')"><fmt:message key="russian"/></button>
+                                        <button class="list-group-item list-group-item-action" onclick="setLanguage('zh')"><fmt:message key="chinese"/></button>
+                                        <button class="list-group-item list-group-item-action" onclick="setLanguage('hi')"><fmt:message key="indian"/></button>
+                                        <button class="list-group-item list-group-item-action" onclick="setLanguage('ar')"><fmt:message key="arabic"/></button>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#genreModal">
+                        <fmt:message key="findByGenre"/>
+                    </a>
+                    <div class="modal fade" id="genreModal" tabindex="-1" aria-labelledby="genreModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="genreModalLabel"><fmt:message key="chooseGenre"/></h5>
+                                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="list-group">
+                                        <button class="list-group-item list-group-item-action" onclick="findFiction()"><fmt:message key="fiction"/></button>
+                                        <button class="list-group-item list-group-item-action" onclick="findFantasy()"><fmt:message key="fantasy"/></button>
+                                        <button class="list-group-item list-group-item-action" onclick="findScience()"><fmt:message key="science"/></button>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="findAllBooks()"><fmt:message key="all"/></a>
+                </li>
+            </ul>
+            <form id="findBookByNameForm" name="find" method="get" action="controller" class="d-flex" novalidate>
+                <input type="hidden" name="command" value="find_book_by_name">
+                <input class="form-control me-2" type="search" id="bookName" name="name" aria-label="Search" required pattern="[A-Za-z\s]+">
+                <div class="invalid-feedback"><fmt:message key="invalidFind"/></div>
+                <div class="valid-feedback"><fmt:message key="validFind"/></div>
+                <button class="btn btn-outline-success" type="submit"><fmt:message key="find"/></button>
+            </form>
         </div>
     </div>
 </nav>
 <div class="container">
     <c:if test="${not empty requestScope.message}">
-        <div class="alert alert-info">
-            ${requestScope.message}
+        <div class="alert alert-warning alert-dismissible fade show">
+            <strong><fmt:message key="message"/></strong> ${requestScope.message}
+            <button class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </c:if>
-    <div>
-        <button class="btn btn-primary" onclick="findFiction()"><fmt:message key="fiction"/></button>
-        <button class="btn btn-primary" onclick="findFantasy()"><fmt:message key="fantasy"/></button>
-        <button class="btn btn-primary" onclick="findScience()"><fmt:message key="science"/></button>
-        <button class="btn btn-primary" onclick="findAllBooks()"><fmt:message key="all"/></button>
-    </div>
-    <form id="findBookByNameForm" name="find" method="get" action="controller" novalidate>
-        <input type="hidden" name="command" value="find_book_by_name">
-        <label for="bookName"><fmt:message key="name"/></label>
-        <input type="search" id="bookName" class="form-control" required pattern="[A-Za-z\s]+" name="name">
-        <div class="invalid-feedback"><fmt:message key="invalidSearch"/></div>
-        <button type="submit" class="btn btn-outline-primary"><fmt:message key="search"/></button>
-    </form>
     <c:if test="${not empty requestScope.books }">
         <div class="row row-cols-auto">
             <c:forEach var="order" items="${requestScope.books}">
@@ -156,7 +201,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                <fmt:message key="closeComments"/></button>
+                                                <fmt:message key="close"/></button>
                                         </div>
                                     </div>
                                 </div>
