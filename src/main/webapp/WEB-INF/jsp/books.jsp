@@ -115,47 +115,63 @@
         </div>
     </div>
 </div>
-<div class="container">
     <div class="row row-cols-auto justify-content-center">
-            <form id="addNewBookForm" action="controller" method="post" novalidate>
-                <input type="hidden" name="command" value="add_book">
-                <div class="col">
-                    <label for="name" class="form-label"><fmt:message key="name"/></label>
-                    <input id="name" class="form-control" type="text" name="name" required pattern="[A-Za-z0-9\s]+">
-                    <div class="valid-feedback"><fmt:message key="validName"/></div>
-                    <div class="invalid-feedback"><fmt:message key="invalidName"/></div>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBookModal">
+            <fmt:message key="addNewBook"/>
+        </button>
+        <div class="modal fade" id="addBookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addBookModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addNewBookForm" action="controller" method="post" novalidate>
+                            <input type="hidden" name="command" value="add_book">
+                            <div class="col">
+                                <label for="name" class="form-label"><fmt:message key="name"/></label>
+                                <input id="name" class="form-control" type="text" name="name" required pattern="[A-Za-z0-9\s]+">
+                                <div class="valid-feedback"><fmt:message key="validName"/></div>
+                                <div class="invalid-feedback"><fmt:message key="invalidName"/></div>
+                            </div>
+                            <div class=col">
+                                <label for="author" class="form-label"><fmt:message key="author"/></label>
+                                <input id="author" class="form-control" type="text" name="author" required pattern="[A-Za-z\s]+">
+                                <div class="valid-feedback"><fmt:message key="validAuthor"/></div>
+                                <div class="invalid-feedback"><fmt:message key="invalidAuthor"/></div>
+                            </div>
+                            <div class="col">
+                                <label for="genre" class="form-label"><fmt:message key="genre"/></label>
+                                <select id="genre" class="form-select" name="genre" required>
+                                    <option value="FICTION"><fmt:message key="fiction"/></option>
+                                    <option value="FANTASY"><fmt:message key="fantasy"/></option>
+                                    <option value="SCIENCE"><fmt:message key="science"/></option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="pages" class="form-label"><fmt:message key="pages"/></label>
+                                <input id="pages" class="form-control" type="number" required min = "1" step = "1" name="pages">
+                                <div class="valid-feedback"><fmt:message key="validPages"/></div>
+                                <div class="invalid-feedback"><fmt:message key="invalidPages"/></div>
+                            </div>
+                            <div class="col">
+                                <label for="text" class="form-label"><fmt:message key="text"/></label>
+                                <textarea id="text" class="form-control" name="text" required></textarea>
+                                <div class="valid-feedback"><fmt:message key="validText"/></div>
+                                <div class="invalid-feedback"><fmt:message key="invalidText"/></div>
+                            </div>
+                            <button class="btn btn-outline-success" type="submit"><fmt:message key="addNewBook"/></button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
+                    </div>
                 </div>
-                <div class=col">
-                    <label for="author" class="form-label"><fmt:message key="author"/></label>
-                    <input id="author" class="form-control" type="text" name="author" required pattern="[A-Za-z\s]+">
-                    <div class="valid-feedback"><fmt:message key="validAuthor"/></div>
-                    <div class="invalid-feedback"><fmt:message key="invalidAuthor"/></div>
-                </div>
-                <div class="col">
-                    <label for="genre" class="form-label"><fmt:message key="genre"/></label>
-                        <select id="genre" class="form-select" name="genre" required>
-                            <option value="FICTION"><fmt:message key="fiction"/></option>
-                            <option value="FANTASY"><fmt:message key="fantasy"/></option>
-                            <option value="SCIENCE"><fmt:message key="science"/></option>
-                        </select>
-                </div>
-                <div class="col">
-                    <label for="pages" class="form-label"><fmt:message key="pages"/></label>
-                    <input id="pages" class="form-control" type="number" required min = "1" step = "1" name="pages">
-                    <div class="valid-feedback"><fmt:message key="validPages"/></div>
-                    <div class="invalid-feedback"><fmt:message key="invalidPages"/></div>
-                </div>
-                <div class="col">
-                    <label for="text" class="form-label"><fmt:message key="text"/></label>
-                    <textarea id="text" class="form-control" name="text" required></textarea>
-                    <div class="valid-feedback"><fmt:message key="validText"/></div>
-                    <div class="invalid-feedback"><fmt:message key="invalidText"/></div>
-                </div>
-                <button class="btn btn-outline-success" type="submit"><fmt:message key="addNewBook"/></button>
-            </form>
+            </div>
         </div>
-</div>
-<a class="btn btn-primary" href="controller?command=main"><fmt:message key="main"/></a>
+        <a class="btn btn-primary" href="controller?command=main"><fmt:message key="main"/></a>
+    </div>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/books.js"></script>
 </body>
 </html>
