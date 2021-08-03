@@ -21,10 +21,14 @@
         });
 })()
 $(document).ready(function(){
-    const currentLocale = $("#locale").val();
+    let currentLocale = $("#locale").val();
+    if (currentLocale === 'zh') {
+        currentLocale = 'zh-CN'
+    }
     const datepicker = $(".datepicker");
     datepicker.datepicker({
         language:currentLocale,
+        locale:currentLocale,
         format:'dd.mm.yyyy'
     })
 })

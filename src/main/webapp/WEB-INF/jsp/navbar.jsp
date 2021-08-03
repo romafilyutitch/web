@@ -8,9 +8,6 @@
 <html>
 <head>
     <title>Navbar</title>
-    <link type="text/css" href="webjars/bootstrap/5.0.1/css/bootstrap.css">
-    <script type="text/javascript" src="webjars/jquery/2.1.1/jquery.js"></script>
-    <script type="text/javascript" src="webjars/bootstrap/5.0.1/js/bootstrap.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
