@@ -1,13 +1,14 @@
-package by.epam.jwd.web.validation;
+package by.epam.jwd.web.validation.impl;
 
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
 import by.epam.jwd.web.resource.MessageManager;
+import by.epam.jwd.web.validation.Validation;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class BookValidation implements Validation<Book> {
+public class BookValidation implements Validation<Book> {
 
     private static final String INVALID_BOOK_NAME_MESSAGE_KEY = "book.validation.name.invalid";
     private static final String INVALID_AUTHOR_NAME_MESSAGE_KEY = "book.validation.author.invalid";
@@ -19,7 +20,7 @@ class BookValidation implements Validation<Book> {
     private BookValidation() {
     }
 
-    static BookValidation getInstance() {
+    public static BookValidation getInstance() {
         return Singleton.INSTANCE;
     }
 

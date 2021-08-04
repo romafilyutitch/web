@@ -1,19 +1,20 @@
-package by.epam.jwd.web.validation;
+package by.epam.jwd.web.validation.impl;
 
 import by.epam.jwd.web.model.Comment;
 import by.epam.jwd.web.resource.MessageManager;
+import by.epam.jwd.web.validation.Validation;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class CommentValidation implements Validation<Comment> {
+public class CommentValidation implements Validation<Comment> {
 
     private static final String INVALID_COMMENT_TEXT_MESSAGE_KEY = "comment.validation.text.invalid";
 
     private CommentValidation() {
     }
 
-    static CommentValidation getInstance() {
+    public static CommentValidation getInstance() {
         return Singleton.INSTANCE;
     }
 

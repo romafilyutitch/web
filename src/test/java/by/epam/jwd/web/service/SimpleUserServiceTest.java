@@ -10,6 +10,7 @@ import by.epam.jwd.web.exception.InvalidSubscriptionException;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.model.UserRole;
+import by.epam.jwd.web.service.impl.SimpleUserService;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

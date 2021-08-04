@@ -1,5 +1,7 @@
 package by.epam.jwd.web.dao;
 
+import by.epam.jwd.web.dao.mysql.MySQLDAOFactory;
+
 public interface DAOFactory {
 
     UserDao getUserDao();

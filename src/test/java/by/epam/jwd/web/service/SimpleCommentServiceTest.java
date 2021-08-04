@@ -6,6 +6,7 @@ import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Comment;
 import by.epam.jwd.web.model.User;
+import by.epam.jwd.web.service.impl.SimpleCommentService;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

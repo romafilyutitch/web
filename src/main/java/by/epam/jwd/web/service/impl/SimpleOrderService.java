@@ -1,4 +1,4 @@
-package by.epam.jwd.web.service;
+package by.epam.jwd.web.service.impl;
 
 import by.epam.jwd.web.dao.DAOFactory;
 import by.epam.jwd.web.dao.OrderDao;
@@ -8,6 +8,7 @@ import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.model.Status;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
+import by.epam.jwd.web.service.OrderService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-class SimpleOrderService implements OrderService {
+public class SimpleOrderService implements OrderService {
     private static final Logger logger = LogManager.getLogger(SimpleOrderService.class);
 
     private final OrderDao orderDao = DAOFactory.getInstance().getOrderDao();

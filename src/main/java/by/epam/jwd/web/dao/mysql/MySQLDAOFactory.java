@@ -1,4 +1,13 @@
-package by.epam.jwd.web.dao;
+package by.epam.jwd.web.dao.mysql;
+
+import by.epam.jwd.web.dao.AuthorDao;
+import by.epam.jwd.web.dao.BookDao;
+import by.epam.jwd.web.dao.CommentDao;
+import by.epam.jwd.web.dao.DAOFactory;
+import by.epam.jwd.web.dao.LikeDao;
+import by.epam.jwd.web.dao.OrderDao;
+import by.epam.jwd.web.dao.SubscriptionDao;
+import by.epam.jwd.web.dao.UserDao;
 
 public class MySQLDAOFactory implements DAOFactory {
     private MySQLDAOFactory() {

@@ -1,6 +1,6 @@
 package by.epam.jwd.web.service;
 
-import org.junit.Assert;
+import by.epam.jwd.web.service.impl.AppServiceFactory;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

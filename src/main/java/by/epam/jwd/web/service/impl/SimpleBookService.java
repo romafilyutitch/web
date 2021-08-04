@@ -1,4 +1,4 @@
-package by.epam.jwd.web.service;
+package by.epam.jwd.web.service.impl;
 
 import by.epam.jwd.web.dao.AuthorDao;
 import by.epam.jwd.web.dao.BookDao;
@@ -7,6 +7,7 @@ import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.model.Author;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
+import by.epam.jwd.web.service.BookService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
-class SimpleBookService implements BookService {
+public class SimpleBookService implements BookService {
     private static final Logger logger = LogManager.getLogger(SimpleBookService.class);
 
     private final BookDao bookDao = DAOFactory.getInstance().getBookDao();

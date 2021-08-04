@@ -1,4 +1,4 @@
-package by.epam.jwd.web.service;
+package by.epam.jwd.web.service.impl;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import by.epam.jwd.web.dao.DAOFactory;
@@ -12,13 +12,14 @@ import by.epam.jwd.web.exception.WrongPasswordException;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.model.UserRole;
+import by.epam.jwd.web.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
 
-class SimpleUserService implements UserService {
+public class SimpleUserService implements UserService {
     private static final Logger logger = LogManager.getLogger(SimpleUserService.class);
 
     private final UserDao userDao = DAOFactory.getInstance().getUserDao();

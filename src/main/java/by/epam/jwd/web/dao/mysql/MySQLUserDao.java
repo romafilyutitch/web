@@ -1,5 +1,7 @@
-package by.epam.jwd.web.dao;
+package by.epam.jwd.web.dao.mysql;
 
+import by.epam.jwd.web.dao.AbstractDao;
+import by.epam.jwd.web.dao.UserDao;
 import by.epam.jwd.web.exception.DAOException;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;

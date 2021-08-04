@@ -1,6 +1,13 @@
-package by.epam.jwd.web.service;
+package by.epam.jwd.web.service.impl;
 
-class AppServiceFactory implements ServiceFactory {
+import by.epam.jwd.web.service.BookService;
+import by.epam.jwd.web.service.CommentService;
+import by.epam.jwd.web.service.LikeService;
+import by.epam.jwd.web.service.OrderService;
+import by.epam.jwd.web.service.ServiceFactory;
+import by.epam.jwd.web.service.UserService;
+
+public class AppServiceFactory implements ServiceFactory {
 
     private AppServiceFactory() {}
 

@@ -1,20 +1,21 @@
-package by.epam.jwd.web.validation;
+package by.epam.jwd.web.validation.impl;
 
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.resource.MessageManager;
+import by.epam.jwd.web.validation.Validation;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-class SubscriptionValidation implements Validation<Subscription> {
+public class SubscriptionValidation implements Validation<Subscription> {
 
     private static final String INVALID_SUBSCRIPTION_DATES_RANGE_MESSAGE_KEY = "subscription.validation.range.invalid";
 
     private SubscriptionValidation() {
     }
 
-    static SubscriptionValidation getInstance() {
+    public static SubscriptionValidation getInstance() {
         return Singleton.INSTANCE;
     }
 

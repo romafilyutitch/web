@@ -1,5 +1,7 @@
 package by.epam.jwd.web.service;
 
+import by.epam.jwd.web.service.impl.AppServiceFactory;
+
 public interface ServiceFactory {
 
     BookService getBookService();

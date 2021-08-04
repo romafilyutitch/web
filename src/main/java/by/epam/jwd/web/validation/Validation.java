@@ -5,6 +5,10 @@ import by.epam.jwd.web.model.Comment;
 import by.epam.jwd.web.model.DbEntity;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
+import by.epam.jwd.web.validation.impl.BookValidation;
+import by.epam.jwd.web.validation.impl.CommentValidation;
+import by.epam.jwd.web.validation.impl.SubscriptionValidation;
+import by.epam.jwd.web.validation.impl.UserValidation;
 
 import java.util.List;
 

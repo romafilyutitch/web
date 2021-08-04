@@ -1,11 +1,11 @@
 package by.epam.jwd.web.dao;
 
 import by.epam.jwd.web.connectionPool.ConnectionPool;
+import by.epam.jwd.web.dao.mysql.MySQLSubscriptionDao;
 import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
 import by.epam.jwd.web.model.Subscription;
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
