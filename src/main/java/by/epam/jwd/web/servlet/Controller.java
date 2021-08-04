@@ -1,9 +1,8 @@
 package by.epam.jwd.web.servlet;
 
 import by.epam.jwd.web.command.ActionCommand;
-import by.epam.jwd.web.command.ActionFactory;
+import by.epam.jwd.web.command.CommandFactory;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,7 +26,7 @@ public class Controller extends HttpServlet {
     private void processRequest(HttpServletRequest request,
                                 HttpServletResponse response)
             throws ServletException, IOException {
-        ActionFactory client = ActionFactory.getInstance();
+        CommandFactory client = CommandFactory.getInstance();
         ActionCommand command = client.defineCommand(request);
         final String result = command.execute(request);
         request.getRequestDispatcher(result).forward(request, response);
