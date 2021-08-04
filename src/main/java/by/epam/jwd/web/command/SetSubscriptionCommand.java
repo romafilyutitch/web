@@ -7,16 +7,17 @@ import by.epam.jwd.web.resource.ConfigurationManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.ServiceFactory;
 import by.epam.jwd.web.service.UserService;
-import by.epam.jwd.web.validator.Validator;
+import by.epam.jwd.web.validation.Validation;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
 
 public class SetSubscriptionCommand implements ActionCommand {
     private final UserService userService = ServiceFactory.getInstance().getUserService();
-    private final Validator<Subscription> validator = Validator.getSubscriptionValidator();
+    private final Validation<Subscription> subscriptionValidation = Validation.getSubscriptionValidation();
 
     private static final String REQUEST_USER_ID_PARAMETER_KEY = "id";
     private static final String REQUEST_START_DATE_PARAMETER_KEY = "start_date";
@@ -37,8 +38,9 @@ public class SetSubscriptionCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
         final Subscription subscriptionFromRequest = buildSubscriptionFromRequest(request);
-        if (!validator.validate(subscriptionFromRequest)) {
-            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage("subscription.validation.invalid"));
+        final List<String> validationMessages = subscriptionValidation.validate(subscriptionFromRequest);
+        if (!validationMessages.isEmpty()) {
+            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, validationMessages);
             return ConfigurationManager.getShowUsersCommand();
         }
         final Long userId = Long.valueOf(request.getParameter(REQUEST_USER_ID_PARAMETER_KEY));

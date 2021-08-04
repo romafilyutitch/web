@@ -7,14 +7,15 @@ import by.epam.jwd.web.resource.ConfigurationManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.BookService;
 import by.epam.jwd.web.service.ServiceFactory;
-import by.epam.jwd.web.validator.Validator;
+import by.epam.jwd.web.validation.Validation;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Optional;
 
 public class AddBookCommand implements ActionCommand {
     private final BookService bookService = ServiceFactory.getInstance().getBookService();
-    private final Validator<Book> validator = Validator.getBookValidator();
+    private final Validation<Book> bookValidation = Validation.getBookValidation();
 
     private static final String REQUEST_NAME_PARAMETER_KEY = "name";
     private static final String REQUEST_AUTHOR_PARAMETER_KEY = "author";
@@ -34,11 +35,12 @@ public class AddBookCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
         final Book bookFromRequest = buildBookFromRequest(request);
-        final Optional<Book> optionalBook = bookService.findByName(bookFromRequest.getName());
-        if (!validator.validate(bookFromRequest)) {
-            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage("book.validation.invalid"));
+        final List<String> validationMessages = bookValidation.validate(bookFromRequest);
+        if (!validationMessages.isEmpty()) {
+            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, validationMessages);
             return ConfigurationManager.getShowBooksCommand();
         }
+        final Optional<Book> optionalBook = bookService.findByName(bookFromRequest.getName());
         if (optionalBook.isPresent()) {
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(BOOK_EXISTS_MESSAGE_KEY));
         } else {
