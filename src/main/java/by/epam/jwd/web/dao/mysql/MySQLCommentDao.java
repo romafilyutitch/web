@@ -16,6 +16,10 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * {@link AbstractDao} abstract class implementation for {@link Comment} database entity. Links to database
+ * comment table and performs sql operations with that table.
+ */
 public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao {
     private static final String TABLE_NAME = "comment";
 
@@ -55,10 +59,21 @@ public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao 
         super(TABLE_NAME, FIND_ALL_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
     }
 
+    /**
+     * Returns singleton from nested class that encapsulates single class instance.
+     * @return class instance.
+     */
     public static MySQLCommentDao getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Maps result from find sql statement to {@link Comment} instance and returns it.
+     * Template method implementation for {@link Comment} database entity.
+     * @param resultSet Made during sql find statement execution result.
+     * @return {@link Comment} instance.
+     * @throws SQLException when exception in database occurs.
+     */
     @Override
     protected Comment mapResultSet(ResultSet resultSet) throws SQLException {
         final long id = resultSet.getLong(COMMENT_ID_COLUMN);
@@ -111,6 +126,13 @@ public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao 
         }
     }
 
+    /**
+     * Set {@link Comment} instance data to prepared statement to execute save statement.
+     * Template method implementation for {@link Comment} database entity.
+     * @param entity entity that need to save.
+     * @param savePreparedStatement Made save entity prepared statement.
+     * @throws SQLException when exception in database occurs.
+     */
     @Override
     protected void setSavePrepareStatementValues(Comment entity, PreparedStatement savePreparedStatement) throws SQLException {
         savePreparedStatement.setLong(1, entity.getUser().getId());
@@ -119,6 +141,13 @@ public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao 
         savePreparedStatement.setString(4, entity.getText());
     }
 
+    /**
+     * Set {@link Comment} instance data to prepared statement to execute update statement.
+     * Template method implementation for {@link Comment} database entity.
+     * @param entity entity that need to update.
+     * @param updatePreparedStatement Made update entity prepared statement
+     * @throws SQLException when database exception occurs
+     */
     @Override
     protected void setUpdatePreparedStatementValues(Comment entity, PreparedStatement updatePreparedStatement) throws SQLException {
         updatePreparedStatement.setLong(1, entity.getUser().getId());
@@ -128,11 +157,22 @@ public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao 
         updatePreparedStatement.setLong(5, entity.getId());
     }
 
+    /**
+     * Finds and returns result of find {@link Comment} instances by specified {@link Book} instance.
+     * Returns passed book comments.
+     * @param book passed book that has comments.
+     * @return passed book comments.
+     */
     @Override
     public List<Comment> findByBook(Book book) {
         return findPreparedEntities(FIND_BY_BOOK_ID_SQL, preparedStatement -> preparedStatement.setLong(1, book.getId()));
     }
 
+    /**
+     * Nested class that encapsulates single {@link MySQLCommentDao} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final MySQLCommentDao INSTANCE = new MySQLCommentDao();
     }

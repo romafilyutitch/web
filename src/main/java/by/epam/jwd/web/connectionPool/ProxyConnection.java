@@ -26,7 +26,7 @@ class ProxyConnection implements Connection {
         this.connection = connection;
     }
 
-    public Connection getConnection() {
+    Connection getConnection() {
         return connection;
     }
 

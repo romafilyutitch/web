@@ -136,8 +136,8 @@ public class MySQLBookDaoTest {
     }
 
     @Test
-    public void findByAuthorId_mustReturnNotNullListOfBooksWithSpecifiedAuthorId() {
-        final List<Book> foundBooks = testDao.findByAuthor(testBook.getAuthor());
+    public void findByAuthorName_mustReturnNotNullListOfBooksWithSpecifiedAuthorName() {
+        final List<Book> foundBooks = testDao.findByAuthorName(testBook.getAuthor().getName());
         assertNotNull("Returned value must be not null", foundBooks);
         for (Book foundBook : foundBooks) {
             assertEquals("Found book must have passed author id", testBook.getAuthor().getId(), foundBook.getAuthor().getId());

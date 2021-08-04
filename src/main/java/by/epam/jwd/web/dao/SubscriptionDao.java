@@ -7,9 +7,25 @@ import by.epam.jwd.web.model.Subscription;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Subscription data access object interface for dao layer. Extends {@link Dao} base interface
+ * @see "Date access object pattern"
+ */
 public interface SubscriptionDao extends Dao<Subscription> {
+    /**
+     * Find and returns result of find {@link Subscription} that has specified {@link LocalDate} start date
+     * @throws by.epam.jwd.web.exception.DAOException when exception in dao layer occurs.
+     * @param startDate {@link LocalDate} find subscription start date
+     * @return subscriptions that have specified start date
+     */
     List<Subscription> findByStartDate(LocalDate startDate);
 
+    /**
+     * Find and returns result of find {@link Subscription} that has specified {@link LocalDate} end date
+     * @throws by.epam.jwd.web.exception.DAOException when exception in dao layer occurs
+     * @param endDate {@link LocalDate} find Subscription end date
+     * @return subscriptions that have specified end date
+     */
     List<Subscription> findByEndDate(LocalDate endDate);
 
 }

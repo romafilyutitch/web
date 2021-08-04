@@ -19,6 +19,10 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * {@link AbstractDao} implementation for {@link Order} database entity. Links to order table
+ * and performs sql operations with that table.
+ */
 public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
     private static final String TABLE_NAME = "book_order";
 
@@ -64,10 +68,21 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
         super(TABLE_NAME, FIND_ALL_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
     }
 
+    /**
+     * Returns class instance from nested class that encapsulates single instance.
+     * @return class instance.
+     */
     public static MySQLOrderDao getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Maps find result set to {@link Order} instance.
+     * Template method implementation for {@link Order} database entity.
+     * @param result Made during sql find statement execution result.
+     * @return Mapped {@link Order} instance.
+     * @throws SQLException when database exception occurs.
+     */
     @Override
     protected Order mapResultSet(ResultSet result) throws SQLException {
         final long id = result.getLong(BOOK_ORDER_ID_COLUMN);
@@ -121,16 +136,30 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
         }
     }
 
+    /**
+     * Set {@link Order} instance data to execute save prepared statement.
+     * Template method implementation for {@link Order} database entity.
+     * @param entity entity that need to save.
+     * @param savePreparedStatement Made save entity prepared statement.
+     * @throws SQLException when database exception occurs.
+     */
     @Override
-    protected void setSavePrepareStatementValues(Order entity, PreparedStatement savePreparedStatement) throws SQLException, DAOException {
+    protected void setSavePrepareStatementValues(Order entity, PreparedStatement savePreparedStatement) throws SQLException{
         savePreparedStatement.setLong(1, entity.getUser().getId());
         savePreparedStatement.setLong(2, entity.getBook().getId());
         savePreparedStatement.setObject(3, entity.getOrderDate());
         savePreparedStatement.setLong(4, entity.getStatus().getId());
     }
 
+    /**
+     * Set {@link Order} instance data to execute update prepared statement.
+     * Tempalte method implementation for {@link Order} database entity.
+     * @param entity entity that need to update.
+     * @param updatePreparedStatement Made update entity prepared statement.
+     * @throws SQLException when database exception occurs.
+     */
     @Override
-    protected void setUpdatePreparedStatementValues(Order entity, PreparedStatement updatePreparedStatement) throws SQLException, DAOException {
+    protected void setUpdatePreparedStatementValues(Order entity, PreparedStatement updatePreparedStatement) throws SQLException {
         updatePreparedStatement.setLong(1, entity.getUser().getId());
         updatePreparedStatement.setLong(2, entity.getBook().getId());
         updatePreparedStatement.setObject(3, entity.getOrderDate());
@@ -138,21 +167,42 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
         updatePreparedStatement.setLong(5, entity.getId());
     }
 
+    /**
+     * Finds and returns result of find orders by passed {@link Book} instance.
+     * Returns orders that have passed book.
+     * @param book {@link Book} whose order need to be found
+     * @return found passed book orders.
+     */
     @Override
-    public List<Order> findByBook(Book book) throws DAOException {
+    public List<Order> findByBook(Book book) {
         return findPreparedEntities(FIND_BY_BOOK_ID_SQL, preparedStatement -> preparedStatement.setLong(1, book.getId()));
     }
 
+    /**
+     * Finds and returns result of find orders by passed {@link LocalDate} instance.
+     * @param orderDate {@link LocalDate} by what need to find orders.
+     * @return found orders with passed order date.
+     */
     @Override
-    public List<Order> findByOrderDate(LocalDate orderDate) throws DAOException {
+    public List<Order> findByOrderDate(LocalDate orderDate) {
         return findPreparedEntities(FIND_BY_DATE_SQL, preparedStatement -> preparedStatement.setObject(1, orderDate));
     }
 
+    /**
+     * Finds and returnds result of find orders by passed {@link User} instance.
+     * @param user {@link User} whose orders need to be found.
+     * @return found orders that have passed user.
+     */
     @Override
     public List<Order> findByUser(User user) {
         return findPreparedEntities((FIND_BY_USER_ID_SQL), preparedStatement -> preparedStatement.setLong(1, user.getId()));
     }
 
+    /**
+     * Nested class that encapsulates single {@link MySQLOrderDao} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final MySQLOrderDao INSTANCE = new MySQLOrderDao();
     }

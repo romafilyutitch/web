@@ -15,6 +15,10 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * {@link AbstractDao} abstract class implementation for {@link Book} database entity. Links to book database table
+ * and performs sql statements with that table
+ */
 public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
     private static final String TABLE_NAME = "book";
 
@@ -25,10 +29,10 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
     private static final String DELETE_SQL = "delete from book where id = ?";
 
     private static final String FIND_BY_NAME_TEMPLATE = "%s where book.name = ?";
-    private static final String FIND_BY_AUTHOR_TEMPLATE = "%s where author.id = ?";
+    private static final String FIND_BY_AUTHOR_NAME_TEMPLATE = "%s where author.name = ?";
     private static final String FIND_BY_GENRE_TEMPLATE = "%s where genre.id = ?";
     private static final String FIND_BY_NAME_SQL = String.format(FIND_BY_NAME_TEMPLATE, FIND_ALL_SQL);
-    private static final String FIND_BY_AUTHOR_SQL = String.format(FIND_BY_AUTHOR_TEMPLATE, FIND_ALL_SQL);
+    private static final String FIND_BY_AUTHOR_NAME_SQL = String.format(FIND_BY_AUTHOR_NAME_TEMPLATE, FIND_ALL_SQL);
     private static final String FIND_BY_GENRE_SQL = String.format(FIND_BY_GENRE_TEMPLATE, FIND_ALL_SQL);
 
     private static final String BOOK_ID_COLUMN = "book.id";
@@ -47,12 +51,23 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
         super(TABLE_NAME, FIND_ALL_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
     }
 
+    /**
+     * Returns singleton from nested class that encapsulates single class instance.
+     * @return class instance.
+     */
     public static MySQLBookDao getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Maps result from find sql statement to {@link Book} instance and returns it.
+     * Template method implementation for {@link Book} database entity.
+     * @param result Made during sql find statement execution result.
+     * @return {@link Book} instance
+     * @throws SQLException when exception in database occurs
+     */
     @Override
-    protected Book mapResultSet(ResultSet result) throws SQLException, DAOException {
+    protected Book mapResultSet(ResultSet result) throws SQLException {
         final long id = result.getLong(BOOK_ID_COLUMN);
         final String name = result.getString(BOOK_NAME_COLUMN);
         final String genreName = result.getString(GENRE_NAME_COLUMN);
@@ -73,8 +88,15 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
         return new Author(authorId, authorName);
     }
 
+    /**
+     * Set {@link Book} instance data to prepared statement to execute save statement.
+     * Template method implementation for {@link Book} database entity.
+     * @param entity entity that need to save.
+     * @param savePreparedStatement Made save entity prepared statement.
+     * @throws SQLException when exception in database occurs.
+     */
     @Override
-    protected void setSavePrepareStatementValues(Book entity, PreparedStatement savePreparedStatement) throws SQLException, DAOException {
+    protected void setSavePrepareStatementValues(Book entity, PreparedStatement savePreparedStatement) throws SQLException {
         savePreparedStatement.setString(1, entity.getName());
         savePreparedStatement.setLong(2, entity.getAuthor().getId());
         savePreparedStatement.setLong(3, entity.getGenre().getId());
@@ -86,6 +108,13 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
         savePreparedStatement.setInt(9, entity.getCommentsAmount());
     }
 
+    /**
+     * Set {@link Book} instance data to prepared statement to execute update statement.
+     * Template method implementation for {@link Book} database entity.
+     * @param entity entity that need to update.
+     * @param updatePreparedStatement Made update entity prepared statement
+     * @throws SQLException when database exception occurs
+     */
     @Override
     protected void setUpdatePreparedStatementValues(Book entity, PreparedStatement updatePreparedStatement) throws SQLException {
         updatePreparedStatement.setString(1, entity.getName());
@@ -100,22 +129,47 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
         updatePreparedStatement.setLong(10, entity.getId());
     }
 
+    /**
+     * Finds and returns result of find {@link Book} instance by specified name.
+     * Returns found book if there is book with passed name in database table or
+     * empty optional otherwise
+     * @param name name of book that need to be found.
+     * @return Found book in optional if there is book with passed name
+     * or empty optional otherwise
+     * @throws DAOException when database exception occurs
+     */
     @Override
     public Optional<Book> findByName(String name) throws DAOException {
         final List<Book> foundBooks = findPreparedEntities(FIND_BY_NAME_SQL, preparedStatement -> preparedStatement.setString(1, name));
         return foundBooks.stream().findAny();
     }
 
+    /**
+     * Finds and returns result of find {@link Book} instance by specified author name.
+     * Returns found books that have passed author name.
+     * @param authorName name of author book that need to be found.
+     * @return found books that have passed author name collection.
+     */
     @Override
-    public List<Book> findByAuthor(Author author) throws DAOException {
-        return findPreparedEntities((FIND_BY_AUTHOR_SQL), preparedStatement -> preparedStatement.setLong(1, author.getId()));
+    public List<Book> findByAuthorName(String authorName) {
+        return findPreparedEntities((FIND_BY_AUTHOR_NAME_SQL), preparedStatement -> preparedStatement.setString(1, authorName));
     }
 
+    /**
+     * Finds and returns result of find {@link Book} insatnce by specified genre.
+     * Returns found books that have passed genre
+     * @param genre genre of book that need to be found
+     * @return found books that have passed genre
+     */
     @Override
-    public List<Book> findByGenre(Genre genre) throws DAOException {
+    public List<Book> findByGenre(Genre genre) {
         return findPreparedEntities(FIND_BY_GENRE_SQL, preparedStatement -> preparedStatement.setLong(1, genre.getId()));
     }
 
+    /**
+     * Nested class that encapsulates single {@link MySQLBookDao} instance. Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final MySQLBookDao INSTANCE = new MySQLBookDao();
     }

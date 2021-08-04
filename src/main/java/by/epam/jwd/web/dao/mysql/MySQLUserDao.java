@@ -15,6 +15,10 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * {@link AbstractDao} implementation for {@link User} database entity.
+ * Links to user database table and performs sql operations with that table.
+ */
 public class MySQLUserDao extends AbstractDao<User> implements UserDao {
     private static final String TABLE_NAME = "user";
 
@@ -41,12 +45,23 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
         super(TABLE_NAME, FIND_ALL_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
     }
 
+    /**
+     * Returns class instance from nested class that encapsulates single {@link MySQLUserDao} instance.
+     * @return class instance.
+     */
     public static MySQLUserDao getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Maps find entity result set to {@link User} instance.
+     * Template method implementation for {@link User} database entity.
+     * @param result Made during sql find statement execution result.
+     * @return Mapped {@link User} instance.
+     * @throws SQLException when database exeption occurs.
+     */
     @Override
-    protected User mapResultSet(ResultSet result) throws SQLException, DAOException {
+    protected User mapResultSet(ResultSet result) throws SQLException{
         final long id = result.getLong(USER_ID_COLUMN);
         final String login = result.getString(USER_LOGIN_COLUMN);
         final String password = result.getString(USER_PASSWORD_COLUMN);
@@ -55,6 +70,7 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
         final Subscription subscription = buildSubscription(result);
         return new User(id, login, password, role, subscription);
     }
+
 
     private Subscription buildSubscription(ResultSet resultSet) throws SQLException {
         final long subscriptionId = resultSet.getLong(SUBSCRIPTION_ID_COLUMN);
@@ -67,8 +83,15 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
         }
     }
 
+    /**
+     * Set {@link User} instance data to execute save prepared statement.
+     * Template method implementation for {@link User} database entity.
+     * @param entity entity that need to save.
+     * @param savePreparedStatement Made save entity prepared statement.
+     * @throws SQLException when database exception occurs.
+     */
     @Override
-    protected void setSavePrepareStatementValues(User entity, PreparedStatement savePreparedStatement) throws SQLException, DAOException {
+    protected void setSavePrepareStatementValues(User entity, PreparedStatement savePreparedStatement) throws SQLException {
         savePreparedStatement.setString(1, entity.getLogin());
         savePreparedStatement.setString(2, entity.getPassword());
         savePreparedStatement.setLong(3, entity.getRole().getId());
@@ -79,6 +102,12 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
         }
     }
 
+    /**
+     * Set {@link User} instance data to perform update prepared statement.
+     * @param entity entity that need to update.
+     * @param updatePreparedStatement Made update entity prepared statement.
+     * @throws SQLException when database exception occurs.
+     */
     @Override
     protected void setUpdatePreparedStatementValues(User entity, PreparedStatement updatePreparedStatement) throws SQLException {
         updatePreparedStatement.setString(1, entity.getLogin());
@@ -92,17 +121,36 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
         updatePreparedStatement.setLong(5, entity.getId());
     }
 
+    /**
+     * Finds and returns result of find user by passed login.
+     * Returns found user in optional if there is user with passed login
+     * or empty optional otherwise.
+     * @param login of user that need to find.
+     * @return found user in optional if there is user with passed login in database table
+     * or empty optional otherwise.
+     */
     @Override
-    public Optional<User> findUserByLogin(String login) throws DAOException {
+    public Optional<User> findUserByLogin(String login) {
         final List<User> foundUsers = findPreparedEntities(FIND_BY_LOGIN_SQL, preparedStatement -> preparedStatement.setString(1, login));
         return foundUsers.stream().findAny();
     }
 
+    /**
+     * Finds and returns result of fund users by passed role.
+     * Returns users that have passed role.
+     * @param role of users that need to find.
+     * @return users that have passed role.
+     */
     @Override
-    public List<User> findUsersByRole(UserRole role) throws DAOException {
+    public List<User> findUsersByRole(UserRole role) {
         return findPreparedEntities(FIND_BY_ROLE_SQL, preparedStatement -> preparedStatement.setLong(1, role.getId()));
     }
 
+    /**
+     * Nested class that encapsulates single {@link MySQLUserDao} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final MySQLUserDao INSTANCE = new MySQLUserDao();
     }
