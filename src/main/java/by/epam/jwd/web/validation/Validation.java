@@ -30,20 +30,4 @@ public interface Validation<T extends DbEntity> {
      * @return list of invalid messages.
      */
     List<String> validate(T entity);
-
-    static Validation<User> getUserValidation() {
-        return UserValidation.getInstance();
-    }
-
-    static Validation<Subscription> getSubscriptionValidation() {
-        return SubscriptionValidation.getInstance();
-    }
-
-    static Validation<Book> getBookValidation() {
-        return BookValidation.getInstance();
-    }
-
-    static Validation<Comment> getCommentValidation() {
-        return CommentValidation.getInstance();
-    }
 }

@@ -10,6 +10,7 @@ import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.ServiceFactory;
 import by.epam.jwd.web.service.UserService;
 import by.epam.jwd.web.validation.Validation;
+import by.epam.jwd.web.validation.ValidationFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
@@ -25,7 +26,7 @@ import java.util.Locale;
  */
 public class SetSubscriptionCommand implements ActionCommand {
     private final UserService userService = ServiceFactory.getInstance().getUserService();
-    private final Validation<Subscription> subscriptionValidation = Validation.getSubscriptionValidation();
+    private final Validation<Subscription> subscriptionValidation = ValidationFactory.getInstance().getSubscriptionValidation();
 
     private static final String REQUEST_USER_ID_PARAMETER_KEY = "id";
     private static final String REQUEST_START_DATE_PARAMETER_KEY = "start_date";

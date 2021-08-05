@@ -11,6 +11,7 @@ import by.epam.jwd.web.service.BookService;
 import by.epam.jwd.web.service.CommentService;
 import by.epam.jwd.web.service.ServiceFactory;
 import by.epam.jwd.web.validation.Validation;
+import by.epam.jwd.web.validation.ValidationFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -26,7 +27,7 @@ import java.util.List;
 public class AddCommentCommand implements ActionCommand {
     private final BookService bookService = ServiceFactory.getInstance().getBookService();
     private final CommentService commentService = ServiceFactory.getInstance().getCommentService();
-    private final Validation<Comment> commentValidation = Validation.getCommentValidation();
+    private final Validation<Comment> commentValidation = ValidationFactory.getInstance().getCommentValidation();
 
     private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
     private static final String REQUEST_BOOK_ID_PARAMETER_KEY = "bookId";
