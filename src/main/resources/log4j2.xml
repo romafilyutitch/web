@@ -1,26 +1,29 @@
 <?xml version = "1.0" encoding = "UTF-8" ?>
-<Configuration>
+<Configuration status="info">
     <Appenders>
-        <File name = "ConnectionPoolAppender" fileName = "logs/ConnectionPoolLog.log" append = "false">
+        <Console name="Console-err" target="SYSTEM_ERR">
             <PatternLayout pattern="%d{dd.MM.yyyy HH:mm:ss} [%t] %-5p %c{1} - %M() %m%n"/>
-        </File>
-        <File name = "DaoAppender" fileName="logs/DaoLog.log" append="false">
-            <PatternLayout pattern = "%d{dd.MM.yyyy HH:mm:ss} [%t] %-5p %c{1} - %M() %m%n"/>
-        </File>
-        <File name="ServiceAppender" fileName="logs/ServiceLog.log" append="false">
+        </Console>
+        <Console name="Console-out" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{dd.MM.yyyy HH:mm:ss} [%t] %-5p %c{1} - %M() %m%n"/>
-        </File>
+        </Console>
     </Appenders>
 
    <Loggers>
-       <Logger name = "by.epam.jwd.web.connectionPool" additivity = "false" level = "All">
-           <AppenderRef ref = "ConnectionPoolAppender"/>
+       <Logger name = "by.epam.jwd.web.connectionPool" additivity = "false">
+           <AppenderRef ref="Console-err" level="error"/>
+           <AppenderRef ref="Console-out" level="info"/>
        </Logger>
-       <Logger name = "by.epam.jwd.web.dao" additivity="false" level="All">
-           <AppenderRef ref = "DaoAppender"/>
+       <Logger name = "by.epam.jwd.web.dao" additivity="false">
+           <AppenderRef ref="Console-err" level="error"/>
+           <AppenderRef ref="Console-out" level="info"/>
        </Logger>
-       <Logger name="by.epam.jwd.web.service" additivity="false" level="All">
-           <AppenderRef ref="ServiceAppender"/>
+       <Logger name="by.epam.jwd.web.service" additivity="false">
+           <AppenderRef ref="Console-err" level="error"/>
+           <AppenderRef ref="Console-out" level="info"/>
        </Logger>
+       <Root level="info">
+           <AppenderRef ref="Console-out"/>
+       </Root>
    </Loggers>
 </Configuration>

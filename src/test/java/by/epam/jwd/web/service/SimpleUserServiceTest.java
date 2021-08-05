@@ -153,12 +153,6 @@ public class SimpleUserServiceTest {
         assertNotNull("User with subscription must be not null", userWithNewSubscription);
     }
 
-    @Test(expected = InvalidSubscriptionException.class)
-    public void setSubscription_mustThrowException_ifStartDateIsAfterEndDate() throws InvalidSubscriptionException {
-        final Subscription subscription = new Subscription(LocalDate.now(), LocalDate.now().minusMonths(1));
-        testService.setSubscription(testUser, subscription);
-    }
-
     @Test
     public void changeLogin_mustChangeLogin_ifNoUserWithSpecifiedLogin() throws WrongLoginException, UserWithLoginExistsException {
         final String newLogin = "NEW LOGIN";
