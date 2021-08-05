@@ -65,10 +65,10 @@
                                 </c:choose>
                             </td>
                             <td><c:if test="${not empty order.subscription}">
-                                ${ctg:localDateParser(order.subscription.startDate)}
+                                ${ctg:localDateFormatter(order.subscription.startDate)}
                             </c:if></td>
                             <td><c:if test="${not empty order.subscription}">
-                                ${ctg:localDateParser(order.subscription.endDate)}
+                                ${ctg:localDateFormatter(order.subscription.endDate)}
                             </c:if></td>
                             <td>
                                 <form class="needs-validation" action="controller" method="post" novalidate>

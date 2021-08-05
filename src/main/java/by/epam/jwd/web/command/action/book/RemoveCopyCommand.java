@@ -2,7 +2,8 @@ package by.epam.jwd.web.command.action.book;
 
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.Book;
-import by.epam.jwd.web.resource.ConfigurationManager;
+import by.epam.jwd.web.resource.CommandManager;
+import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.BookService;
 import by.epam.jwd.web.service.ServiceFactory;
@@ -45,7 +46,7 @@ public class RemoveCopyCommand implements ActionCommand {
         final Book book = bookService.findById(id);
         bookService.removeOneCopy(book);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(BOOK_COPY_WAS_REMOVED_MESSAGE_KEY));
-        return ConfigurationManager.getShowBooksCommand();
+        return CommandManager.getCommand("show.books");
     }
 
     /**

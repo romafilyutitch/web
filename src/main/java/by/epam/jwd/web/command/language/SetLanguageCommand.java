@@ -1,7 +1,8 @@
 package by.epam.jwd.web.command.language;
 
 import by.epam.jwd.web.command.ActionCommand;
-import by.epam.jwd.web.resource.ConfigurationManager;
+import by.epam.jwd.web.resource.CommandManager;
+import by.epam.jwd.web.resource.PathManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -42,7 +43,7 @@ public class SetLanguageCommand implements ActionCommand {
         final Locale currentLocale = new Locale(languageName);
         Locale.setDefault(currentLocale);
         currentSession.setAttribute(SESSION_LANGUAGE_ATTRIBUTE_KEY, languageName);
-        return ConfigurationManager.getMainCommand();
+        return CommandManager.getCommand("main");
     }
 
     /**

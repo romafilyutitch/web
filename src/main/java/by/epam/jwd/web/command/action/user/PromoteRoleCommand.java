@@ -2,7 +2,8 @@ package by.epam.jwd.web.command.action.user;
 
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.resource.ConfigurationManager;
+import by.epam.jwd.web.resource.CommandManager;
+import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.ServiceFactory;
 import by.epam.jwd.web.service.UserService;
@@ -45,7 +46,7 @@ public class PromoteRoleCommand implements ActionCommand {
         final User foundUser = userService.findById(userId);
         userService.promoteRole(foundUser);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(USER_ROLE_WAS_PROMOTED_MESSAGE_KEY));
-        return ConfigurationManager.getShowUsersCommand();
+        return CommandManager.getCommand("show.users");
     }
 
     /**

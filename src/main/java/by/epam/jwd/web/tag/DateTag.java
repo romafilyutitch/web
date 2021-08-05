@@ -9,7 +9,21 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Locale;
 
+/**
+ * Custom date tag that show current date in application.
+ * Uses {@link DateTimeFormatter} instance to format current
+ * {@link LocalDate} instance based on current locale.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class DateTag extends TagSupport {
+    /**
+     * Formats and shows current date in different locales
+     * based on current default locale.
+     * @return tage processing code.
+     * @throws JspException when exception in jspWriter operation occurs.
+     */
     @Override
     public int doStartTag() throws JspException {
         final DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(Locale.getDefault());
@@ -23,6 +37,10 @@ public class DateTag extends TagSupport {
         return SKIP_BODY;
     }
 
+    /**
+     * Makes jsp continue page evaluation.
+     * @return continue evaluation command code.
+     */
     @Override
     public int doEndTag() {
         return EVAL_PAGE;

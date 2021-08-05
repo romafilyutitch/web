@@ -1,7 +1,8 @@
 package by.epam.jwd.web.command.action.user;
 
 import by.epam.jwd.web.command.ActionCommand;
-import by.epam.jwd.web.resource.ConfigurationManager;
+import by.epam.jwd.web.resource.CommandManager;
+import by.epam.jwd.web.resource.PathManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -34,7 +35,7 @@ public class LogoutCommand implements ActionCommand {
     public String execute(HttpServletRequest request) {
         final HttpSession session = request.getSession();
         session.invalidate();
-        return ConfigurationManager.getMainCommand();
+        return CommandManager.getCommand("main");
     }
 
     /**

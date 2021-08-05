@@ -3,7 +3,7 @@ package by.epam.jwd.web.command.navigation;
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.resource.ConfigurationManager;
+import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.service.OrderService;
 import by.epam.jwd.web.service.ServiceFactory;
 
@@ -43,7 +43,7 @@ public class ShowUserOrdersPageCommand implements ActionCommand {
         final User user = (User) request.getSession().getAttribute(SESSION_USER_ATTRIBUTE_KEY);
         final List<Order> userOrders = orderService.findByUser(user);
         request.setAttribute(REQUEST_ORDERS_ATTRIBUTE_KEY, userOrders);
-        return ConfigurationManager.getUserOrdersPagePath();
+        return PathManager.getPath("userOrders");
     }
 
     /**

@@ -4,7 +4,7 @@ import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.exception.WrongLoginException;
 import by.epam.jwd.web.exception.WrongPasswordException;
 import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.resource.ConfigurationManager;
+import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.ServiceFactory;
 import by.epam.jwd.web.service.UserService;
@@ -67,7 +67,7 @@ public class LoginCommand implements ActionCommand {
         } catch (WrongPasswordException e) {
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(WRONG_PASSWORD_MESSAGE_KEY));
         }
-        return ConfigurationManager.getLoginPagePath();
+        return PathManager.getPath("login");
     }
 
     /**

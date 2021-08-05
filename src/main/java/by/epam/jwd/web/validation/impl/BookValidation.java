@@ -8,6 +8,14 @@ import by.epam.jwd.web.validation.Validation;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Book validation class. Validates add book form data
+ * when user adds new book. Uses regular expression language to
+ * validation book name and author name.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class BookValidation implements Validation<Book> {
 
     private static final String INVALID_BOOK_NAME_MESSAGE_KEY = "book.validation.name.invalid";
@@ -20,10 +28,20 @@ public class BookValidation implements Validation<Book> {
     private BookValidation() {
     }
 
+    /**
+     * Gets single class instance from nested class.
+     * @return class instance.
+     */
     public static BookValidation getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Makes book validation and form invalid messages.
+     * @param book book instance that need to be validated.
+     * @return validation messages list. If list is empty that means
+     * that entity is valid.
+     */
     @Override
     public List<String> validate(Book book) {
         final List<String> messages = new ArrayList<>();
@@ -50,6 +68,11 @@ public class BookValidation implements Validation<Book> {
         return messages;
     }
 
+    /**
+     * Nested class that encapsulates single {@link BookValidation} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final BookValidation INSTANCE = new BookValidation();
     }

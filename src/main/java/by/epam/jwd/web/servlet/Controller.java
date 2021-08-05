@@ -10,14 +10,36 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Main servlet that is application controller and
+ * performs controller function. Defines what command
+ * need to be executed executes it and makes response forward.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 @WebServlet("/controller")
 public class Controller extends HttpServlet {
 
+    /**
+     * Reacts on get client request.
+     * @param req client request.
+     * @param resp client response.
+     * @throws ServletException when exception in servlet occurs.
+     * @throws IOException when exception in io occurs.
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         processRequest(req, resp);
     }
 
+    /**
+     * Reacts on post client request.
+     * @param req client request.
+     * @param resp client response.
+     * @throws ServletException when exception in servlet occurs.
+     * @throws IOException when excepition in io occurs.
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         processRequest(req, resp);

@@ -44,7 +44,7 @@
                             <tr>
                                 <td>${order.user.login}</td>
                                 <td>${order.book.name}</td>
-                                <td>${ctg:localDateParser(order.orderDate)}</td>
+                                <td>${ctg:localDateFormatter(order.orderDate)}</td>
                                 <td>
                                     <c:choose>
                                         <c:when test="${order.status eq Status.ORDERED}">

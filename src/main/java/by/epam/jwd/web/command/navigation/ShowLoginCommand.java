@@ -1,7 +1,7 @@
 package by.epam.jwd.web.command.navigation;
 
 import by.epam.jwd.web.command.ActionCommand;
-import by.epam.jwd.web.resource.ConfigurationManager;
+import by.epam.jwd.web.resource.PathManager;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,7 +31,7 @@ public class ShowLoginCommand implements ActionCommand {
      */
     @Override
     public String execute(HttpServletRequest request) {
-        return ConfigurationManager.getLoginPagePath();
+        return PathManager.getPath("login");
     }
 
     /**

@@ -2,7 +2,8 @@ package by.epam.jwd.web.command.action.order;
 
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.Order;
-import by.epam.jwd.web.resource.ConfigurationManager;
+import by.epam.jwd.web.resource.CommandManager;
+import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.OrderService;
 import by.epam.jwd.web.service.ServiceFactory;
@@ -46,7 +47,7 @@ public class ApproveOrderCommand implements ActionCommand {
         final Order foundOrder = orderService.findById(id);
         orderService.approveOrder(foundOrder);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(ORDER_APPROVED_MESSAGE_KEY));
-        return ConfigurationManager.getShowOrdersCommand();
+        return CommandManager.getCommand("show.orders");
     }
 
     /**

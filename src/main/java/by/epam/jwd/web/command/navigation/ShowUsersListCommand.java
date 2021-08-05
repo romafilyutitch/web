@@ -2,7 +2,7 @@ package by.epam.jwd.web.command.navigation;
 
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.resource.ConfigurationManager;
+import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.service.ServiceFactory;
 import by.epam.jwd.web.service.UserService;
 
@@ -53,7 +53,7 @@ public class ShowUsersListCommand implements ActionCommand {
         request.setAttribute(REQUEST_USERS_ATTRIBUTE_KEY, currentPage);
         request.setAttribute(REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY, currentPageNumber);
         request.setAttribute(REQUEST_PAGES_AMOUNT_ATTRIBUTE_KEY, pagesAmount);
-        return ConfigurationManager.getUsersPagePath();
+        return PathManager.getPath("users");
     }
 
     /**

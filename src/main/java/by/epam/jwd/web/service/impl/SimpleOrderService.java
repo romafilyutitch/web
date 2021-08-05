@@ -16,6 +16,13 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service implementation for order service interface.
+ * Makes all operation related with book order.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class SimpleOrderService implements OrderService {
     private static final Logger logger = LogManager.getLogger(SimpleOrderService.class);
 
@@ -35,10 +42,18 @@ public class SimpleOrderService implements OrderService {
     private SimpleOrderService() {
     }
 
+    /**
+     * Gets single class instance from nested class.
+     * @return class instance.
+     */
     public static SimpleOrderService getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Finds and returns result of find all orders.
+     * @return all saved orders collection.
+     */
     @Override
     public List<Order> findAll() {
         List<Order> allFoundOrders = orderDao.findAll();
@@ -46,6 +61,16 @@ public class SimpleOrderService implements OrderService {
         return allFoundOrders;
     }
 
+    /**
+     * Makes order save and assigns generated id to order.
+     * Check weather order date is matches in user subscription
+     * dates range and set order status to approve so user can
+     * order and read book at once. If order date not matches in user
+     * subscription range or user dont have subscription then user have to
+     * make order and wait for approve by librarian or admin.
+     * @param order that need to be saved.
+     * @return saved order with assigned id.
+     */
     @Override
     public Order save(Order order) {
         final Subscription subscription = order.getUser().getSubscription();
@@ -63,6 +88,13 @@ public class SimpleOrderService implements OrderService {
         return savedOrder;
     }
 
+    /**
+     * Finds orders on passed page.
+     * @throws IllegalArgumentException if passed page number is negative or
+     * passed page number is greater then pages amount
+     * @param currentPage number entities page that need to be found.
+     * @return orders on passed page collection.
+     */
     @Override
     public List<Order> findPage(int currentPage) {
         if (currentPage <= 0 || currentPage > getPagesAmount()) {
@@ -73,24 +105,40 @@ public class SimpleOrderService implements OrderService {
         return foundPage;
     }
 
+    /**
+     * Calculates saved orders pages amount.
+     * @return pages amount.
+     */
     @Override
     public int getPagesAmount() {
         return orderDao.getPagesAmount();
     }
 
+    /**
+     * Makes order approve of passed order.
+     * @param order order that need to approve.
+     */
     @Override
-    public void approveOrder(Order order) throws ServiceException {
+    public void approveOrder(Order order) {
         final Order approvedOrder = new Order(order.getId(), order.getUser(), order.getBook(), order.getOrderDate(), Status.APPROVED);
         final Order updatedOrder = orderDao.update(approvedOrder);
         logger.info(String.format(ORDER_WAS_APPROVED_MESSAGE, updatedOrder));
     }
 
+    /**
+     * Delete order with passed id.
+     * @param orderId order id that need to be deleted.
+     */
     @Override
     public void delete(Long orderId) {
         orderDao.delete(orderId);
         logger.info(String.format(ORDER_WAS_DELETED_MESSAGE, orderId));
     }
 
+    /**
+     * Makes order return of passed order.
+     * @param order order that need to return.
+     */
     @Override
     public void returnOrder(Order order) {
         final Order returnedOrder = new Order(order.getId(), order.getUser(), order.getBook(), order.getOrderDate(), Status.RETURNED);
@@ -98,6 +146,11 @@ public class SimpleOrderService implements OrderService {
         logger.info(String.format(ORDER_WAS_RETURNED_MESSAGE, updatedOrder));
     }
 
+    /**
+     * Finds and returns result of find orders that passed user made.
+     * @param user whose orders need to be found.
+     * @return orders that passed user made collection.
+     */
     @Override
     public List<Order> findByUser(User user) {
         List<Order> foundOrdersByUser = orderDao.findByUser(user);
@@ -105,6 +158,11 @@ public class SimpleOrderService implements OrderService {
         return foundOrdersByUser;
     }
 
+    /**
+     * Finds and returns result of find orders that have passed book.
+     * @param book which orders need to be found.
+     * @return orders that have passed book collection.
+     */
     @Override
     public List<Order> findByBook(Book book) {
         List<Order> foundOrdersByBook = orderDao.findByBook(book);
@@ -112,6 +170,11 @@ public class SimpleOrderService implements OrderService {
         return foundOrdersByBook;
     }
 
+    /**
+     * Finds saved order that has passed id.
+     * @param orderId order that has passed id.
+     * @return order that has passed id.
+     */
     @Override
     public Order findById(Long orderId) {
         final Optional<Order> optionalBookOrder = orderDao.findById(orderId);
@@ -124,6 +187,11 @@ public class SimpleOrderService implements OrderService {
         return foundOrder;
     }
 
+    /**
+     * Nested class that encapsulates single {@link SimpleOrderService} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final SimpleOrderService INSTANCE = new SimpleOrderService();
     }

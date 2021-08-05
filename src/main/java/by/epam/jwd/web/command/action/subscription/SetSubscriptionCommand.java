@@ -4,7 +4,8 @@ import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.exception.InvalidSubscriptionException;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.resource.ConfigurationManager;
+import by.epam.jwd.web.resource.CommandManager;
+import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.ServiceFactory;
 import by.epam.jwd.web.service.UserService;
@@ -59,17 +60,13 @@ public class SetSubscriptionCommand implements ActionCommand {
         final List<String> validationMessages = subscriptionValidation.validate(subscriptionFromRequest);
         if (!validationMessages.isEmpty()) {
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, validationMessages);
-            return ConfigurationManager.getShowUsersCommand();
+            return CommandManager.getCommand("show.users");
         }
         final Long userId = Long.valueOf(request.getParameter(REQUEST_USER_ID_PARAMETER_KEY));
         final User foundUser = userService.findById(userId);
-        try {
-            userService.setSubscription(foundUser, subscriptionFromRequest);
-            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(SUBSCRIPTION_REGISTERED_MESSAGE_KEY));
-        } catch (InvalidSubscriptionException e) {
-            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(INVALID_SUBSCRIPTION_MESSAGE_KEY));
-        }
-        return ConfigurationManager.getShowUsersCommand();
+        userService.setSubscription(foundUser, subscriptionFromRequest);
+        request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(SUBSCRIPTION_REGISTERED_MESSAGE_KEY));
+        return CommandManager.getCommand("show.users");
     }
 
 

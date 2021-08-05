@@ -3,7 +3,7 @@ package by.epam.jwd.web.command.navigation;
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Comment;
-import by.epam.jwd.web.resource.ConfigurationManager;
+import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.service.BookService;
 import by.epam.jwd.web.service.CommentService;
 import by.epam.jwd.web.service.ServiceFactory;
@@ -67,7 +67,7 @@ public class MainCommand implements ActionCommand {
         request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, currentPage);
         request.setAttribute(REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY, currentPageNumber);
         request.setAttribute(REQUEST_PAGES_AMOUNT_ATTRIBUTE_KEY, pagesAmount);
-        return ConfigurationManager.getMainPagePath();
+        return PathManager.getPath("main");
     }
 
     private List<Comment> findComments(List<Book> books) {

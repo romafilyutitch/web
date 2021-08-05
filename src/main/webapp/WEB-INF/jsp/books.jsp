@@ -60,7 +60,7 @@
                                     </c:when>
                                 </c:choose>
                             </td>
-                            <td>${ctg:localDateParser(order.date)}</td>
+                            <td>${ctg:localDateFormatter(order.date)}</td>
                             <td>${order.pagesAmount}</td>
                             <td>${order.copiesAmount}</td>
                             <td>

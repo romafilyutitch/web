@@ -2,7 +2,7 @@ package by.epam.jwd.web.command.action.user;
 
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.resource.ConfigurationManager;
+import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.ServiceFactory;
 import by.epam.jwd.web.service.UserService;
@@ -56,7 +56,7 @@ public class RegisterCommand implements ActionCommand {
         final List<String> validationMessages = userValidation.validate(user);
         if (!validationMessages.isEmpty()) {
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, validationMessages);
-            return ConfigurationManager.getRegisterPagePath();
+            return PathManager.getPath("register");
         }
         final Optional<User> optionalUserByLogin = userService.findByLogin(login);
         if (optionalUserByLogin.isPresent()) {
@@ -66,7 +66,7 @@ public class RegisterCommand implements ActionCommand {
             currentSession.setAttribute(SESSION_USER_ATTRIBUTE_KEY, registeredUser);
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(USER_WAS_REGISTERED_MESSAGE_KEY));
         }
-        return ConfigurationManager.getRegisterPagePath();
+        return PathManager.getPath("register");
     }
 
     /**

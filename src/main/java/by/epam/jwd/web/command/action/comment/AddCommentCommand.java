@@ -4,7 +4,8 @@ import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Comment;
 import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.resource.ConfigurationManager;
+import by.epam.jwd.web.resource.CommandManager;
+import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.BookService;
 import by.epam.jwd.web.service.CommentService;
@@ -56,11 +57,11 @@ public class AddCommentCommand implements ActionCommand {
         final List<String> validationMessages = commentValidation.validate(commentFromRequest);
         if (!validationMessages.isEmpty()) {
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, validationMessages);
-            return ConfigurationManager.getMainCommand();
+            return CommandManager.getCommand("main");
         }
         commentService.save(commentFromRequest);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(COMMENT_REGISTERED_MESSAGE_KEY));
-        return ConfigurationManager.getMainCommand();
+        return CommandManager.getCommand("main");
     }
 
     private Comment buildCommentFromRequest(HttpServletRequest request) {

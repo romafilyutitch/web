@@ -2,7 +2,7 @@ package by.epam.jwd.web.command.navigation;
 
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.Order;
-import by.epam.jwd.web.resource.ConfigurationManager;
+import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.service.OrderService;
 import by.epam.jwd.web.service.ServiceFactory;
 
@@ -52,7 +52,7 @@ public class ShowOrdersListCommand implements ActionCommand {
         request.setAttribute(REQUEST_ORDERS_ATTRIBUTE_KEY, currentPage);
         request.setAttribute(REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY, currentPageNumber);
         request.setAttribute(REQUEST_PAGES_AMOUNT_ATTRIBUTE_KEY, pagesAmount);
-        return ConfigurationManager.getOrdersPagePath();
+        return PathManager.getPath("orders");
     }
 
     /**

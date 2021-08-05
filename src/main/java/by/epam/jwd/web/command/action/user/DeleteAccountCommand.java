@@ -2,7 +2,7 @@ package by.epam.jwd.web.command.action.user;
 
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.resource.ConfigurationManager;
+import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.ServiceFactory;
 import by.epam.jwd.web.service.UserService;
@@ -46,7 +46,7 @@ public class DeleteAccountCommand implements ActionCommand {
         userService.delete(user.getId());
         session.invalidate();
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(ACCOUNT_WAS_DELETED_MESSAGE_KEY));
-        return ConfigurationManager.getAccountPagePath();
+        return PathManager.getPath("account");
     }
 
     /**

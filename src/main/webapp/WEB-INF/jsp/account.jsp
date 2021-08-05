@@ -41,8 +41,8 @@
                 <td>${sessionScope.user.login}</td>
                 <td>${sessionScope.user.role}</td>
                 <c:if test="${not empty sessionScope.user.subscription}">
-                    <td>${ctg:localDateParser(sessionScope.user.subscription.startDate)}</td>
-                    <td>${ctg:localDateParser(sessionScope.user.subscription.endDate)}</td>
+                    <td>${ctg:localDateFormatter(sessionScope.user.subscription.startDate)}</td>
+                    <td>${ctg:localDateFormatter(sessionScope.user.subscription.endDate)}</td>
                 </c:if>
             </tr>
         </table>

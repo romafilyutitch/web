@@ -3,7 +3,7 @@ package by.epam.jwd.web.command.action.user;
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.exception.UserWithLoginExistsException;
 import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.resource.ConfigurationManager;
+import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.ServiceFactory;
 import by.epam.jwd.web.service.UserService;
@@ -55,7 +55,7 @@ public class ChangeLoginCommand implements ActionCommand {
         } catch (UserWithLoginExistsException e) {
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(USER_LOGIN_EXISTS_MESSAGE_KEY));
         }
-        return ConfigurationManager.getAccountPagePath();
+        return PathManager.getPath("account");
     }
 
     /**

@@ -2,7 +2,7 @@ package by.epam.jwd.web.command.action.user;
 
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.resource.ConfigurationManager;
+import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.ServiceFactory;
 import by.epam.jwd.web.service.UserService;
@@ -48,7 +48,7 @@ public class ChangePasswordCommand implements ActionCommand {
         final User userWithChangedPassword = userService.changePassword(user, newPassword);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(USER_PASSWORD_WAS_CHANGED_MESSAGE_KEY));
         session.setAttribute(SESSION_USER_ATTRIBUTE_KEY, userWithChangedPassword);
-        return ConfigurationManager.getAccountPagePath();
+        return PathManager.getPath("account");
     }
 
     /**

@@ -172,7 +172,7 @@
                                                 <c:if test="${comment.book.id eq order.id}">
                                                     <div class="card card-body">
                                                         <p class="text text-info"><fmt:message key="commentAuthor"/> ${comment.user.login}</p>
-                                                        <p class="text text-info"><fmt:message key="commentDate"/> ${ctg:localDateParser(comment.date)}</p>
+                                                        <p class="text text-info"><fmt:message key="commentDate"/> ${ctg:localDateFormatter(comment.date)}</p>
                                                         <p class="text">${comment.text}</p>
                                                         <c:if test="${comment.user.id eq sessionScope.user.id}">
                                                             <button class="btn btn-danger" onclick="deleteComment(${comment.id})"><fmt:message key="deleteComment"/></button>

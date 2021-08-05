@@ -15,6 +15,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Service implementation for book service interface.
+ * Makes all operations related to book in application.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class SimpleBookService implements BookService {
     private static final Logger logger = LogManager.getLogger(SimpleBookService.class);
 
@@ -37,10 +44,19 @@ public class SimpleBookService implements BookService {
     private SimpleBookService() {
     }
 
+    /**
+     * Gets single class instance from nested class
+     * @return class instance.
+     */
     public static SimpleBookService getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Finds and returns find result of all books from database.
+     * Delegates find to book dao.
+     * @return all found books collections.
+     */
     @Override
     public List<Book> findAll() {
         List<Book> allBooks = bookDao.findAll();
@@ -48,6 +64,13 @@ public class SimpleBookService implements BookService {
         return allBooks;
     }
 
+    /**
+     * Finds passed page of saved books from database.
+     * @throws IllegalStateException when passed page number is negative or
+     * page number is greater then pages amount.
+     * @param pageNumber page that need to be found.
+     * @return collection of book on passed page.
+     */
     @Override
     public List<Book> findPage(int pageNumber) {
         if (pageNumber <= 0 || pageNumber > getPagesAmount()) {
@@ -58,11 +81,21 @@ public class SimpleBookService implements BookService {
         return foundPage;
     }
 
+    /**
+     * Returns current saved books pages amount.
+     * @return current saved book pages amount.
+     */
     @Override
     public int getPagesAmount() {
         return bookDao.getPagesAmount();
     }
 
+    /**
+     * Finds saved book by passed id.
+     * @throws ServiceException when saved book was not found by id.
+     * @param id by what need to find book.
+     * @return saved book that has passed id.
+     */
     @Override
     public Book findById(Long id) {
         final Optional<Book> optionalBook = bookDao.findById(id);
@@ -75,6 +108,10 @@ public class SimpleBookService implements BookService {
         return foundBook;
     }
 
+    /**
+     * Adds on copy to passed book.
+     * @param book which need to add one copy.
+     */
     @Override
     public void addOneCopy(Book book) {
         final AtomicInteger bookCurrentCopiesAmount = new AtomicInteger(book.getCopiesAmount());
@@ -83,6 +120,10 @@ public class SimpleBookService implements BookService {
         logger.info(String.format(COPY_WAS_ADDED_MESSAGE, updatedBook));
     }
 
+    /**
+     * Removes on copy from passed book
+     * @param book which need to add one copy.
+     */
     @Override
     public void removeOneCopy(Book book) {
         final AtomicInteger copiesAmount = new AtomicInteger(book.getCopiesAmount());
@@ -91,6 +132,13 @@ public class SimpleBookService implements BookService {
         logger.info(String.format(COPY_WAS_REMOVED_MESSAGE, updatedBook));
     }
 
+    /**
+     * Makes book save.
+     * If book author is not saved in book then saved author at first
+     * and then saves book and assigns id to saved book.
+     * @param book that need to be saved.
+     * @return saved book with generated id.
+     */
     @Override
     public Book save(Book book) {
         final Book bookToSave;
@@ -107,12 +155,21 @@ public class SimpleBookService implements BookService {
         return savedBook;
     }
 
+    /**
+     * Deletes saved book that has passed id.
+     * @param bookId for book that need to be deleted.
+     */
     @Override
     public void delete(Long bookId) {
         bookDao.delete(bookId);
         logger.info(String.format(BOOK_WAS_DELETED_MESSAGE, bookId));
     }
 
+    /**
+     * Finds books that have passed book genre.
+     * @param genre those books need to be found.
+     * @return books that have passed genre collection.
+     */
     @Override
     public List<Book> findByGenre(Genre genre) {
         List<Book> foundBooksByGenre = bookDao.findByGenre(genre);
@@ -121,6 +178,12 @@ public class SimpleBookService implements BookService {
     }
 
 
+    /**
+     * Finds Book that has passed book name.
+     * @param name that book need to be found.
+     * @return found book in optional if there is book that has passed name
+     * or empty optional otherwise.
+     */
     @Override
     public Optional<Book> findByName(String name) {
         Optional<Book> optionalBook = bookDao.findByName(name);
@@ -132,6 +195,11 @@ public class SimpleBookService implements BookService {
         return optionalBook;
     }
 
+    /**
+     * Nested class that encapsulates single {@link SimpleBookService} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final SimpleBookService INSTANCE = new SimpleBookService();
     }

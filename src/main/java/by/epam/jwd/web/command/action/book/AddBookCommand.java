@@ -4,7 +4,8 @@ import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.Author;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
-import by.epam.jwd.web.resource.ConfigurationManager;
+import by.epam.jwd.web.resource.CommandManager;
+import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.BookService;
 import by.epam.jwd.web.service.ServiceFactory;
@@ -56,7 +57,7 @@ public class AddBookCommand implements ActionCommand {
         final List<String> validationMessages = bookValidation.validate(bookFromRequest);
         if (!validationMessages.isEmpty()) {
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, validationMessages);
-            return ConfigurationManager.getShowBooksCommand();
+            return CommandManager.getCommand("show.books");
         }
         final Optional<Book> optionalBook = bookService.findByName(bookFromRequest.getName());
         if (optionalBook.isPresent()) {
@@ -65,7 +66,7 @@ public class AddBookCommand implements ActionCommand {
             bookService.save(bookFromRequest);
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(BOOK_REGISTERED_MESSAGE_KEY));
         }
-        return ConfigurationManager.getShowBooksCommand();
+        return CommandManager.getCommand("show.books");
     }
 
     private Book buildBookFromRequest(HttpServletRequest request) {
