@@ -7,6 +7,9 @@ import java.util.Optional;
 
 /**
  * Author entity dao interface for dao layer. extends {@link Dao} base interface.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
  * @see "Data access object pattern"
  */
 public interface AuthorDao extends Dao<Author> {

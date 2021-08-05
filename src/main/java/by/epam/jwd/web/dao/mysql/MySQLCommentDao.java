@@ -19,6 +19,9 @@ import java.util.List;
 /**
  * {@link AbstractDao} abstract class implementation for {@link Comment} database entity. Links to database
  * comment table and performs sql operations with that table.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
  */
 public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao {
     private static final String TABLE_NAME = "comment";

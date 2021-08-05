@@ -9,6 +9,9 @@ import java.util.Optional;
 
 /**
  * Like entity data access object interface for dao layer. extends {@link Dao} base interface
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
  */
 public interface LikeDao extends Dao<Like> {
     /**

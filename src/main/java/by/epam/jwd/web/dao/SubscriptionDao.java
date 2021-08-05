@@ -9,6 +9,9 @@ import java.util.List;
 
 /**
  * Subscription data access object interface for dao layer. Extends {@link Dao} base interface
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
  * @see "Date access object pattern"
  */
 public interface SubscriptionDao extends Dao<Subscription> {

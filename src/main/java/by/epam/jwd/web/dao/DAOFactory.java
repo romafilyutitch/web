@@ -5,6 +5,9 @@ import by.epam.jwd.web.dao.mysql.MySQLDAOFactory;
 /**
  * Data access object factory interface.
  * Used for abstract factory pattern implementation.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
  * @see "Abstract factory implementation"
  */
 public interface DAOFactory {

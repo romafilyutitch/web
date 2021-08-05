@@ -22,6 +22,9 @@ import java.util.List;
 /**
  * {@link AbstractDao} implementation for {@link Order} database entity. Links to order table
  * and performs sql operations with that table.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
  */
 public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
     private static final String TABLE_NAME = "book_order";

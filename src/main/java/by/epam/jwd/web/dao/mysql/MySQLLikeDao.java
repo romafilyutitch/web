@@ -20,6 +20,9 @@ import java.util.Optional;
 /**
  * {@link AbstractDao} implementation for {@link Like} database entity. Links to like database table
  * and performs sql operations with that table.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
  */
 public class MySQLLikeDao extends AbstractDao<Like> implements LikeDao {
     private static final String TABLE_NAME = "book_like";

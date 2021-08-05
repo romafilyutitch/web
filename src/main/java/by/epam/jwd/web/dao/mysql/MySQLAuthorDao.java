@@ -14,6 +14,9 @@ import java.util.Optional;
 /**
  * {@link AbstractDao} abstract class implementation for {@link Author} database entity. Links to author database table
  * and performs sql statements with that table.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
  */
 public class MySQLAuthorDao extends AbstractDao<Author> implements AuthorDao {
     private static final String TABLE_NAME = "author";

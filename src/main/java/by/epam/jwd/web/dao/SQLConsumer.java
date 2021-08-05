@@ -6,6 +6,9 @@ import java.sql.SQLException;
  * Consumer interface. Invokes in {@link AbstractDao#findPreparedEntities(String, SQLConsumer)} method
  * and implements in {@link AbstractDao} implementations. Throws {@link SQLException}.
  * Template method variation.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
  * @param <T> entity type that need to consume.
  */
 @FunctionalInterface

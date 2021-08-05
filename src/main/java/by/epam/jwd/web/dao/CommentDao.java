@@ -7,6 +7,9 @@ import java.util.List;
 
 /**
  * Comment entity data access object for dao layer. Extends {@link Dao} base interface
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
  * @see "Data access object pattern"
  */
 public interface CommentDao extends Dao<Comment> {

@@ -12,6 +12,9 @@ import java.util.Optional;
  * Contains all basic dao methods and used by {@link by.epam.jwd.web.service.Service}
  * interface implementations. Data access object is used to map entities data to database table and otherwise.
  * Throws {@link by.epam.jwd.web.exception.DAOException} when exception in dao layer occurs
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
  * @param <T> entities that dao used to map entities
  *           data to database table structure
  * @see by.epam.jwd.web.service.Service

@@ -12,7 +12,11 @@ import by.epam.jwd.web.dao.UserDao;
 /**
  * Data access object mysql implementations factory. Returns doa implementations
  * that related to MySQL database. Implementation of abstract factory pattern.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
  * @see "Abstract factory pattern"
+ *
  */
 public class MySQLDAOFactory implements DAOFactory {
     private MySQLDAOFactory() {

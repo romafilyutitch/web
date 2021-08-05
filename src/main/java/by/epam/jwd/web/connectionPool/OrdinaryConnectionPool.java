@@ -41,7 +41,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * through setting parameters in properties file. {@link TimerTask} is used to calculate whether
  * it need to add free connections or remove unused free connections when check connection
  * pool resize time comes base on Timer.
- *
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
  * @see ConnectionPoolProperties
  * @see BlockingQueue
  * @see CopyOnWriteArraySet

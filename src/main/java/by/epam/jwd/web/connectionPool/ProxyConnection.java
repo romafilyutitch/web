@@ -19,6 +19,13 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
+/**
+ * Proxy class that delegates methods invocations to its field {@link Connection} except
+ * close methods that don't close connection but returns it to {@link OrdinaryConnectionPool}
+ * @author roma0
+ * @version 1.0
+ * @since  1.0
+ */
 class ProxyConnection implements Connection {
     private final Connection connection;
 

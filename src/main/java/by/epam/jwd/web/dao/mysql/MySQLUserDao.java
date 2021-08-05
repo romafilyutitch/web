@@ -18,6 +18,9 @@ import java.util.Optional;
 /**
  * {@link AbstractDao} implementation for {@link User} database entity.
  * Links to user database table and performs sql operations with that table.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
  */
 public class MySQLUserDao extends AbstractDao<User> implements UserDao {
     private static final String TABLE_NAME = "user";

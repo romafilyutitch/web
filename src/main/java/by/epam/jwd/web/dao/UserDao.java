@@ -9,7 +9,10 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * User data access object interface. Extends {@link Dao} base interface
+ * User data access object interface. Extends {@link Dao} base interface.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
  * @see "Data access object pattern"
  */
 public interface UserDao extends Dao<User> {

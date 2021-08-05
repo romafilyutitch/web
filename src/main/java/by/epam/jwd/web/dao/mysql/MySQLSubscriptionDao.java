@@ -15,6 +15,9 @@ import java.util.List;
 /**
  * {@link AbstractDao} implementation for {@link Subscription} database entity.
  * Links to subscription database table and performs operations with that table.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
  */
 public class MySQLSubscriptionDao extends AbstractDao<Subscription> implements SubscriptionDao {
     private static final String TABLE_NAME = "subscription";

@@ -17,7 +17,10 @@ import java.util.Optional;
 
 /**
  * {@link AbstractDao} abstract class implementation for {@link Book} database entity. Links to book database table
- * and performs sql statements with that table
+ * and performs sql statements with that table.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
  */
 public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
     private static final String TABLE_NAME = "book";
