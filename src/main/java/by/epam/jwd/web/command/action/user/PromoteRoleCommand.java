@@ -9,6 +9,12 @@ import by.epam.jwd.web.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Executes command that is promote user role.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class PromoteRoleCommand implements ActionCommand {
     private final UserService userService = ServiceFactory.getInstance().getUserService();
 
@@ -19,10 +25,20 @@ public class PromoteRoleCommand implements ActionCommand {
     private PromoteRoleCommand() {
     }
 
+    /**
+     * Gets single class instance from nested class.
+     * @return class instance.
+     */
     public static PromoteRoleCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Promotes user role.
+     * Request must have user id whose role need to promote.
+     * @param request request that need to be execute.
+     * @return show users command for forward.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         final Long userId = Long.valueOf(request.getParameter(REQUEST_USER_ID_PARAMETER_KEY));
@@ -32,6 +48,11 @@ public class PromoteRoleCommand implements ActionCommand {
         return ConfigurationManager.getShowUsersCommand();
     }
 
+    /**
+     * Nested class that encapsulates single {@link PromoteRoleCommand} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final PromoteRoleCommand INSTANCE = new PromoteRoleCommand();
     }

@@ -8,6 +8,12 @@ import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Executes command that is delete saved {@link by.epam.jwd.web.model.Comment} from database table.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class DeleteCommentCommand implements ActionCommand {
     private final CommentService commentService = ServiceFactory.getInstance().getCommentService();
 
@@ -18,10 +24,20 @@ public class DeleteCommentCommand implements ActionCommand {
     private DeleteCommentCommand() {
     }
 
+    /**
+     * Get single class instance from nested class.
+     * @return class instance.
+     */
     public static DeleteCommentCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Deletes saved {@link by.epam.jwd.web.model.Comment} from database table.
+     * Request must contain comment id that need to be deleted.
+     * @param request request that need to be execute
+     * @return main command for forward.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         final Long commentId = Long.valueOf(request.getParameter(REQUEST_COMMENT_ID_PARAMETER_KEY));
@@ -30,6 +46,11 @@ public class DeleteCommentCommand implements ActionCommand {
         return ConfigurationManager.getMainCommand();
     }
 
+    /**
+     * Nested class that encapsulates single {@link DeleteCommentCommand} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final DeleteCommentCommand INSTANCE = new DeleteCommentCommand();
     }

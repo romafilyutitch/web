@@ -14,6 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Executes command that is find book by genre that is one of {@link Genre#FANTASY} enumeration value.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class FindFantasyCommand implements ActionCommand {
     private final BookService bookService = ServiceFactory.getInstance().getBookService();
     private final CommentService commentService = ServiceFactory.getInstance().getCommentService();
@@ -27,10 +33,19 @@ public class FindFantasyCommand implements ActionCommand {
     private FindFantasyCommand() {
     }
 
+    /**
+     * Gets singleton from nested class.
+     * @return class instance.
+     */
     public static FindFantasyCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Finds all fantasy {@link Genre} books.
+     * @param request request that need to be execute.
+     * @return main page path for forward.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         final List<Book> fantasyBooks = bookService.findByGenre(Genre.FANTASY);
@@ -53,6 +68,11 @@ public class FindFantasyCommand implements ActionCommand {
         return comments;
     }
 
+    /**
+     * Nested class that encapsulates single {@link FindFantasyCommand} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final FindFantasyCommand INSTANCE = new FindFantasyCommand();
     }

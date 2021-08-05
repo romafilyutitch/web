@@ -10,6 +10,12 @@ import by.epam.jwd.web.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Executes command that is change saved {@link User} password in database table.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class ChangePasswordCommand implements ActionCommand {
     private final UserService userService = ServiceFactory.getInstance().getUserService();
 
@@ -20,10 +26,20 @@ public class ChangePasswordCommand implements ActionCommand {
 
     private ChangePasswordCommand() {}
 
+    /**
+     * Gets single class instance from nested class.
+     * @return class instance.
+     */
     public static ChangePasswordCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Changes saved {@link User} password.
+     * Request must have new password to change password.
+     * @param request request that need to be execute.
+     * @return account page path for forward.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         final HttpSession session = request.getSession();
@@ -35,6 +51,11 @@ public class ChangePasswordCommand implements ActionCommand {
         return ConfigurationManager.getAccountPagePath();
     }
 
+    /**
+     * Nested class that encapsulates single {@link ChangePasswordCommand} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final ChangePasswordCommand INSTANCE = new ChangePasswordCommand();
     }

@@ -14,6 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Executes command that is find all {@link Genre#SCIENCE} books.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class FindScienceCommand implements ActionCommand {
     private final BookService bookService = ServiceFactory.getInstance().getBookService();
     private final CommentService commentService = ServiceFactory.getInstance().getCommentService();
@@ -28,10 +34,19 @@ public class FindScienceCommand implements ActionCommand {
     private FindScienceCommand() {
     }
 
+    /**
+     * Gets single class instance from nested class.
+     * @return class instance.
+     */
     public static FindScienceCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Finds all {@link Genre#SCIENCE} books.
+     * @param request request that need to be execute.
+     * @return main page path for forward.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         final List<Book> scienceBooks = bookService.findByGenre(Genre.SCIENCE);
@@ -54,6 +69,11 @@ public class FindScienceCommand implements ActionCommand {
         return comments;
     }
 
+    /**
+     * Nested class that encapsulates single {@link FindScienceCommand} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final FindScienceCommand INSTANCE = new FindScienceCommand();
     }

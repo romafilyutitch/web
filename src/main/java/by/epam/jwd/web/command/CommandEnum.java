@@ -38,6 +38,16 @@ import by.epam.jwd.web.model.UserRole;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Enumeration that contains all commands implementations.
+ * Used by {@link CommandFactory} to choose needed command to
+ * perform command.
+ * Also permission based of current user role is defined for
+ * each command.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public enum CommandEnum {
     SHOW_LOGIN(ShowLoginCommand.getInstance(), UserRole.UNAUTHORIZED),
     SHOW_USERS(ShowUsersListCommand.getInstance(), UserRole.ADMIN),
@@ -76,15 +86,32 @@ public enum CommandEnum {
     private final ActionCommand command;
     private final List<UserRole> allowedRoles;
 
+    /**
+     * Constructor that defines command and role of user
+     * that may use that command.
+     * @param command request command
+     * @param roles role of users that may to use this command
+     */
     CommandEnum(ActionCommand command, UserRole... roles) {
         this.command = command;
         this.allowedRoles = roles != null ? Arrays.asList(roles) : UserRole.rolesAsList();
     }
 
+    /**
+     * Returns all user roles that may use current command.
+     * Used to define whether user with its role execute current command.
+     * @return user roles that may use current command.
+     */
     public List<UserRole> getAllowedRoles() {
         return allowedRoles;
     }
 
+    /**
+     * Returns current {@link ActionCommand} instance.
+     * Used by {@link CommandFactory} to get {@link ActionCommand} instance for
+     * command pattern to execute command.
+     * @return current enum command.
+     */
     public ActionCommand getCurrentCommand() {
         return command;
     }

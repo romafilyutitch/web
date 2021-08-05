@@ -9,8 +9,14 @@ import by.epam.jwd.web.service.ServiceFactory;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+ * Executes command that is form orders page and make path for forward to orders page.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class ShowOrdersListCommand implements ActionCommand {
-    private OrderService orderService = ServiceFactory.getInstance().getOrderService();
+    private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     private static final String REQUEST_PAGE_PARAMETER_KEY = "page";
     private static final String REQUEST_ORDERS_ATTRIBUTE_KEY = "orders";
@@ -20,10 +26,20 @@ public class ShowOrdersListCommand implements ActionCommand {
     private ShowOrdersListCommand() {
     }
 
+    /**
+     * Gets single class instance.
+     * @return class instance.
+     */
     public static ShowOrdersListCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Forms orders page if page number is passed of first page
+     * otherwise and forms orders page path to forward.
+     * @param request request that need to be execute
+     * @return orders page path for forward.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         int currentPageNumber = 1;
@@ -39,6 +55,11 @@ public class ShowOrdersListCommand implements ActionCommand {
         return ConfigurationManager.getOrdersPagePath();
     }
 
+    /**
+     * Nested class that encapsulated single {@link ShowOrdersListCommand} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final ShowOrdersListCommand INSTANCE = new ShowOrdersListCommand();
     }

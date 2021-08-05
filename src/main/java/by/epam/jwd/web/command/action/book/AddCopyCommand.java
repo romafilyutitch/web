@@ -9,6 +9,12 @@ import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Executes command that is add one copy of definite saved {@link Book} instance.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class AddCopyCommand implements ActionCommand {
     private final BookService bookService = ServiceFactory.getInstance().getBookService();
 
@@ -19,10 +25,19 @@ public class AddCopyCommand implements ActionCommand {
     private AddCopyCommand() {
     }
 
+    /**
+     * Gets single class instance from nested class.
+     * @return class instance.
+     */
     public static AddCopyCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Adds one copy of book definite in request.
+     * @param request request that need to be execute.
+     * @return show books command for forward.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         final Long id = Long.valueOf(request.getParameter(REQUEST_BOOK_ID_PARAMETER_KEY));
@@ -32,6 +47,11 @@ public class AddCopyCommand implements ActionCommand {
         return ConfigurationManager.getShowBooksCommand();
     }
 
+    /**
+     * Nested class that encapsulates single {@link AddCopyCommand} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final AddCopyCommand INSTANCE = new AddCopyCommand();
     }

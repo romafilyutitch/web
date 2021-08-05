@@ -10,6 +10,12 @@ import by.epam.jwd.web.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Executes command that is delete save {@link User} from database table.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class DeleteAccountCommand implements ActionCommand {
     private final UserService userService = ServiceFactory.getInstance().getUserService();
 
@@ -20,10 +26,19 @@ public class DeleteAccountCommand implements ActionCommand {
     private DeleteAccountCommand() {
     }
 
+    /**
+     * Gets class instance from nested class.
+     * @return class instance.
+     */
     public static DeleteAccountCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Deletes saved {@link User} from database table.
+     * @param request request that need to be execute
+     * @return account page path for forward.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         final HttpSession session = request.getSession();
@@ -34,6 +49,10 @@ public class DeleteAccountCommand implements ActionCommand {
         return ConfigurationManager.getAccountPagePath();
     }
 
+    /**
+     * Nested class that encapsulates single {@link DeleteAccountCommand} instance.
+     * Singleton pattern variation.
+     */
     private static class Singleton {
         private static final DeleteAccountCommand INSTANCE = new DeleteAccountCommand();
     }

@@ -9,6 +9,12 @@ import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Executes command that is returned ordered by user book.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class ReturnBookCommand implements ActionCommand {
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
@@ -19,10 +25,20 @@ public class ReturnBookCommand implements ActionCommand {
     private ReturnBookCommand() {
     }
 
+    /**
+     * Gets single class instance from nested class.
+     * @return class instance.
+     */
     public static ReturnBookCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Returns ordered by user book.
+     * Request must contain ordered book id to returned order.
+     * @param request request that need to be execute.
+     * @return show user orders command for forward.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         final Long orderId = Long.valueOf(request.getParameter(REQUEST_BOOK_ID_PARAMETER_KEY));
@@ -32,6 +48,11 @@ public class ReturnBookCommand implements ActionCommand {
         return ConfigurationManager.getShowUserOrdersCommand();
     }
 
+    /**
+     * Nested class that encapsulated single {@link ReturnBookCommand} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final ReturnBookCommand INSTANCE = new ReturnBookCommand();
     }

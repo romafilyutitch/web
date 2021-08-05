@@ -9,6 +9,12 @@ import by.epam.jwd.web.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Executes command that is Demote saved user role.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class DemoteRoleCommand implements ActionCommand {
     private final UserService userService = ServiceFactory.getInstance().getUserService();
 
@@ -19,10 +25,20 @@ public class DemoteRoleCommand implements ActionCommand {
     private DemoteRoleCommand() {
     }
 
+    /**
+     * Gets single class instance from nested class.
+     * @return class instance.
+     */
     public static DemoteRoleCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Demotes user role.
+     * Request must contain user whose role need to demote.
+     * @param request request that need to be execute.
+     * @return show users command for forward.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         final Long id = Long.valueOf(request.getParameter(REQUEST_USER_ID_PARAMETER_KEY));
@@ -32,6 +48,11 @@ public class DemoteRoleCommand implements ActionCommand {
         return ConfigurationManager.getShowUsersCommand();
     }
 
+    /**
+     * Nested class that encapsulates single {@link DemoteRoleCommand} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final DemoteRoleCommand INSTANCE = new DemoteRoleCommand();
     }

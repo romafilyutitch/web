@@ -14,6 +14,12 @@ import by.epam.jwd.web.service.ServiceFactory;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 
+/**
+ * Executes command that is make book order by user and save it in database table.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class OrderBookCommand implements ActionCommand {
     private final BookService bookService = ServiceFactory.getInstance().getBookService();
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
@@ -27,10 +33,20 @@ public class OrderBookCommand implements ActionCommand {
     private OrderBookCommand() {
     }
 
+    /**
+     * Gets single class instance from nested class.
+     * @return class instance.
+     */
     public static OrderBookCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Makes book order and save it in database table.
+     * Request must contain saved book id that need to order.
+     * @param request request that need to be execute.
+     * @return main command for forward.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         final Long bookId = Long.valueOf(request.getParameter(REQUEST_ORDER_ID_PARAMETER_KEY));
@@ -47,6 +63,9 @@ public class OrderBookCommand implements ActionCommand {
         return ConfigurationManager.getMainCommand();
     }
 
+    /**
+     * Nested class that encapsulates single {@link OrderBookCommand} instance.
+     */
     private static class Singleton {
         private static final OrderBookCommand INSTANCE = new OrderBookCommand();
     }

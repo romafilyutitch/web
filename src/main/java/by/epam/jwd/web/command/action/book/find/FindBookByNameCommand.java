@@ -15,6 +15,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Command that finds Book by entered name.
+ * Used when client wants to find book by name.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class FindBookByNameCommand implements ActionCommand {
     private final BookService bookService = ServiceFactory.getInstance().getBookService();
     private final CommentService commentService = ServiceFactory.getInstance().getCommentService();
@@ -30,10 +37,20 @@ public class FindBookByNameCommand implements ActionCommand {
     private FindBookByNameCommand() {
     }
 
+    /**
+     * Gets single class instance from nested class.
+     * @return class instance.
+     */
     public static FindBookByNameCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Executes command with help of services and makes request to client and returns result path or command
+     * to make forward.
+     * @param request request that need to be executed.
+     * @return main page path for forward.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         final String bookName = request.getParameter(REQUEST_BOOK_NAME_PARAMETER_KEY).trim();
@@ -59,6 +76,11 @@ public class FindBookByNameCommand implements ActionCommand {
         return comments;
     }
 
+    /**
+     * Nested class that encapsulates single {@link FindBookByNameCommand} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final FindBookByNameCommand INSTANCE = new FindBookByNameCommand();
     }

@@ -14,6 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
+/**
+ * Executes command that is add new {@link Like} to {@link Book} from {@link User}.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class AddLikeCommand implements ActionCommand {
     private final LikeService likeService = ServiceFactory.getInstance().getLikeService();
     private final BookService bookService = ServiceFactory.getInstance().getBookService();
@@ -27,10 +33,20 @@ public class AddLikeCommand implements ActionCommand {
     private AddLikeCommand() {
     }
 
+    /**
+     * Gets single class instance from nested class.
+     * @return class instance.
+     */
     public static AddLikeCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Saves like from {@link User} to {@link Book} in database.
+     * Request must contain book id to which need to add like.
+     * @param request request that need to be execute.
+     * @return main command for forward.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         final HttpSession session = request.getSession();
@@ -50,6 +66,11 @@ public class AddLikeCommand implements ActionCommand {
         return ConfigurationManager.getMainCommand();
     }
 
+    /**
+     * Nested class that encapsulated single {@link AddLikeCommand} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final AddLikeCommand INSTANCE = new AddLikeCommand();
     }

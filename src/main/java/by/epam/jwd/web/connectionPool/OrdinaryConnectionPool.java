@@ -88,6 +88,7 @@ class OrdinaryConnectionPool implements ConnectionPool {
      * Free connection is added to pool when other thread puts free connection to connection pool
      * or check connection pool resize time comes and and puts new free connections to connection pool
      * @throws IllegalStateException when connection pool is not initialized
+     * @throws ConnectionPoolActionException when current thread  is interrupted
      * @return free database connection
      */
     @Override
@@ -111,6 +112,7 @@ class OrdinaryConnectionPool implements ConnectionPool {
      * Free space for connection pool may be in connection pool where other thread take free connection from pool
      * or resize connection pool check time comes and removes unused free connections from pool.
      * @throws IllegalStateException when connection pool is not initialized
+     * @throws ConnectionPoolActionException when current thread is interrupted
      * @param connection used database connection that need to be put in connection pool
      */
     @Override

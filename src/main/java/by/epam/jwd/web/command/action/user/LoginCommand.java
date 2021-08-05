@@ -8,13 +8,21 @@ import by.epam.jwd.web.resource.ConfigurationManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.ServiceFactory;
 import by.epam.jwd.web.service.UserService;
+import by.epam.jwd.web.validation.Validation;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 
+/**
+ * Executes command that is validation login data and login user.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class LoginCommand implements ActionCommand {
     private final UserService userService = ServiceFactory.getInstance().getUserService();
+    private final Validation<User> userValidation = Validation.getUserValidation();
 
     private static final String REQUEST_LOGIN_PARAMETER_KEY = "login";
     private static final String REQUEST_PASSWORD_PARAMETER_KEY = "password";
@@ -28,10 +36,21 @@ public class LoginCommand implements ActionCommand {
     private LoginCommand() {
     }
 
+    /**
+     * Gets single class instance from nested class.
+     * @return class instance.
+     */
     public static LoginCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Validates user login data an make user login.
+     * Request must have user login and user password.
+     * Don't login user if user login data is invalid.
+     * @param request request that need to be execute.
+     * @return login page path for forward.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         final String login = request.getParameter(REQUEST_LOGIN_PARAMETER_KEY);
@@ -51,6 +70,11 @@ public class LoginCommand implements ActionCommand {
         return ConfigurationManager.getLoginPagePath();
     }
 
+    /**
+     * Nested class that encapsulates single {@link LoginCommand} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final LoginCommand INSTANCE = new LoginCommand();
     }

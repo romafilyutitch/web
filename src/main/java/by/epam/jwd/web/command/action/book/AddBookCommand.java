@@ -14,6 +14,13 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Executes command that is add new book to add new {@link Book} based on request values.
+ * Performs validation at first and then saved {@link Book} instance formed from request data.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class AddBookCommand implements ActionCommand {
     private final BookService bookService = ServiceFactory.getInstance().getBookService();
     private final Validation<Book> bookValidation = Validation.getBookValidation();
@@ -29,10 +36,20 @@ public class AddBookCommand implements ActionCommand {
 
     private AddBookCommand() {}
 
+    /**
+     * Get single class instance from nested class.
+     * @return class instance.
+     */
     public static AddBookCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Retrieves data from request and build {@link Book} instance from them
+     * then performs instance validation and save instance in database.
+     * @param request request that need to be execute.
+     * @return show book command for forward.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         final Book bookFromRequest = buildBookFromRequest(request);
@@ -61,6 +78,11 @@ public class AddBookCommand implements ActionCommand {
     }
 
 
+    /**
+     * Nested class that encapsulates single {@link AddBookCommand} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final AddBookCommand INSTANCE = new AddBookCommand();
     }

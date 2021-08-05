@@ -9,6 +9,12 @@ import by.epam.jwd.web.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+ * Executes command that is find users page and form users page path to forward.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class ShowUsersListCommand implements ActionCommand {
     private final UserService userService = ServiceFactory.getInstance().getUserService();
 
@@ -20,10 +26,20 @@ public class ShowUsersListCommand implements ActionCommand {
     private ShowUsersListCommand() {
     }
 
+    /**
+     * Gets single class instance from nested class.
+     * @return class instance.
+     */
     public static ShowUsersListCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Forms users page if page number passed from request or first user page
+     * otherwise and forms users page path to forward.
+     * @param request request that need to be execute.
+     * @return users page path for forward.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         int currentPageNumber = 1;
@@ -40,6 +56,11 @@ public class ShowUsersListCommand implements ActionCommand {
         return ConfigurationManager.getUsersPagePath();
     }
 
+    /**
+     * Nested class that encapsulates single {@link ShowUsersListCommand} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final ShowUsersListCommand INSTANCE = new ShowUsersListCommand();
     }

@@ -13,6 +13,12 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Executes command that is validation user register data and register new user.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class RegisterCommand implements ActionCommand {
     private final UserService userService = ServiceFactory.getInstance().getUserService();
     private final Validation<User> userValidation = Validation.getUserValidation();
@@ -27,10 +33,20 @@ public class RegisterCommand implements ActionCommand {
     private RegisterCommand() {
     }
 
+    /**
+     * Gets single class instance from nested class.
+     * @return class instance.
+     */
     public static RegisterCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Validates register user data and register new user
+     * if data is valid or not register user otherwise.
+     * @param request request that need to be execute.
+     * @return register page path for forward.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         final HttpSession currentSession = request.getSession();
@@ -53,6 +69,11 @@ public class RegisterCommand implements ActionCommand {
         return ConfigurationManager.getRegisterPagePath();
     }
 
+    /**
+     * Nested class that encapsulates {@link RegisterCommand} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final RegisterCommand INSTANCE = new RegisterCommand();
     }

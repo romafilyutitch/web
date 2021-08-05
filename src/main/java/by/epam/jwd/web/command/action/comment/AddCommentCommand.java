@@ -16,6 +16,12 @@ import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Executes command that is add new {@link Comment} to {@link Book}.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class AddCommentCommand implements ActionCommand {
     private final BookService bookService = ServiceFactory.getInstance().getBookService();
     private final CommentService commentService = ServiceFactory.getInstance().getCommentService();
@@ -30,10 +36,20 @@ public class AddCommentCommand implements ActionCommand {
     private AddCommentCommand() {
     }
 
+    /**
+     * Gets single class instance from singleton class.
+     * @return class instance.
+     */
     public static AddCommentCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Added new {@link Comment} to {@link Book}.
+     * Request must have comments data from user.
+     * @param request request that need to be execute.
+     * @return main command for forward.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         final Comment commentFromRequest = buildCommentFromRequest(request);
@@ -56,6 +72,11 @@ public class AddCommentCommand implements ActionCommand {
         return new Comment(user, book, LocalDate.now(), text);
     }
 
+    /**
+     * Nested class that encapsulates single {@link AddCommentCommand} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final AddCommentCommand INSTANCE = new AddCommentCommand();
     }

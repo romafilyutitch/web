@@ -11,6 +11,12 @@ import by.epam.jwd.web.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Executes command that is delete {@link Order} from database table.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class DeleteOrderCommand implements ActionCommand {
     private final BookService bookService = ServiceFactory.getInstance().getBookService();
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
@@ -22,10 +28,20 @@ public class DeleteOrderCommand implements ActionCommand {
     private DeleteOrderCommand() {
     }
 
+    /**
+     * Gets single class instance from nested class.
+     * @return class instance.
+     */
     public static DeleteOrderCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Deletes saved {@link Order} from database table.
+     * Request must contain order id that need to delete.
+     * @param request request that need to be execute.
+     * @return show orders command for forward.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         final Long orderId = Long.valueOf(request.getParameter(REQUEST_ORDER_ID_PARAMETER_KEY));
@@ -37,6 +53,11 @@ public class DeleteOrderCommand implements ActionCommand {
         return ConfigurationManager.getShowOrdersCommand();
     }
 
+    /**
+     * Nested class that encapsulated single {@link DeleteOrderCommand} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final DeleteOrderCommand INSTANCE = new DeleteOrderCommand();
     }

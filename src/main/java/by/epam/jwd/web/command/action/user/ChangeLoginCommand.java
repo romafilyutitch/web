@@ -11,6 +11,12 @@ import by.epam.jwd.web.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Executes command that is change saved {@link User} login.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class ChangeLoginCommand implements ActionCommand {
     private final UserService userService = ServiceFactory.getInstance().getUserService();
 
@@ -23,10 +29,20 @@ public class ChangeLoginCommand implements ActionCommand {
     private ChangeLoginCommand() {
     }
 
+    /**
+     * Gets single class instance from nested class.
+     * @return class.
+     */
     public static ChangeLoginCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Changes saved {@link User} login.
+     * Request must contain new login.
+     * @param request request that need to be execute.
+     * @return account page path for forward.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         final HttpSession session = request.getSession();
@@ -42,6 +58,11 @@ public class ChangeLoginCommand implements ActionCommand {
         return ConfigurationManager.getAccountPagePath();
     }
 
+    /**
+     * Nested class that encapsulates single {@link ChangeLoginCommand} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final ChangeLoginCommand INSTANCE = new ChangeLoginCommand();
     }

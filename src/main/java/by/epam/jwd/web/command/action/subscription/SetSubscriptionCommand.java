@@ -16,6 +16,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Executes command that is set {@link Subscription} to definite {@link User}.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class SetSubscriptionCommand implements ActionCommand {
     private final UserService userService = ServiceFactory.getInstance().getUserService();
     private final Validation<Subscription> subscriptionValidation = Validation.getSubscriptionValidation();
@@ -32,10 +38,21 @@ public class SetSubscriptionCommand implements ActionCommand {
     private SetSubscriptionCommand() {
     }
 
+    /**
+     * Gets single class instance from nested class.
+     * @return class instance.
+     */
     public static SetSubscriptionCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Sets subscription do definite in request {@link User}.
+     * Request must contain id of user that need to set {@link Subscription}
+     * and valid {@link Subscription} start date and end date.
+     * @param request request that need to be execute.
+     * @return show users command for forward.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         final Subscription subscriptionFromRequest = buildSubscriptionFromRequest(request);
@@ -55,6 +72,7 @@ public class SetSubscriptionCommand implements ActionCommand {
         return ConfigurationManager.getShowUsersCommand();
     }
 
+
     private Subscription buildSubscriptionFromRequest(HttpServletRequest request) {
         final String startDate = request.getParameter(REQUEST_START_DATE_PARAMETER_KEY);
         final String endDate = request.getParameter(REQUEST_END_DATE_PARAMETER_KEY);
@@ -62,6 +80,11 @@ public class SetSubscriptionCommand implements ActionCommand {
         return new Subscription(LocalDate.parse(startDate, formatter), LocalDate.parse(endDate, formatter));
     }
 
+    /**
+     * Nested class that encapsulated single {@link SetSubscriptionCommand} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final SetSubscriptionCommand INSTANCE = new SetSubscriptionCommand();
     }

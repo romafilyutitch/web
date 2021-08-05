@@ -14,6 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Executes command that is forward to main page.
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class MainCommand implements ActionCommand {
     private final BookService bookService = ServiceFactory.getInstance().getBookService();
     private final CommentService commentService = ServiceFactory.getInstance().getCommentService();
@@ -27,10 +33,20 @@ public class MainCommand implements ActionCommand {
 
     private MainCommand() {}
 
+    /**
+     * Gets single class instance from nested class.
+     * @return class instance.
+     */
     public static MainCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Gets first books page from service and their comments, sets language to english if
+     * language is not set and returns main page path to forward.
+     * @param request request that need to be execute.
+     * @return main page path for forward.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         final HttpSession currentSession = request.getSession();
@@ -62,6 +78,11 @@ public class MainCommand implements ActionCommand {
         return comments;
     }
 
+    /**
+     * Nested class that encapsulates single {@link MainCommand} instance.
+     * Singleton pattern variation.
+     * @see "Singleton pattern"
+     */
     private static class Singleton {
         private static final MainCommand INSTANCE = new MainCommand();
     }
