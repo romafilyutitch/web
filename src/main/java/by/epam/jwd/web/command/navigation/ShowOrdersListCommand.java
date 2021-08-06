@@ -52,7 +52,7 @@ public class ShowOrdersListCommand implements ActionCommand {
         request.setAttribute(REQUEST_ORDERS_ATTRIBUTE_KEY, currentPage);
         request.setAttribute(REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY, currentPageNumber);
         request.setAttribute(REQUEST_PAGES_AMOUNT_ATTRIBUTE_KEY, pagesAmount);
-        return PathManager.getPath("orders");
+        return PathManager.getOrdersPagePath();
     }
 
     /**

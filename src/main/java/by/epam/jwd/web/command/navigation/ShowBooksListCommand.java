@@ -56,7 +56,7 @@ public class ShowBooksListCommand implements ActionCommand {
         request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, currentPage);
         request.setAttribute(REQUEST_PAGE_AMOUNT_ATTRIBUTE_KEY, pagesAmount);
         request.setAttribute(REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY, currentPageNumber);
-        return PathManager.getPath("books");
+        return PathManager.getBooksPagePath();
     }
 
     /**

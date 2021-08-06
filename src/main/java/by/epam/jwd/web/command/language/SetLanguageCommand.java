@@ -43,7 +43,7 @@ public class SetLanguageCommand implements ActionCommand {
         final Locale currentLocale = new Locale(languageName);
         Locale.setDefault(currentLocale);
         currentSession.setAttribute(SESSION_LANGUAGE_ATTRIBUTE_KEY, languageName);
-        return CommandManager.getCommand("main");
+        return CommandManager.getMainCommand();
     }
 
     /**

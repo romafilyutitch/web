@@ -61,13 +61,13 @@ public class SetSubscriptionCommand implements ActionCommand {
         final List<String> validationMessages = subscriptionValidation.validate(subscriptionFromRequest);
         if (!validationMessages.isEmpty()) {
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, validationMessages);
-            return CommandManager.getCommand("show.users");
+            return CommandManager.getShowUsersCommand();
         }
         final Long userId = Long.valueOf(request.getParameter(REQUEST_USER_ID_PARAMETER_KEY));
         final User foundUser = userService.findById(userId);
         userService.setSubscription(foundUser, subscriptionFromRequest);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(SUBSCRIPTION_REGISTERED_MESSAGE_KEY));
-        return CommandManager.getCommand("show.users");
+        return CommandManager.getShowUsersCommand();
     }
 
 

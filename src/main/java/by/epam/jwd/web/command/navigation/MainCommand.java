@@ -67,7 +67,7 @@ public class MainCommand implements ActionCommand {
         request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, currentPage);
         request.setAttribute(REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY, currentPageNumber);
         request.setAttribute(REQUEST_PAGES_AMOUNT_ATTRIBUTE_KEY, pagesAmount);
-        return PathManager.getPath("main");
+        return PathManager.getMainPagePath();
     }
 
     private List<Comment> findComments(List<Book> books) {

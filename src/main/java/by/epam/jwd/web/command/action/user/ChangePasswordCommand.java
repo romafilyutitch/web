@@ -48,7 +48,7 @@ public class ChangePasswordCommand implements ActionCommand {
         final User userWithChangedPassword = userService.changePassword(user, newPassword);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(USER_PASSWORD_WAS_CHANGED_MESSAGE_KEY));
         session.setAttribute(SESSION_USER_ATTRIBUTE_KEY, userWithChangedPassword);
-        return PathManager.getPath("account");
+        return PathManager.getAccountPagePath();
     }
 
     /**

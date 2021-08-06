@@ -64,7 +64,7 @@ public class AddLikeCommand implements ActionCommand {
             likeService.save(like);
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(LIKE_ADDED_MESSAGE_KEY));
         }
-        return CommandManager.getCommand("main");
+        return CommandManager.getMainCommand();
     }
 
     /**

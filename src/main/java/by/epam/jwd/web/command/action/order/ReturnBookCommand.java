@@ -46,7 +46,7 @@ public class ReturnBookCommand implements ActionCommand {
         final Order foundOrder = orderService.findById(orderId);
         orderService.returnOrder(foundOrder);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(BOOK_WAS_RETURNED_MESSAGE_KEY));
-        return CommandManager.getCommand("show.userOrders");
+        return CommandManager.getShowUsersOrdersCommand();
     }
 
     /**

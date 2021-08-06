@@ -46,7 +46,7 @@ public class DeleteAccountCommand implements ActionCommand {
         userService.delete(user.getId());
         session.invalidate();
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(ACCOUNT_WAS_DELETED_MESSAGE_KEY));
-        return PathManager.getPath("account");
+        return PathManager.getAccountPagePath();
     }
 
     /**

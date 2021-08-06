@@ -43,7 +43,7 @@ public class ShowUserOrdersPageCommand implements ActionCommand {
         final User user = (User) request.getSession().getAttribute(SESSION_USER_ATTRIBUTE_KEY);
         final List<Order> userOrders = orderService.findByUser(user);
         request.setAttribute(REQUEST_ORDERS_ATTRIBUTE_KEY, userOrders);
-        return PathManager.getPath("userOrders");
+        return PathManager.getUserOrdersPagePath();
     }
 
     /**

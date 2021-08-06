@@ -31,7 +31,7 @@ public class ShowAccountCommand implements ActionCommand {
      */
     @Override
     public String execute(HttpServletRequest request) {
-        return PathManager.getPath("account");
+        return PathManager.getAccountPagePath();
     }
 
     /**

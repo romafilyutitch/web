@@ -31,7 +31,7 @@ public class ShowRegisterCommand implements ActionCommand {
      */
     @Override
     public String execute(HttpServletRequest request) {
-        return PathManager.getPath("register");
+        return PathManager.getRegisterPagePath();
     }
 
     /**

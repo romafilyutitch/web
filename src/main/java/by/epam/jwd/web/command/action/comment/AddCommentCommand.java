@@ -58,11 +58,11 @@ public class AddCommentCommand implements ActionCommand {
         final List<String> validationMessages = commentValidation.validate(commentFromRequest);
         if (!validationMessages.isEmpty()) {
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, validationMessages);
-            return CommandManager.getCommand("main");
+            return CommandManager.getMainCommand();
         }
         commentService.save(commentFromRequest);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(COMMENT_REGISTERED_MESSAGE_KEY));
-        return CommandManager.getCommand("main");
+        return CommandManager.getMainCommand();
     }
 
     private Comment buildCommentFromRequest(HttpServletRequest request) {

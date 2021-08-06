@@ -55,7 +55,7 @@ public class ChangeLoginCommand implements ActionCommand {
         } catch (UserWithLoginExistsException e) {
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(USER_LOGIN_EXISTS_MESSAGE_KEY));
         }
-        return PathManager.getPath("account");
+        return PathManager.getAccountPagePath();
     }
 
     /**

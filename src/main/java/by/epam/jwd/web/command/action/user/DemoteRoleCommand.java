@@ -45,8 +45,8 @@ public class DemoteRoleCommand implements ActionCommand {
         final Long id = Long.valueOf(request.getParameter(REQUEST_USER_ID_PARAMETER_KEY));
         final User foundUser = userService.findById(id);
         userService.demoteRole(foundUser);
-        request.getSession().setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(USER_ROLE_WAS_DEMOTED_MESSAGE_KEY));
-        return CommandManager.getCommand("show.users");
+        request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(USER_ROLE_WAS_DEMOTED_MESSAGE_KEY));
+        return CommandManager.getShowUsersCommand();
     }
 
     /**

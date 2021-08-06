@@ -46,7 +46,7 @@ public class DeleteBookCommand implements ActionCommand {
         final Book book = bookService.findById(id);
         bookService.delete(book.getId());
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(BOOK_WAS_DELETED_MESSAGE_KEY));
-        return CommandManager.getCommand("show.books");
+        return CommandManager.getShowBooksCommand();
     }
 
     /**

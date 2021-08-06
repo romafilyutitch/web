@@ -68,7 +68,7 @@ public class LoginCommand implements ActionCommand {
         } catch (WrongPasswordException e) {
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(WRONG_PASSWORD_MESSAGE_KEY));
         }
-        return PathManager.getPath("login");
+        return PathManager.getLoginPagePath();
     }
 
     /**

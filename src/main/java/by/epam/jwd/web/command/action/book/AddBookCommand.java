@@ -61,7 +61,7 @@ public class AddBookCommand implements ActionCommand {
         final List<String> validationMessages = bookValidation.validate(bookFromRequest);
         if (!validationMessages.isEmpty()) {
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, validationMessages);
-            return CommandManager.getCommand("show.books");
+            return CommandManager.getShowBooksCommand();
         }
         final Optional<Book> optionalBook = bookService.findByName(bookFromRequest.getName());
         if (optionalBook.isPresent()) {
@@ -70,7 +70,7 @@ public class AddBookCommand implements ActionCommand {
             bookService.save(bookFromRequest);
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(BOOK_REGISTERED_MESSAGE_KEY));
         }
-        return CommandManager.getCommand("show.books");
+        return CommandManager.getShowBooksCommand();
     }
 
     private Book buildBookFromRequest(HttpServletRequest request) {

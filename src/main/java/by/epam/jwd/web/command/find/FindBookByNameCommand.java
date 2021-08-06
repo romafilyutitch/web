@@ -1,4 +1,4 @@
-package by.epam.jwd.web.command.action.book.find;
+package by.epam.jwd.web.command.find;
 
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.Book;
@@ -65,7 +65,7 @@ public class FindBookByNameCommand implements ActionCommand {
             request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, Collections.emptyList());
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(BOOK_WAS_NOT_FOUND_BY_NAME_MESSAGE_KEY));
         }
-        return PathManager.getPath("main");
+        return PathManager.getMainPagePath();
     }
 
     private List<Comment> findComments(List<Book> books) {

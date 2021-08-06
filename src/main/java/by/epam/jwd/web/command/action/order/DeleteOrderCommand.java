@@ -51,7 +51,7 @@ public class DeleteOrderCommand implements ActionCommand {
         bookService.addOneCopy(book);
         orderService.delete(orderId);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(ORDER_WAS_DELETED_MESSAGE_KEY));
-        return CommandManager.getCommand("show.orders");
+        return CommandManager.getShowOrdersCommand();
     }
 
     /**

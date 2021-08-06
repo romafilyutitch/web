@@ -1,4 +1,4 @@
-package by.epam.jwd.web.command.action.book.find;
+package by.epam.jwd.web.command.find;
 
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.Book;
@@ -15,50 +15,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Executes command that is find all {@link Genre#SCIENCE} books.
+ * Executes command that is find book by genre that is one of {@link Genre#FANTASY} enumeration value.
  * @author roma0
  * @version 1.0
  * @since 1.0
  */
-public class FindScienceCommand implements ActionCommand {
+public class FindFantasyCommand implements ActionCommand {
     private final BookService bookService = ServiceFactory.getInstance().getBookService();
     private final CommentService commentService = ServiceFactory.getInstance().getCommentService();
 
     private static final String REQUEST_BOOKS_ATTRIBUTE_KEY = "books";
     private static final String REQUEST_MESSAGE_ATTRIBUTE_KEY = "message";
     private static final String REQUEST_COMMENTS_ATTRIBUTE_KEY = "comments";
-    private static final String SCIENCE_BOOKS_WERE_FOUND_MESSAGE_KEY = "book.find.science.found";
-    private static final String SCIENCE_BOOKS_WERE_NOT_FOUND_MESSAGE_KEY = "book.find.science.notFound";
+    private static final String FANTASY_BOOKS_WERE_FOUND_MESSAGE_KEY = "book.find.fantasy.found";
+    private static final String FANTASY_BOOKS_WERE_NOT_FOUND_MESSAGE_KEY = "book.find.fantasy.notFound";
 
-
-    private FindScienceCommand() {
+    private FindFantasyCommand() {
     }
 
     /**
-     * Gets single class instance from nested class.
+     * Gets singleton from nested class.
      * @return class instance.
      */
-    public static FindScienceCommand getInstance() {
+    public static FindFantasyCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
     /**
-     * Finds all {@link Genre#SCIENCE} books.
+     * Finds all fantasy {@link Genre} books.
      * @param request request that need to be execute.
      * @return main page path for forward.
      */
     @Override
     public String execute(HttpServletRequest request) {
-        final List<Book> scienceBooks = bookService.findByGenre(Genre.SCIENCE);
-        if (scienceBooks.isEmpty()) {
-            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(SCIENCE_BOOKS_WERE_NOT_FOUND_MESSAGE_KEY));
+        final List<Book> fantasyBooks = bookService.findByGenre(Genre.FANTASY);
+        if (fantasyBooks.isEmpty()) {
+            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(FANTASY_BOOKS_WERE_NOT_FOUND_MESSAGE_KEY));
         } else {
-            request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, scienceBooks);
-            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(SCIENCE_BOOKS_WERE_FOUND_MESSAGE_KEY));
-            final List<Comment> comments = findComments(scienceBooks);
+            request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, fantasyBooks);
+            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(FANTASY_BOOKS_WERE_FOUND_MESSAGE_KEY));
+            final List<Comment> comments = findComments(fantasyBooks);
             request.setAttribute(REQUEST_COMMENTS_ATTRIBUTE_KEY, comments);
         }
-        return PathManager.getPath("main");
+        return PathManager.getMainPagePath();
     }
 
     private List<Comment> findComments(List<Book> books) {
@@ -70,11 +69,11 @@ public class FindScienceCommand implements ActionCommand {
     }
 
     /**
-     * Nested class that encapsulates single {@link FindScienceCommand} instance.
+     * Nested class that encapsulates single {@link FindFantasyCommand} instance.
      * Singleton pattern variation.
      * @see "Singleton pattern"
      */
     private static class Singleton {
-        private static final FindScienceCommand INSTANCE = new FindScienceCommand();
+        private static final FindFantasyCommand INSTANCE = new FindFantasyCommand();
     }
 }

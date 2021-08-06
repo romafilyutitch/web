@@ -31,7 +31,7 @@ public class ShowLoginCommand implements ActionCommand {
      */
     @Override
     public String execute(HttpServletRequest request) {
-        return PathManager.getPath("login");
+        return PathManager.getLoginPagePath();
     }
 
     /**

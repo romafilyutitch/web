@@ -46,7 +46,7 @@ public class PromoteRoleCommand implements ActionCommand {
         final User foundUser = userService.findById(userId);
         userService.promoteRole(foundUser);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(USER_ROLE_WAS_PROMOTED_MESSAGE_KEY));
-        return CommandManager.getCommand("show.users");
+        return CommandManager.getShowUsersCommand();
     }
 
     /**

@@ -35,7 +35,7 @@ public class LogoutCommand implements ActionCommand {
     public String execute(HttpServletRequest request) {
         final HttpSession session = request.getSession();
         session.invalidate();
-        return CommandManager.getCommand("main");
+        return CommandManager.getMainCommand();
     }
 
     /**

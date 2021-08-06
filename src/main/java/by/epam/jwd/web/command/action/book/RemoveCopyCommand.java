@@ -46,7 +46,7 @@ public class RemoveCopyCommand implements ActionCommand {
         final Book book = bookService.findById(id);
         bookService.removeOneCopy(book);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(BOOK_COPY_WAS_REMOVED_MESSAGE_KEY));
-        return CommandManager.getCommand("show.books");
+        return CommandManager.getShowBooksCommand();
     }
 
     /**

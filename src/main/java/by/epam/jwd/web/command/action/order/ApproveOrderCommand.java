@@ -47,7 +47,7 @@ public class ApproveOrderCommand implements ActionCommand {
         final Order foundOrder = orderService.findById(id);
         orderService.approveOrder(foundOrder);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(ORDER_APPROVED_MESSAGE_KEY));
-        return CommandManager.getCommand("show.orders");
+        return CommandManager.getShowOrdersCommand();
     }
 
     /**

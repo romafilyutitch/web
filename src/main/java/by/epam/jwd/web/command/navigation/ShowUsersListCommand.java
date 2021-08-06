@@ -53,7 +53,7 @@ public class ShowUsersListCommand implements ActionCommand {
         request.setAttribute(REQUEST_USERS_ATTRIBUTE_KEY, currentPage);
         request.setAttribute(REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY, currentPageNumber);
         request.setAttribute(REQUEST_PAGES_AMOUNT_ATTRIBUTE_KEY, pagesAmount);
-        return PathManager.getPath("users");
+        return PathManager.getUsersPagePath();
     }
 
     /**

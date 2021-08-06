@@ -57,7 +57,7 @@ public class RegisterCommand implements ActionCommand {
         final List<String> validationMessages = userValidation.validate(user);
         if (!validationMessages.isEmpty()) {
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, validationMessages);
-            return PathManager.getPath("register");
+            return PathManager.getRegisterPagePath();
         }
         final Optional<User> optionalUserByLogin = userService.findByLogin(login);
         if (optionalUserByLogin.isPresent()) {
@@ -67,7 +67,7 @@ public class RegisterCommand implements ActionCommand {
             currentSession.setAttribute(SESSION_USER_ATTRIBUTE_KEY, registeredUser);
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(USER_WAS_REGISTERED_MESSAGE_KEY));
         }
-        return PathManager.getPath("register");
+        return PathManager.getRegisterPagePath();
     }
 
     /**

@@ -45,7 +45,7 @@ public class AddCopyCommand implements ActionCommand {
         final Book book = bookService.findById(id);
         bookService.addOneCopy(book);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(BOOK_COPY_ADDED_MESSAGE_KEY));
-        return CommandManager.getCommand("show.books");
+        return CommandManager.getShowBooksCommand();
     }
 
     /**

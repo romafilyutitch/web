@@ -61,7 +61,7 @@ public class OrderBookCommand implements ActionCommand {
             bookService.removeOneCopy(book);
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(ORDER_REGISTERED_MESSAGE_KEY));
         }
-        return CommandManager.getCommand("main");
+        return CommandManager.getMainCommand();
     }
 
     /**
