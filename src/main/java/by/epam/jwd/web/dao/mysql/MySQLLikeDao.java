@@ -1,7 +1,7 @@
 package by.epam.jwd.web.dao.mysql;
 
-import by.epam.jwd.web.dao.AbstractDao;
-import by.epam.jwd.web.dao.LikeDao;
+import by.epam.jwd.web.dao.api.AbstractDao;
+import by.epam.jwd.web.dao.api.LikeDao;
 import by.epam.jwd.web.model.Author;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;

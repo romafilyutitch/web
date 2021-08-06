@@ -1,13 +1,13 @@
 package by.epam.jwd.web.dao.mysql;
 
-import by.epam.jwd.web.dao.AuthorDao;
-import by.epam.jwd.web.dao.BookDao;
-import by.epam.jwd.web.dao.CommentDao;
-import by.epam.jwd.web.dao.DAOFactory;
-import by.epam.jwd.web.dao.LikeDao;
-import by.epam.jwd.web.dao.OrderDao;
-import by.epam.jwd.web.dao.SubscriptionDao;
-import by.epam.jwd.web.dao.UserDao;
+import by.epam.jwd.web.dao.api.AuthorDao;
+import by.epam.jwd.web.dao.api.BookDao;
+import by.epam.jwd.web.dao.api.CommentDao;
+import by.epam.jwd.web.dao.api.DAOFactory;
+import by.epam.jwd.web.dao.api.LikeDao;
+import by.epam.jwd.web.dao.api.OrderDao;
+import by.epam.jwd.web.dao.api.SubscriptionDao;
+import by.epam.jwd.web.dao.api.UserDao;
 
 /**
  * Data access object mysql implementations factory. Returns doa implementations

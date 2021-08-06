@@ -1,6 +1,7 @@
 package by.epam.jwd.web.dao;
 
 import by.epam.jwd.web.connectionPool.ConnectionPool;
+import by.epam.jwd.web.dao.api.LikeDao;
 import by.epam.jwd.web.dao.mysql.MySQLBookDao;
 import by.epam.jwd.web.dao.mysql.MySQLLikeDao;
 import by.epam.jwd.web.dao.mysql.MySQLUserDao;

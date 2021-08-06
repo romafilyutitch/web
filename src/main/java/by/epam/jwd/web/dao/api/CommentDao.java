@@ -1,4 +1,4 @@
-package by.epam.jwd.web.dao;
+package by.epam.jwd.web.dao.api;
 
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Comment;

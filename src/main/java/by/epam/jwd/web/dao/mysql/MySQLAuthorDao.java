@@ -1,8 +1,8 @@
 package by.epam.jwd.web.dao.mysql;
 
 
-import by.epam.jwd.web.dao.AbstractDao;
-import by.epam.jwd.web.dao.AuthorDao;
+import by.epam.jwd.web.dao.api.AbstractDao;
+import by.epam.jwd.web.dao.api.AuthorDao;
 import by.epam.jwd.web.model.Author;
 
 import java.sql.PreparedStatement;

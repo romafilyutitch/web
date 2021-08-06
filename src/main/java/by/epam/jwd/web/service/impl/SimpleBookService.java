@@ -1,8 +1,8 @@
 package by.epam.jwd.web.service.impl;
 
-import by.epam.jwd.web.dao.AuthorDao;
-import by.epam.jwd.web.dao.BookDao;
-import by.epam.jwd.web.dao.DAOFactory;
+import by.epam.jwd.web.dao.api.AuthorDao;
+import by.epam.jwd.web.dao.api.BookDao;
+import by.epam.jwd.web.dao.api.DAOFactory;
 import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.model.Author;
 import by.epam.jwd.web.model.Book;

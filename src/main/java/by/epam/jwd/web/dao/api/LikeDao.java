@@ -1,10 +1,9 @@
-package by.epam.jwd.web.dao;
+package by.epam.jwd.web.dao.api;
 
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Like;
 import by.epam.jwd.web.model.User;
 
-import java.util.List;
 import java.util.Optional;
 
 /**

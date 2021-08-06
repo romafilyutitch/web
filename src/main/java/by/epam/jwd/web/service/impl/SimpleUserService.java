@@ -1,9 +1,9 @@
 package by.epam.jwd.web.service.impl;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import by.epam.jwd.web.dao.DAOFactory;
-import by.epam.jwd.web.dao.SubscriptionDao;
-import by.epam.jwd.web.dao.UserDao;
+import by.epam.jwd.web.dao.api.DAOFactory;
+import by.epam.jwd.web.dao.api.SubscriptionDao;
+import by.epam.jwd.web.dao.api.UserDao;
 import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.exception.UserWithLoginExistsException;
 import by.epam.jwd.web.exception.WrongLoginException;
