@@ -5,11 +5,10 @@ import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Like;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.resource.CommandManager;
-import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.resource.MessageManager;
-import by.epam.jwd.web.service.BookService;
-import by.epam.jwd.web.service.LikeService;
-import by.epam.jwd.web.service.ServiceFactory;
+import by.epam.jwd.web.service.api.BookService;
+import by.epam.jwd.web.service.api.LikeService;
+import by.epam.jwd.web.service.api.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

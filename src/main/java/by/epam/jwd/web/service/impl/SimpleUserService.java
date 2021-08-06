@@ -11,10 +11,11 @@ import by.epam.jwd.web.exception.WrongPasswordException;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.model.UserRole;
-import by.epam.jwd.web.service.UserService;
+import by.epam.jwd.web.service.api.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,7 +70,8 @@ public class SimpleUserService implements UserService {
      */
     @Override
     public List<User> findAll() {
-        List<User> allUsers = userDao.findAll();
+        final List<User> allUsers = userDao.findAll();
+        Collections.sort(allUsers);
         logger.info(String.format(ALL_USERS_WERE_FOUND_MESSAGE, allUsers.size()));
         return allUsers;
     }
@@ -127,7 +129,8 @@ public class SimpleUserService implements UserService {
         if (currentPage <= 0 || currentPage > getPagesAmount()) {
             throw new IllegalArgumentException();
         }
-        List<User> foundPage = userDao.findPage(currentPage);
+        final List<User> foundPage = userDao.findPage(currentPage);
+        Collections.sort(foundPage);
         logger.info(String.format(PAGE_OF_USERS_WAS_FOUND_MESSAGE, currentPage, foundPage.size()));
         return foundPage;
     }

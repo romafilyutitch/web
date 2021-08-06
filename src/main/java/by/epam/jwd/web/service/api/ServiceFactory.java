@@ -1,4 +1,4 @@
-package by.epam.jwd.web.service;
+package by.epam.jwd.web.service.api;
 
 import by.epam.jwd.web.service.impl.AppServiceFactory;
 

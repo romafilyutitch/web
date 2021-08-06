@@ -3,10 +3,9 @@ package by.epam.jwd.web.command.action.book;
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.resource.CommandManager;
-import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.resource.MessageManager;
-import by.epam.jwd.web.service.BookService;
-import by.epam.jwd.web.service.ServiceFactory;
+import by.epam.jwd.web.service.api.BookService;
+import by.epam.jwd.web.service.api.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 

@@ -1,11 +1,11 @@
 package by.epam.jwd.web.service.impl;
 
-import by.epam.jwd.web.service.BookService;
-import by.epam.jwd.web.service.CommentService;
-import by.epam.jwd.web.service.LikeService;
-import by.epam.jwd.web.service.OrderService;
-import by.epam.jwd.web.service.ServiceFactory;
-import by.epam.jwd.web.service.UserService;
+import by.epam.jwd.web.service.api.BookService;
+import by.epam.jwd.web.service.api.CommentService;
+import by.epam.jwd.web.service.api.LikeService;
+import by.epam.jwd.web.service.api.OrderService;
+import by.epam.jwd.web.service.api.ServiceFactory;
+import by.epam.jwd.web.service.api.UserService;
 
 /**
  * Service factory interface implementation. Produces services

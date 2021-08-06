@@ -6,6 +6,8 @@ import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Like;
 import by.epam.jwd.web.model.User;
+import by.epam.jwd.web.service.api.LikeService;
+import by.epam.jwd.web.service.api.ServiceFactory;
 import by.epam.jwd.web.service.impl.SimpleLikeService;
 import org.junit.After;
 import org.junit.AfterClass;

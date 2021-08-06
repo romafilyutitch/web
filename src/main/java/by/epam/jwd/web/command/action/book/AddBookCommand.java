@@ -6,8 +6,8 @@ import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
 import by.epam.jwd.web.resource.CommandManager;
 import by.epam.jwd.web.resource.MessageManager;
-import by.epam.jwd.web.service.BookService;
-import by.epam.jwd.web.service.ServiceFactory;
+import by.epam.jwd.web.service.api.BookService;
+import by.epam.jwd.web.service.api.ServiceFactory;
 import by.epam.jwd.web.validation.Validation;
 import by.epam.jwd.web.validation.ValidationFactory;
 

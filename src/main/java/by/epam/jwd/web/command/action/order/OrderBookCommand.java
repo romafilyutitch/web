@@ -6,11 +6,10 @@ import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.model.Status;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.resource.CommandManager;
-import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.resource.MessageManager;
-import by.epam.jwd.web.service.BookService;
-import by.epam.jwd.web.service.OrderService;
-import by.epam.jwd.web.service.ServiceFactory;
+import by.epam.jwd.web.service.api.BookService;
+import by.epam.jwd.web.service.api.OrderService;
+import by.epam.jwd.web.service.api.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;

@@ -131,13 +131,13 @@
                             <input type="hidden" name="command" value="add_book">
                             <div class="col">
                                 <label for="name" class="form-label"><fmt:message key="name"/></label>
-                                <input id="name" class="form-control" type="text" name="name" required pattern="\w+(\w|\s)+">
+                                <input id="name" class="form-control" type="text" name="name" required pattern="\w+(\w|\s)*">
                                 <div class="valid-feedback"><fmt:message key="validName"/></div>
                                 <div class="invalid-feedback"><fmt:message key="invalidName"/></div>
                             </div>
                             <div class=col">
                                 <label for="author" class="form-label"><fmt:message key="author"/></label>
-                                <input id="author" class="form-control" type="text" name="author" required pattern="\w+(\w|\s)+">
+                                <input id="author" class="form-control" type="text" name="author" required pattern="\w+(\w|\s)*">
                                 <div class="valid-feedback"><fmt:message key="validAuthor"/></div>
                                 <div class="invalid-feedback"><fmt:message key="invalidAuthor"/></div>
                             </div>

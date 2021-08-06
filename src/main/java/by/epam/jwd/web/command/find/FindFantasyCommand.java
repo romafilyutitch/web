@@ -6,9 +6,9 @@ import by.epam.jwd.web.model.Comment;
 import by.epam.jwd.web.model.Genre;
 import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.resource.MessageManager;
-import by.epam.jwd.web.service.BookService;
-import by.epam.jwd.web.service.CommentService;
-import by.epam.jwd.web.service.ServiceFactory;
+import by.epam.jwd.web.service.api.BookService;
+import by.epam.jwd.web.service.api.CommentService;
+import by.epam.jwd.web.service.api.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;

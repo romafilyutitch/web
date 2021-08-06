@@ -6,7 +6,7 @@ import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Like;
 import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.service.LikeService;
+import by.epam.jwd.web.service.api.LikeService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

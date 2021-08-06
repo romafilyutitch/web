@@ -4,8 +4,8 @@ import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.resource.MessageManager;
-import by.epam.jwd.web.service.ServiceFactory;
-import by.epam.jwd.web.service.UserService;
+import by.epam.jwd.web.service.api.ServiceFactory;
+import by.epam.jwd.web.service.api.UserService;
 import by.epam.jwd.web.validation.Validation;
 import by.epam.jwd.web.validation.ValidationFactory;
 

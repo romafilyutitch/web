@@ -3,10 +3,9 @@ package by.epam.jwd.web.command.action.user;
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.resource.CommandManager;
-import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.resource.MessageManager;
-import by.epam.jwd.web.service.ServiceFactory;
-import by.epam.jwd.web.service.UserService;
+import by.epam.jwd.web.service.api.ServiceFactory;
+import by.epam.jwd.web.service.api.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 

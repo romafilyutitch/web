@@ -7,10 +7,11 @@ import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.model.Author;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
-import by.epam.jwd.web.service.BookService;
+import by.epam.jwd.web.service.api.BookService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -60,6 +61,7 @@ public class SimpleBookService implements BookService {
     @Override
     public List<Book> findAll() {
         List<Book> allBooks = bookDao.findAll();
+        Collections.sort(allBooks);
         logger.info(String.format(ALL_BOOKS_WERE_FOUND_MESSAGE, allBooks.size()));
         return allBooks;
     }
@@ -77,6 +79,7 @@ public class SimpleBookService implements BookService {
             throw new IllegalArgumentException();
         }
         List<Book> foundPage = bookDao.findPage(pageNumber);
+        Collections.sort(foundPage);
         logger.info(String.format(PAGE_WAS_FOUND_MESSAGE, pageNumber, foundPage.size()));
         return foundPage;
     }
@@ -173,6 +176,7 @@ public class SimpleBookService implements BookService {
     @Override
     public List<Book> findByGenre(Genre genre) {
         List<Book> foundBooksByGenre = bookDao.findByGenre(genre);
+        Collections.sort(foundBooksByGenre);
         logger.info(String.format(BOOKS_WERE_FOUND_BY_GENRE_MESSAGE, genre, foundBooksByGenre.size()));
         return foundBooksByGenre;
     }

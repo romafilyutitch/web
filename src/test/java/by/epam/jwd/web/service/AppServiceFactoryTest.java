@@ -1,5 +1,10 @@
 package by.epam.jwd.web.service;
 
+import by.epam.jwd.web.service.api.BookService;
+import by.epam.jwd.web.service.api.CommentService;
+import by.epam.jwd.web.service.api.LikeService;
+import by.epam.jwd.web.service.api.OrderService;
+import by.epam.jwd.web.service.api.UserService;
 import by.epam.jwd.web.service.impl.AppServiceFactory;
 import org.junit.Test;
 

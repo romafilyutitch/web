@@ -9,7 +9,7 @@ import java.util.Objects;
  * @version 1.0
  * @since 1.0
  */
-public class Comment implements DbEntity{
+public class Comment implements DbEntity, Comparable<Comment> {
     private final Long id;
     private final User user;
     private final Book book;
@@ -84,6 +84,19 @@ public class Comment implements DbEntity{
      */
     public String getText() {
         return text;
+    }
+
+    /**
+     * Compares two comments by their comment date.
+     * @param o other comment.
+     * @return positive number if instance comment date is before
+     * passed comment instance comment date or negative number is
+     * passed comment instance comment date is before instance comment
+     * date or 0 if comments dates are equal to each other.
+     */
+    @Override
+    public int compareTo(Comment o) {
+        return date.compareTo(o.getDate());
     }
 
     /**

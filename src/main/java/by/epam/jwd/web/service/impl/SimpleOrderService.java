@@ -8,11 +8,12 @@ import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.model.Status;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.service.OrderService;
+import by.epam.jwd.web.service.api.OrderService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,7 +57,8 @@ public class SimpleOrderService implements OrderService {
      */
     @Override
     public List<Order> findAll() {
-        List<Order> allFoundOrders = orderDao.findAll();
+        final List<Order> allFoundOrders = orderDao.findAll();
+        Collections.sort(allFoundOrders);
         logger.info(String.format(ALL_ORDERS_WERE_FOUND_MESSAGE, allFoundOrders.size()));
         return allFoundOrders;
     }
@@ -100,7 +102,8 @@ public class SimpleOrderService implements OrderService {
         if (currentPage <= 0 || currentPage > getPagesAmount()) {
             throw new IllegalArgumentException();
         }
-        List<Order> foundPage = orderDao.findPage(currentPage);
+        final List<Order> foundPage = orderDao.findPage(currentPage);
+        Collections.sort(foundPage);
         logger.info(String.format(PAGE_OF_ORDERS_WAS_FOUND_MESSAGE, currentPage, foundPage.size()));
         return foundPage;
     }
@@ -153,7 +156,8 @@ public class SimpleOrderService implements OrderService {
      */
     @Override
     public List<Order> findByUser(User user) {
-        List<Order> foundOrdersByUser = orderDao.findByUser(user);
+        final List<Order> foundOrdersByUser = orderDao.findByUser(user);
+        Collections.sort(foundOrdersByUser);
         logger.info(String.format(ORDERS_BY_USER_WERE_FOUND_MESSAGE, user, foundOrdersByUser.size()));
         return foundOrdersByUser;
     }
@@ -165,7 +169,8 @@ public class SimpleOrderService implements OrderService {
      */
     @Override
     public List<Order> findByBook(Book book) {
-        List<Order> foundOrdersByBook = orderDao.findByBook(book);
+        final List<Order> foundOrdersByBook = orderDao.findByBook(book);
+        Collections.sort(foundOrdersByBook);
         logger.info(String.format(ORDERS_BY_BOOK_WERE_FOUND_MESSAGE, book, foundOrdersByBook.size()));
         return foundOrdersByBook;
     }

@@ -1,8 +1,7 @@
-package by.epam.jwd.web.service;
+package by.epam.jwd.web.service.api;
 
 import by.epam.jwd.web.exception.UserWithLoginExistsException;
 import by.epam.jwd.web.exception.WrongLoginException;
-import by.epam.jwd.web.exception.InvalidSubscriptionException;
 import by.epam.jwd.web.exception.WrongPasswordException;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;

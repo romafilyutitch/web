@@ -2,10 +2,9 @@ package by.epam.jwd.web.command.action.comment;
 
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.resource.CommandManager;
-import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.resource.MessageManager;
-import by.epam.jwd.web.service.CommentService;
-import by.epam.jwd.web.service.ServiceFactory;
+import by.epam.jwd.web.service.api.CommentService;
+import by.epam.jwd.web.service.api.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
