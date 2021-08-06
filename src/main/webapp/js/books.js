@@ -5,7 +5,6 @@ $(document).ready(function(){
         event.stopPropagation();
         if(addNewBookForm.checkValidity()) {
             const formValues = $(this).serialize();
-            alert(formValues)
             $.ajax({
                 url:"controller",
                 method:"post",

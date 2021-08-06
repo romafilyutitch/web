@@ -73,8 +73,7 @@
     </div>
     <div class="row justify-content-center">
         <div class="col">
-            <button class="btn btn-danger" onclick="deleteAccount(${sessionScope.user.id})"><fmt:message
-                    key="deleteAccount"/></button>
+            <a class="btn btn-danger" href="controller?command=delete_account"><fmt:message key="deleteAccount"/></a>
         </div>
         <div class="col">
             <a class="btn btn-primary" href="controller?command=main"><fmt:message key="main"/></a>

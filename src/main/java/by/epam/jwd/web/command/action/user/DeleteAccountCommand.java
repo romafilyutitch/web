@@ -2,6 +2,7 @@ package by.epam.jwd.web.command.action.user;
 
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.User;
+import by.epam.jwd.web.resource.CommandManager;
 import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.api.ServiceFactory;
@@ -37,7 +38,7 @@ public class DeleteAccountCommand implements ActionCommand {
     /**
      * Deletes saved {@link User} from database table.
      * @param request request that need to be execute
-     * @return account page path for forward.
+     * @return main command for forward.
      */
     @Override
     public String execute(HttpServletRequest request) {
@@ -46,7 +47,7 @@ public class DeleteAccountCommand implements ActionCommand {
         userService.delete(user.getId());
         session.invalidate();
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(ACCOUNT_WAS_DELETED_MESSAGE_KEY));
-        return PathManager.getAccountPagePath();
+        return CommandManager.getMainCommand();
     }
 
     /**

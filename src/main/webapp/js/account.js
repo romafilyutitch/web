@@ -34,13 +34,3 @@ $(document).ready(function (){
         changePasswordForm.classList.add("was-validated");
     });
 })
-function deleteAccount(userId) {
-    $.ajax({
-        url:"controller",
-        method:"post",
-        data:{command:"delete_account", id:userId},
-        success:function(response) {
-            $("body").html(response);
-        }
-    })
-}
