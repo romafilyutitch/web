@@ -31,7 +31,7 @@ public class MySQLAuthorDao extends AbstractDao<Author> implements AuthorDao {
     private static final String AUTHOR_NAME_COLUMN = "author.name";
 
     private MySQLAuthorDao() {
-       super(TABLE_NAME, FIND_ALL_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
+       super(TABLE_NAME, FIND_ALL_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL, AUTHOR_NAME_COLUMN);
     }
 
     /**

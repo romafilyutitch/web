@@ -120,19 +120,18 @@ public class MySQLBookDaoTest {
     }
 
     @Test
-    public void findByName_mustReturnSavedBook_whenSavedBookNameWasPassed() {
-        final Optional<Book> optionalBook = testDao.findByName(testBook.getName());
-        assertNotNull("Returned value must be not null", optionalBook);
-        assertTrue("Saved book must be found by name", optionalBook.isPresent());
-        assertEquals("Found book must be equal to test book", testBook, optionalBook.get());
+    public void findByName_mustReturnCollectionWithSavedBook_whenSavedBookNameWasPassed() {
+        final List<Book> booksByName = testDao.findByName(testBook.getName());
+        assertNotNull("Returned value must be not null", booksByName);
+        assertTrue("Returned collection must have test  book", booksByName.contains(testBook));
     }
 
     @Test
-    public void findByName_mustReturnEmptyOptionalBook_whenWrongNameWasPassed() {
+    public void findByName_mustReturnCollectionWithoutDeletedBook_whenDeletedBookNameWasPassed() {
         testDao.delete(testBook.getId());
-        final Optional<Book> optionalBook = testDao.findByName(testBook.getName());
-        assertNotNull("Returned value must be not null", optionalBook);
-        assertFalse("Book by wrong name must not be found", optionalBook.isPresent());
+        final List<Book> booksByName = testDao.findByName(testBook.getName());
+        assertNotNull("Returned value must be not null", booksByName);
+        assertFalse("Returned collection must not have deleted book", booksByName.contains(testBook));
     }
 
     @Test

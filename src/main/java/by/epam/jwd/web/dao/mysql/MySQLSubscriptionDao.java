@@ -38,7 +38,7 @@ public class MySQLSubscriptionDao extends AbstractDao<Subscription> implements S
 
 
     private MySQLSubscriptionDao() {
-        super(TABLE_NAME, FIND_ALL_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
+        super(TABLE_NAME, FIND_ALL_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL, SUBSCRIPTION_START_DATE_COLUMN);
     }
 
     /**

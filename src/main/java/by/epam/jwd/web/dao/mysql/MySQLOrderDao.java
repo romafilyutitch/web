@@ -67,7 +67,7 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
     private static final String STATUS_NAME_COLUMN = "status.name";
 
     private MySQLOrderDao() {
-        super(TABLE_NAME, FIND_ALL_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
+        super(TABLE_NAME, FIND_ALL_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL, BOOK_ORDER_DATE_COLUMN);
     }
 
     /**

@@ -44,7 +44,7 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
     private static final String SUBSCRIPTION_END_DATE_COLUMN = "subscription.end_date";
 
     private MySQLUserDao() {
-        super(TABLE_NAME, FIND_ALL_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
+        super(TABLE_NAME, FIND_ALL_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL, USER_LOGIN_COLUMN);
     }
 
     /**

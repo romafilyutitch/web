@@ -63,8 +63,8 @@ public class AddBookCommand implements ActionCommand {
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, validationMessages);
             return CommandManager.getShowBooksCommand();
         }
-        final Optional<Book> optionalBook = bookService.findByName(bookFromRequest.getName());
-        if (optionalBook.isPresent()) {
+        final List<Book> foundBooksByName = bookService.findByName(bookFromRequest.getName());
+        if (foundBooksByName.stream().anyMatch(book -> book.getName().equals(bookFromRequest.getName()))) {
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(BOOK_EXISTS_MESSAGE_KEY));
         } else {
             bookService.save(bookFromRequest);

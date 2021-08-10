@@ -11,7 +11,6 @@ import by.epam.jwd.web.service.api.BookService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -37,9 +36,8 @@ public class SimpleBookService implements BookService {
     private static final String AUTHOR_DOES_NOT_EXIST_MESSAGE = "Author %s doesn't exist. Save author at first";
     private static final String BOOK_WAS_SAVED_MESSAGE = "Book was saved %s";
     private static final String BOOK_WAS_DELETED_MESSAGE = "Book with id %d was deleted";
-    private static final String BOOKS_WERE_FOUND_BY_GENRE_MESSAGE = "Book by genre %s was found size = %d";
-    private static final String BOOK_BY_NAME_WAS_FOUND_MESSAGE = "Book by name %s was found %s";
-    private static final String BOOK_BY_MAME_WAS_NOT_FOUND_MESSAGE = "Book by name %s was not found";
+    private static final String BOOKS_WERE_FOUND_BY_GENRE_MESSAGE = "Books by genre %s were found size = %d";
+    private static final String BOOKS_BY_NAME_WERE_FOUND_MESSAGE = "Books by name %s were found size = %d";
     private static final String ALL_BOOKS_WERE_FOUND_MESSAGE = "All books were found size = %d";
 
     private SimpleBookService() {
@@ -61,7 +59,6 @@ public class SimpleBookService implements BookService {
     @Override
     public List<Book> findAll() {
         List<Book> allBooks = bookDao.findAll();
-        Collections.sort(allBooks);
         logger.info(String.format(ALL_BOOKS_WERE_FOUND_MESSAGE, allBooks.size()));
         return allBooks;
     }
@@ -79,7 +76,6 @@ public class SimpleBookService implements BookService {
             throw new IllegalArgumentException();
         }
         List<Book> foundPage = bookDao.findPage(pageNumber);
-        Collections.sort(foundPage);
         logger.info(String.format(PAGE_WAS_FOUND_MESSAGE, pageNumber, foundPage.size()));
         return foundPage;
     }
@@ -176,27 +172,21 @@ public class SimpleBookService implements BookService {
     @Override
     public List<Book> findByGenre(Genre genre) {
         List<Book> foundBooksByGenre = bookDao.findByGenre(genre);
-        Collections.sort(foundBooksByGenre);
         logger.info(String.format(BOOKS_WERE_FOUND_BY_GENRE_MESSAGE, genre, foundBooksByGenre.size()));
         return foundBooksByGenre;
     }
 
 
     /**
-     * Finds Book that has passed book name.
+     * Finds books that has passed book name.
      * @param name that book need to be found.
-     * @return found book in optional if there is book that has passed name
-     * or empty optional otherwise.
+     * @return collection of books which names mathces with passed one.
      */
     @Override
-    public Optional<Book> findByName(String name) {
-        Optional<Book> optionalBook = bookDao.findByName(name);
-        if (optionalBook.isPresent()) {
-            logger.info(String.format(BOOK_BY_NAME_WAS_FOUND_MESSAGE, name, optionalBook.get()));
-        } else {
-            logger.info(String.format(BOOK_BY_MAME_WAS_NOT_FOUND_MESSAGE, name));
-        }
-        return optionalBook;
+    public List<Book> findByName(String name) {
+        List<Book> booksByName = bookDao.findByName(name);
+        logger.info(String.format(BOOKS_BY_NAME_WERE_FOUND_MESSAGE, name, booksByName.size()));
+        return booksByName;
     }
 
     /**

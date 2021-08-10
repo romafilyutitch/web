@@ -29,10 +29,9 @@ public interface BookService extends Service<Book> {
     /**
      * Finds books by passed name.
      * @param name that book need to be found.
-     * @return found book in optional if there is book that has passed name or
-     * empty optional otherwise.
+     * @return collection of books which names matches with the passed one.
      */
-    Optional<Book> findByName(String name);
+    List<Book> findByName(String name);
 
     /**
      * Finds books by passed genre.

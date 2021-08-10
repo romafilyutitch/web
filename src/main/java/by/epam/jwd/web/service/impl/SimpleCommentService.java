@@ -9,7 +9,6 @@ import by.epam.jwd.web.service.api.CommentService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,7 +51,6 @@ public class SimpleCommentService implements CommentService {
     @Override
     public List<Comment> findByBook(Book book) {
         final List<Comment> foundBookComments = commentDao.findByBook(book);
-        Collections.sort(foundBookComments);
         logger.info(String.format(COMMENTS_BY_BOOK_WAS_FOUND_MESSAGE, book.getName(), foundBookComments.size()));
         return foundBookComments;
     }
@@ -64,7 +62,6 @@ public class SimpleCommentService implements CommentService {
     @Override
     public List<Comment> findAll() {
         final List<Comment> allComments = commentDao.findAll();
-        Collections.sort(allComments);
         logger.info(String.format(ALL_COMMENTS_WAS_FOUND, allComments.size()));
         return allComments;
     }
@@ -82,7 +79,6 @@ public class SimpleCommentService implements CommentService {
             throw new IllegalArgumentException();
         }
         final List<Comment> commentsPage = commentDao.findPage(currentPage);
-        Collections.sort(commentsPage);
         logger.info(String.format(COMMENTS_PAGE_WAS_FOUND_MESSAGE, currentPage, commentsPage.size()));
         return commentsPage;
     }

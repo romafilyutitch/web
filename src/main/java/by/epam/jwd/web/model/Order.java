@@ -9,7 +9,7 @@ import java.util.Objects;
  * @version 1.0
  * @since 1.0
  */
-public class Order implements DbEntity, Comparable<Order> {
+public class Order implements DbEntity {
     private final Long id;
     private final User user;
     private final Book book;
@@ -83,19 +83,6 @@ public class Order implements DbEntity, Comparable<Order> {
      * @return order's current status.
      */
     public Status getStatus() {return status;}
-
-    /**
-     * Compares two orders instances by their order dates.
-     * @param o other order instance.
-     * @return positive number if current object order date is before
-     * passed object order date or negative number if passed object order
-     * date if after current object order date or 0 if orders dates are
-     * equal to each other.
-     */
-    @Override
-    public int compareTo(Order o) {
-        return orderDate.compareTo(o.getOrderDate());
-    }
 
     /**
      * Checks weather two objects are equal to each other.

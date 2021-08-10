@@ -129,18 +129,17 @@ public class SimpleBookServiceTest {
     }
 
     @Test
-    public void findByName_mustReturnSavedBook_whenSavedBookNameWasPassed() {
-        final Optional<Book> optionalBook = testService.findByName(testBook.getName());
-        assertNotNull("Returned value must be not null", optionalBook);
-        assertTrue("Optional book must contain saved book", optionalBook.isPresent());
-        assertEquals("Returned book must be equal to test book", testBook, optionalBook.get());
+    public void findByName_mustReturnCollectionWithSavedBook_whenSavedBookNameWasPassed() {
+        final List<Book> booksByName = testService.findByName(testBook.getName());
+        assertNotNull("Returned value must be not null", booksByName);
+        assertTrue("Returned collection must has saved book", booksByName.contains(testBook));
     }
 
     @Test
-    public void findByName_mustReturnEmptyBook_whenThereIsNoBookWithPassedName() {
+    public void findByName_mustReturnCollectionWithoutDeletedBook_whenDeletedBookNameWasPassed() {
         testService.delete(testBook.getId());
-        final Optional<Book> optionalBook = testService.findByName(testBook.getName());
-        assertNotNull("Optional book must be not null", optionalBook);
-        assertFalse("Optional book must be empty", optionalBook.isPresent());
+        final List<Book> booksByName = testService.findByName(testBook.getName());
+        assertNotNull("Returned value must be not null", booksByName);
+        assertFalse("Collection must not has deleted book", booksByName.contains(testBook));
     }
 }

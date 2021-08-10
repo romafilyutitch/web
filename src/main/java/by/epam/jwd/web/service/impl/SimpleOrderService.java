@@ -13,7 +13,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,7 +57,6 @@ public class SimpleOrderService implements OrderService {
     @Override
     public List<Order> findAll() {
         final List<Order> allFoundOrders = orderDao.findAll();
-        Collections.sort(allFoundOrders);
         logger.info(String.format(ALL_ORDERS_WERE_FOUND_MESSAGE, allFoundOrders.size()));
         return allFoundOrders;
     }
@@ -103,7 +101,6 @@ public class SimpleOrderService implements OrderService {
             throw new IllegalArgumentException();
         }
         final List<Order> foundPage = orderDao.findPage(currentPage);
-        Collections.sort(foundPage);
         logger.info(String.format(PAGE_OF_ORDERS_WAS_FOUND_MESSAGE, currentPage, foundPage.size()));
         return foundPage;
     }
@@ -157,7 +154,6 @@ public class SimpleOrderService implements OrderService {
     @Override
     public List<Order> findByUser(User user) {
         final List<Order> foundOrdersByUser = orderDao.findByUser(user);
-        Collections.sort(foundOrdersByUser);
         logger.info(String.format(ORDERS_BY_USER_WERE_FOUND_MESSAGE, user, foundOrdersByUser.size()));
         return foundOrdersByUser;
     }
@@ -170,7 +166,6 @@ public class SimpleOrderService implements OrderService {
     @Override
     public List<Order> findByBook(Book book) {
         final List<Order> foundOrdersByBook = orderDao.findByBook(book);
-        Collections.sort(foundOrdersByBook);
         logger.info(String.format(ORDERS_BY_BOOK_WERE_FOUND_MESSAGE, book, foundOrdersByBook.size()));
         return foundOrdersByBook;
     }

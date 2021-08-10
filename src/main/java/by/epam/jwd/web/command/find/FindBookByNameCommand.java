@@ -54,16 +54,15 @@ public class FindBookByNameCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
         final String bookName = request.getParameter(REQUEST_BOOK_NAME_PARAMETER_KEY).trim();
-        final Optional<Book> optionalBook = bookService.findByName(bookName);
-        if (optionalBook.isPresent()) {
-            final List<Book> foundBook = Collections.singletonList(optionalBook.get());
-            final List<Comment> bookComments = findComments(foundBook);
-            request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, foundBook);
-            request.setAttribute(REQUEST_COMMENTS_ATTRIBUTE_KEY, bookComments);
-            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(BOOK_WAS_FOUND_BY_NAME_MESSAGE_KEY));
-        } else {
+        final List<Book> foundBooksByName = bookService.findByName(bookName);
+        if (foundBooksByName.isEmpty()) {
             request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, Collections.emptyList());
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(BOOK_WAS_NOT_FOUND_BY_NAME_MESSAGE_KEY));
+        } else {
+            final List<Comment> bookComments = findComments(foundBooksByName);
+            request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, foundBooksByName);
+            request.setAttribute(REQUEST_COMMENTS_ATTRIBUTE_KEY, bookComments);
+            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(BOOK_WAS_FOUND_BY_NAME_MESSAGE_KEY));
         }
         return PathManager.getMainPagePath();
     }

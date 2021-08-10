@@ -60,7 +60,7 @@ public class MySQLLikeDao extends AbstractDao<Like> implements LikeDao {
     private static final String SUBSCRIPTION_END_DATE_COLUMN = "subscription.end_date";
 
     private MySQLLikeDao() {
-        super(TABLE_NAME, FIND_ALL_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
+        super(TABLE_NAME, FIND_ALL_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL, BOOK_LIKE_ID_COLUMN);
     }
 
     /**

@@ -8,7 +8,7 @@ import java.util.Objects;
  * @version 1.0
  * @since 1.0
  */
-public class User implements DbEntity, Comparable<User> {
+public class User implements DbEntity {
     private final Long id;
     private final String login;
     private final String password;
@@ -109,19 +109,6 @@ public class User implements DbEntity, Comparable<User> {
      */
     public Subscription getSubscription() {
         return subscription;
-    }
-
-    /**
-     * Compares two user instances by their logins ignore case.
-     * @param o other user instance.
-     * @return positive number if instance login is greater then
-     * passed user instance login  or negative number if
-     * passed instance login is greater then instance login or
-     * 0 if users logins are equal to each other.
-     */
-    @Override
-    public int compareTo(User o) {
-        return login.compareToIgnoreCase(o.getLogin());
     }
 
     /**

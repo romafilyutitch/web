@@ -10,7 +10,7 @@ import java.util.Objects;
  * @version 1.0
  * @since 1.0
  */
-public class Book implements DbEntity, Comparable<Book> {
+public class Book implements DbEntity {
     private final Long id;
     private final String name;
     private final Author author;
@@ -168,19 +168,6 @@ public class Book implements DbEntity, Comparable<Book> {
      */
     public int getCommentsAmount() {
         return commentsAmount;
-    }
-
-    /**
-     * Compares books instances by their names ignore case.
-     * @param o Other book instance.
-     * @return Positive integer if instance name is greater then
-     * passed instance name or negative integer if instance name is
-     * less then passed instance name or 0 if books names are equal to
-     * each other.
-     */
-    @Override
-    public int compareTo(Book o) {
-        return name.compareToIgnoreCase(o.getName());
     }
 
     /**
