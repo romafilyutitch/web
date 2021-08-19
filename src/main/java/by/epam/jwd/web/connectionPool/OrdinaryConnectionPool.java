@@ -69,12 +69,10 @@ class OrdinaryConnectionPool implements ConnectionPool {
     private final BlockingQueue<Connection> freeConnectionsQueue = new ArrayBlockingQueue<>(properties.getMaxPoolSize());
     private final Set<Connection> takenConnections = new CopyOnWriteArraySet<>();
     private final AtomicBoolean isInitialized = new AtomicBoolean(false);
+    private final Timer checkPoolResizeTimer = new Timer(true);
+    private PoolResizeTimerTask checkPoolResizeTimerTask;
 
-    private OrdinaryConnectionPool() {
-        final Timer timer = new Timer(true);
-        final PoolResizeTimerTask poolResizeTimerTask = new PoolResizeTimerTask();
-        timer.schedule(poolResizeTimerTask, properties.getCheckResizeDelayTime(), properties.getCheckResizePeriodTime());
-    }
+    private OrdinaryConnectionPool() {}
 
     /**
      * Uses singleton pattern to return connection pool class instance
@@ -144,6 +142,8 @@ class OrdinaryConnectionPool implements ConnectionPool {
             registerDrivers();
             try {
                 addFreeConnectionsToPool(properties.getMinPoolSize());
+                checkPoolResizeTimerTask = new PoolResizeTimerTask();
+                checkPoolResizeTimer.schedule(checkPoolResizeTimerTask, properties.getCheckResizeDelayTime(), properties.getCheckResizePeriodTime());
                 logger.info(POOL_WAS_INITIALIZED_MESSAGE);
             } catch (SQLException | InterruptedException e) {
                 isInitialized.set(false);
@@ -163,6 +163,7 @@ class OrdinaryConnectionPool implements ConnectionPool {
     @Override
     public void destroy() {
         if (isInitialized.compareAndSet(true, false)) {
+            checkPoolResizeTimerTask.cancel();
             closeFreeConnections();
             freeConnectionsQueue.clear();
             closeTakenConnections();
