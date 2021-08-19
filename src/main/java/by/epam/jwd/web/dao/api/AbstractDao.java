@@ -22,6 +22,7 @@ import java.util.Optional;
  * based of implementations.
  * Gives from implementations base sql statements (select, insert, update, delete) and makes
  * additional sql statements based of them like find by id or select by limit.
+ *
  * @param <T> Database entities with implementation will work. Extends {@link DbEntity} interface
  */
 public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
@@ -47,11 +48,12 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
 
     /**
      * Abstract class constructor
-     * @param tableName name of table to which need make queries
+     *
+     * @param tableName  name of table to which need make queries
      * @param findAllSql SQL statement to find all records from table
-     * @param saveSql SQL statement to save entity in table
-     * @param updateSql SQL statement to update saved entity in table
-     * @param deleteSql SQL statement to delete entity in table
+     * @param saveSql    SQL statement to save entity in table
+     * @param updateSql  SQL statement to update saved entity in table
+     * @param deleteSql  SQL statement to delete entity in table
      */
     public AbstractDao(String tableName, String findAllSql, String saveSql, String updateSql, String deleteSql, String orderColumn) {
         this.findAllSql = findAllSql;
@@ -65,23 +67,34 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
 
     /**
      * Saves entity in table and assigns id to saved entity
-     * @throws DAOException when {@link SQLException} occurs.
+     * Implemented as transaction. Uses template method pattern on which
+     * subclasses choose how to set values to prepared statement
+     * depending on saved entity type.
+     *
      * @param entity entity that need to be saved in database
      * @return saved entity with assigned id
+     * @throws DAOException when {@link SQLException} occurs.
      */
     @Override
     public T save(T entity) {
         long savedEntityId;
         try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
              PreparedStatement saveStatement = connection.prepareStatement(saveSql, Statement.RETURN_GENERATED_KEYS)) {
-            setSavePrepareStatementValues(entity, saveStatement);
-            saveStatement.executeUpdate();
-            try (ResultSet generatedKeyResultSet = saveStatement.getGeneratedKeys()) {
-                generatedKeyResultSet.first();
-                savedEntityId = generatedKeyResultSet.getLong(GENERATED_KEY_COLUMN);
+            try {
+                connection.setAutoCommit(false);
+                setSavePrepareStatementValues(entity, saveStatement);
+                saveStatement.executeUpdate();
+                connection.commit();
+            } catch (SQLException e) {
+                connection.rollback();
+            } finally {
+                connection.setAutoCommit(true);
             }
+            ResultSet generatedKeyResultSet = saveStatement.getGeneratedKeys();
+            generatedKeyResultSet.first();
+            savedEntityId = generatedKeyResultSet.getLong(GENERATED_KEY_COLUMN);
         } catch (SQLException e) {
-            logger.error(SQL_EXCEPTION_HAPPENED_MESSAGE,e);
+            logger.error(SQL_EXCEPTION_HAPPENED_MESSAGE, e);
             throw new DAOException(e);
         }
         Optional<T> savedEntity = findById(savedEntityId);
@@ -95,8 +108,9 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
 
     /**
      * Find and returns result of finding all entities from table
-     * @throws DAOException when {@link SQLException} occurs
+     *
      * @return all saved entities from table
+     * @throws DAOException when {@link SQLException} occurs
      */
     @Override
     public List<T> findAll() {
@@ -119,22 +133,22 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
      * Finds and returns result of find entity by passed id.
      * If id with passed id presents in database table then found id returns
      * and returns empty optional if there is no entity with passed id.
-     * @throws DAOException when {@link SQLException} occurs
+     *
      * @param id entity id that need to find
      * @return found entity if it presents or empty optional otherwise
+     * @throws DAOException when {@link SQLException} occurs
      */
     @Override
     public Optional<T> findById(Long id) {
         try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
              PreparedStatement findByIdStatement = connection.prepareStatement(findByIdSql)) {
             findByIdStatement.setLong(1, id);
-            try (ResultSet resultSet = findByIdStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    final T foundEntity = mapResultSet(resultSet);
-                    return Optional.of(foundEntity);
-                } else {
-                    return Optional.empty();
-                }
+            ResultSet resultSet = findByIdStatement.executeQuery();
+            if (resultSet.next()) {
+                final T foundEntity = mapResultSet(resultSet);
+                return Optional.ofNullable(foundEntity);
+            } else {
+                return Optional.empty();
             }
         } catch (SQLException e) {
             logger.error(SQL_EXCEPTION_HAPPENED_MESSAGE, e);
@@ -144,16 +158,28 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
 
     /**
      * Updates saved entity and returns it.
-     * @throws DAOException when {@link SQLException} occurs
+     * Implemented as transaction.
+     * Uses Template method pattern. Subclasses choose how to
+     * set values to update depending on updated entity type.
+     *
      * @param entity entity that need to update in database table
      * @return updated entity
+     * @throws DAOException when {@link SQLException} occurs
      */
     @Override
     public T update(T entity) {
         try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
              PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
-            setUpdatePreparedStatementValues(entity, updateStatement);
-            updateStatement.executeUpdate();
+            try {
+                connection.setAutoCommit(false);
+                setUpdatePreparedStatementValues(entity, updateStatement);
+                updateStatement.executeUpdate();
+                connection.commit();
+            } catch (SQLException e) {
+                connection.rollback();
+            } finally {
+                connection.setAutoCommit(true);
+            }
             return entity;
         } catch (SQLException e) {
             logger.error(SQL_EXCEPTION_HAPPENED_MESSAGE, e);
@@ -162,16 +188,26 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     }
 
     /**
-     * Delete saved entity with passed id
-     * @throws DAOException when {@link SQLException} occurs
+     * Delete saved entity with passed id.
+     * Implemented as transaction. Uses Template method pattern
+     *
      * @param id saved entity id
+     * @throws DAOException when {@link SQLException} occurs
      */
     @Override
     public void delete(Long id) {
         try (Connection connection = ConnectionPool.getConnectionPool().takeFreeConnection();
              PreparedStatement deleteStatement = connection.prepareStatement(deleteSql)) {
-            deleteStatement.setLong(1, id);
-            deleteStatement.executeUpdate();
+            try {
+                connection.setAutoCommit(false);
+                deleteStatement.setLong(1, id);
+                deleteStatement.executeUpdate();
+                connection.commit();
+            } catch (SQLException e) {
+                connection.rollback();
+            } finally {
+                connection.setAutoCommit(true);
+            }
         } catch (SQLException e) {
             logger.error(SQL_EXCEPTION_HAPPENED_MESSAGE, e);
             throw new DAOException(e);
@@ -181,9 +217,10 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     /**
      * Finds and returns result of find entity on passed page.
      * Need for pagination.
-     * @throws DAOException when {@link SQLException} occurs
+     *
      * @param pageNumber number of needed entities page
      * @return entities on passed page
+     * @throws DAOException when {@link SQLException} occurs
      */
     @Override
     public List<T> findPage(int pageNumber) {
@@ -197,8 +234,9 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     /**
      * Returns amount of saved entities.
      * Need for pagination.
-     * @throws DAOException when {@link SQLException} occurs
+     *
      * @return pages amount
+     * @throws DAOException when {@link SQLException} occurs
      */
     @Override
     public int getRowsAmount() {
@@ -216,6 +254,7 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     /**
      * Calculates saved entities pages amount.
      * Need for pagination
+     *
      * @return saved entities pages amount
      */
     @Override
@@ -230,11 +269,12 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     /**
      * Find entities by prepared sql statement.
      * Used in derived classes. Use template method that derived classes must implement
-     * @throws DAOException when {@link SQLException} occurs
-     * @param preparedSql prepared sql statement that will be executed
+     *
+     * @param preparedSql               prepared sql statement that will be executed
      * @param preparedStatementConsumer prepared consumer interface that implemented in derived classes to define consume
      *                                  operation
      * @return Collection of find entities by passed prepared sql statement
+     * @throws DAOException when {@link SQLException} occurs
      */
     protected List<T> findPreparedEntities(String preparedSql, SQLConsumer<PreparedStatement> preparedStatementConsumer) {
         final List<T> foundEntities = new ArrayList<>();
@@ -256,6 +296,7 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
 
     /**
      * Maps {@link ResultSet} found data to database entity instance. Template method declaration
+     *
      * @param result Made during sql find statement execution result.
      * @return Mapped database entity instance.
      * @throws SQLException when exception in database work occurs
@@ -264,8 +305,10 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     protected abstract T mapResultSet(ResultSet result) throws SQLException;
 
     /**
-     * Get database entity data and put it to prepared statement in save statements. Template method declaration
-     * @param entity entity that need to save
+     * Get database entity data and put it to prepared statement in save statements. Template method declaration.
+     * Subclasses must define how and what values set to prepared save statement that will be executed in superclass.
+     *
+     * @param entity                entity that need to save
      * @param savePreparedStatement Made save entity prepared statement
      * @throws SQLException when exception in database work occurs
      * @see "Tempalte method pattern"
@@ -273,8 +316,10 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     protected abstract void setSavePrepareStatementValues(T entity, PreparedStatement savePreparedStatement) throws SQLException;
 
     /**
-     * Get database entity data and put it to prepared statement in update statements. Template method declaration
-     * @param entity entity that need to update.
+     * Get database entity data and put it to prepared statement in update statements. Template method declaration.
+     * Subclasses must define how and what values set to prepared update statement that will be executed in superclass.
+     *
+     * @param entity                  entity that need to update.
      * @param updatePreparedStatement Made update entity prepared statement
      * @throws SQLException when exception in database work occurs
      * @see "Template method pattern"
