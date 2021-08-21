@@ -32,12 +32,12 @@ public class SimpleOrderService implements OrderService {
     private static final String ORDER_WAS_REGISTERED_MESSAGE = "Order was register %s";
     private static final String PAGE_OF_ORDERS_WAS_FOUND_MESSAGE = "Page of orders number %d was found size = %d";
     private static final String ORDER_WAS_APPROVED_MESSAGE = "Order was approved %s";
-    private static final String ORDER_WAS_DELETED_MESSAGE = "Order with id %d was deleted";
+    private static final String ORDER_WAS_DELETED_MESSAGE = "Order was deleted %s";
     private static final String ORDER_WAS_RETURNED_MESSAGE = "Order was returned %s";
     private static final String ORDERS_BY_USER_WERE_FOUND_MESSAGE = "Orders by user was found %s size = %d";
     private static final String ORDERS_BY_BOOK_WERE_FOUND_MESSAGE = "Orders by book was found %s size = %d";
     private static final String ORDER_BY_ID_WAS_NOT_FOUND_MESSAGE = "Saved order with id %d was not found";
-    private static final String ORDER_BY_ID_WAS_FOUND_MESSAGE = "Order by id %d was found %s";
+    private static final String ORDER_BY_ID_WAS_FOUND_MESSAGE = "Order was found by id %s";
 
     private SimpleOrderService() {
     }
@@ -126,13 +126,13 @@ public class SimpleOrderService implements OrderService {
     }
 
     /**
-     * Delete order with passed id.
-     * @param orderId order id that need to be deleted.
+     * Deletes saved order
+     * @param order Order that need to be deleted.
      */
     @Override
-    public void delete(Long orderId) {
-        orderDao.delete(orderId);
-        logger.info(String.format(ORDER_WAS_DELETED_MESSAGE, orderId));
+    public void delete(Order order) {
+        orderDao.delete(order.getId());
+        logger.info(String.format(ORDER_WAS_DELETED_MESSAGE, order));
     }
 
     /**
@@ -141,9 +141,9 @@ public class SimpleOrderService implements OrderService {
      */
     @Override
     public void returnOrder(Order order) {
-        final Order returnedOrder = new Order(order.getId(), order.getUser(), order.getBook(), order.getOrderDate(), Status.RETURNED);
-        final Order updatedOrder = orderDao.update(returnedOrder);
-        logger.info(String.format(ORDER_WAS_RETURNED_MESSAGE, updatedOrder));
+        final Order orderToUpdate = new Order(order.getId(), order.getUser(), order.getBook(), order.getOrderDate(), Status.RETURNED);
+        final Order returnedOrder = orderDao.update(orderToUpdate);
+        logger.info(String.format(ORDER_WAS_RETURNED_MESSAGE, returnedOrder));
     }
 
     /**
@@ -183,7 +183,7 @@ public class SimpleOrderService implements OrderService {
             throw new ServiceException(String.format(ORDER_BY_ID_WAS_NOT_FOUND_MESSAGE, orderId));
         }
         Order foundOrder = optionalBookOrder.get();
-        logger.info(String.format(ORDER_BY_ID_WAS_FOUND_MESSAGE, orderId, foundOrder));
+        logger.info(String.format(ORDER_BY_ID_WAS_FOUND_MESSAGE, foundOrder));
         return foundOrder;
     }
 

@@ -36,21 +36,21 @@ public class SimpleUserService implements UserService {
 
     private static final String ALL_USERS_WERE_FOUND_MESSAGE = "All users was found size = %d";
     private static final String USER_WITH_LOGIN_DOES_NOT_EXIST_MESSAGE = "User with entered login %s does not exist";
-    private static final String WRONG_PASSWORD_WAS_ENTERED_MESSAGE = "Wrong password was entered";
+    private static final String WRONG_PASSWORD_WAS_ENTERED_MESSAGE = "User %s entered wrong password when was logging";
     private static final String PAGE_OF_USERS_WAS_FOUND_MESSAGE = "Page of users number %d was found size = %d";
-    private static final String USER_WITH_LOGIN_ALREADY_EXISTS_MESSAGE = "User with login %s already exists";
+    private static final String USER_WITH_LOGIN_ALREADY_EXISTS_MESSAGE = "User trying to change it's login to %s but login exists";
     private static final String USER_WAS_SAVED_MESSAGE = "User was saved in database %s";
     private static final String USER_BY_ID_WAS_NOT_FOUND_MESSAGE = "Saved user with id %d was not found";
-    private static final String USER_BY_ID_WAS_FOUND_MESSAGE = "User was found by id %d %s";
-    private static final String USER_ROLE_WAS_PROMOTED_MESSAGE = "Role was promoted to %s for user %s";
-    private static final String USER_ROLE_WAS_DEMOTED_MESSAGE = "Role was demoted to %s for user %s";
-    private static final String USER_WAS_DELETED_MESSAGE = "User with id %d was deleted";
+    private static final String USER_BY_ID_WAS_FOUND_MESSAGE = "User was found by id %s";
+    private static final String USER_ROLE_WAS_PROMOTED_MESSAGE = "Role was promoted for user %s";
+    private static final String USER_ROLE_WAS_DEMOTED_MESSAGE = "Role was demoted for user %s";
+    private static final String USER_WAS_DELETED_MESSAGE = "User was deleted %s";
     private static final String SUBSCRIPTION_WAS_SET_MESSAGE = "New subscription was set to user %s";
     private static final String LOGIN_WAS_CHANGED_MESSAGE = "New login was set to user %s";
     private static final String PASSWORD_WAS_CHANGED_MESSAGE = "New password was set to user %s";
     private static final String USER_WAS_LOGGED_IN_MESSAGE = "User was logged in %s";
-    private static final String USER_BY_LOGIN_WAS_NOT_FOUND_MESSAGE = "User by login %s was not found";
-    private static final String USER_BY_LOGIN_WAS_FOUND_MESSAGE = "User by login %s was found %s";
+    private static final String USER_BY_LOGIN_WAS_NOT_FOUND_MESSAGE = "User was not found by login %s";
+    private static final String USER_BY_LOGIN_WAS_FOUND_MESSAGE = "User was found by login %s";
 
     private SimpleUserService() {
     }
@@ -84,7 +84,7 @@ public class SimpleUserService implements UserService {
     public Optional<User> findByLogin(String login) {
         final Optional<User> optionalUser = userDao.findUserByLogin(login);
         if (optionalUser.isPresent()) {
-            logger.info(String.format(USER_BY_LOGIN_WAS_FOUND_MESSAGE, login, optionalUser.get()));
+            logger.info(String.format(USER_BY_LOGIN_WAS_FOUND_MESSAGE, optionalUser.get()));
         } else {
             logger.info(String.format(USER_BY_LOGIN_WAS_NOT_FOUND_MESSAGE, login));
         }
@@ -108,10 +108,10 @@ public class SimpleUserService implements UserService {
         User foundUser = optionalUser.get();
         final BCrypt.Result verifyResult = verifyer.verify(user.getPassword().toCharArray(), foundUser.getPassword().toCharArray());
         if (!verifyResult.verified) {
-            logger.error(WRONG_PASSWORD_WAS_ENTERED_MESSAGE);
+            logger.error(String.format(WRONG_PASSWORD_WAS_ENTERED_MESSAGE, user.getLogin()));
             throw new WrongPasswordException();
         }
-        logger.info(String.format(USER_WAS_LOGGED_IN_MESSAGE, foundUser.getLogin()));
+        logger.info(String.format(USER_WAS_LOGGED_IN_MESSAGE, foundUser));
         return foundUser;
     }
 
@@ -149,7 +149,7 @@ public class SimpleUserService implements UserService {
     @Override
     public User save(User user) {
         final String encryptedPassword = hasher.hashToString(BCrypt.MIN_COST, user.getPassword().toCharArray());
-        final User savedUser = userDao.save(new User(user.getLogin(), encryptedPassword, UserRole.READER, null));
+        final User savedUser = userDao.save(new User(user.getLogin(), encryptedPassword));
         logger.info(String.format(USER_WAS_SAVED_MESSAGE, savedUser));
         return savedUser;
     }
@@ -168,7 +168,7 @@ public class SimpleUserService implements UserService {
             throw new ServiceException(String.format(USER_BY_ID_WAS_NOT_FOUND_MESSAGE, userId));
         }
         User foundUser = optionalUser.get();
-        logger.info(String.format(USER_BY_ID_WAS_FOUND_MESSAGE, userId, foundUser));
+        logger.info(String.format(USER_BY_ID_WAS_FOUND_MESSAGE, foundUser));
         return foundUser;
     }
 
@@ -181,7 +181,7 @@ public class SimpleUserService implements UserService {
         final UserRole promotedRole = user.getRole().promote();
         final User userToPromote = new User(user.getId(), user.getLogin(), user.getPassword(), promotedRole, user.getSubscription());
         final User promotedUser = userDao.update(userToPromote);
-        logger.info(String.format(USER_ROLE_WAS_PROMOTED_MESSAGE, promotedRole, promotedUser));
+        logger.info(String.format(USER_ROLE_WAS_PROMOTED_MESSAGE, promotedUser));
     }
 
     /**
@@ -193,17 +193,17 @@ public class SimpleUserService implements UserService {
         final UserRole demotedRole = user.getRole().demote();
         final User userToDemote = new User(user.getId(), user.getLogin(), user.getPassword(), demotedRole, user.getSubscription());
         final User demotedUser = userDao.update(userToDemote);
-        logger.info(String.format(USER_ROLE_WAS_DEMOTED_MESSAGE, demotedRole, demotedUser));
+        logger.info(String.format(USER_ROLE_WAS_DEMOTED_MESSAGE, demotedUser));
     }
 
     /**
-     * Deletes saved user that has passed id.
-     * @param userId of user that need to be deleted.
+     * Deletes saved user.
+     * @param user User that need to be deleted.
      */
     @Override
-    public void delete(Long userId) {
-        userDao.delete(userId);
-        logger.info(String.format(USER_WAS_DELETED_MESSAGE, userId));
+    public void delete(User user) {
+        userDao.delete(user.getId());
+        logger.info(String.format(USER_WAS_DELETED_MESSAGE, user));
     }
 
     /**
@@ -230,7 +230,7 @@ public class SimpleUserService implements UserService {
     public User changeLogin(User user, String newLogin) throws UserWithLoginExistsException {
         final Optional<User> optionalUser = userDao.findUserByLogin(newLogin);
         if (optionalUser.isPresent()) {
-            logger.info(String.format(USER_WITH_LOGIN_ALREADY_EXISTS_MESSAGE, newLogin));
+            logger.error(String.format(USER_WITH_LOGIN_ALREADY_EXISTS_MESSAGE, newLogin));
             throw new UserWithLoginExistsException();
         }
         final User userWithChangedLogin = new User(user.getId(), newLogin, user.getPassword(), user.getRole(), user.getSubscription());

@@ -28,7 +28,6 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 public class SimpleLikeServiceTest {
-    private static final ConnectionPool POOL = ConnectionPool.getConnectionPool();
     private final LikeService testService = ServiceFactory.getInstance().getLikeService();
     private User testUser = new User("login", "user");
     private Book testBook = new Book("test book", "test book", Genre.FANTASY, 1, "text");
@@ -36,12 +35,12 @@ public class SimpleLikeServiceTest {
 
     @BeforeClass
     public static void initPool() throws ConnectionPoolInitializationException {
-        POOL.init();
+        ConnectionPool.getConnectionPool().init();
     }
 
     @AfterClass
     public static void destroyPool() {
-        POOL.destroy();
+        ConnectionPool.getConnectionPool().destroy();
     }
 
 
@@ -55,9 +54,9 @@ public class SimpleLikeServiceTest {
 
     @After
     public void tearDown() throws Exception {
-        testService.delete(testLike.getId());
-        SimpleUserService.getInstance().delete(testUser.getId());
-        SimpleBookService.getInstance().delete(testBook.getId());
+        testService.delete(testLike);
+        SimpleUserService.getInstance().delete(testUser);
+        SimpleBookService.getInstance().delete(testBook);
     }
 
     @Test
@@ -77,7 +76,7 @@ public class SimpleLikeServiceTest {
 
     @Test
     public void findByUserAndBook_mustReturnEmptyOptional_whenThereIsNoLikeWithPassedBookAndUser() {
-        testService.delete(testLike.getId());
+        testService.delete(testLike);
         final Optional<Like> optionalLike = testService.findByUserAndBook(testLike.getUser(), testLike.getBook());
         assertNotNull(optionalLike);
         assertFalse(optionalLike.isPresent());
@@ -105,8 +104,8 @@ public class SimpleLikeServiceTest {
 
     @Test(expected = ServiceException.class)
     public void findById_mustThrowException_whenThereIsNotLikeWithPassedId() {
-        testService.delete(testLike.getId());
-        final Like foundLike = testService.findById(testLike.getId());
+        testService.delete(testLike);
+        testService.findById(testLike.getId());
     }
 
     @Test
@@ -117,7 +116,7 @@ public class SimpleLikeServiceTest {
 
     @Test
     public void delete_mustDeleteTestLike() {
-        testService.delete(testLike.getId());
+        testService.delete(testLike);
         final List<Like> allLikes = testService.findAll();
         assertNotNull(allLikes);
         assertFalse(allLikes.contains(testLike));

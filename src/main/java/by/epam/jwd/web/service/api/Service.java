@@ -48,10 +48,10 @@ public interface Service<T extends DbEntity> {
     T save(T entity);
 
     /**
-     * Deletes saved entity with passed id.
-     * @param entityId entity id that need to be deleted.
+     * Deletes passed saved entity
+     * @param entity entity that need to be deleted.
      */
-    void delete(Long entityId);
+    void delete(T entity);
 
     /**
      * Founds current entities pages amount.

@@ -15,7 +15,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +25,6 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 public class MySQLCommentDaoTest {
-    private static final ConnectionPool POOL = ConnectionPool.getConnectionPool();
     private final MySQLCommentDao testDao = MySQLCommentDao.getInstance();
     private User testUser = new User("test user", "test user");
     private Book testBook = new Book("test book", "test book", Genre.FANTASY, 1, "text");
@@ -34,12 +32,12 @@ public class MySQLCommentDaoTest {
 
     @BeforeClass
     public static void initPool() throws ConnectionPoolInitializationException {
-        POOL.init();
+        ConnectionPool.getConnectionPool().init();
     }
 
     @AfterClass
     public static void destroyPool() {
-        POOL.destroy();
+        ConnectionPool.getConnectionPool().destroy();
     }
 
     @Before

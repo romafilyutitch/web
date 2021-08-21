@@ -27,7 +27,6 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 public class SimpleCommentServiceTest {
-    private static final ConnectionPool POOL = ConnectionPool.getConnectionPool();
     private final CommentService testService = ServiceFactory.getInstance().getCommentService();
     private User testUser = new User("login", "login");
     private Book testBook = new Book("book", "book", Genre.FANTASY, 1, "tesxt");
@@ -35,12 +34,12 @@ public class SimpleCommentServiceTest {
 
     @BeforeClass
     public static void initPool() throws ConnectionPoolInitializationException {
-        POOL.init();
+        ConnectionPool.getConnectionPool().init();
     }
 
     @AfterClass
     public static void destroyPool() {
-        POOL.destroy();
+        ConnectionPool.getConnectionPool().destroy();
     }
 
     @Before
@@ -53,9 +52,9 @@ public class SimpleCommentServiceTest {
 
     @After
     public void tearDown() throws Exception {
-        testService.delete(testComment.getId());
-        SimpleUserService.getInstance().delete(testUser.getId());
-        SimpleBookService.getInstance().delete(testBook.getId());
+        testService.delete(testComment);
+        SimpleUserService.getInstance().delete(testUser);
+        SimpleBookService.getInstance().delete(testBook);
     }
 
     @Test
@@ -74,7 +73,7 @@ public class SimpleCommentServiceTest {
 
     @Test
     public void findByBook_mustReturnCommentsListWithoutTestComment_whenThereIsNoTestComment() {
-        testService.delete(testComment.getId());
+        testService.delete(testComment);
         final List<Comment> foundComments = testService.findByBook(testComment.getBook());
         assertNotNull(foundComments);
         assertFalse(foundComments.contains(testComment));
@@ -102,8 +101,8 @@ public class SimpleCommentServiceTest {
 
     @Test(expected = ServiceException.class)
     public void findById_mustThrowException_whenThereIsNoComment() {
-        testService.delete(testComment.getId());
-        final Comment foundComment = testService.findById(testComment.getId());
+        testService.delete(testComment);
+        testService.findById(testComment.getId());
     }
 
     @Test
@@ -114,7 +113,7 @@ public class SimpleCommentServiceTest {
 
     @Test
     public void delete_mustDeleteTestComment_whenTestCommentIdPassed() {
-        testService.delete(testComment.getId());
+        testService.delete(testComment);
         final List<Comment> allComments = testService.findAll();
         assertFalse(allComments.contains(testComment));
     }

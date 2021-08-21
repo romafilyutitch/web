@@ -3,7 +3,6 @@ package by.epam.jwd.web.command.action.user;
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.resource.CommandManager;
-import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.api.ServiceFactory;
 import by.epam.jwd.web.service.api.UserService;
@@ -13,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * Executes command that is delete save {@link User} from database table.
+ *
  * @author roma0
  * @version 1.0
  * @since 1.0
@@ -29,6 +29,7 @@ public class DeleteAccountCommand implements ActionCommand {
 
     /**
      * Gets class instance from nested class.
+     *
      * @return class instance.
      */
     public static DeleteAccountCommand getInstance() {
@@ -37,6 +38,7 @@ public class DeleteAccountCommand implements ActionCommand {
 
     /**
      * Deletes saved {@link User} from database table.
+     *
      * @param request request that need to be execute
      * @return main command for forward.
      */
@@ -44,7 +46,7 @@ public class DeleteAccountCommand implements ActionCommand {
     public String execute(HttpServletRequest request) {
         final HttpSession session = request.getSession();
         final User user = (User) session.getAttribute(SESSION_USER_ATTRIBUTE_KEY);
-        userService.delete(user.getId());
+        userService.delete(user);
         session.invalidate();
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(ACCOUNT_WAS_DELETED_MESSAGE_KEY));
         return CommandManager.getMainCommand();

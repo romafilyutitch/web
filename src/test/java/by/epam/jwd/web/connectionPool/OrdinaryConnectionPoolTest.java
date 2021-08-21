@@ -2,36 +2,34 @@ package by.epam.jwd.web.connectionPool;
 
 import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
-
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 
 public class OrdinaryConnectionPoolTest {
     private static final OrdinaryConnectionPool TEST_POOL = OrdinaryConnectionPool.getInstance();
 
     @BeforeClass
-    public static void setUp() throws ConnectionPoolInitializationException {
+    public static void initPool() throws ConnectionPoolInitializationException {
         TEST_POOL.init();
     }
 
     @AfterClass
-    public static void tearDown() {
+    public static void destroyPool() {
         TEST_POOL.destroy();
     }
 
     @Test
     public void takeFreeConnection_mustReturnNutNullConnection() {
         final Connection testConnection = TEST_POOL.takeFreeConnection();
-        assertNotNull( "Not null connection must be taken", testConnection);
+        assertNotNull("Not null connection must be taken", testConnection);
     }
 
     @Test

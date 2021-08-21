@@ -22,19 +22,18 @@ import static org.junit.Assert.assertTrue;
 
 
 public class MySQLSubscriptionDaoTest {
-    private static final ConnectionPool POOL = ConnectionPool.getConnectionPool();
     private final MySQLSubscriptionDao testDao = MySQLSubscriptionDao.getInstance();
     private Subscription testSubscription = new Subscription(LocalDate.now(), LocalDate.now().plusWeeks(1));
 
 
     @BeforeClass
-    public static void setUp() throws ConnectionPoolInitializationException {
-        POOL.init();
+    public static void initPool() throws ConnectionPoolInitializationException {
+        ConnectionPool.getConnectionPool().init();
     }
 
     @AfterClass
-    public static void tearDown() {
-        POOL.destroy();
+    public static void destroyPool() {
+        ConnectionPool.getConnectionPool().destroy();
     }
 
     @Before

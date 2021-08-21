@@ -43,7 +43,7 @@ public class DeleteBookCommand implements ActionCommand {
     public String execute(HttpServletRequest request) {
         final Long id = Long.valueOf(request.getParameter(REQUEST_BOOK_ID_PARAMETER_KEY));
         final Book book = bookService.findById(id);
-        bookService.delete(book.getId());
+        bookService.delete(book);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(BOOK_WAS_DELETED_MESSAGE_KEY));
         return CommandManager.getShowBooksCommand();
     }

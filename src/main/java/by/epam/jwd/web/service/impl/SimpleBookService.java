@@ -28,12 +28,11 @@ public class SimpleBookService implements BookService {
 
     private static final String PAGE_WAS_FOUND_MESSAGE = "Page of books number %d was found size = %d";
     private static final String SAVED_BOOK_WAS_NOT_FOUND_BY_ID_MESSAGE = "Saved book with id %d was not found";
-    private static final String BOOK_WAS_FOUND_BY_ID_MESSAGE = "Book was found by id %d %s";
+    private static final String BOOK_WAS_FOUND_BY_ID_MESSAGE = "Book was found by id %s";
     private static final String COPY_WAS_ADDED_MESSAGE = "One copy for book was added %s";
     private static final String COPY_WAS_REMOVED_MESSAGE = "One copy for book was removed %s";
-    private static final String AUTHOR_DOES_NOT_EXIST_MESSAGE = "Author %s doesn't exist. Save author at first";
     private static final String BOOK_WAS_SAVED_MESSAGE = "Book was saved %s";
-    private static final String BOOK_WAS_DELETED_MESSAGE = "Book with id %d was deleted";
+    private static final String BOOK_WAS_DELETED_MESSAGE = "Book was deleted %s";
     private static final String BOOKS_WERE_FOUND_BY_GENRE_MESSAGE = "Books by genre %s were found size = %d";
     private static final String BOOKS_BY_NAME_WERE_FOUND_MESSAGE = "Books by name %s were found size = %d";
     private static final String ALL_BOOKS_WERE_FOUND_MESSAGE = "All books were found size = %d";
@@ -106,7 +105,7 @@ public class SimpleBookService implements BookService {
             throw new ServiceException(String.format(SAVED_BOOK_WAS_NOT_FOUND_BY_ID_MESSAGE, id));
         }
         Book foundBook = optionalBook.get();
-        logger.info(String.format(BOOK_WAS_FOUND_BY_ID_MESSAGE, id, foundBook));
+        logger.info(String.format(BOOK_WAS_FOUND_BY_ID_MESSAGE, foundBook));
         return foundBook;
     }
 
@@ -150,14 +149,13 @@ public class SimpleBookService implements BookService {
     }
 
     /**
-     * Deletes saved book that has passed id.
-     *
-     * @param bookId for book that need to be deleted.
+     * Deletes saved book that has passed by it's id
+     * @param book book that need to be deleted.
      */
     @Override
-    public void delete(Long bookId) {
-        bookDao.delete(bookId);
-        logger.info(String.format(BOOK_WAS_DELETED_MESSAGE, bookId));
+    public void delete(Book book) {
+        bookDao.delete(book.getId());
+        logger.info(String.format(BOOK_WAS_DELETED_MESSAGE,book));
     }
 
     /**

@@ -56,7 +56,7 @@ public class AddLikeCommand implements ActionCommand {
         final Optional<Like> optionalLike = likeService.findByUserAndBook(user, foundBook);
         if (optionalLike.isPresent()) {
             final Like foundLike = optionalLike.get();
-            likeService.delete(foundLike.getId());
+            likeService.delete(foundLike);
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(LIKE_REMOVED_MESSAGE_KEY));
         } else {
             final Like like = new Like(user, foundBook);

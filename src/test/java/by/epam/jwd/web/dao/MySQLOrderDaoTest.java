@@ -26,7 +26,6 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 public class MySQLOrderDaoTest {
-    private static final ConnectionPool POOL = ConnectionPool.getConnectionPool();
     private User testUser = new User("test user", "test user");
     private Book testBook = new Book("test book", "test book", Genre.FANTASY, 1, "text");
     private Order testOrder;
@@ -35,12 +34,12 @@ public class MySQLOrderDaoTest {
 
     @BeforeClass
     public static void initPool() throws ConnectionPoolInitializationException {
-        POOL.init();
+        ConnectionPool.getConnectionPool().init();
     }
 
     @AfterClass
     public static void destroyPool() {
-        POOL.destroy();
+        ConnectionPool.getConnectionPool().destroy();
     }
 
     @Before
@@ -163,7 +162,6 @@ public class MySQLOrderDaoTest {
     public void findOrdersByUserId_mustReturnNotNullList() {
         final List<Order> foundOrders = testDao.findByUser(testOrder.getUser());
         assertNotNull(foundOrders);
-        assertFalse(foundOrders.contains(null));
         for (Order foundOrder : foundOrders) {
             assertEquals(testOrder.getUser().getId(), foundOrder.getUser().getId());
         }

@@ -22,18 +22,17 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 public class MySQLBookDaoTest {
-    private static final ConnectionPool POOL = ConnectionPool.getConnectionPool();
     private final MySQLBookDao testDao = MySQLBookDao.getInstance();
     private Book testBook = new Book("Test Book", "author", Genre.SCIENCE, LocalDate.now(), 100, "Test book for unit test");
 
     @BeforeClass
     public static void initPool() throws ConnectionPoolInitializationException {
-        POOL.init();
+        ConnectionPool.getConnectionPool().init();
     }
 
     @AfterClass
     public static void destroyPool() {
-        POOL.destroy();
+        ConnectionPool.getConnectionPool().destroy();
     }
 
     @Before

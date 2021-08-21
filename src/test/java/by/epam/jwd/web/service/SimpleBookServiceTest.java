@@ -20,18 +20,17 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class SimpleBookServiceTest {
-    private static final ConnectionPool POOL = ConnectionPool.getConnectionPool();
     private final SimpleBookService testService = SimpleBookService.getInstance();
     private Book testBook = new Book("New book", "new author", Genre.FANTASY, 100, "New test book");
 
     @BeforeClass
     public static void initPool() throws ConnectionPoolInitializationException {
-        POOL.init();
+        ConnectionPool.getConnectionPool().init();
     }
 
     @AfterClass
     public static void destroyPool() {
-        POOL.destroy();
+        ConnectionPool.getConnectionPool().destroy();
     }
 
     @Before
@@ -41,7 +40,7 @@ public class SimpleBookServiceTest {
 
     @After
     public void tearDown() throws Exception {
-        testService.delete(testBook.getId());
+        testService.delete(testBook);
     }
 
     @Test
@@ -78,7 +77,7 @@ public class SimpleBookServiceTest {
 
     @Test(expected = ServiceException.class)
     public void findById_mustThrowException_whenBookWithIdDoesNotExist() {
-        testService.delete(testBook.getId());
+        testService.delete(testBook);
         testService.findById(testBook.getId());
     }
 
@@ -109,7 +108,7 @@ public class SimpleBookServiceTest {
 
     @Test
     public void delete_mustDeleteBook() {
-        testService.delete(testBook.getId());
+        testService.delete(testBook);
         final List<Book> allBooks = testService.findAll();
         assertFalse(allBooks.contains(testBook));
     }
@@ -134,7 +133,7 @@ public class SimpleBookServiceTest {
 
     @Test
     public void findByName_mustReturnCollectionWithoutDeletedBook_whenDeletedBookNameWasPassed() {
-        testService.delete(testBook.getId());
+        testService.delete(testBook);
         final List<Book> booksByName = testService.findByName(testBook.getName());
         assertNotNull(booksByName);
         assertFalse(booksByName.contains(testBook));

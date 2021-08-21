@@ -25,9 +25,9 @@ public class SimpleLikeService implements LikeService {
     private static final String ALL_LIKES_WAS_FOUND_MESSAGE = "All likes was found size = %d";
     private static final String LIKES_PAGE_WAS_FOUND_MESSAGE = "Likes page number %d was found size = %d";
     private static final String SAVED_LIKE_WAS_NOT_FOUND_BY_ID_MESSAGE = "Saved like with id %d was not found";
-    private static final String SAVED_LIKE_WAS_FOUND_BY_UD_MESSAGE = "Saved like with id %d was found %s";
+    private static final String SAVED_LIKE_WAS_FOUND_BY_UD_MESSAGE = "Saved like was found by id %s";
     private static final String LIKE_WAS_SAVED_MESSAGE = "Like was saved %s";
-    private static final String LIKE_WAS_DELETED_MESSAGE = "Like with id %d was deleted";
+    private static final String LIKE_WAS_DELETED_MESSAGE = "Like was deleted %s";
 
     private final LikeDao likeDao = DAOFactory.getInstance().getLikeDao();
 
@@ -95,7 +95,7 @@ public class SimpleLikeService implements LikeService {
             throw new ServiceException(String.format(SAVED_LIKE_WAS_NOT_FOUND_BY_ID_MESSAGE, likeId));
         }
         final Like foundLike = optionalLike.get();
-        logger.info(String.format(SAVED_LIKE_WAS_FOUND_BY_UD_MESSAGE, likeId, foundLike));
+        logger.info(String.format(SAVED_LIKE_WAS_FOUND_BY_UD_MESSAGE, foundLike));
         return foundLike;
     }
 
@@ -112,13 +112,13 @@ public class SimpleLikeService implements LikeService {
     }
 
     /**
-     * Deletes saved like.
-     * @param likeId entity id that need to be deleted.
+     * Deletes saved Like.
+     * @param like Like that need to be deleted.
      */
     @Override
-    public void delete(Long likeId) {
-        likeDao.delete(likeId);
-        logger.info(String.format(LIKE_WAS_DELETED_MESSAGE, likeId));
+    public void delete(Like like) {
+        likeDao.delete(like.getId());
+        logger.info(String.format(LIKE_WAS_DELETED_MESSAGE, like));
     }
 
     /**

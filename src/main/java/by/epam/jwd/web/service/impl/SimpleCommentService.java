@@ -26,9 +26,9 @@ public class SimpleCommentService implements CommentService {
     private static final String ALL_COMMENTS_WAS_FOUND = "All comments was found size = %d";
     private static final String COMMENTS_PAGE_WAS_FOUND_MESSAGE = "Comments page number %d was found size = %d";
     private static final String SAVED_COMMENT_WAS_NOT_FOUND_BY_ID_MESSAGE = "Saved comment was not found by id %d";
-    private static final String SAVED_COMMENT_WAS_FOUND_BY_ID = "Saved comment was found by id %d %s";
+    private static final String SAVED_COMMENT_WAS_FOUND_BY_ID = "Saved comment was found by id %s";
     private static final String COMMENT_WAS_SAVED_MESSAGE = "Comment was saved %s ";
-    private static final String COMMENT_WAS_DELETED_MESSAGE = "Comment with id %d was deleted";
+    private static final String COMMENT_WAS_DELETED_MESSAGE = "Comment with was deleted %s";
 
     private final CommentDao commentDao = DAOFactory.getInstance().getCommentDao();
 
@@ -97,7 +97,7 @@ public class SimpleCommentService implements CommentService {
             throw new ServiceException(String.format(SAVED_COMMENT_WAS_NOT_FOUND_BY_ID_MESSAGE, entityId));
         }
         final Comment foundComment = optionalComment.get();
-        logger.info(String.format(SAVED_COMMENT_WAS_FOUND_BY_ID, entityId, foundComment));
+        logger.info(String.format(SAVED_COMMENT_WAS_FOUND_BY_ID, foundComment));
         return foundComment;
     }
 
@@ -114,13 +114,13 @@ public class SimpleCommentService implements CommentService {
     }
 
     /**
-     * Deletes saved user that has passed id.
-     * @param entityId entity id that need to be deleted.
+     * Deletes passed comment.
+     * @param comment comment that need to be deleted.
      */
     @Override
-    public void delete(Long entityId) {
-        commentDao.delete(entityId);
-        logger.info(String.format(COMMENT_WAS_DELETED_MESSAGE, entityId));
+    public void delete(Comment comment) {
+        commentDao.delete(comment.getId());
+        logger.info(String.format(COMMENT_WAS_DELETED_MESSAGE, comment));
     }
 
     /**

@@ -1,6 +1,7 @@
 package by.epam.jwd.web.command.action.comment;
 
 import by.epam.jwd.web.command.ActionCommand;
+import by.epam.jwd.web.model.Comment;
 import by.epam.jwd.web.resource.CommandManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.api.CommentService;
@@ -41,7 +42,8 @@ public class DeleteCommentCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
         final Long commentId = Long.valueOf(request.getParameter(REQUEST_COMMENT_ID_PARAMETER_KEY));
-        commentService.delete(commentId);
+        final Comment foundComment = commentService.findById(commentId);
+        commentService.delete(foundComment);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(COMMENT_WAS_DELETED_MESSAGE_KEY));
         return CommandManager.getMainCommand();
     }

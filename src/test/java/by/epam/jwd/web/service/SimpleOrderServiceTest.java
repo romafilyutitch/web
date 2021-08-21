@@ -26,7 +26,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class SimpleOrderServiceTest {
-    private static final ConnectionPool POOL = ConnectionPool.getConnectionPool();
     private final SimpleOrderService testService = SimpleOrderService.getInstance();
     private User testUser = new User("test user", "test user");
     private Book testBook = new Book("test book", "test book", Genre.FANTASY, 1, "text");
@@ -35,12 +34,12 @@ public class SimpleOrderServiceTest {
 
     @BeforeClass
     public static void initPool() throws ConnectionPoolInitializationException {
-        POOL.init();
+        ConnectionPool.getConnectionPool().init();
     }
 
     @AfterClass
     public static void destroyPool() {
-        POOL.destroy();
+        ConnectionPool.getConnectionPool().destroy();
     }
 
     @Before
@@ -53,9 +52,9 @@ public class SimpleOrderServiceTest {
 
     @After
     public void tearDown() throws Exception {
-        testService.delete(testOrder.getId());
-        SimpleUserService.getInstance().delete(testUser.getId());
-        SimpleBookService.getInstance().delete(testBook.getId());
+        testService.delete(testOrder);
+        SimpleUserService.getInstance().delete(testUser);
+        SimpleBookService.getInstance().delete(testBook);
     }
 
     @Test
@@ -104,7 +103,7 @@ public class SimpleOrderServiceTest {
 
     @Test
     public void delete_mustDeleteOrderWithSpecifiedId() {
-        testService.delete(testOrder.getId());
+        testService.delete(testOrder);
         final List<Order> allOrders = testService.findAll();
         assertFalse(allOrders.contains(testOrder));
     }
@@ -146,7 +145,7 @@ public class SimpleOrderServiceTest {
 
     @Test(expected = ServiceException.class)
     public void findById_mustThrowException_whenThereIsNoOrderWithSpecifiedId() {
-        testService.delete(testOrder.getId());
+        testService.delete(testOrder);
         testService.findById(testOrder.getId());
     }
 }

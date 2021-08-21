@@ -30,27 +30,25 @@ public class SimpleUserServiceTest {
     private final SimpleUserService testService = SimpleUserService.getInstance();
     private User testUser = new User("123", "123", UserRole.READER);
 
-    private final static ConnectionPool POOL = ConnectionPool.getConnectionPool();
-
     @BeforeClass
-    public static void setUp() throws ConnectionPoolInitializationException {
-        POOL.init();
+    public static void initPool() throws ConnectionPoolInitializationException {
+        ConnectionPool.getConnectionPool().init();
 
     }
 
     @AfterClass
-    public static void tearDown() {
-        POOL.destroy();
+    public static void destroyPool() {
+        ConnectionPool.getConnectionPool().destroy();
     }
 
     @Before
-    public void saveUser() {
+    public void setUp() {
         testUser = testService.save(testUser);
     }
 
     @After
-    public void deleteUser() {
-        testService.delete(testUser.getId());
+    public void tearDown() {
+        testService.delete(testUser);
     }
 
     @Test
@@ -74,7 +72,7 @@ public class SimpleUserServiceTest {
 
     @Test(expected = WrongLoginException.class)
     public void loginUser_mustThrowException_whenUserWithLoginDoesNotExist() throws WrongLoginException, WrongPasswordException {
-        testService.delete(testUser.getId());
+        testService.delete(testUser);
         testService.login(testUser);
     }
 
@@ -138,7 +136,7 @@ public class SimpleUserServiceTest {
 
     @Test
     public void delete_mustDeleteSavedUser() {
-        testService.delete(testUser.getId());
+        testService.delete(testUser);
         final List<User> all = testService.findAll();
         assertFalse(all.contains(testUser));
     }
@@ -187,7 +185,7 @@ public class SimpleUserServiceTest {
 
     @Test
     public void findByLogin_mustReturnEmptyOptional_whenThereIsNoUserWithPassedLogin() {
-        testService.delete(testUser.getId());
+        testService.delete(testUser);
         final Optional<User> optionalUser = testService.findByLogin(testUser.getLogin());
         assertNotNull(optionalUser);
         assertFalse(optionalUser.isPresent());
