@@ -1,9 +1,13 @@
 package by.epam.jwd.web.command.navigation;
 
 import by.epam.jwd.web.command.ActionCommand;
+import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.resource.PathManager;
+import by.epam.jwd.web.service.api.ServiceFactory;
+import by.epam.jwd.web.service.api.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * Executes command that is forward to account page.
@@ -12,6 +16,9 @@ import javax.servlet.http.HttpServletRequest;
  * @since 1.0
  */
 public class ShowAccountCommand implements ActionCommand {
+    private final UserService userService = ServiceFactory.getInstance().getUserService();
+
+    private static final String SESSION_CURRENT_USER_ATTRIBUTE_KEY = "user";
 
     private ShowAccountCommand() {
     }
@@ -31,6 +38,10 @@ public class ShowAccountCommand implements ActionCommand {
      */
     @Override
     public String execute(HttpServletRequest request) {
+        final HttpSession userSession = request.getSession();
+        final User sessionUser = (User) userSession.getAttribute(SESSION_CURRENT_USER_ATTRIBUTE_KEY);
+        final User foundUser = userService.findById(sessionUser.getId());
+        userSession.setAttribute(SESSION_CURRENT_USER_ATTRIBUTE_KEY, foundUser);
         return PathManager.getAccountPagePath();
     }
 

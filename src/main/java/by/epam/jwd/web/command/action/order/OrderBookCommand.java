@@ -52,7 +52,7 @@ public class OrderBookCommand implements ActionCommand {
         final Long bookId = Long.valueOf(request.getParameter(REQUEST_ORDER_ID_PARAMETER_KEY));
         final Book book = bookService.findById(bookId);
         final User user = (User) request.getSession().getAttribute(SESSION_USER_ATTRIBUTE_KEY);
-        final Order order = new Order(user, book, LocalDate.now(), Status.ORDERED);
+        final Order order = new Order(user, book);
         if (book.getCopiesAmount() == 0) {
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(NO_COPIES_MESSAGE_KEY));
         } else {
