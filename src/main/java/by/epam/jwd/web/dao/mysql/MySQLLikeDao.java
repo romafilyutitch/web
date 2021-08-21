@@ -2,7 +2,6 @@ package by.epam.jwd.web.dao.mysql;
 
 import by.epam.jwd.web.dao.api.AbstractDao;
 import by.epam.jwd.web.dao.api.LikeDao;
-import by.epam.jwd.web.model.Author;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
 import by.epam.jwd.web.model.Like;
@@ -29,9 +28,9 @@ public class MySQLLikeDao extends AbstractDao<Like> implements LikeDao {
 
     private static final String FIND_ALL_SQL = "select book_like.id, " +
             "user.id, user.login, user.password, role.name, subscription.id, subscription.start_date, subscription.end_date, " +
-            "book.id, book.name, author.id, author.name, genre.name, book.date, book.pages_amount, book.copies_amount, book.text, book.likes_amount, book.comments_amount " +
+            "book.id, book.name, book.author, genre.name, book.date, book.pages_amount, book.copies_amount, book.text, book.likes_amount, book.comments_amount " +
             "from book_like inner join user on book_like.user_id = user.id inner join role on user.role_id = role.id  inner join book on book_like.book_id = book.id " +
-            "inner join genre on book.genre_id = genre.id inner join author on book.author_id = author.id left join subscription on user.subscription_id = subscription.id";
+            "inner join genre on book.genre_id = genre.id left join subscription on user.subscription_id = subscription.id";
     private static final String SAVE_SQL = "insert into book_like (user_id, book_id) values (?, ?)";
     private static final String UPDATE_SQL = "update book_like set user_id = ?, book_id = ? where id = ?";
     private static final String DELETE_SQL = "delete from book_like where id = ?";
@@ -42,6 +41,7 @@ public class MySQLLikeDao extends AbstractDao<Like> implements LikeDao {
     private static final String BOOK_LIKE_ID_COLUMN = "book_like.id";
     private static final String BOOK_ID_COLUMN = "book.id";
     private static final String BOOK_NAME_COLUMN = "book.name";
+    private static final String BOOK_AUTHOR_COLUMN = "book.author";
     private static final String GENRE_NAME_COLUMN = "genre.name";
     private static final String BOOK_DATE_COLUMN = "book.date";
     private static final String BOOK_PAGES_AMOUNT_COLUMN = "book.pages_amount";
@@ -49,8 +49,6 @@ public class MySQLLikeDao extends AbstractDao<Like> implements LikeDao {
     private static final String BOOK_TEXT_COLUMN = "book.text";
     private static final String BOOK_LIKES_AMOUNT_COLUMN = "book.likes_amount";
     private static final String BOOK_COMMENTS_AMOUNT_COLUMN = "book.comments_amount";
-    private static final String AUTHOR_ID_COLUMN = "author.id";
-    private static final String AUTHOR_NAME_COLUMN = "author.name";
     private static final String USER_ID_COLUMN = "user.id";
     private static final String USER_LOGIN_COLUMN = "user.login";
     private static final String USER_PASSWORD_COLUMN = "user.password";
@@ -89,6 +87,7 @@ public class MySQLLikeDao extends AbstractDao<Like> implements LikeDao {
     private Book buildBook(ResultSet resultSet) throws SQLException {
         final long bookId = resultSet.getLong(BOOK_ID_COLUMN);
         final String bookName = resultSet.getString(BOOK_NAME_COLUMN);
+        final String author = resultSet.getString(BOOK_AUTHOR_COLUMN);
         final String genreName = resultSet.getString(GENRE_NAME_COLUMN);
         final LocalDate bookDate = resultSet.getObject(BOOK_DATE_COLUMN, LocalDate.class);
         final int pagesAmount = resultSet.getInt(BOOK_PAGES_AMOUNT_COLUMN);
@@ -97,14 +96,7 @@ public class MySQLLikeDao extends AbstractDao<Like> implements LikeDao {
         final int likesAmount = resultSet.getInt(BOOK_LIKES_AMOUNT_COLUMN);
         final int commentsAmount = resultSet.getInt(BOOK_COMMENTS_AMOUNT_COLUMN);
         final Genre genre = Genre.valueOf(genreName.toUpperCase());
-        final Author author = buildAuthor(resultSet);
         return new Book(bookId, bookName, author, genre, bookDate, pagesAmount, copiesAmount, text, likesAmount, commentsAmount);
-    }
-
-    private Author buildAuthor(ResultSet resultSet) throws SQLException {
-        final long authorId = resultSet.getLong(AUTHOR_ID_COLUMN);
-        final String authorName = resultSet.getString(AUTHOR_NAME_COLUMN);
-        return new Author(authorId, authorName);
     }
 
     private User buildUser(ResultSet resultSet) throws SQLException {

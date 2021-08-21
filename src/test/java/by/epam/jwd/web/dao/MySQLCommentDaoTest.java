@@ -7,6 +7,7 @@ import by.epam.jwd.web.dao.mysql.MySQLUserDao;
 import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Comment;
+import by.epam.jwd.web.model.Genre;
 import by.epam.jwd.web.model.User;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -18,14 +19,18 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 public class MySQLCommentDaoTest {
     private static final ConnectionPool POOL = ConnectionPool.getConnectionPool();
     private final MySQLCommentDao testDao = MySQLCommentDao.getInstance();
-    private final User testUser = MySQLUserDao.getInstance().findAll().stream().findAny().get();
-    private final Book testBook = MySQLBookDao.getInstance().findAll().stream().findAny().get();
-    private Comment testComment = new Comment(testUser, testBook, LocalDate.now(), "Test text for comment dao test");
+    private User testUser = new User("test user", "test user");
+    private Book testBook = new Book("test book", "test book", Genre.FANTASY, 1, "text");
+    private Comment testComment;
 
     @BeforeClass
     public static void initPool() throws ConnectionPoolInitializationException {
@@ -39,44 +44,49 @@ public class MySQLCommentDaoTest {
 
     @Before
     public void setUp() throws Exception {
+        testUser = MySQLUserDao.getInstance().save(testUser);
+        testBook = MySQLBookDao.getInstance().save(testBook);
+        testComment = new Comment(testUser, testBook, "test text");
         testComment = testDao.save(testComment);
     }
 
     @After
     public void tearDown() throws Exception {
         testDao.delete(testComment.getId());
+        MySQLUserDao.getInstance().delete(testUser.getId());
+        MySQLBookDao.getInstance().delete(testBook.getId());
     }
 
     @Test
     public void save_mustAssignIdToSavedComment() {
-        assertNotNull("Save must return not null comment instance", testComment);
-        assertNotNull("Saved comment must have not null id", testComment.getId());
+        assertNotNull(testComment);
+        assertNotNull(testComment.getId());
     }
 
     @Test
     public void findAll_mustReturnNotNullList() {
         final List<Comment> allComments = testDao.findAll();
-        assertNotNull("All comments list must be not null", allComments);
+        assertNotNull(allComments);
     }
 
     @Test
     public void findById_mustReturnNotNullOptional() {
         final Optional<Comment> optionalComment = testDao.findById(testComment.getId());
-        assertNotNull("Returned instance must be not null", optionalComment);
+        assertNotNull(optionalComment);
     }
 
     @Test
     public void findById_mustReturnSavedComment_whenSavedCommentIdPassed() {
         final Optional<Comment> optionalComment = testDao.findById(testComment.getId());
-        assertTrue("Optional instance must be not empty", optionalComment.isPresent());
-        assertEquals("Found comment must be equal to testComment", testComment, optionalComment.get());
+        assertTrue(optionalComment.isPresent());
+        assertEquals(testComment, optionalComment.get());
     }
 
     @Test
     public void findById_mustReturnEmptyOptionalComment_whenThereIsNoCommentWithPassedId() {
         testDao.delete(testComment.getId());
         final Optional<Comment> optionalComment = testDao.findById(testComment.getId());
-        assertFalse("Optional comment must be empty", optionalComment.isPresent());
+        assertFalse(optionalComment.isPresent());
     }
 
     @Test
@@ -84,47 +94,47 @@ public class MySQLCommentDaoTest {
         String newText = "Updated text for testComment";
         testComment = new Comment(testComment.getId(), testComment.getUser(), testComment.getBook(), testComment.getDate(), newText);
         final Comment updatedComment = testDao.update(testComment);
-        assertNotNull("Update comment must be not null", updatedComment);
-        assertEquals("Updated comment text must be equal to newText", newText, updatedComment.getText());
-        assertEquals("Updated comment must be equal to testComment", testComment, updatedComment);
+        assertNotNull(updatedComment);
+        assertEquals(newText, updatedComment.getText());
+        assertEquals(testComment, updatedComment);
     }
 
     @Test
     public void delete_mustDeleteTestComment() {
         testDao.delete(testComment.getId());
         final List<Comment> allComments = testDao.findAll();
-        assertFalse("All comments list must not contain deleted comment", allComments.contains(testComment));
+        assertFalse(allComments.contains(testComment));
     }
 
     @Test
     public void findPage_mustReturnNotNullPage() {
         final int pagesAmount = testDao.getPagesAmount();
         final List<Comment> foundPage = testDao.findPage(pagesAmount);
-        assertNotNull("Found page list must be not null", foundPage);
+        assertNotNull(foundPage);
     }
 
     @Test
     public void getRowsAmount_mustReturnNotNegativeNumber() {
         final int rowsAmount = testDao.getRowsAmount();
-        assertTrue("Returned value must be not negative", rowsAmount >= 0);
+        assertTrue(rowsAmount >= 0);
     }
 
     @Test
     public void getPagesAmount_mustReturnNotNegativeNumber() {
         final int pagesAmount = testDao.getPagesAmount();
-        assertTrue("Returned value must be not negative", pagesAmount >= 0);
+        assertTrue(pagesAmount >= 0);
     }
 
     @Test
     public void getInstance_mustReturnSameInstanceAsTestInstance() {
         final MySQLCommentDao instance = MySQLCommentDao.getInstance();
-        assertSame("Returned instance must be same as test instance", testDao, instance);
+        assertSame(testDao, instance);
     }
 
     @Test
     public void findByBookId_mustReturnNotNullListOfComments_whenTestCommentBookIdPassed() {
         final List<Comment> commentsByBookId = testDao.findByBook(testComment.getBook());
-        assertNotNull("Found comments list must be not null", commentsByBookId);
-        assertTrue("Found comments list must contain test comment", commentsByBookId.contains(testComment));
+        assertNotNull(commentsByBookId);
+        assertTrue(commentsByBookId.contains(testComment));
     }
 }

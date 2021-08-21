@@ -1,6 +1,5 @@
 package by.epam.jwd.web.dao.mysql;
 
-import by.epam.jwd.web.dao.api.AuthorDao;
 import by.epam.jwd.web.dao.api.BookDao;
 import by.epam.jwd.web.dao.api.CommentDao;
 import by.epam.jwd.web.dao.api.DAOFactory;
@@ -55,15 +54,6 @@ public class MySQLDAOFactory implements DAOFactory {
     @Override
     public OrderDao getOrderDao() {
         return MySQLOrderDao.getInstance();
-    }
-
-    /**
-     * Returns {@link AuthorDao} for MySQL database implementation.
-     * @return {@link AuthorDao} instance.
-     */
-    @Override
-    public AuthorDao getAuthorDao() {
-        return MySQLAuthorDao.getInstance();
     }
 
     /**

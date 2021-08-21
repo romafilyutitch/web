@@ -13,7 +13,7 @@ import java.util.Objects;
 public class Book implements DbEntity {
     private final Long id;
     private final String name;
-    private final Author author;
+    private final String author;
     private final Genre genre;
     private final LocalDate date;
     private final Integer pagesAmount;
@@ -27,7 +27,7 @@ public class Book implements DbEntity {
      * Used when it's need to map database table data to instance.
      * @param id book id from database.
      * @param name book name.
-     * @param author book author.
+     * @param author book author name.
      * @param genre book genre.
      * @param date book date.
      * @param pagesAmount book pages amount.
@@ -36,7 +36,7 @@ public class Book implements DbEntity {
      * @param likesAmount book likes amount.
      * @param commentsAmount book comments amount.
      */
-    public Book(Long id, String name, Author author, Genre genre, LocalDate date, Integer pagesAmount, Integer copiesAmount, String text, Integer likesAmount, Integer commentsAmount) {
+    public Book(Long id, String name, String author, Genre genre, LocalDate date, Integer pagesAmount, Integer copiesAmount, String text, Integer likesAmount, Integer commentsAmount) {
         this.id = id;
         this.name = name;
         this.author = author;
@@ -53,7 +53,7 @@ public class Book implements DbEntity {
      * Book constructor without id.
      * Used when it's need to register and save book in database table.
      * @param name book name.
-     * @param author book author.
+     * @param author book author name.
      * @param genre book genre.
      * @param date book date.
      * @param pagesAmount book pages amount.
@@ -62,32 +62,32 @@ public class Book implements DbEntity {
      * @param likesAmount book likes amount.
      * @param commentsAmount book copies amount.
      */
-    public Book(String name, Author author, Genre genre, LocalDate date, Integer pagesAmount, Integer copiesAmount, String text, Integer likesAmount, Integer commentsAmount) {
+    public Book(String name, String author, Genre genre, LocalDate date, Integer pagesAmount, Integer copiesAmount, String text, Integer likesAmount, Integer commentsAmount) {
         this(null, name, author, genre, date, pagesAmount, copiesAmount, text, likesAmount, commentsAmount);
     }
 
     /**
      * Book constructor.
      * @param name book name.
-     * @param author book author.
+     * @param author book author name.
      * @param genre book genre.
      * @param date book date.
      * @param pagesAmount book pages amount.
      * @param text book text.
      */
-    public Book(String name, Author author, Genre genre, LocalDate date, Integer pagesAmount, String text) {
+    public Book(String name, String author, Genre genre, LocalDate date, Integer pagesAmount, String text) {
         this(null, name, author, genre, date, pagesAmount, 1, text, 0, 0);
     }
 
     /**
      * Book constructor.
      * @param name book name.
-     * @param author book author.
+     * @param author book author name.
      * @param genre book genre.
      * @param pagesAmount book pages amount.
      * @param text book text.
      */
-    public Book(String name, Author author, Genre genre, Integer pagesAmount, String text) {
+    public Book(String name, String author, Genre genre, Integer pagesAmount, String text) {
         this(name, author, genre, LocalDate.now(), pagesAmount, text);
     }
 
@@ -112,7 +112,7 @@ public class Book implements DbEntity {
      * Returns book author.
      * @return book author.
      */
-    public Author getAuthor() {
+    public String getAuthor() {
         return author;
     }
 

@@ -1,10 +1,8 @@
 package by.epam.jwd.web.dao;
 
 import by.epam.jwd.web.connectionPool.ConnectionPool;
-import by.epam.jwd.web.dao.mysql.MySQLAuthorDao;
 import by.epam.jwd.web.dao.mysql.MySQLBookDao;
 import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
-import by.epam.jwd.web.model.Author;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
 import org.junit.After;
@@ -17,13 +15,16 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 public class MySQLBookDaoTest {
     private static final ConnectionPool POOL = ConnectionPool.getConnectionPool();
     private final MySQLBookDao testDao = MySQLBookDao.getInstance();
-    private final Author testAuthor = MySQLAuthorDao.getInstance().findAll().stream().findAny().get();
-    private Book testBook = new Book("Test Book", testAuthor , Genre.SCIENCE, LocalDate.now(), 100, "Test book for unit test");
+    private Book testBook = new Book("Test Book", "author", Genre.SCIENCE, LocalDate.now(), 100, "Test book for unit test");
 
     @BeforeClass
     public static void initPool() throws ConnectionPoolInitializationException {
@@ -47,34 +48,34 @@ public class MySQLBookDaoTest {
 
     @Test
     public void save_mustAssignIdToSavedBook() {
-        assertNotNull("Save must return not null book", testBook);
-        assertNotNull("Saved book id must be not null", testBook.getId());
+        assertNotNull(testBook);
+        assertNotNull(testBook.getId());
     }
 
     @Test
     public void findAll_mustReturnNotNullList() {
         final List<Book> allBooks = testDao.findAll();
-        assertNotNull("All books list must be not null", allBooks);
+        assertNotNull(allBooks);
     }
 
     @Test
     public void findById_mustReturnNotNullOptional() {
         final Optional<Book> optionalBook = testDao.findById(testBook.getId());
-        assertNotNull("Returned value must be not null", optionalBook);
+        assertNotNull(optionalBook);
     }
 
     @Test
     public void findById_mustReturnSavedBook_whenSavedBookIdPassed() {
         final Optional<Book> optionalBook = testDao.findById(testBook.getId());
-        assertTrue("Optional book must be not empty", optionalBook.isPresent());
-        assertEquals("Found book must be equal to saved book", testBook, optionalBook.get());
+        assertTrue(optionalBook.isPresent());
+        assertEquals(testBook, optionalBook.get());
     }
 
     @Test
     public void findById_mustReturnEmptyOptionalBook_whenThereIsNoBookWithPassedId() {
         testDao.delete(testBook.getId());
         final Optional<Book> optionalBook = testDao.findById(testBook.getId());
-        assertFalse("Optional book must be empty", optionalBook.isPresent());
+        assertFalse(optionalBook.isPresent());
     }
 
     @Test
@@ -82,73 +83,73 @@ public class MySQLBookDaoTest {
         String updatedText = "Updated text";
         testBook = new Book(testBook.getId(), testBook.getName(), testBook.getAuthor(), testBook.getGenre(), testBook.getDate(), testBook.getPagesAmount(), testBook.getCopiesAmount(), updatedText, testBook.getLikesAmount(), testBook.getCommentsAmount());
         final Book updatedBook = testDao.update(testBook);
-        assertNotNull("Updated book must be not null", updatedBook);
-        assertEquals("Updated book text must be equal to updated string", updatedText, updatedBook.getText());
-        assertEquals("Updated book must be equal to saved book", testBook, updatedBook);
+        assertNotNull(updatedBook);
+        assertEquals(updatedText, updatedBook.getText());
+        assertEquals(testBook, updatedBook);
     }
 
     @Test
     public void delete_mustDeleteTestBook() {
         testDao.delete(testBook.getId());
         final List<Book> allBooks = testDao.findAll();
-        assertFalse("All books list must not contain deleted book", allBooks.contains(testBook));
+        assertFalse(allBooks.contains(testBook));
     }
 
     @Test
     public void findPage_mustReturnNotNullPage() {
         final int pagesAmount = testDao.getPagesAmount();
         final List<Book> foundPage = testDao.findPage(pagesAmount);
-        assertNotNull("Found page list must be not null", foundPage);
+        assertNotNull(foundPage);
     }
 
     @Test
     public void getRowsAmount_mustReturnNotNegativeNumber() {
         final int rowsAmount = testDao.getRowsAmount();
-        assertTrue("Returned value must be not negative", rowsAmount >= 0);
+        assertTrue(rowsAmount >= 0);
     }
 
     @Test
     public void getPagesAmount_mustReturnNotNegativeNumber() {
         final int pagesAmount = testDao.getPagesAmount();
-        assertTrue("Returned value must be not negative", pagesAmount >= 0);
+        assertTrue(pagesAmount >= 0);
     }
 
     @Test
     public void getInstance_mustReturnSameInstanceAsTestInstance() {
         final MySQLBookDao instance = MySQLBookDao.getInstance();
-        assertSame("Returned instance must be same as test instance", testDao, instance);
+        assertSame(testDao, instance);
     }
 
     @Test
     public void findByName_mustReturnCollectionWithSavedBook_whenSavedBookNameWasPassed() {
         final List<Book> booksByName = testDao.findByName(testBook.getName());
-        assertNotNull("Returned value must be not null", booksByName);
-        assertTrue("Returned collection must have test  book", booksByName.contains(testBook));
+        assertNotNull(booksByName);
+        assertTrue(booksByName.contains(testBook));
     }
 
     @Test
     public void findByName_mustReturnCollectionWithoutDeletedBook_whenDeletedBookNameWasPassed() {
         testDao.delete(testBook.getId());
         final List<Book> booksByName = testDao.findByName(testBook.getName());
-        assertNotNull("Returned value must be not null", booksByName);
-        assertFalse("Returned collection must not have deleted book", booksByName.contains(testBook));
+        assertNotNull(booksByName);
+        assertFalse(booksByName.contains(testBook));
     }
 
     @Test
     public void findByAuthorName_mustReturnNotNullListOfBooksWithSpecifiedAuthorName() {
-        final List<Book> foundBooks = testDao.findByAuthorName(testBook.getAuthor().getName());
-        assertNotNull("Returned value must be not null", foundBooks);
+        final List<Book> foundBooks = testDao.findByAuthorName(testBook.getAuthor());
+        assertNotNull(foundBooks);
         for (Book foundBook : foundBooks) {
-            assertEquals("Found book must have passed author id", testBook.getAuthor().getId(), foundBook.getAuthor().getId());
+            assertEquals(testBook.getAuthor(), foundBook.getAuthor());
         }
     }
 
     @Test
     public void findByGenreId_mustReturnNotNullListOfBooksWithSpecifiedGenreId() {
         final List<Book> foundBooks = testDao.findByGenre(testBook.getGenre());
-        assertNotNull("Returned value must be not null", foundBooks);
+        assertNotNull(foundBooks);
         for (Book foundBook : foundBooks) {
-            assertEquals("Found book must have passed genre id", testBook.getGenre().getId(), foundBook.getGenre().getId());
+            assertEquals(testBook.getGenre().getId(), foundBook.getGenre().getId());
         }
     }
 }

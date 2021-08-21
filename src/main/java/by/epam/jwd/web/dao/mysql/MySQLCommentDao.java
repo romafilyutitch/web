@@ -2,7 +2,6 @@ package by.epam.jwd.web.dao.mysql;
 
 import by.epam.jwd.web.dao.api.AbstractDao;
 import by.epam.jwd.web.dao.api.CommentDao;
-import by.epam.jwd.web.model.Author;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Comment;
 import by.epam.jwd.web.model.Genre;
@@ -28,8 +27,8 @@ public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao 
 
     private static final String FIND_ALL_SQL = "select comment.id, comment.date, comment.text,\n" +
             "       user.id, user.login, user.password, role.name, subscription.id, subscription.start_date, subscription.end_date,\n" +
-            "       book.id, book.name, author.id, author.name, genre.name, book.date, book.pages_amount, book.copies_amount, book.text, book.likes_amount, book.comments_amount from comment " +
-            "inner join user on comment.user_id = user.id inner join book on comment.book_id = book.id inner join author on book.author_id = author.id inner join genre on book.genre_id = genre.id\n" +
+            "       book.id, book.name, book.author, genre.name, book.date, book.pages_amount, book.copies_amount, book.text, book.likes_amount, book.comments_amount from comment " +
+            "inner join user on comment.user_id = user.id inner join book on comment.book_id = book.id inner join genre on book.genre_id = genre.id\n" +
             "inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id";
     private static final String SAVE_SQL = "insert into comment (user_id, book_id, date, text) values (?, ?, ?, ?)";
     private static final String UPDATE_SQL = "update comment set user_id = ?, book_id = ?, date = ?, text = ? where id = ?";
@@ -45,6 +44,7 @@ public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao 
     private static final String USER_ROLE_COLUMN = "role.name";
     private static final String BOOK_ID_COLUMN = "book.id";
     private static final String BOOK_NAME_COLUMN = "book.name";
+    private static final String BOOK_AUTHOR_COLUMN = "book.author";
     private static final String BOOK_GENRE_COLUMN = "genre.name";
     private static final String BOOK_DATE_COLUMN = "book.date";
     private static final String BOOK_PAGES_AMOUNT_COLUMN = "book.pages_amount";
@@ -52,8 +52,6 @@ public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao 
     private static final String BOOK_TEXT_COLUMN = "book.text";
     private static final String BOOK_LIKES_AMOUNT_COLUMN = "book.likes_amount";
     private static final String BOOK_COMMENTS_AMOUNT_COLUMN = "book.comments_amount";
-    private static final String AUTHOR_ID_COLUMN = "author.id";
-    private static final String AUTHOR_NAME_COLUMN = "author.name";
     private static final String SUBSCRIPTION_ID_COLUMN = "subscription.id";
     private static final String SUBSCRIPTION_START_DATE_COLUMN = "subscription.start_date";
     private static final String SUBSCRIPTION_END_DATE_COLUMN = "subscription.end_date";
@@ -100,6 +98,7 @@ public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao 
     private Book buildBook(ResultSet resultSet) throws SQLException {
         final long bookId = resultSet.getLong(BOOK_ID_COLUMN);
         final String bookName = resultSet.getString(BOOK_NAME_COLUMN);
+        final String author = resultSet.getString(BOOK_AUTHOR_COLUMN);
         final String genreName = resultSet.getString(BOOK_GENRE_COLUMN);
         final LocalDate bookDate = resultSet.getObject(BOOK_DATE_COLUMN, LocalDate.class);
         final int pageAmount = resultSet.getInt(BOOK_PAGES_AMOUNT_COLUMN);
@@ -107,15 +106,8 @@ public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao 
         final String text = resultSet.getString(BOOK_TEXT_COLUMN);
         final int likesAmount = resultSet.getInt(BOOK_LIKES_AMOUNT_COLUMN);
         final int commentsAmount = resultSet.getInt(BOOK_COMMENTS_AMOUNT_COLUMN);
-        final Author foundAuthor = buildAuthor(resultSet);
         final Genre genre = Genre.valueOf(genreName.toUpperCase());
-        return new Book(bookId, bookName, foundAuthor, genre, bookDate, pageAmount, copiesAmount, text, likesAmount, commentsAmount);
-    }
-
-    private Author buildAuthor(ResultSet resultSet) throws SQLException {
-        final long authorId = resultSet.getLong(AUTHOR_ID_COLUMN);
-        final String authorName = resultSet.getString(AUTHOR_NAME_COLUMN);
-        return new Author(authorId, authorName);
+        return new Book(bookId, bookName, author, genre, bookDate, pageAmount, copiesAmount, text, likesAmount, commentsAmount);
     }
 
     private Subscription buildSubscription(ResultSet resultSet) throws SQLException {

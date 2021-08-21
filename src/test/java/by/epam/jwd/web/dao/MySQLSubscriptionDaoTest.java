@@ -14,7 +14,11 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 
 public class MySQLSubscriptionDaoTest {
@@ -45,30 +49,30 @@ public class MySQLSubscriptionDaoTest {
 
     @Test
     public void save_mustAssignIdToSavedSubscription() {
-        assertNotNull("Saved subscription must be not null", testSubscription);
-        assertNotNull("Saved subscription must have not null id", testSubscription.getId());
+        assertNotNull(testSubscription);
+        assertNotNull(testSubscription.getId());
     }
 
     @Test
     public void findAll_mustReturnNotNullList() {
         final List<Subscription> allSubscriptions = testDao.findAll();
-        assertNotNull("All subscription list must be not null", allSubscriptions);
+        assertNotNull(allSubscriptions);
     }
 
     @Test
     public void findById_mustReturnSavedSubscription_whenSavedSubscriptionIdPassed() {
         final Optional<Subscription> optionalSubscription = testDao.findById(testSubscription.getId());
-        assertNotNull("Returned value must be not null", optionalSubscription);
-        assertTrue("Optional subscription must be not empty", optionalSubscription.isPresent());
-        assertEquals("Found subscription must be equal to saved subscription", testSubscription, optionalSubscription.get());
+        assertNotNull(optionalSubscription);
+        assertTrue(optionalSubscription.isPresent());
+        assertEquals(testSubscription, optionalSubscription.get());
     }
 
     @Test
     public void findById_mustReturnEmptyOptionalSubscription_whenThereIsNoSubscriptionWithPassedId() {
         testDao.delete(testSubscription.getId());
         final Optional<Subscription> optionalSubscription = testDao.findById(testSubscription.getId());
-        assertNotNull("Returned value must be not null", optionalSubscription);
-        assertFalse("Optional subscription must be empty", optionalSubscription.isPresent());
+        assertNotNull(optionalSubscription);
+        assertFalse(optionalSubscription.isPresent());
     }
 
     @Test
@@ -76,59 +80,59 @@ public class MySQLSubscriptionDaoTest {
         final LocalDate updatedEndDate = LocalDate.now().plusDays(1);
         testSubscription = new Subscription(testSubscription.getId(), testSubscription.getStartDate(), updatedEndDate);
         final Subscription updatedSubscription = testDao.update(testSubscription);
-        assertNotNull("Updated subscription must be not null", updatedSubscription);
-        assertEquals("Updated subscription must have passed end date",updatedEndDate,updatedSubscription.getEndDate());
-        assertEquals("Updated subscription must be equal to saved subscription", testSubscription, updatedSubscription);
+        assertNotNull(updatedSubscription);
+        assertEquals(updatedEndDate, updatedSubscription.getEndDate());
+        assertEquals(testSubscription, updatedSubscription);
     }
 
     @Test
     public void delete_mustDeleteTestSubscription() {
         testDao.delete(testSubscription.getId());
         final List<Subscription> allSubscription = testDao.findAll();
-        assertFalse("All subscriptions list must not contain deleted subscription", allSubscription.contains(testSubscription));
+        assertFalse(allSubscription.contains(testSubscription));
     }
 
     @Test
     public void findPage_mustReturnNotNullPage() {
         final int pagesAmount = testDao.getPagesAmount();
         final List<Subscription> page = testDao.findPage(pagesAmount);
-        assertNotNull("Found page must be not null", page);
+        assertNotNull(page);
     }
 
     @Test
     public void getRowsAmount_mustReturnNotNegativeNumber() {
         final int rowsAmount = testDao.getRowsAmount();
-        assertTrue("Rows amount must be not negative", rowsAmount >= 0);
+        assertTrue(rowsAmount >= 0);
     }
 
     @Test
     public void getPagesAmount_mustReturnNotNegativeNumber() {
         final int pagesAmount = testDao.getPagesAmount();
-        assertTrue("Pages amount must be not negative", pagesAmount >= 0);
+        assertTrue(pagesAmount >= 0);
     }
 
     @Test
     public void getInstance_mustReturnSameInstanceAsTestDao() {
         final MySQLSubscriptionDao instance = MySQLSubscriptionDao.getInstance();
-        assertNotNull("Returned instance must be not null", instance);
-        assertSame("Returned instance must be same as testDao", testDao, instance);
+        assertNotNull(instance);
+        assertSame(testDao, instance);
     }
 
     @Test
     public void findByStartDate_mustReturnListOfSubscriptionsWithSpecifiedStartDate() {
         final List<Subscription> subscriptionsByStartDate = testDao.findByStartDate(testSubscription.getStartDate());
-        assertNotNull("Subscriptions list must be not null", subscriptionsByStartDate);
+        assertNotNull(subscriptionsByStartDate);
         for (Subscription foundSubscription : subscriptionsByStartDate) {
-            assertEquals("Found subscription must have passed start date", testSubscription.getStartDate(), foundSubscription.getStartDate());
+            assertEquals(testSubscription.getStartDate(), foundSubscription.getStartDate());
         }
     }
 
     @Test
     public void findByEndDate_mustReturnListOfSubscriptionsWithSpecifiedEndDate() {
         final List<Subscription> subscriptionsByEndDate = testDao.findByEndDate(testSubscription.getEndDate());
-        assertNotNull("Subscriptions list must be not null", subscriptionsByEndDate);
+        assertNotNull(subscriptionsByEndDate);
         for (Subscription subscription : subscriptionsByEndDate) {
-            assertEquals("Found subscription must have passed end date", testSubscription.getEndDate(), subscription.getEndDate());
+            assertEquals(testSubscription.getEndDate(), subscription.getEndDate());
         }
     }
 }

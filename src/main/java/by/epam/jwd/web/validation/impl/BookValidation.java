@@ -46,7 +46,7 @@ public class BookValidation implements Validation<Book> {
     public List<String> validate(Book book) {
         final List<String> messages = new ArrayList<>();
         final String name = book.getName();
-        final String authorName = book.getAuthor().getName();
+        final String authorName = book.getAuthor();
         final Genre genre = book.getGenre();
         final int pagesAmount = book.getPagesAmount();
         final String text = book.getText();

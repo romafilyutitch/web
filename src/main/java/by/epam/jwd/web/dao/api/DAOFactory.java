@@ -30,11 +30,6 @@ public interface DAOFactory {
      */
     OrderDao getOrderDao();
 
-    /**
-     * Returns {@link AuthorDao} instance for use in services.
-     * @return {@link AuthorDao} instance
-     */
-    AuthorDao getAuthorDao();
 
     /**
      * Returns {@link SubscriptionDao} instance for use in services.

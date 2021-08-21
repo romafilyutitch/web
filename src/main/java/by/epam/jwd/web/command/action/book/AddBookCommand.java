@@ -1,7 +1,6 @@
 package by.epam.jwd.web.command.action.book;
 
 import by.epam.jwd.web.command.ActionCommand;
-import by.epam.jwd.web.model.Author;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
 import by.epam.jwd.web.resource.CommandManager;
@@ -13,7 +12,6 @@ import by.epam.jwd.web.validation.ValidationFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Executes command that is add new book to add new {@link Book} based on request values.
@@ -75,11 +73,11 @@ public class AddBookCommand implements ActionCommand {
 
     private Book buildBookFromRequest(HttpServletRequest request) {
         final String name = request.getParameter(REQUEST_NAME_PARAMETER_KEY);
-        final String authorName = request.getParameter(REQUEST_AUTHOR_PARAMETER_KEY);
+        final String author = request.getParameter(REQUEST_AUTHOR_PARAMETER_KEY);
         final Genre genre = Genre.valueOf(request.getParameter(REQUEST_GENRE_PARAMETER_KEY));
         final int pages = Integer.parseInt(request.getParameter(REQUEST_PAGES_PARAMETER_KEY));
         final String description = request.getParameter(REQUEST_DESCRIPTION_PARAMETER_KEY);
-        return new Book(name, new Author(authorName), genre, pages, description);
+        return new Book(name, author, genre, pages, description);
     }
 
 

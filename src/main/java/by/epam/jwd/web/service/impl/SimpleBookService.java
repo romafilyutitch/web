@@ -1,10 +1,8 @@
 package by.epam.jwd.web.service.impl;
 
-import by.epam.jwd.web.dao.api.AuthorDao;
 import by.epam.jwd.web.dao.api.BookDao;
 import by.epam.jwd.web.dao.api.DAOFactory;
 import by.epam.jwd.web.exception.ServiceException;
-import by.epam.jwd.web.model.Author;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
 import by.epam.jwd.web.service.api.BookService;
@@ -18,6 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Service implementation for book service interface.
  * Makes all operations related to book in application.
+ *
  * @author roma0
  * @version 1.0
  * @since 1.0
@@ -26,7 +25,6 @@ public class SimpleBookService implements BookService {
     private static final Logger logger = LogManager.getLogger(SimpleBookService.class);
 
     private final BookDao bookDao = DAOFactory.getInstance().getBookDao();
-    private final AuthorDao authorDao = DAOFactory.getInstance().getAuthorDao();
 
     private static final String PAGE_WAS_FOUND_MESSAGE = "Page of books number %d was found size = %d";
     private static final String SAVED_BOOK_WAS_NOT_FOUND_BY_ID_MESSAGE = "Saved book with id %d was not found";
@@ -45,6 +43,7 @@ public class SimpleBookService implements BookService {
 
     /**
      * Gets single class instance from nested class
+     *
      * @return class instance.
      */
     public static SimpleBookService getInstance() {
@@ -54,6 +53,7 @@ public class SimpleBookService implements BookService {
     /**
      * Finds and returns find result of all books from database.
      * Delegates find to book dao.
+     *
      * @return all found books collections.
      */
     @Override
@@ -65,10 +65,11 @@ public class SimpleBookService implements BookService {
 
     /**
      * Finds passed page of saved books from database.
-     * @throws IllegalStateException when passed page number is negative or
-     * page number is greater then pages amount.
+     *
      * @param pageNumber page that need to be found.
      * @return collection of book on passed page.
+     * @throws IllegalStateException when passed page number is negative or
+     *                               page number is greater then pages amount.
      */
     @Override
     public List<Book> findPage(int pageNumber) {
@@ -82,6 +83,7 @@ public class SimpleBookService implements BookService {
 
     /**
      * Returns current saved books pages amount.
+     *
      * @return current saved book pages amount.
      */
     @Override
@@ -91,9 +93,10 @@ public class SimpleBookService implements BookService {
 
     /**
      * Finds saved book by passed id.
-     * @throws ServiceException when saved book was not found by id.
+     *
      * @param id by what need to find book.
      * @return saved book that has passed id.
+     * @throws ServiceException when saved book was not found by id.
      */
     @Override
     public Book findById(Long id) {
@@ -109,6 +112,7 @@ public class SimpleBookService implements BookService {
 
     /**
      * Adds on copy to passed book.
+     *
      * @param book which need to add one copy.
      */
     @Override
@@ -121,6 +125,7 @@ public class SimpleBookService implements BookService {
 
     /**
      * Removes on copy from passed book
+     *
      * @param book which need to add one copy.
      */
     @Override
@@ -133,29 +138,20 @@ public class SimpleBookService implements BookService {
 
     /**
      * Makes book save.
-     * If book author is not saved in book then saved author at first
-     * and then saves book and assigns id to saved book.
+     *
      * @param book that need to be saved.
      * @return saved book with generated id.
      */
     @Override
     public Book save(Book book) {
-        final Book bookToSave;
-        final Optional<Author> optionalAuthor = authorDao.getByName(book.getAuthor().getName());
-        if (!optionalAuthor.isPresent()) {
-            logger.info(String.format(AUTHOR_DOES_NOT_EXIST_MESSAGE, book.getAuthor()));
-            final Author savedAuthor = authorDao.save(book.getAuthor());
-            bookToSave = new Book(book.getName(), savedAuthor, book.getGenre(), book.getDate(), book.getPagesAmount(), book.getText());
-        } else {
-            bookToSave = new Book(book.getName(), optionalAuthor.get(), book.getGenre(), book.getDate(), book.getPagesAmount(), book.getText());
-        }
-        Book savedBook = bookDao.save(bookToSave);
+        Book savedBook = bookDao.save(book);
         logger.info(String.format(BOOK_WAS_SAVED_MESSAGE, savedBook));
         return savedBook;
     }
 
     /**
      * Deletes saved book that has passed id.
+     *
      * @param bookId for book that need to be deleted.
      */
     @Override
@@ -166,6 +162,7 @@ public class SimpleBookService implements BookService {
 
     /**
      * Finds books that have passed book genre.
+     *
      * @param genre those books need to be found.
      * @return books that have passed genre collection.
      */
@@ -179,6 +176,7 @@ public class SimpleBookService implements BookService {
 
     /**
      * Finds books that has passed book name.
+     *
      * @param name that book need to be found.
      * @return collection of books which names mathces with passed one.
      */
@@ -192,6 +190,7 @@ public class SimpleBookService implements BookService {
     /**
      * Nested class that encapsulates single {@link SimpleBookService} instance.
      * Singleton pattern variation.
+     *
      * @see "Singleton pattern"
      */
     private static class Singleton {

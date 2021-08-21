@@ -6,6 +6,7 @@ import by.epam.jwd.web.dao.mysql.MySQLOrderDao;
 import by.epam.jwd.web.dao.mysql.MySQLUserDao;
 import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
 import by.epam.jwd.web.model.Book;
+import by.epam.jwd.web.model.Genre;
 import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.model.Status;
 import by.epam.jwd.web.model.User;
@@ -15,17 +16,20 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 public class MySQLOrderDaoTest {
     private static final ConnectionPool POOL = ConnectionPool.getConnectionPool();
-    private final User testUser = MySQLUserDao.getInstance().findAll().stream().findAny().get();
-    private final Book testBook = MySQLBookDao.getInstance().findAll().stream().findAny().get();
-    private Order testOrder = new Order(testUser, testBook, LocalDate.now(), Status.ORDERED);
+    private User testUser = new User("test user", "test user");
+    private Book testBook = new Book("test book", "test book", Genre.FANTASY, 1, "text");
+    private Order testOrder;
 
     private final MySQLOrderDao testDao = MySQLOrderDao.getInstance();
 
@@ -41,40 +45,45 @@ public class MySQLOrderDaoTest {
 
     @Before
     public void setUp() throws Exception {
+        testUser = MySQLUserDao.getInstance().save(testUser);
+        testBook = MySQLBookDao.getInstance().save(testBook);
+        testOrder = new Order(testUser, testBook);
         testOrder = testDao.save(testOrder);
     }
 
     @After
     public void tearDown() throws Exception {
         testDao.delete(testOrder.getId());
+        MySQLUserDao.getInstance().delete(testUser.getId());
+        MySQLBookDao.getInstance().delete(testBook.getId());
     }
 
     @Test
     public void save_mustAssignIdToSavedOrder() {
-        assertNotNull("Saved order must be not null", testOrder);
-        assertNotNull("Saved order id must be not null", testOrder.getId());
+        assertNotNull(testOrder);
+        assertNotNull(testOrder.getId());
     }
 
     @Test
     public void findAll_mustReturnNotNullOrdersList() {
         final List<Order> allOrders = testDao.findAll();
-        assertNotNull("Returned value must be not null", allOrders);
+        assertNotNull(allOrders);
     }
 
     @Test
     public void findById_mustReturnSavedOrder_whenSavedOrderIdWasPassed() {
         final Optional<Order> optionalOrder = testDao.findById(testOrder.getId());
-        assertNotNull("Returned value must be not null", optionalOrder);
-        assertTrue("Optional order must contain saved order", optionalOrder.isPresent());
-        assertEquals("Returned order must be equal to test order", testOrder, optionalOrder.get());
+        assertNotNull(optionalOrder);
+        assertTrue(optionalOrder.isPresent());
+        assertEquals(testOrder, optionalOrder.get());
     }
 
     @Test
     public void findById_mustReturnEmptyOptionalOrder_whenThereIsNotOrderWithPassedId() {
         testDao.delete(testOrder.getId());
         final Optional<Order> optionalOrder = testDao.findById(testOrder.getId());
-        assertNotNull("Returned value must be not null", optionalOrder);
-        assertFalse("Optional order must be empty", optionalOrder.isPresent());
+        assertNotNull(optionalOrder);
+        assertFalse(optionalOrder.isPresent());
     }
 
     @Test
@@ -82,87 +91,87 @@ public class MySQLOrderDaoTest {
         Status status = Status.APPROVED;
         testOrder = new Order(testOrder.getId(), testOrder.getUser(), testOrder.getBook(), testOrder.getOrderDate(), status);
         final Order updatedOrder = testDao.update(testOrder);
-        assertNotNull("Returned value must be not null", updatedOrder);
-        assertEquals("Updated order must be equal to test order", testOrder, updatedOrder);
+        assertNotNull(updatedOrder);
+        assertEquals(testOrder, updatedOrder);
     }
 
     @Test
     public void delete_mustDeleteTestOrder() {
         testDao.delete(testOrder.getId());
         final List<Order> allOrder = testDao.findAll();
-        assertFalse("All orders list must not contain test order", allOrder.contains(testOrder));
+        assertFalse(allOrder.contains(testOrder));
     }
 
     @Test
     public void findPage_mustReturnNotNullPage() {
         final int pagesAmount = testDao.getPagesAmount();
         final List<Order> foundPage = testDao.findPage(pagesAmount);
-        assertNotNull("Found page must be not null", foundPage);
+        assertNotNull(foundPage);
     }
 
     @Test
     public void getRowsAmount_mustReturnNotNegativeNumber() {
         final int rowsAmount = testDao.getRowsAmount();
-        assertTrue("Returned value must be not negative", rowsAmount >= 0);
+        assertTrue(rowsAmount >= 0);
     }
 
     @Test
     public void getPagesAmount_mustReturnNotNegativeNumber() {
         final int pagesAmount = testDao.getPagesAmount();
-        assertTrue("Returned value must be not negative", pagesAmount >= 0);
+        assertTrue(pagesAmount >= 0);
     }
 
     @Test
     public void getInstance_mustReturnSameInstanceAsTestInstance() {
         final MySQLOrderDao instance = MySQLOrderDao.getInstance();
-        assertSame("Returned value must be same as test instance", testDao, instance);
+        assertSame(testDao, instance);
     }
 
     @Test
     public void findOrdersByBookId_mustReturnNotNullList() {
         final List<Order> foundOrders = testDao.findByBook(testOrder.getBook());
-        assertNotNull("Returned value must be not null", foundOrders);
-        assertFalse("Returned list must not contain null", foundOrders.contains(null));
-        for(Order foundOrder : foundOrders) {
-            assertEquals("Found order book id must be equal to passed book id",testOrder.getBook().getId(), foundOrder.getBook().getId());
+        assertNotNull(foundOrders);
+        assertFalse(foundOrders.contains(null));
+        for (Order foundOrder : foundOrders) {
+            assertEquals(testOrder.getBook().getId(), foundOrder.getBook().getId());
         }
     }
 
     @Test
     public void findOrdersByBookId_mustReturnListThatContainSavedOrder_whenSavedOrderBookIdPassed() {
         final List<Order> foundOrders = testDao.findByBook(testBook);
-        assertTrue("Found orders list must contain saved order", foundOrders.contains(testOrder));
+        assertTrue(foundOrders.contains(testOrder));
     }
 
     @Test
     public void findOrdersByOrderDate_mustReturnNotNullList() {
         final List<Order> foundOrders = testDao.findByOrderDate(testOrder.getOrderDate());
-        assertNotNull("Returned value must be not null", foundOrders);
-        assertFalse("Returned list must not contain null", foundOrders.contains(null));
+        assertNotNull(foundOrders);
+        assertFalse(foundOrders.contains(null));
         for (Order foundOrder : foundOrders) {
-            assertEquals("Found order date must be equal to passed date",testOrder.getOrderDate(), foundOrder.getOrderDate());
+            assertEquals(testOrder.getOrderDate(), foundOrder.getOrderDate());
         }
     }
 
     @Test
     public void findOrdersByOrderDate_mustReturnListThatContainSavedOrder_whenSavedOrderDatePassed() {
         final List<Order> foundOrders = testDao.findByOrderDate(testOrder.getOrderDate());
-        assertTrue("Found orders list must contain saved order", foundOrders.contains(testOrder));
+        assertTrue(foundOrders.contains(testOrder));
     }
 
     @Test
     public void findOrdersByUserId_mustReturnNotNullList() {
         final List<Order> foundOrders = testDao.findByUser(testOrder.getUser());
-        assertNotNull("Returned value must be not null", foundOrders);
-        assertFalse("Returned lust must not contain null", foundOrders.contains(null));
+        assertNotNull(foundOrders);
+        assertFalse(foundOrders.contains(null));
         for (Order foundOrder : foundOrders) {
-            assertEquals("Found order user id must be equal to passed user id", testOrder.getUser().getId(), foundOrder.getUser().getId());
+            assertEquals(testOrder.getUser().getId(), foundOrder.getUser().getId());
         }
     }
 
     @Test
     public void findOrdersByUserId_mustReturnListThatContainSavedOrder_whenSavedOrderUserIdPassed() {
         final List<Order> foundOrders = testDao.findByUser(testOrder.getUser());
-        assertTrue("Found order list must contain saved order", foundOrders.contains(testOrder));
+        assertTrue(foundOrders.contains(testOrder));
     }
 }

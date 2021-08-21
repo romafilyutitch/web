@@ -7,6 +7,7 @@ import by.epam.jwd.web.dao.mysql.MySQLLikeDao;
 import by.epam.jwd.web.dao.mysql.MySQLUserDao;
 import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
 import by.epam.jwd.web.model.Book;
+import by.epam.jwd.web.model.Genre;
 import by.epam.jwd.web.model.Like;
 import by.epam.jwd.web.model.User;
 import org.junit.After;
@@ -22,10 +23,10 @@ import static org.junit.Assert.*;
 
 public class MySQLLikeDaoTest {
     private static final ConnectionPool POOL = ConnectionPool.getConnectionPool();
-    private final User testUser = MySQLUserDao.getInstance().findAll().stream().findAny().get();
-    private final Book testBook = MySQLBookDao.getInstance().findAll().stream().findAny().get();
-    private Like testLike = new Like(testUser, testBook);
-    private LikeDao testDao = MySQLLikeDao.getInstance();
+    private final LikeDao testDao = MySQLLikeDao.getInstance();
+    private  User testUser = new User("test user", "test user");
+    private  Book testBook = new Book("Test book", "test book", Genre.FANTASY, 1, "text");
+    private Like testLike;
 
     @BeforeClass
     public static void initPool() throws ConnectionPoolInitializationException {
@@ -39,12 +40,17 @@ public class MySQLLikeDaoTest {
 
     @Before
     public void setUp() {
+        testUser = MySQLUserDao.getInstance().save(testUser);
+        testBook = MySQLBookDao.getInstance().save(testBook);
+        testLike = new Like(testUser, testBook);
         testLike = testDao.save(testLike);
     }
 
     @After
     public void tearDown() {
         testDao.delete(testLike.getId());
+        MySQLUserDao.getInstance().delete(testUser.getId());
+        MySQLBookDao.getInstance().delete(testBook.getId());
     }
 
 

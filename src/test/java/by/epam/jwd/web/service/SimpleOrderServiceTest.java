@@ -4,6 +4,7 @@ import by.epam.jwd.web.connectionPool.ConnectionPool;
 import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
 import by.epam.jwd.web.exception.ServiceException;
 import by.epam.jwd.web.model.Book;
+import by.epam.jwd.web.model.Genre;
 import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.model.Status;
 import by.epam.jwd.web.model.User;
@@ -19,15 +20,18 @@ import org.junit.Test;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class SimpleOrderServiceTest {
     private static final ConnectionPool POOL = ConnectionPool.getConnectionPool();
     private final SimpleOrderService testService = SimpleOrderService.getInstance();
-    private final User testUser = SimpleUserService.getInstance().findAll().stream().findAny().get();
-    private final Book testBook = SimpleBookService.getInstance().findAll().stream().findAny().get();
+    private User testUser = new User("test user", "test user");
+    private Book testBook = new Book("test book", "test book", Genre.FANTASY, 1, "text");
 
-    private Order testOrder = new Order(testUser, testBook, LocalDate.now(), Status.ORDERED);
+    private Order testOrder;
 
     @BeforeClass
     public static void initPool() throws ConnectionPoolInitializationException {
@@ -41,46 +45,51 @@ public class SimpleOrderServiceTest {
 
     @Before
     public void setUp() throws Exception {
+        testUser = SimpleUserService.getInstance().save(testUser);
+        testBook = SimpleBookService.getInstance().save(testBook);
+        testOrder = new Order(testUser, testBook);
         testOrder = testService.save(testOrder);
     }
 
     @After
     public void tearDown() throws Exception {
         testService.delete(testOrder.getId());
+        SimpleUserService.getInstance().delete(testUser.getId());
+        SimpleBookService.getInstance().delete(testBook.getId());
     }
 
     @Test
     public void getInstance_mustReturnSameInstance() {
         final SimpleOrderService instance = SimpleOrderService.getInstance();
-        assertEquals("Test order service must be equal to get instance", instance, testService);
+        assertEquals(instance, testService);
     }
 
     @Test
     public void findAll_mustReturnNotNullList() {
         final List<Order> allOrders = testService.findAll();
-        assertNotNull("All orders list must be not null", allOrders);
-        assertTrue("All orders list must contain saved order", allOrders.contains(testOrder));
+        assertNotNull(allOrders);
+        assertTrue(allOrders.contains(testOrder));
     }
 
     @Test
     public void register_mustReturnOrderWithAssignedIdStatusAndDate() {
-        assertNotNull("Registered order must be not null", testOrder);
-        assertNotNull("Registered order id must be not null", testOrder.getId());
-        assertTrue("Registered order status must be ordered or approved", testOrder.getStatus().equals(Status.ORDERED) || testOrder.getStatus().equals(Status.APPROVED));
-        assertEquals("Registered order date must be current date", LocalDate.now(), testOrder.getOrderDate());
+        assertNotNull(testOrder);
+        assertNotNull(testOrder.getId());
+        assertTrue(testOrder.getStatus().equals(Status.ORDERED) || testOrder.getStatus().equals(Status.APPROVED));
+        assertEquals(LocalDate.now(), testOrder.getOrderDate());
     }
 
     @Test
     public void findPage_mustReturnNotNullPageList() {
         final int pagesAmount = testService.getPagesAmount();
         final List<Order> foundPage = testService.findPage(pagesAmount);
-        assertNotNull("Found page list must be not null", foundPage);
+        assertNotNull(foundPage);
     }
 
     @Test
     public void getPagesAmount_mustReturnNotNegativeNumber() {
         final int pagesAmount = testService.getPagesAmount();
-        assertTrue("Pages amount must be not negative", pagesAmount >= 0);
+        assertTrue(pagesAmount >= 0);
     }
 
     @Test
@@ -88,16 +97,16 @@ public class SimpleOrderServiceTest {
         testService.approveOrder(testOrder);
         final Order foundOrder = testService.findById(testOrder.getId());
 
-        assertNotNull("Found order must be not null", foundOrder);
-        assertEquals("Found order id must be equal to test order id", testOrder.getId(), foundOrder.getId());
-        assertEquals("Approved order status must be changed to Approved", Status.APPROVED, foundOrder.getStatus());
+        assertNotNull(foundOrder);
+        assertEquals(testOrder.getId(), foundOrder.getId());
+        assertEquals(Status.APPROVED, foundOrder.getStatus());
     }
 
     @Test
     public void delete_mustDeleteOrderWithSpecifiedId() {
         testService.delete(testOrder.getId());
         final List<Order> allOrders = testService.findAll();
-        assertFalse("All orders list must not contain deleted order", allOrders.contains(testOrder));
+        assertFalse(allOrders.contains(testOrder));
     }
 
     @Test
@@ -105,34 +114,34 @@ public class SimpleOrderServiceTest {
         testService.returnOrder(testOrder);
         final Order foundOrder = testService.findById(testOrder.getId());
 
-        assertNotNull("Found order must be not null", foundOrder);
-        assertEquals("Returned order id must be equal to test order id", testOrder.getId(),foundOrder.getId());
-        assertEquals("Returned order status must be changed", Status.RETURNED, foundOrder.getStatus());
+        assertNotNull(foundOrder);
+        assertEquals(testOrder.getId(), foundOrder.getId());
+        assertEquals(Status.RETURNED, foundOrder.getStatus());
     }
 
     @Test
     public void findByBook_mustReturnNotNullOrdersList() {
         final List<Order> foundOrders = testService.findByBook(testOrder.getBook());
-        assertNotNull("Returned value must be not null", foundOrders);
+        assertNotNull(foundOrders);
         for (Order foundOrder : foundOrders) {
-            assertEquals("Found order must have passed reader id", testOrder.getUser().getId(), foundOrder.getUser().getId());
+            assertEquals(testOrder.getUser().getId(), foundOrder.getUser().getId());
         }
     }
 
     @Test
     public void findByUser_mustReturnNotNullOrdersList() {
         final List<Order> foundOrders = testService.findByUser(testOrder.getUser());
-        assertNotNull("Returned value must be not null", foundOrders);
+        assertNotNull(foundOrders);
         for (Order foundOrder : foundOrders) {
-            assertEquals("Found order must have passed book id", testOrder.getBook().getId(), foundOrder.getBook().getId());
+            assertEquals(testOrder.getBook().getId(), foundOrder.getBook().getId());
         }
     }
 
     @Test
     public void findById_mustReturnSavedOrderById() {
         final Order foundOrder = testService.findById(testOrder.getId());
-        assertNotNull("Found order must be not null", foundOrder);
-        assertEquals("Found order must be equal to saved order", testOrder, foundOrder);
+        assertNotNull(foundOrder);
+        assertEquals(testOrder, foundOrder);
     }
 
     @Test(expected = ServiceException.class)
