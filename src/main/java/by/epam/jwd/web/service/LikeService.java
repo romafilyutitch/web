@@ -3,6 +3,7 @@ package by.epam.jwd.web.service.api;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Like;
 import by.epam.jwd.web.model.User;
+import by.epam.jwd.web.service.impl.SimpleLikeService;
 
 import java.util.Optional;
 
@@ -21,4 +22,12 @@ public interface LikeService extends Service<Like> {
      * or empty optional otherwise.
      */
     Optional<Like> findByUserAndBook(User user, Book book);
+
+    /**
+     * Returns like service implementation instanace.
+     * @return like service instance
+     */
+    static LikeService getInstance() {
+        return SimpleLikeService.getInstance();
+    }
 }

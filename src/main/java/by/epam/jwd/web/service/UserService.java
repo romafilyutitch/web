@@ -5,6 +5,7 @@ import by.epam.jwd.web.service.WrongLoginException;
 import by.epam.jwd.web.service.WrongPasswordException;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
+import by.epam.jwd.web.service.impl.SimpleUserService;
 
 import java.util.Optional;
 
@@ -67,4 +68,12 @@ public interface UserService extends Service<User> {
      * @return user with changed password.
      */
     User changePassword(User user, String newPassword);
+
+    /**
+     * Returns user service implementation instance.
+     * @return user service instance
+     */
+    static UserService getInstance() {
+        return SimpleUserService.getInstance();
+    }
 }

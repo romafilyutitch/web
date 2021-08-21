@@ -3,6 +3,7 @@ package by.epam.jwd.web.service.api;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.model.User;
+import by.epam.jwd.web.service.impl.SimpleOrderService;
 
 import java.util.List;
 
@@ -39,4 +40,12 @@ public interface OrderService extends Service<Order> {
      * @return collection of orders that passed user made
      */
     List<Order> findByUser(User user);
+
+    /**
+     * Returns order service implementation instance.
+     * @return order service instance.
+     */
+    static OrderService getInstance() {
+        return SimpleOrderService.getInstance();
+    }
 }

@@ -2,6 +2,7 @@ package by.epam.jwd.web.service.api;
 
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
+import by.epam.jwd.web.service.impl.SimpleBookService;
 
 import java.util.List;
 
@@ -43,5 +44,13 @@ public interface BookService extends Service<Book> {
      * @return collection of books that have passed genre.
      */
     List<Book> findByGenre(Genre genre);
+
+    /**
+     * Returns book service interface implementation instance.
+     * @return book service instance
+     */
+    static BookService getInstance() {
+        return SimpleBookService.getInstance();
+    }
 
 }

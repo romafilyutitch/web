@@ -2,6 +2,7 @@ package by.epam.jwd.web.service.api;
 
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Comment;
+import by.epam.jwd.web.service.impl.SimpleCommentService;
 
 import java.util.List;
 
@@ -18,4 +19,12 @@ public interface CommentService extends Service<Comment>{
      * @return collection of comments that was added to passed book.
      */
     List<Comment> findByBook(Book book);
+
+    /**
+     * Returns Comment service implementation instance
+     * @return Comment service instance;
+     */
+    static CommentService getInstance() {
+        return SimpleCommentService.getInstance();
+    }
 }
