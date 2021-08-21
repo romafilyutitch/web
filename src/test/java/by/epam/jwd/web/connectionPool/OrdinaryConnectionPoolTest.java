@@ -1,6 +1,5 @@
 package by.epam.jwd.web.connectionPool;
 
-import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;

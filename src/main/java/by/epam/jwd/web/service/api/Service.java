@@ -1,6 +1,7 @@
 package by.epam.jwd.web.service.api;
 
 import by.epam.jwd.web.model.DbEntity;
+import by.epam.jwd.web.service.ServiceException;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public interface Service<T extends DbEntity> {
 
     /**
      * Finds saved entity by passed id.
-     * @throws by.epam.jwd.web.exception.ServiceException when
+     * @throws ServiceException when
      * saved entity was not found by id.
      * @param entityId id of found entity.
      * @return entity that has passed id.

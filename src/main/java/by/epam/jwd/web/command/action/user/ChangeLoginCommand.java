@@ -1,7 +1,7 @@
 package by.epam.jwd.web.command.action.user;
 
 import by.epam.jwd.web.command.ActionCommand;
-import by.epam.jwd.web.exception.UserWithLoginExistsException;
+import by.epam.jwd.web.service.UserWithLoginExistsException;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.resource.MessageManager;

@@ -2,6 +2,7 @@ package by.epam.jwd.web.dao.api;
 
 
 
+import by.epam.jwd.web.dao.DAOException;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.model.UserRole;
 
@@ -20,7 +21,7 @@ public interface UserDao extends Dao<User> {
      * Finds and returns result of find {@link User} with specified name.
      * Returns user if there is user with passed name in database table.
      * or empty optional otherwise
-     * @throws by.epam.jwd.web.exception.DAOException when exception in dao layer occurs.
+     * @throws DAOException when exception in dao layer occurs.
      * @param login of user that need to find
      * @return found User if there is user with passed login or
      * empty optional otherwise
@@ -29,7 +30,7 @@ public interface UserDao extends Dao<User> {
 
     /**
      * Finds and returns result of find users that have passed role.
-     * @throws by.epam.jwd.web.exception.DAOException when exception in dao layer occurs.
+     * @throws DAOException when exception in dao layer occurs.
      * @param role of users that need to find
      * @return Users with specified role
      */

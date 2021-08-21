@@ -2,7 +2,7 @@ package by.epam.jwd.web.service.impl;
 
 import by.epam.jwd.web.dao.api.CommentDao;
 import by.epam.jwd.web.dao.api.DAOFactory;
-import by.epam.jwd.web.exception.ServiceException;
+import by.epam.jwd.web.service.ServiceException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Comment;
 import by.epam.jwd.web.service.api.CommentService;

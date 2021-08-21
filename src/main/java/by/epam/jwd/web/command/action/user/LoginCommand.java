@@ -1,8 +1,8 @@
 package by.epam.jwd.web.command.action.user;
 
 import by.epam.jwd.web.command.ActionCommand;
-import by.epam.jwd.web.exception.WrongLoginException;
-import by.epam.jwd.web.exception.WrongPasswordException;
+import by.epam.jwd.web.service.WrongLoginException;
+import by.epam.jwd.web.service.WrongPasswordException;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.resource.MessageManager;

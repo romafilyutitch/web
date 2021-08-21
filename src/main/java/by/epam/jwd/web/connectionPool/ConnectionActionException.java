@@ -1,4 +1,4 @@
-package by.epam.jwd.web.exception;
+package by.epam.jwd.web.connectionPool;
 
 /**
  * Connection pool layer exception.
@@ -8,13 +8,13 @@ package by.epam.jwd.web.exception;
  * @version 1.0
  * @since 1.0
  */
-public class ConnectionPoolActionException extends RuntimeException {
+public class ConnectionActionException extends RuntimeException {
 
     /**
      * Exception constructor.
      * @param cause exception cause.
      */
-    public ConnectionPoolActionException(Throwable cause) {
+    public ConnectionActionException(Throwable cause) {
         super(cause);
     }
 

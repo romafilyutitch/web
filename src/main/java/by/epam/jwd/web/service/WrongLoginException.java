@@ -1,4 +1,4 @@
-package by.epam.jwd.web.exception;
+package by.epam.jwd.web.service;
 
 /**
  * Service layer exception.

@@ -4,7 +4,7 @@ import by.epam.jwd.web.connectionPool.ConnectionPool;
 import by.epam.jwd.web.dao.mysql.MySQLBookDao;
 import by.epam.jwd.web.dao.mysql.MySQLCommentDao;
 import by.epam.jwd.web.dao.mysql.MySQLUserDao;
-import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
+import by.epam.jwd.web.connectionPool.ConnectionPoolInitializationException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Comment;
 import by.epam.jwd.web.model.Genre;

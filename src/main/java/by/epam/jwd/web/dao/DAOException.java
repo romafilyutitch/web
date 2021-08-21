@@ -1,4 +1,4 @@
-package by.epam.jwd.web.exception;
+package by.epam.jwd.web.dao;
 
 /**
  * Exception for Data access object layer.

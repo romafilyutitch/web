@@ -1,4 +1,4 @@
-package by.epam.jwd.web.exception;
+package by.epam.jwd.web.connectionPool;
 
 /**
  * Exception for connection pool layer.

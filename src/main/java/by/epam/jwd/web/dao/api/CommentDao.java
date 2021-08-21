@@ -1,5 +1,6 @@
 package by.epam.jwd.web.dao.api;
 
+import by.epam.jwd.web.dao.DAOException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Comment;
 
@@ -15,7 +16,7 @@ import java.util.List;
 public interface CommentDao extends Dao<Comment> {
     /**
      * Finds and returns result of find comments by specified book.
-     * @throws by.epam.jwd.web.exception.DAOException when exception in dao layer occurs
+     * @throws DAOException when exception in dao layer occurs
      * @param book passed book that has comments
      * @return specified book comments collection
      */

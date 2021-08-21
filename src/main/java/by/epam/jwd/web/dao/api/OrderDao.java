@@ -1,6 +1,7 @@
 package by.epam.jwd.web.dao.api;
 
 
+import by.epam.jwd.web.dao.DAOException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.model.User;
@@ -19,7 +20,7 @@ public interface OrderDao extends Dao<Order> {
 
     /**
      * Finds and returns find result of find orders by specified {@link User}
-     * @throws by.epam.jwd.web.exception.DAOException when exception in dao layer occurs
+     * @throws DAOException when exception in dao layer occurs
      * @param user {@link User} whose orders need to be found
      * @return User's orders collection
      */
@@ -27,7 +28,7 @@ public interface OrderDao extends Dao<Order> {
 
     /**
      * Finds and returns find result of find orders by specified book
-     * @throws by.epam.jwd.web.exception.DAOException when exception in dao layer occurs
+     * @throws DAOException when exception in dao layer occurs
      * @param book {@link Book} whose order need to be found
      * @return orders by book collection
      */
@@ -35,7 +36,7 @@ public interface OrderDao extends Dao<Order> {
 
     /**
      * Finds and returns find result of find orders by specified {@link LocalDate}
-     * @throws by.epam.jwd.web.exception.DAOException when exception in dao layer occurs
+     * @throws DAOException when exception in dao layer occurs
      * @param orderDate {@link LocalDate} by what need to find orders
      * @return orders with have specified order date
      */

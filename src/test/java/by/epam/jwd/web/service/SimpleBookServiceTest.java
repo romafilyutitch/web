@@ -1,8 +1,7 @@
 package by.epam.jwd.web.service;
 
 import by.epam.jwd.web.connectionPool.ConnectionPool;
-import by.epam.jwd.web.exception.ConnectionPoolInitializationException;
-import by.epam.jwd.web.exception.ServiceException;
+import by.epam.jwd.web.connectionPool.ConnectionPoolInitializationException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
 import by.epam.jwd.web.service.impl.SimpleBookService;
