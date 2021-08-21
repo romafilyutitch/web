@@ -12,11 +12,12 @@ import java.util.List;
 /**
  * {@link AbstractDao} implementation for {@link Subscription} database entity.
  * Links to subscription database table and performs operations with that table.
+ *
  * @author roma0
  * @version 1.0
  * @since 1.0
  */
-public class MySQLSubscriptionDao extends AbstractDao<Subscription> implements SubscriptionDao {
+class MySQLSubscriptionDao extends AbstractDao<Subscription> implements SubscriptionDao {
     private static final String TABLE_NAME = "subscription";
 
     private static final String FIND_ALL_SQL = "select subscription.id, subscription.start_date, subscription.end_date from subscription";
@@ -42,6 +43,7 @@ public class MySQLSubscriptionDao extends AbstractDao<Subscription> implements S
 
     /**
      * Returns single class instance from nested class that encapsulates single {@link MySQLSubscriptionDao} instance.
+     *
      * @return class instance.
      */
     public static MySQLSubscriptionDao getInstance() {
@@ -51,6 +53,7 @@ public class MySQLSubscriptionDao extends AbstractDao<Subscription> implements S
     /**
      * Maps find execution result set to {@link Subscription} instance.
      * Template method implementation for {@link Subscription} database entity.
+     *
      * @param result Made during sql find statement execution result.
      * @return Mapped {@link Subscription} instance.
      * @throws SQLException when database excecption occcurs.
@@ -66,7 +69,8 @@ public class MySQLSubscriptionDao extends AbstractDao<Subscription> implements S
     /**
      * Set {@link Subscription} instance to execute save prepared statement.
      * Template method implementation for {@link Subscription} database entity.
-     * @param entity entity that need to save.
+     *
+     * @param entity                entity that need to save.
      * @param savePreparedStatement Made save entity prepared statement.
      * @throws SQLException when database exception occurs.
      */
@@ -79,7 +83,8 @@ public class MySQLSubscriptionDao extends AbstractDao<Subscription> implements S
     /**
      * Set {@link Subscription} instance to execute update prepared statement.
      * Template method implementation for {@link Subscription} database entity.
-     * @param entity entity that need to update.
+     *
+     * @param entity                  entity that need to update.
      * @param updatePreparedStatement Made update entity prepared statement.
      * @throws SQLException when database exception occurs.
      */
@@ -92,6 +97,7 @@ public class MySQLSubscriptionDao extends AbstractDao<Subscription> implements S
 
     /**
      * Find and returns result of find subscriptions with passed start date.
+     *
      * @param startDate {@link LocalDate} find subscription start date
      * @return subscriptions that have passed start date.
      */
@@ -102,6 +108,7 @@ public class MySQLSubscriptionDao extends AbstractDao<Subscription> implements S
 
     /**
      * Find and returns result of find subscription with passed end date.
+     *
      * @param endDate {@link LocalDate} find Subscription end date.
      * @return subscriptions that have passed end date.
      */
@@ -113,6 +120,7 @@ public class MySQLSubscriptionDao extends AbstractDao<Subscription> implements S
     /**
      * Nested class that encapsulates single {@link MySQLSubscriptionDao} instance.
      * Singleton pattern variation.
+     *
      * @see "Singleton pattern"
      */
     private static class Singleton {

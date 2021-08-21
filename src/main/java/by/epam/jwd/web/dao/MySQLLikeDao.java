@@ -17,11 +17,12 @@ import java.util.Optional;
 /**
  * {@link AbstractDao} implementation for {@link Like} database entity. Links to like database table
  * and performs sql operations with that table.
+ *
  * @author roma0
  * @version 1.0
  * @since 1.0
  */
-public class MySQLLikeDao extends AbstractDao<Like> implements LikeDao {
+class MySQLLikeDao extends AbstractDao<Like> implements LikeDao {
     private static final String TABLE_NAME = "book_like";
 
     private static final String FIND_ALL_SQL = "select book_like.id, " +
@@ -63,6 +64,7 @@ public class MySQLLikeDao extends AbstractDao<Like> implements LikeDao {
 
     /**
      * Returns class instance from nested class that encapsulates single {@link MySQLLikeDao} instance.
+     *
      * @return class instance.
      */
     public static MySQLLikeDao getInstance() {
@@ -72,6 +74,7 @@ public class MySQLLikeDao extends AbstractDao<Like> implements LikeDao {
     /**
      * Maps find result set to {@link Like} instance.
      * Template method implementation for {@link Like} database entity.
+     *
      * @param result Made during sql find statement execution result.
      * @return Mapped {@link Like} instance.
      * @throws SQLException when database exception occurs.
@@ -123,7 +126,8 @@ public class MySQLLikeDao extends AbstractDao<Like> implements LikeDao {
     /**
      * Set {@link Like} instance data to execute save prepared statement.
      * Template method for {@link Like} database entity.
-     * @param entity entity that need to save
+     *
+     * @param entity                entity that need to save
      * @param savePreparedStatement Made save entity prepared statement
      * @throws SQLException when database exception occurs
      */
@@ -136,7 +140,8 @@ public class MySQLLikeDao extends AbstractDao<Like> implements LikeDao {
     /**
      * Set {@link Like} instance data to execute update prepared statement.
      * Template method for {@link Like} database entity.
-     * @param entity entity that need to update.
+     *
+     * @param entity                  entity that need to update.
      * @param updatePreparedStatement Made update entity prepared statement
      * @throws SQLException when database exception occurs.
      */
@@ -151,6 +156,7 @@ public class MySQLLikeDao extends AbstractDao<Like> implements LikeDao {
      * Finds and return result of find {@link Like} instance by saved {@link User} and {@link Book} instances.
      * Returns found like in optional when there is like to passed book by passed user
      * or empty optional otherwise.
+     *
      * @param user {@link User} instance that added like to {@link Book} instance.
      * @param book {@link Book} instance that may have like by {@link User} instance.
      * @return found like in optional if it presents or empty optional otherwise.
@@ -167,6 +173,7 @@ public class MySQLLikeDao extends AbstractDao<Like> implements LikeDao {
     /**
      * Nested class that encapsulates single {@link MySQLLikeDao} instance.
      * Singleton pattern variation.
+     *
      * @see "Singleton pattern"
      */
     private static class Singleton {

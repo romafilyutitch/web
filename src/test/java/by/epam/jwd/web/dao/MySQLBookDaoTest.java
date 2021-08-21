@@ -35,12 +35,12 @@ public class MySQLBookDaoTest {
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         testBook = testDao.save(testBook);
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         testDao.delete(testBook.getId());
     }
 

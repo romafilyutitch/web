@@ -3,18 +3,19 @@ package by.epam.jwd.web.dao;
 /**
  * Data access object mysql implementations factory. Returns doa implementations
  * that related to MySQL database. Implementation of abstract factory pattern.
+ *
  * @author roma0
  * @version 1.0
- * @since 1.0
  * @see "Abstract factory pattern"
- *
+ * @since 1.0
  */
-public class MySQLDAOFactory implements DAOFactory {
+class MySQLDAOFactory implements DAOFactory {
     private MySQLDAOFactory() {
     }
 
     /**
      * Returns singleton from nested class that has single {@link MySQLDAOFactory} instance.
+     *
      * @return class instance
      */
     public static MySQLDAOFactory getInstance() {
@@ -23,6 +24,7 @@ public class MySQLDAOFactory implements DAOFactory {
 
     /**
      * Returns {@link UserDao} for MySQL database implementation.
+     *
      * @return {@link UserDao} instance.
      */
     @Override
@@ -32,6 +34,7 @@ public class MySQLDAOFactory implements DAOFactory {
 
     /**
      * Returns {@link BookDao} for MySQL database implementation.
+     *
      * @return {@link BookDao} instance.
      */
     @Override
@@ -41,6 +44,7 @@ public class MySQLDAOFactory implements DAOFactory {
 
     /**
      * Returns {@link OrderDao} for MySQL database implementation.
+     *
      * @return {@link OrderDao} instance.
      */
     @Override
@@ -50,13 +54,17 @@ public class MySQLDAOFactory implements DAOFactory {
 
     /**
      * Returns {@link CommentDao} for MySQL database implementation.
+     *
      * @return {@link CommentDao} instance
      */
     @Override
-    public CommentDao getCommentDao() {return MySQLCommentDao.getInstance();}
+    public CommentDao getCommentDao() {
+        return MySQLCommentDao.getInstance();
+    }
 
     /**
      * Returns {@link SubscriptionDao} for MySQL database implementation.
+     *
      * @return {@link SubscriptionDao} instance.
      */
     @Override
@@ -66,6 +74,7 @@ public class MySQLDAOFactory implements DAOFactory {
 
     /**
      * Returns {@link LikeDao} for MySQL database implementation.
+     *
      * @return {@link LikeDao} instance.
      */
     @Override
@@ -75,6 +84,7 @@ public class MySQLDAOFactory implements DAOFactory {
 
     /**
      * Nested class that encapsulates single {@link MySQLDAOFactory} instance. Singleton pattern variation.
+     *
      * @see "Singleton pattern"
      */
     private static class Singleton {

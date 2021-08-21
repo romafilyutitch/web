@@ -15,14 +15,15 @@ import java.util.Optional;
 /**
  * {@link AbstractDao} implementation for {@link User} database entity.
  * Links to user database table and performs sql operations with that table.
+ *
  * @author roma0
  * @version 1.0
  * @since 1.0
  */
-public class MySQLUserDao extends AbstractDao<User> implements UserDao {
+class MySQLUserDao extends AbstractDao<User> implements UserDao {
     private static final String TABLE_NAME = "user";
 
-    private static final String FIND_ALL_SQL = "select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user\n" +
+    private static final String FIND_ALL_SQL = "select user.id, user.login, user.password, role.id, role.name, subscription.id, subscription.start_date, subscription.end_date from user " +
             "inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id";
     private static final String SAVE_SQL = "insert into user (login, password, role_id, subscription_id) values (?, ?, ?, ?)";
     private static final String UPDATE_SQL = "update user set login = ?, password = ?, role_id = ?, subscription_id = ? where id = ?";
@@ -49,6 +50,7 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
 
     /**
      * Returns class instance from nested class that encapsulates single {@link MySQLUserDao} instance.
+     *
      * @return class instance.
      */
     public static MySQLUserDao getInstance() {
@@ -58,12 +60,13 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
     /**
      * Maps find entity result set to {@link User} instance.
      * Template method implementation for {@link User} database entity.
+     *
      * @param result Made during sql find statement execution result.
      * @return Mapped {@link User} instance.
      * @throws SQLException when database exeption occurs.
      */
     @Override
-    protected User mapResultSet(ResultSet result) throws SQLException{
+    protected User mapResultSet(ResultSet result) throws SQLException {
         final long id = result.getLong(USER_ID_COLUMN);
         final String login = result.getString(USER_LOGIN_COLUMN);
         final String password = result.getString(USER_PASSWORD_COLUMN);
@@ -88,7 +91,8 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
     /**
      * Set {@link User} instance data to execute save prepared statement.
      * Template method implementation for {@link User} database entity.
-     * @param entity entity that need to save.
+     *
+     * @param entity                entity that need to save.
      * @param savePreparedStatement Made save entity prepared statement.
      * @throws SQLException when database exception occurs.
      */
@@ -106,7 +110,8 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
 
     /**
      * Set {@link User} instance data to perform update prepared statement.
-     * @param entity entity that need to update.
+     *
+     * @param entity                  entity that need to update.
      * @param updatePreparedStatement Made update entity prepared statement.
      * @throws SQLException when database exception occurs.
      */
@@ -127,6 +132,7 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
      * Finds and returns result of find user by passed login.
      * Returns found user in optional if there is user with passed login
      * or empty optional otherwise.
+     *
      * @param login of user that need to find.
      * @return found user in optional if there is user with passed login in database table
      * or empty optional otherwise.
@@ -140,6 +146,7 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
     /**
      * Finds and returns result of fund users by passed role.
      * Returns users that have passed role.
+     *
      * @param role of users that need to find.
      * @return users that have passed role.
      */
@@ -151,6 +158,7 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
     /**
      * Nested class that encapsulates single {@link MySQLUserDao} instance.
      * Singleton pattern variation.
+     *
      * @see "Singleton pattern"
      */
     private static class Singleton {

@@ -38,7 +38,7 @@ public class MySQLCommentDaoTest {
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         testUser = MySQLUserDao.getInstance().save(testUser);
         testBook = MySQLBookDao.getInstance().save(testBook);
         testComment = new Comment(testUser, testBook, "test text");
@@ -46,7 +46,7 @@ public class MySQLCommentDaoTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         testDao.delete(testComment.getId());
         MySQLUserDao.getInstance().delete(testUser.getId());
         MySQLBookDao.getInstance().delete(testBook.getId());

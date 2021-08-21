@@ -18,7 +18,7 @@ import java.util.List;
  * @version 1.0
  * @since 1.0
  */
-public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
+class MySQLBookDao extends AbstractDao<Book> implements BookDao {
     private static final String TABLE_NAME = "book";
 
     private static final String FIND_ALL_SQL = "select book.id, book.name, book.author, genre.id, genre.name, book.date, book.pages_amount, book.copies_amount, book.text, book.likes_amount, book.comments_amount " +
@@ -88,7 +88,7 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
      * Set {@link Book} instance data to prepared statement to execute save statement.
      * Template method implementation for {@link Book} database book.
      *
-     * @param book                book that need to save.
+     * @param book                  book that need to save.
      * @param savePreparedStatement Made save book prepared statement.
      * @throws SQLException when exception in database occurs.
      */
@@ -109,7 +109,7 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
      * Set {@link Book} instance data to prepared statement to execute update statement.
      * Template method implementation for {@link Book} database book.
      *
-     * @param book                  book that need to update.
+     * @param book                    book that need to update.
      * @param updatePreparedStatement Made update book prepared statement
      * @throws SQLException when database exception occurs
      */

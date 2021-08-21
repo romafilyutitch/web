@@ -16,17 +16,18 @@ import java.util.List;
 /**
  * {@link AbstractDao} abstract class implementation for {@link Comment} database entity. Links to database
  * comment table and performs sql operations with that table.
+ *
  * @author roma0
  * @version 1.0
  * @since 1.0
  */
-public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao {
+class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao {
     private static final String TABLE_NAME = "comment";
 
-    private static final String FIND_ALL_SQL = "select comment.id, comment.date, comment.text,\n" +
-            "       user.id, user.login, user.password, role.name, subscription.id, subscription.start_date, subscription.end_date,\n" +
-            "       book.id, book.name, book.author, genre.name, book.date, book.pages_amount, book.copies_amount, book.text, book.likes_amount, book.comments_amount from comment " +
-            "inner join user on comment.user_id = user.id inner join book on comment.book_id = book.id inner join genre on book.genre_id = genre.id\n" +
+    private static final String FIND_ALL_SQL = "select comment.id, comment.date, comment.text, " +
+            "user.id, user.login, user.password, role.name, subscription.id, subscription.start_date, subscription.end_date, " +
+            "book.id, book.name, book.author, genre.name, book.date, book.pages_amount, book.copies_amount, book.text, book.likes_amount, book.comments_amount from comment " +
+            "inner join user on comment.user_id = user.id inner join book on comment.book_id = book.id inner join genre on book.genre_id = genre.id " +
             "inner join role on user.role_id = role.id left join subscription on user.subscription_id = subscription.id";
     private static final String SAVE_SQL = "insert into comment (user_id, book_id, date, text) values (?, ?, ?, ?)";
     private static final String UPDATE_SQL = "update comment set user_id = ?, book_id = ?, date = ?, text = ? where id = ?";
@@ -66,6 +67,7 @@ public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao 
 
     /**
      * Returns singleton from nested class that encapsulates single class instance.
+     *
      * @return class instance.
      */
     public static MySQLCommentDao getInstance() {
@@ -75,6 +77,7 @@ public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao 
     /**
      * Maps result from find sql statement to {@link Comment} instance and returns it.
      * Template method implementation for {@link Comment} database entity.
+     *
      * @param resultSet Made during sql find statement execution result.
      * @return {@link Comment} instance.
      * @throws SQLException when exception in database occurs.
@@ -128,7 +131,8 @@ public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao 
     /**
      * Set {@link Comment} instance data to prepared statement to execute save statement.
      * Template method implementation for {@link Comment} database entity.
-     * @param entity entity that need to save.
+     *
+     * @param entity                entity that need to save.
      * @param savePreparedStatement Made save entity prepared statement.
      * @throws SQLException when exception in database occurs.
      */
@@ -143,7 +147,8 @@ public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao 
     /**
      * Set {@link Comment} instance data to prepared statement to execute update statement.
      * Template method implementation for {@link Comment} database entity.
-     * @param entity entity that need to update.
+     *
+     * @param entity                  entity that need to update.
      * @param updatePreparedStatement Made update entity prepared statement
      * @throws SQLException when database exception occurs
      */
@@ -159,6 +164,7 @@ public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao 
     /**
      * Finds and returns result of find {@link Comment} instances by specified {@link Book} instance.
      * Returns passed book comments.
+     *
      * @param book passed book that has comments.
      * @return passed book comments.
      */
@@ -170,6 +176,7 @@ public class MySQLCommentDao extends AbstractDao<Comment> implements CommentDao 
     /**
      * Nested class that encapsulates single {@link MySQLCommentDao} instance.
      * Singleton pattern variation.
+     *
      * @see "Singleton pattern"
      */
     private static class Singleton {

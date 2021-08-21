@@ -40,7 +40,7 @@ public class MySQLOrderDaoTest {
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         testUser = MySQLUserDao.getInstance().save(testUser);
         testBook = MySQLBookDao.getInstance().save(testBook);
         testOrder = new Order(testUser, testBook);
@@ -48,7 +48,7 @@ public class MySQLOrderDaoTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         testDao.delete(testOrder.getId());
         MySQLUserDao.getInstance().delete(testUser.getId());
         MySQLBookDao.getInstance().delete(testBook.getId());

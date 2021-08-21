@@ -23,14 +23,14 @@ import java.util.List;
  * @version 1.0
  * @since 1.0
  */
-public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
+class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
     private static final String TABLE_NAME = "book_order";
 
-    private final static String FIND_ALL_SQL = "select book_order.id, book_order.date, status.name,\n" +
-            "       user.id, user.login, user.password, role.name, subscription.id, subscription.start_date, subscription.end_date,\n" +
-            "       book.id, book.name, book.author, genre.name, book.date, book.pages_amount, book.copies_amount, book.text, book.likes_amount, book.comments_amount from book_order\n" +
-            "inner join user on book_order.user_id = user.id inner join book on book_order.book_id = book.id inner join genre on book.genre_id = genre.id\n" +
-            "inner join role on user.role_id = role.id inner join status on book_order.status = status.id left join subscription on user.subscription_id = subscription.id\n";
+    private final static String FIND_ALL_SQL = "select book_order.id, book_order.date, status.name, " +
+            "user.id, user.login, user.password, role.name, subscription.id, subscription.start_date, subscription.end_date, " +
+            "book.id, book.name, book.author, genre.name, book.date, book.pages_amount, book.copies_amount, book.text, book.likes_amount, book.comments_amount from book_order " +
+            "inner join user on book_order.user_id = user.id inner join book on book_order.book_id = book.id inner join genre on book.genre_id = genre.id " +
+            "inner join role on user.role_id = role.id inner join status on book_order.status = status.id left join subscription on user.subscription_id = subscription.id";
     private final static String SAVE_SQL = "insert into book_order (user_id, book_id, date, status) values (?, ?, ?, ?)";
     private final static String UPDATE_SQL = "update book_order set user_id = ?, book_id = ?, date = ?, status = ? where id = ?";
     private final static String DELETE_SQL = "delete from book_order where id = ?";
