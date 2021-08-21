@@ -1,7 +1,7 @@
 package by.epam.jwd.web.service.impl;
 
-import by.epam.jwd.web.dao.api.DAOFactory;
-import by.epam.jwd.web.dao.api.LikeDao;
+import by.epam.jwd.web.dao.DAOFactory;
+import by.epam.jwd.web.dao.LikeDao;
 import by.epam.jwd.web.service.ServiceException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Like;
@@ -29,7 +29,7 @@ public class SimpleLikeService implements LikeService {
     private static final String LIKE_WAS_SAVED_MESSAGE = "Like was saved %s";
     private static final String LIKE_WAS_DELETED_MESSAGE = "Like was deleted %s";
 
-    private final LikeDao likeDao = DAOFactory.getInstance().getLikeDao();
+    private final LikeDao likeDao = DAOFactory.getFactory().getLikeDao();
 
     private SimpleLikeService() {}
 

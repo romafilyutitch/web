@@ -1,7 +1,7 @@
 package by.epam.jwd.web.service.impl;
 
-import by.epam.jwd.web.dao.api.BookDao;
-import by.epam.jwd.web.dao.api.DAOFactory;
+import by.epam.jwd.web.dao.BookDao;
+import by.epam.jwd.web.dao.DAOFactory;
 import by.epam.jwd.web.service.ServiceException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class SimpleBookService implements BookService {
     private static final Logger logger = LogManager.getLogger(SimpleBookService.class);
 
-    private final BookDao bookDao = DAOFactory.getInstance().getBookDao();
+    private final BookDao bookDao = DAOFactory.getFactory().getBookDao();
 
     private static final String PAGE_WAS_FOUND_MESSAGE = "Page of books number %d was found size = %d";
     private static final String SAVED_BOOK_WAS_NOT_FOUND_BY_ID_MESSAGE = "Saved book with id %d was not found";

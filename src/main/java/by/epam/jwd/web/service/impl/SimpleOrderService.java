@@ -1,7 +1,7 @@
 package by.epam.jwd.web.service.impl;
 
-import by.epam.jwd.web.dao.api.DAOFactory;
-import by.epam.jwd.web.dao.api.OrderDao;
+import by.epam.jwd.web.dao.DAOFactory;
+import by.epam.jwd.web.dao.OrderDao;
 import by.epam.jwd.web.service.ServiceException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Order;
@@ -26,7 +26,7 @@ import java.util.Optional;
 public class SimpleOrderService implements OrderService {
     private static final Logger logger = LogManager.getLogger(SimpleOrderService.class);
 
-    private final OrderDao orderDao = DAOFactory.getInstance().getOrderDao();
+    private final OrderDao orderDao = DAOFactory.getFactory().getOrderDao();
 
     private static final String ALL_ORDERS_WERE_FOUND_MESSAGE = "All orders were found size = %d";
     private static final String ORDER_WAS_REGISTERED_MESSAGE = "Order was register %s";

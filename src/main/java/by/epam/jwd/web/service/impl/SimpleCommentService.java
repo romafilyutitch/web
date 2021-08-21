@@ -1,7 +1,7 @@
 package by.epam.jwd.web.service.impl;
 
-import by.epam.jwd.web.dao.api.CommentDao;
-import by.epam.jwd.web.dao.api.DAOFactory;
+import by.epam.jwd.web.dao.CommentDao;
+import by.epam.jwd.web.dao.DAOFactory;
 import by.epam.jwd.web.service.ServiceException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Comment;
@@ -30,7 +30,7 @@ public class SimpleCommentService implements CommentService {
     private static final String COMMENT_WAS_SAVED_MESSAGE = "Comment was saved %s ";
     private static final String COMMENT_WAS_DELETED_MESSAGE = "Comment with was deleted %s";
 
-    private final CommentDao commentDao = DAOFactory.getInstance().getCommentDao();
+    private final CommentDao commentDao = DAOFactory.getFactory().getCommentDao();
 
 
     private SimpleCommentService() {}

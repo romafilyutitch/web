@@ -1,8 +1,6 @@
-package by.epam.jwd.web.dao.mysql;
+package by.epam.jwd.web.dao;
 
 
-import by.epam.jwd.web.dao.api.AbstractDao;
-import by.epam.jwd.web.dao.api.SubscriptionDao;
 import by.epam.jwd.web.model.Subscription;
 
 import java.sql.PreparedStatement;

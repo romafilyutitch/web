@@ -1,4 +1,4 @@
-package by.epam.jwd.web.dao.api;
+package by.epam.jwd.web.dao;
 
 
 

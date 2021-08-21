@@ -1,8 +1,7 @@
-package by.epam.jwd.web.dao.api;
+package by.epam.jwd.web.dao;
 
 
 
-import by.epam.jwd.web.dao.DAOException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
 
@@ -18,6 +17,7 @@ import java.util.List;
  */
 public interface BookDao extends Dao<Book> {
     /**
+     *
      * Finds and returns result of find books that has passed name.
      * @throws DAOException when exception in dao layer occurs
      * @param name name of book that need to be found

@@ -1,9 +1,6 @@
-package by.epam.jwd.web.dao.mysql;
+package by.epam.jwd.web.dao;
 
 
-import by.epam.jwd.web.dao.api.AbstractDao;
-import by.epam.jwd.web.dao.api.BookDao;
-import by.epam.jwd.web.dao.DAOException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
 

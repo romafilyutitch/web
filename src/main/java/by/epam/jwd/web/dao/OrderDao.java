@@ -1,7 +1,6 @@
-package by.epam.jwd.web.dao.api;
+package by.epam.jwd.web.dao;
 
 
-import by.epam.jwd.web.dao.DAOException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.model.User;

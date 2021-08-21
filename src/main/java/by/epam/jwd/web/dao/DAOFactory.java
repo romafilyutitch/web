@@ -1,6 +1,4 @@
-package by.epam.jwd.web.dao.api;
-
-import by.epam.jwd.web.dao.mysql.MySQLDAOFactory;
+package by.epam.jwd.web.dao;
 
 /**
  * Data access object factory interface.
@@ -53,7 +51,7 @@ public interface DAOFactory {
      * Returns factory implementation instance
      * @return implementation instance
      */
-    static DAOFactory getInstance() {
+    static DAOFactory getFactory() {
         return MySQLDAOFactory.getInstance();
     }
 }

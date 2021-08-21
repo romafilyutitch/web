@@ -1,7 +1,6 @@
 package by.epam.jwd.web.dao;
 
 import by.epam.jwd.web.connectionPool.ConnectionPool;
-import by.epam.jwd.web.dao.mysql.MySQLBookDao;
 import by.epam.jwd.web.connectionPool.ConnectionPoolInitializationException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;

@@ -1,7 +1,6 @@
 package by.epam.jwd.web.dao;
 
 import by.epam.jwd.web.connectionPool.ConnectionPool;
-import by.epam.jwd.web.dao.mysql.MySQLUserDao;
 import by.epam.jwd.web.connectionPool.ConnectionPoolInitializationException;
 import by.epam.jwd.web.model.User;
 import org.junit.After;

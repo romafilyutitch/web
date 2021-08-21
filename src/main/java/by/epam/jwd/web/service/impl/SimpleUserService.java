@@ -1,9 +1,9 @@
 package by.epam.jwd.web.service.impl;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import by.epam.jwd.web.dao.api.DAOFactory;
-import by.epam.jwd.web.dao.api.SubscriptionDao;
-import by.epam.jwd.web.dao.api.UserDao;
+import by.epam.jwd.web.dao.DAOFactory;
+import by.epam.jwd.web.dao.SubscriptionDao;
+import by.epam.jwd.web.dao.UserDao;
 import by.epam.jwd.web.service.ServiceException;
 import by.epam.jwd.web.service.UserWithLoginExistsException;
 import by.epam.jwd.web.service.WrongLoginException;
@@ -28,8 +28,8 @@ import java.util.Optional;
 public class SimpleUserService implements UserService {
     private static final Logger logger = LogManager.getLogger(SimpleUserService.class);
 
-    private final UserDao userDao = DAOFactory.getInstance().getUserDao();
-    private final SubscriptionDao subscriptionDao = DAOFactory.getInstance().getSubscriptionDao();
+    private final UserDao userDao = DAOFactory.getFactory().getUserDao();
+    private final SubscriptionDao subscriptionDao = DAOFactory.getFactory().getSubscriptionDao();
 
     private final BCrypt.Hasher hasher = BCrypt.withDefaults();
     private final BCrypt.Verifyer verifyer = BCrypt.verifyer();

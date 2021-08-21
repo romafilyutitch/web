@@ -1,7 +1,5 @@
-package by.epam.jwd.web.dao.mysql;
+package by.epam.jwd.web.dao;
 
-import by.epam.jwd.web.dao.api.AbstractDao;
-import by.epam.jwd.web.dao.api.UserDao;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.model.UserRole;
