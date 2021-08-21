@@ -15,7 +15,7 @@ import java.util.List;
  * @version 1.0
  * @since 1.0
  */
-public class UserValidation implements Validation<User> {
+class UserValidation implements Validation<User> {
     private static final String INVALID_USER_LOGIN_MESSAGE_KEY = "user.validation.login.invalid";
     private static final String INVALID_USER_PASSWORD_MESSAGE_KEY = "user.validation.password.invalid";
     private static final String REGEX_PATTERN = "\\w{1,10}";
@@ -36,6 +36,8 @@ public class UserValidation implements Validation<User> {
      * Validates user instance. Makes invalid messages if instance is
      * invalid and puts adds it to invalid messages list. If invalid messages
      * list is empty that means that entity is valid.
+     * User is valid if it has login and password that consists of
+     * 10 or less english characters.
      * @param user that need to be validated.
      * @return invalid message list. If invalid messages list
      * if empty that means that entity is valid.

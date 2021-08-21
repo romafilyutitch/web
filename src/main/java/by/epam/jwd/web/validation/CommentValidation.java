@@ -12,7 +12,7 @@ import java.util.List;
  * @version 1.0
  * @since 1.0
  */
-public class CommentValidation implements Validation<Comment> {
+class CommentValidation implements Validation<Comment> {
 
     private static final String INVALID_COMMENT_TEXT_MESSAGE_KEY = "comment.validation.text.invalid";
 
@@ -29,7 +29,8 @@ public class CommentValidation implements Validation<Comment> {
 
     /**
      * Makes comment validation. Comment text must be not empty.
-     * Forms invalid message list.
+     * Forms invalid message list. Comment is valid if it has
+     * not empty text.
      * @param comment comment that need to be validated.
      * @return validation message list. If list is empty that means
      * that entity is valid.

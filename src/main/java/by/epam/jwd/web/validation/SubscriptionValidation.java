@@ -15,7 +15,7 @@ import java.util.List;
  * @version 1.0
  * @since 1.0
  */
-public class SubscriptionValidation implements Validation<Subscription> {
+class SubscriptionValidation implements Validation<Subscription> {
 
     private static final String INVALID_SUBSCRIPTION_DATES_RANGE_MESSAGE_KEY = "subscription.validation.range.invalid";
 
@@ -33,6 +33,7 @@ public class SubscriptionValidation implements Validation<Subscription> {
     /**
      * Validates subscription instance. If start date is after end date
      * that means that subscription dates range is invalid and.
+     * Subscription is valid if its start date is before its end date.
      * @param subscription that need to be validated.
      * @return invalid messages list. If invalid messages list is
      * empty that means that entity is valid.

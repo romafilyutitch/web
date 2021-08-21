@@ -15,7 +15,7 @@ import java.util.List;
  * @version 1.0
  * @since 1.0
  */
-public class BookValidation implements Validation<Book> {
+class BookValidation implements Validation<Book> {
 
     private static final String INVALID_BOOK_NAME_MESSAGE_KEY = "book.validation.name.invalid";
     private static final String INVALID_AUTHOR_NAME_MESSAGE_KEY = "book.validation.author.invalid";
@@ -37,6 +37,8 @@ public class BookValidation implements Validation<Book> {
 
     /**
      * Makes book validation and form invalid messages.
+     * Book is valid if has name and author that consists of 10 or less characters,
+     * has Definite genre, has positive pages amount and not empty text.
      * @param book book instance that need to be validated.
      * @return validation messages list. If list is empty that means
      * that entity is valid.
