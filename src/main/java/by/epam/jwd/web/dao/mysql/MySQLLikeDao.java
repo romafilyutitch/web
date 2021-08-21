@@ -36,6 +36,8 @@ public class MySQLLikeDao extends AbstractDao<Like> implements LikeDao {
     private static final String DELETE_SQL = "delete from book_like where id = ?";
 
     private static final String FIND_BY_BOOK_AND_USER_TEMPLATE = "%s where book.id = ? and user.id = ?";
+    private static final String FIND_PAGE_SQL_TEMPLATE = "%s limit ?, ?";
+    private static final String FIND_PAGE_SQL = String.format(FIND_PAGE_SQL_TEMPLATE, FIND_ALL_SQL);
     private static final String FIND_BY_BOOK_AND_USER_SQL = String.format(FIND_BY_BOOK_AND_USER_TEMPLATE, FIND_ALL_SQL);
 
     private static final String BOOK_LIKE_ID_COLUMN = "book_like.id";
@@ -58,7 +60,7 @@ public class MySQLLikeDao extends AbstractDao<Like> implements LikeDao {
     private static final String SUBSCRIPTION_END_DATE_COLUMN = "subscription.end_date";
 
     private MySQLLikeDao() {
-        super(TABLE_NAME, FIND_ALL_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL, BOOK_LIKE_ID_COLUMN);
+        super(TABLE_NAME, FIND_ALL_SQL, FIND_PAGE_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
     }
 
     /**

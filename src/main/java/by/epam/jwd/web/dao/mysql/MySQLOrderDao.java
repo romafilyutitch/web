@@ -20,6 +20,7 @@ import java.util.List;
 /**
  * {@link AbstractDao} implementation for {@link Order} database entity. Links to order table
  * and performs sql operations with that table.
+ *
  * @author roma0
  * @version 1.0
  * @since 1.0
@@ -39,6 +40,8 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
     private static final String FIND_BY_BOOK_ID_TEMPLATE = "%s where book.id = ?";
     private static final String FIND_BY_DATE_TEMPLATE = "%s where book_order.date = ?";
     private static final String FIND_BY_USER_ID_TEMPLATE = "%s where user.id = ?";
+    private static final String FIND_PAGE_SQL_TEMPLATE = "%s order by book_order.date limit ?, ?";
+    private static final String FIND_PAGE_SQL = String.format(FIND_PAGE_SQL_TEMPLATE, FIND_ALL_SQL);
     private final static String FIND_BY_BOOK_ID_SQL = String.format(FIND_BY_BOOK_ID_TEMPLATE, FIND_ALL_SQL);
     private final static String FIND_BY_DATE_SQL = String.format(FIND_BY_DATE_TEMPLATE, FIND_ALL_SQL);
     private final static String FIND_BY_USER_ID_SQL = String.format(FIND_BY_USER_ID_TEMPLATE, FIND_ALL_SQL);
@@ -65,11 +68,12 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
     private static final String STATUS_NAME_COLUMN = "status.name";
 
     private MySQLOrderDao() {
-        super(TABLE_NAME, FIND_ALL_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL, BOOK_ORDER_DATE_COLUMN);
+        super(TABLE_NAME, FIND_ALL_SQL, FIND_PAGE_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
     }
 
     /**
      * Returns class instance from nested class that encapsulates single instance.
+     *
      * @return class instance.
      */
     public static MySQLOrderDao getInstance() {
@@ -79,6 +83,7 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
     /**
      * Maps find result set to {@link Order} instance.
      * Template method implementation for {@link Order} database entity.
+     *
      * @param result Made during sql find statement execution result.
      * @return Mapped {@link Order} instance.
      * @throws SQLException when database exception occurs.
@@ -133,12 +138,13 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
     /**
      * Set {@link Order} instance data to execute save prepared statement.
      * Template method implementation for {@link Order} database entity.
-     * @param entity entity that need to save.
+     *
+     * @param entity                entity that need to save.
      * @param savePreparedStatement Made save entity prepared statement.
      * @throws SQLException when database exception occurs.
      */
     @Override
-    protected void setSavePrepareStatementValues(Order entity, PreparedStatement savePreparedStatement) throws SQLException{
+    protected void setSavePrepareStatementValues(Order entity, PreparedStatement savePreparedStatement) throws SQLException {
         savePreparedStatement.setLong(1, entity.getUser().getId());
         savePreparedStatement.setLong(2, entity.getBook().getId());
         savePreparedStatement.setObject(3, entity.getOrderDate());
@@ -148,7 +154,8 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
     /**
      * Set {@link Order} instance data to execute update prepared statement.
      * Tempalte method implementation for {@link Order} database entity.
-     * @param entity entity that need to update.
+     *
+     * @param entity                  entity that need to update.
      * @param updatePreparedStatement Made update entity prepared statement.
      * @throws SQLException when database exception occurs.
      */
@@ -164,6 +171,7 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
     /**
      * Finds and returns result of find orders by passed {@link Book} instance.
      * Returns orders that have passed book.
+     *
      * @param book {@link Book} whose order need to be found
      * @return found passed book orders.
      */
@@ -174,6 +182,7 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
 
     /**
      * Finds and returns result of find orders by passed {@link LocalDate} instance.
+     *
      * @param orderDate {@link LocalDate} by what need to find orders.
      * @return found orders with passed order date.
      */
@@ -184,6 +193,7 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
 
     /**
      * Finds and returnds result of find orders by passed {@link User} instance.
+     *
      * @param user {@link User} whose orders need to be found.
      * @return found orders that have passed user.
      */
@@ -195,6 +205,7 @@ public class MySQLOrderDao extends AbstractDao<Order> implements OrderDao {
     /**
      * Nested class that encapsulates single {@link MySQLOrderDao} instance.
      * Singleton pattern variation.
+     *
      * @see "Singleton pattern"
      */
     private static class Singleton {

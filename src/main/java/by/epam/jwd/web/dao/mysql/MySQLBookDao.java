@@ -30,9 +30,11 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
     private static final String UPDATE_SQL = "update book set name = ?, author = ?, genre_id = ?, date = ?, pages_amount = ?, copies_amount = ?, text = ?, likes_amount = ?, comments_amount = ? where id = ?";
     private static final String DELETE_SQL = "delete from book where id = ?";
 
+    private static final String FIND_PAGE_SQL_TEMPLATE = "%s order by book.name limit ?, ?";
     private static final String FIND_BY_NAME_TEMPLATE = "%s where book.name like ? order by book.name";
     private static final String FIND_BY_AUTHOR_NAME_TEMPLATE = "%s where book.author = ? order by book.name";
     private static final String FIND_BY_GENRE_TEMPLATE = "%s where genre.id = ? order by book.name";
+    private static final String FIND_PAGE_SQL = String.format(FIND_PAGE_SQL_TEMPLATE, FIND_ALL_SQL);
     private static final String FIND_BY_NAME_SQL = String.format(FIND_BY_NAME_TEMPLATE, FIND_ALL_SQL);
     private static final String FIND_BY_AUTHOR_NAME_SQL = String.format(FIND_BY_AUTHOR_NAME_TEMPLATE, FIND_ALL_SQL);
     private static final String FIND_BY_GENRE_SQL = String.format(FIND_BY_GENRE_TEMPLATE, FIND_ALL_SQL);
@@ -49,7 +51,7 @@ public class MySQLBookDao extends AbstractDao<Book> implements BookDao {
     private static final String BOOK_COMMENTS_AMOUNT_COLUMN = "book.comments_amount";
 
     private MySQLBookDao() {
-        super(TABLE_NAME, FIND_ALL_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL, BOOK_NAME_COLUMN);
+        super(TABLE_NAME, FIND_ALL_SQL, FIND_PAGE_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
     }
 
     /**

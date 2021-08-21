@@ -49,7 +49,7 @@ public interface Dao<T extends DbEntity> {
     Optional<T> findById(Long id);
 
     /**
-     * Finds page from database table to implement pagination.
+     * Finds page from database table to implement pagination in table defined order.
      * Uses limit sql statement to entities in page form.
      * @throws by.epam.jwd.web.exception.DAOException when exception in dao layer occurs
      * @param pageNumber number of needed entities page

@@ -39,14 +39,13 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
     private static final String PREPARED_FIND_SQL_EXCEPTION_MESSAGE = "Find prepared sql execution exception";
 
     private static final String FIND_BY_ID_SQL_TEMPLATE = "%s where %s.id = ?";
-    private static final String FIND_PAGE_SQL_TEMPLATE = "%s order by %s limit ?, ?";
     private static final String RECORDS_AMOUNT_SQL_TEMPLATE = "select count(*) from %s";
 
     private static final int RECORDS_PER_PAGE = 5;
 
     private final String findAllSql;
-    private final String findByIdSql;
     private final String findPageSql;
+    private final String findByIdSql;
     private final String deleteSql;
     private final String saveSql;
     private final String updateSql;
@@ -61,13 +60,13 @@ public abstract class AbstractDao<T extends DbEntity> implements Dao<T> {
      * @param updateSql  SQL statement to update saved entity in table
      * @param deleteSql  SQL statement to delete entity in table
      */
-    public AbstractDao(String tableName, String findAllSql, String saveSql, String updateSql, String deleteSql, String orderColumn) {
+    public AbstractDao(String tableName, String findAllSql, String findPageSql, String saveSql, String updateSql, String deleteSql) {
         this.findAllSql = findAllSql;
+        this.findPageSql = findPageSql;
         this.saveSql = saveSql;
         this.updateSql = updateSql;
         this.deleteSql = deleteSql;
         this.findByIdSql = String.format(FIND_BY_ID_SQL_TEMPLATE, findAllSql, tableName);
-        this.findPageSql = String.format(FIND_PAGE_SQL_TEMPLATE, findAllSql, orderColumn);
         this.countSql = String.format(RECORDS_AMOUNT_SQL_TEMPLATE, tableName);
     }
 

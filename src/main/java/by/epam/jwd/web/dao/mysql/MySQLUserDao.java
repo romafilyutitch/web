@@ -32,6 +32,8 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
 
     private static final String FIND_BY_LOGIN_TEMPLATE = "%s where user.login = ?";
     private static final String FIND_BY_ROLE_TEMPLATE = "%s where role.id = ?";
+    private static final String FIND_PAGE_SQL_TEMPLATE = "%s order by user.login limit ?, ?";
+    private static final String FIND_PAGE_SQL = String.format(FIND_PAGE_SQL_TEMPLATE, FIND_ALL_SQL);
     private static final String FIND_BY_LOGIN_SQL = String.format(FIND_BY_LOGIN_TEMPLATE, FIND_ALL_SQL);
     private static final String FIND_BY_ROLE_SQL = String.format(FIND_BY_ROLE_TEMPLATE, FIND_ALL_SQL);
 
@@ -44,7 +46,7 @@ public class MySQLUserDao extends AbstractDao<User> implements UserDao {
     private static final String SUBSCRIPTION_END_DATE_COLUMN = "subscription.end_date";
 
     private MySQLUserDao() {
-        super(TABLE_NAME, FIND_ALL_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL, USER_LOGIN_COLUMN);
+        super(TABLE_NAME, FIND_ALL_SQL, FIND_PAGE_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
     }
 
     /**

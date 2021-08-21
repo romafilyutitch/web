@@ -26,9 +26,10 @@ public class MySQLSubscriptionDao extends AbstractDao<Subscription> implements S
     private static final String UPDATE_SQL = "update subscription set start_date = ?, end_date = ? where id = ?";
     private static final String DELETE_SQL = "delete from subscription where id = ?";
 
-
     private static final String FIND_BY_START_DATE_TEMPLATE = "%s where subscription.start_date = ?";
     private static final String FIND_BY_END_DATE_TEMPLATE = "%s where subscription.end_date = ?";
+    private static final String FIND_PAGE_SQL_TEMPLATE = "%s order by subscription.start_date limit ?, ?";
+    private static final String FIND_PAGE_SQL = String.format(FIND_PAGE_SQL_TEMPLATE, FIND_ALL_SQL);
     private static final String FIND_BY_START_DATE_SQL = String.format(FIND_BY_START_DATE_TEMPLATE, FIND_ALL_SQL);
     private static final String FIND_BY_END_DATE_SQL = String.format(FIND_BY_END_DATE_TEMPLATE, FIND_ALL_SQL);
 
@@ -38,7 +39,7 @@ public class MySQLSubscriptionDao extends AbstractDao<Subscription> implements S
 
 
     private MySQLSubscriptionDao() {
-        super(TABLE_NAME, FIND_ALL_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL, SUBSCRIPTION_START_DATE_COLUMN);
+        super(TABLE_NAME, FIND_ALL_SQL, FIND_PAGE_SQL, SAVE_SQL, UPDATE_SQL, DELETE_SQL);
     }
 
     /**
