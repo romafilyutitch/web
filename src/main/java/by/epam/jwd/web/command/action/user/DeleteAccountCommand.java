@@ -4,8 +4,7 @@ import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.resource.CommandManager;
 import by.epam.jwd.web.resource.MessageManager;
-import by.epam.jwd.web.service.api.ServiceFactory;
-import by.epam.jwd.web.service.api.UserService;
+import by.epam.jwd.web.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,7 +17,7 @@ import javax.servlet.http.HttpSession;
  * @since 1.0
  */
 public class DeleteAccountCommand implements ActionCommand {
-    private final UserService userService = ServiceFactory.getInstance().getUserService();
+    private final UserService userService = UserService.getInstance();
 
     private static final String REQUEST_MESSAGE_ATTRIBUTE_KEY = "message";
     private static final String SESSION_USER_ATTRIBUTE_KEY = "user";

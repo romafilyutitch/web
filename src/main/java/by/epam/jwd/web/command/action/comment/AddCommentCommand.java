@@ -6,11 +6,9 @@ import by.epam.jwd.web.model.Comment;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.resource.CommandManager;
 import by.epam.jwd.web.resource.MessageManager;
-import by.epam.jwd.web.service.api.BookService;
-import by.epam.jwd.web.service.api.CommentService;
-import by.epam.jwd.web.service.api.ServiceFactory;
+import by.epam.jwd.web.service.BookService;
+import by.epam.jwd.web.service.CommentService;
 import by.epam.jwd.web.validation.Validation;
-import by.epam.jwd.web.validation.ValidationFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,14 +17,15 @@ import java.util.List;
 
 /**
  * Executes command that is add new {@link Comment} to {@link Book}.
+ *
  * @author roma0
  * @version 1.0
  * @since 1.0
  */
 public class AddCommentCommand implements ActionCommand {
-    private final BookService bookService = ServiceFactory.getInstance().getBookService();
-    private final CommentService commentService = ServiceFactory.getInstance().getCommentService();
-    private final Validation<Comment> commentValidation = ValidationFactory.getInstance().getCommentValidation();
+    private final BookService bookService = BookService.getInstance();
+    private final CommentService commentService = CommentService.getInstance();
+    private final Validation<Comment> commentValidation = Validation.getCommentValidation();
 
     private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
     private static final String REQUEST_BOOK_ID_PARAMETER_KEY = "bookId";
@@ -39,6 +38,7 @@ public class AddCommentCommand implements ActionCommand {
 
     /**
      * Gets single class instance from singleton class.
+     *
      * @return class instance.
      */
     public static AddCommentCommand getInstance() {
@@ -48,6 +48,7 @@ public class AddCommentCommand implements ActionCommand {
     /**
      * Added new {@link Comment} to {@link Book}.
      * Request must have comments data from user.
+     *
      * @param request request that need to be execute.
      * @return main command for forward.
      */
@@ -76,6 +77,7 @@ public class AddCommentCommand implements ActionCommand {
     /**
      * Nested class that encapsulates single {@link AddCommentCommand} instance.
      * Singleton pattern variation.
+     *
      * @see "Singleton pattern"
      */
     private static class Singleton {

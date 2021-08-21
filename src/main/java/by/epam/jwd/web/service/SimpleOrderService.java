@@ -1,14 +1,12 @@
-package by.epam.jwd.web.service.impl;
+package by.epam.jwd.web.service;
 
 import by.epam.jwd.web.dao.DAOFactory;
 import by.epam.jwd.web.dao.OrderDao;
-import by.epam.jwd.web.service.ServiceException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.model.Status;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.service.api.OrderService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,11 +17,12 @@ import java.util.Optional;
 /**
  * Service implementation for order service interface.
  * Makes all operation related with book order.
+ *
  * @author roma0
  * @version 1.0
  * @since 1.0
  */
-public class SimpleOrderService implements OrderService {
+class SimpleOrderService implements OrderService {
     private static final Logger logger = LogManager.getLogger(SimpleOrderService.class);
 
     private final OrderDao orderDao = DAOFactory.getFactory().getOrderDao();
@@ -44,6 +43,7 @@ public class SimpleOrderService implements OrderService {
 
     /**
      * Gets single class instance from nested class.
+     *
      * @return class instance.
      */
     public static SimpleOrderService getInstance() {
@@ -52,6 +52,7 @@ public class SimpleOrderService implements OrderService {
 
     /**
      * Finds and returns result of find all orders.
+     *
      * @return all saved orders collection.
      */
     @Override
@@ -68,6 +69,7 @@ public class SimpleOrderService implements OrderService {
      * order and read book at once. If order date not matches in user
      * subscription range or user dont have subscription then user have to
      * make order and wait for approve by librarian or admin.
+     *
      * @param order that need to be saved.
      * @return saved order with assigned id.
      */
@@ -90,10 +92,11 @@ public class SimpleOrderService implements OrderService {
 
     /**
      * Finds orders on passed page.
-     * @throws IllegalArgumentException if passed page number is negative or
-     * passed page number is greater then pages amount
+     *
      * @param currentPage number entities page that need to be found.
      * @return orders on passed page collection.
+     * @throws IllegalArgumentException if passed page number is negative or
+     *                                  passed page number is greater then pages amount
      */
     @Override
     public List<Order> findPage(int currentPage) {
@@ -107,6 +110,7 @@ public class SimpleOrderService implements OrderService {
 
     /**
      * Calculates saved orders pages amount.
+     *
      * @return pages amount.
      */
     @Override
@@ -116,6 +120,7 @@ public class SimpleOrderService implements OrderService {
 
     /**
      * Makes order approve of passed order.
+     *
      * @param order order that need to approve.
      */
     @Override
@@ -127,6 +132,7 @@ public class SimpleOrderService implements OrderService {
 
     /**
      * Deletes saved order
+     *
      * @param order Order that need to be deleted.
      */
     @Override
@@ -137,6 +143,7 @@ public class SimpleOrderService implements OrderService {
 
     /**
      * Makes order return of passed order.
+     *
      * @param order order that need to return.
      */
     @Override
@@ -148,6 +155,7 @@ public class SimpleOrderService implements OrderService {
 
     /**
      * Finds and returns result of find orders that passed user made.
+     *
      * @param user whose orders need to be found.
      * @return orders that passed user made collection.
      */
@@ -160,6 +168,7 @@ public class SimpleOrderService implements OrderService {
 
     /**
      * Finds and returns result of find orders that have passed book.
+     *
      * @param book which orders need to be found.
      * @return orders that have passed book collection.
      */
@@ -172,6 +181,7 @@ public class SimpleOrderService implements OrderService {
 
     /**
      * Finds saved order that has passed id.
+     *
      * @param orderId order that has passed id.
      * @return order that has passed id.
      */
@@ -190,6 +200,7 @@ public class SimpleOrderService implements OrderService {
     /**
      * Nested class that encapsulates single {@link SimpleOrderService} instance.
      * Singleton pattern variation.
+     *
      * @see "Singleton pattern"
      */
     private static class Singleton {

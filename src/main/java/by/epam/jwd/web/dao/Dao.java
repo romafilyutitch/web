@@ -2,9 +2,8 @@ package by.epam.jwd.web.dao;
 
 
 
-import by.epam.jwd.web.dao.DAOException;
 import by.epam.jwd.web.model.DbEntity;
-import by.epam.jwd.web.service.api.Service;
+import by.epam.jwd.web.service.Service;
 
 import java.util.List;
 import java.util.Optional;

@@ -3,20 +3,20 @@ package by.epam.jwd.web.command.navigation;
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.resource.PathManager;
-import by.epam.jwd.web.service.api.ServiceFactory;
-import by.epam.jwd.web.service.api.UserService;
+import by.epam.jwd.web.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
  * Executes command that is find users page and form users page path to forward.
+ *
  * @author roma0
  * @version 1.0
  * @since 1.0
  */
 public class ShowUsersListCommand implements ActionCommand {
-    private final UserService userService = ServiceFactory.getInstance().getUserService();
+    private final UserService userService = UserService.getInstance();
 
     private static final String REQUEST_PAGE_PARAMETER_KEY = "page";
     private static final String REQUEST_USERS_ATTRIBUTE_KEY = "users";
@@ -28,6 +28,7 @@ public class ShowUsersListCommand implements ActionCommand {
 
     /**
      * Gets single class instance from nested class.
+     *
      * @return class instance.
      */
     public static ShowUsersListCommand getInstance() {
@@ -37,6 +38,7 @@ public class ShowUsersListCommand implements ActionCommand {
     /**
      * Forms users page if page number passed from request or first user page
      * otherwise and forms users page path to forward.
+     *
      * @param request request that need to be execute.
      * @return users page path for forward.
      */
@@ -59,6 +61,7 @@ public class ShowUsersListCommand implements ActionCommand {
     /**
      * Nested class that encapsulates single {@link ShowUsersListCommand} instance.
      * Singleton pattern variation.
+     *
      * @see "Singleton pattern"
      */
     private static class Singleton {

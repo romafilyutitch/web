@@ -1,8 +1,7 @@
-package by.epam.jwd.web.service.api;
+package by.epam.jwd.web.service;
 
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Comment;
-import by.epam.jwd.web.service.impl.SimpleCommentService;
 
 import java.util.List;
 

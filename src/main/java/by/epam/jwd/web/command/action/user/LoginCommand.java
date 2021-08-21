@@ -1,29 +1,29 @@
 package by.epam.jwd.web.command.action.user;
 
 import by.epam.jwd.web.command.ActionCommand;
+import by.epam.jwd.web.model.User;
+import by.epam.jwd.web.resource.MessageManager;
+import by.epam.jwd.web.resource.PathManager;
+import by.epam.jwd.web.service.UserService;
 import by.epam.jwd.web.service.WrongLoginException;
 import by.epam.jwd.web.service.WrongPasswordException;
-import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.resource.PathManager;
-import by.epam.jwd.web.resource.MessageManager;
-import by.epam.jwd.web.service.api.ServiceFactory;
-import by.epam.jwd.web.service.api.UserService;
 import by.epam.jwd.web.validation.Validation;
-import by.epam.jwd.web.validation.ValidationFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Executes command that is validation login data and login user.
+ *
  * @author roma0
  * @version 1.0
  * @since 1.0
  */
 public class LoginCommand implements ActionCommand {
-    private final UserService userService = ServiceFactory.getInstance().getUserService();
-    private final Validation<User> userValidation = ValidationFactory.getInstance().getUserValidation();
+    private final UserService userService = UserService.getInstance();
+    private final Validation<User> userValidation = Validation.getUserValidation();
 
     private static final String REQUEST_LOGIN_PARAMETER_KEY = "login";
     private static final String REQUEST_PASSWORD_PARAMETER_KEY = "password";
@@ -39,6 +39,7 @@ public class LoginCommand implements ActionCommand {
 
     /**
      * Gets single class instance from nested class.
+     *
      * @return class instance.
      */
     public static LoginCommand getInstance() {
@@ -49,6 +50,7 @@ public class LoginCommand implements ActionCommand {
      * Validates user login data an make user login.
      * Request must have user login and user password.
      * Don't login user if user login data is invalid.
+     *
      * @param request request that need to be execute.
      * @return login page path for forward.
      */
@@ -57,6 +59,11 @@ public class LoginCommand implements ActionCommand {
         final String login = request.getParameter(REQUEST_LOGIN_PARAMETER_KEY);
         final String password = request.getParameter(REQUEST_PASSWORD_PARAMETER_KEY);
         final User user = new User(login, password);
+        final List<String> validateMessages = userValidation.validate(user);
+        if (!validateMessages.isEmpty()) {
+            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, validateMessages);
+            return PathManager.getLoginPagePath();
+        }
         try {
             final User savedUser = userService.login(user);
             final HttpSession session = request.getSession();
@@ -74,6 +81,7 @@ public class LoginCommand implements ActionCommand {
     /**
      * Nested class that encapsulates single {@link LoginCommand} instance.
      * Singleton pattern variation.
+     *
      * @see "Singleton pattern"
      */
     private static class Singleton {

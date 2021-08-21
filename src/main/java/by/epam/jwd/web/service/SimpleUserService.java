@@ -1,17 +1,12 @@
-package by.epam.jwd.web.service.impl;
+package by.epam.jwd.web.service;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import by.epam.jwd.web.dao.DAOFactory;
 import by.epam.jwd.web.dao.SubscriptionDao;
 import by.epam.jwd.web.dao.UserDao;
-import by.epam.jwd.web.service.ServiceException;
-import by.epam.jwd.web.service.UserWithLoginExistsException;
-import by.epam.jwd.web.service.WrongLoginException;
-import by.epam.jwd.web.service.WrongPasswordException;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.model.UserRole;
-import by.epam.jwd.web.service.api.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,11 +16,12 @@ import java.util.Optional;
 /**
  * Service implementation for user service interface.
  * Makes all operations related with user.
+ *
  * @author roma0
  * @version 1.0
  * @since 1.0
  */
-public class SimpleUserService implements UserService {
+class SimpleUserService implements UserService {
     private static final Logger logger = LogManager.getLogger(SimpleUserService.class);
 
     private final UserDao userDao = DAOFactory.getFactory().getUserDao();
@@ -57,6 +53,7 @@ public class SimpleUserService implements UserService {
 
     /**
      * Gets single class instance from nested class.
+     *
      * @return class instance.
      */
     public static SimpleUserService getInstance() {
@@ -65,6 +62,7 @@ public class SimpleUserService implements UserService {
 
     /**
      * Finds and returns result of find all saved users.
+     *
      * @return all saved users collection.
      */
     @Override
@@ -76,6 +74,7 @@ public class SimpleUserService implements UserService {
 
     /**
      * Finds and returns result of find user that has passed login.
+     *
      * @param login login of user that need to be found.
      * @return found user if there is user that has passed login or
      * empty optional otherwise.
@@ -93,9 +92,10 @@ public class SimpleUserService implements UserService {
 
     /**
      * Makes saved user login.
+     *
      * @param user user that need to be logged in.
      * @return user that has been logged in.
-     * @throws WrongLoginException when there is no user with passed login.
+     * @throws WrongLoginException    when there is no user with passed login.
      * @throws WrongPasswordException when wrong password was entered.
      */
     @Override
@@ -117,10 +117,11 @@ public class SimpleUserService implements UserService {
 
     /**
      * Finds users on passed page.
-     * @throws IllegalArgumentException when passed page number is negative or
-     * passed page number is greater then pages amount.
+     *
      * @param currentPage number entities page that need to be found.
      * @return users on passed page.
+     * @throws IllegalArgumentException when passed page number is negative or
+     *                                  passed page number is greater then pages amount.
      */
     @Override
     public List<User> findPage(int currentPage) {
@@ -134,6 +135,7 @@ public class SimpleUserService implements UserService {
 
     /**
      * Calculates current saved users page amount.
+     *
      * @return saved users pages amount.
      */
     @Override
@@ -143,6 +145,7 @@ public class SimpleUserService implements UserService {
 
     /**
      * Saved user and assigns genrates id to saved user.
+     *
      * @param user that need to be saved.
      * @return saved user with assigned id.
      */
@@ -156,9 +159,10 @@ public class SimpleUserService implements UserService {
 
     /**
      * Finds and returns result of find saved user by passed id.
-     * @throws ServiceException when saved user in not found by id.
+     *
      * @param userId of found user.
      * @return user that has passed id.
+     * @throws ServiceException when saved user in not found by id.
      */
     @Override
     public User findById(Long userId) {
@@ -174,6 +178,7 @@ public class SimpleUserService implements UserService {
 
     /**
      * Makes user role promotion.
+     *
      * @param user whose role need to promote.
      */
     @Override
@@ -186,6 +191,7 @@ public class SimpleUserService implements UserService {
 
     /**
      * Makes user role demotion.
+     *
      * @param user whose role need to demote.
      */
     @Override
@@ -198,6 +204,7 @@ public class SimpleUserService implements UserService {
 
     /**
      * Deletes saved user.
+     *
      * @param user User that need to be deleted.
      */
     @Override
@@ -208,7 +215,8 @@ public class SimpleUserService implements UserService {
 
     /**
      * Sets new subscription to user.
-     * @param user to who need set subscription.
+     *
+     * @param user            to who need set subscription.
      * @param newSubscription subscription that need to be set to user.
      */
     @Override
@@ -221,7 +229,8 @@ public class SimpleUserService implements UserService {
 
     /**
      * Makes login change
-     * @param user user whose login need to be changed.
+     *
+     * @param user     user whose login need to be changed.
      * @param newLogin new login that need to set to passed user.
      * @return user with change login.
      * @throws UserWithLoginExistsException when there is another user with entered login.
@@ -241,7 +250,8 @@ public class SimpleUserService implements UserService {
 
     /**
      * Makes change user password.
-     * @param user user whose password need to be changed.
+     *
+     * @param user        user whose password need to be changed.
      * @param newPassword new password that need to be set to passed user.
      * @return user with changed password.
      */
@@ -257,6 +267,7 @@ public class SimpleUserService implements UserService {
     /**
      * Nested class that encapsulates single {@link SimpleUserService} instance.
      * Singleton pattern variation.
+     *
      * @see "Singleton pattern"
      */
     private static class Singleton {

@@ -1,4 +1,4 @@
-package by.epam.jwd.web.service.api;
+package by.epam.jwd.web.service;
 
 import by.epam.jwd.web.model.DbEntity;
 import by.epam.jwd.web.service.ServiceException;

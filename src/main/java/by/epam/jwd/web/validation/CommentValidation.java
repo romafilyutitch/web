@@ -1,8 +1,7 @@
-package by.epam.jwd.web.validation.impl;
+package by.epam.jwd.web.validation;
 
 import by.epam.jwd.web.model.Comment;
 import by.epam.jwd.web.resource.MessageManager;
-import by.epam.jwd.web.validation.Validation;
 
 import java.util.ArrayList;
 import java.util.List;

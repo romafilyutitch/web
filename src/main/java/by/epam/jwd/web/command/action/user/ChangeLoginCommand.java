@@ -1,12 +1,11 @@
 package by.epam.jwd.web.command.action.user;
 
 import by.epam.jwd.web.command.ActionCommand;
-import by.epam.jwd.web.service.UserWithLoginExistsException;
 import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.resource.MessageManager;
-import by.epam.jwd.web.service.api.ServiceFactory;
-import by.epam.jwd.web.service.api.UserService;
+import by.epam.jwd.web.resource.PathManager;
+import by.epam.jwd.web.service.UserWithLoginExistsException;
+import by.epam.jwd.web.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,7 +17,7 @@ import javax.servlet.http.HttpSession;
  * @since 1.0
  */
 public class ChangeLoginCommand implements ActionCommand {
-    private final UserService userService = ServiceFactory.getInstance().getUserService();
+    private final UserService userService = UserService.getInstance();
 
     private static final String REQUEST_USER_LOGIN_PARAMETER_KEY = "login";
     private static final String REQUEST_MESSAGE_ATTRIBUTE_KEY = "message";

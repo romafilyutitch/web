@@ -4,8 +4,7 @@ import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.Comment;
 import by.epam.jwd.web.resource.CommandManager;
 import by.epam.jwd.web.resource.MessageManager;
-import by.epam.jwd.web.service.api.CommentService;
-import by.epam.jwd.web.service.api.ServiceFactory;
+import by.epam.jwd.web.service.CommentService;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
  * @since 1.0
  */
 public class DeleteCommentCommand implements ActionCommand {
-    private final CommentService commentService = ServiceFactory.getInstance().getCommentService();
+    private final CommentService commentService = CommentService.getInstance();
 
     private static final String REQUEST_COMMENT_ID_PARAMETER_KEY = "id";
     private static final String REQUEST_MESSAGE_ATTRIBUTE_KEY = "message";

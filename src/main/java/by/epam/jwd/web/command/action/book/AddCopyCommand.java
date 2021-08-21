@@ -4,8 +4,7 @@ import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.resource.CommandManager;
 import by.epam.jwd.web.resource.MessageManager;
-import by.epam.jwd.web.service.api.BookService;
-import by.epam.jwd.web.service.api.ServiceFactory;
+import by.epam.jwd.web.service.BookService;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
  * @since 1.0
  */
 public class AddCopyCommand implements ActionCommand {
-    private final BookService bookService = ServiceFactory.getInstance().getBookService();
+    private final BookService bookService = BookService.getInstance();
 
     private static final String REQUEST_BOOK_ID_PARAMETER_KEY = "id";
     private static final String REQUEST_MESSAGE_ATTRIBUTE_KEY = "message";

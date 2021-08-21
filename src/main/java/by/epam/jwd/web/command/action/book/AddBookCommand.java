@@ -5,10 +5,8 @@ import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
 import by.epam.jwd.web.resource.CommandManager;
 import by.epam.jwd.web.resource.MessageManager;
-import by.epam.jwd.web.service.api.BookService;
-import by.epam.jwd.web.service.api.ServiceFactory;
+import by.epam.jwd.web.service.BookService;
 import by.epam.jwd.web.validation.Validation;
-import by.epam.jwd.web.validation.ValidationFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -22,8 +20,8 @@ import java.util.List;
  * @since 1.0
  */
 public class AddBookCommand implements ActionCommand {
-    private final BookService bookService = ServiceFactory.getInstance().getBookService();
-    private final Validation<Book> bookValidation = ValidationFactory.getInstance().getBookValidation();
+    private final BookService bookService = BookService.getInstance();
+    private final Validation<Book> bookValidation = Validation.getBookValidation();
 
     private static final String REQUEST_NAME_PARAMETER_KEY = "name";
     private static final String REQUEST_AUTHOR_PARAMETER_KEY = "author";

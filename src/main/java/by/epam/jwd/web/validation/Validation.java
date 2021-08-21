@@ -5,10 +5,6 @@ import by.epam.jwd.web.model.Comment;
 import by.epam.jwd.web.model.DbEntity;
 import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.validation.impl.BookValidation;
-import by.epam.jwd.web.validation.impl.CommentValidation;
-import by.epam.jwd.web.validation.impl.SubscriptionValidation;
-import by.epam.jwd.web.validation.impl.UserValidation;
 
 import java.util.List;
 
@@ -25,9 +21,43 @@ public interface Validation<T extends DbEntity> {
     /**
      * Makes entity validation and forms invalid messages.
      * If invalid message list is empty thar means that entity is
-     * valid.
+     * valid. Empty messages list will be returned if validated entity
+     * is valid or not empty message list will be returned otherwise.
      * @param entity entity that need to be validated.
-     * @return list of invalid messages.
+     * @return list of invalid messages. If entity is valid then empty list will be returned.
+     * Not empty list will be returned if validated entity is invalid.
      */
     List<String> validate(T entity);
+
+    /**
+     * Returns validation for user what makes possible to validate user
+     * @return validation for user.
+     */
+    static Validation<User> getUserValidation() {
+        return UserValidation.getInstance();
+    }
+
+    /**
+     * Returns validation for book what makes possible to validate book
+     * @return validation for book
+     */
+    static Validation<Book> getBookValidation() {
+        return BookValidation.getInstance();
+    }
+
+    /**
+     * Returns validation for subscription what makes possible to validate subscription
+     * @return validation for subscription
+     */
+    static Validation<Subscription> getSubscriptionValidation() {
+        return SubscriptionValidation.getInstance();
+    }
+
+    /**
+     * Returns validation for comment what makes possible to validate comment
+     * @return validation for comment
+     */
+    static Validation<Comment> getCommentValidation() {
+        return CommentValidation.getInstance();
+    }
 }

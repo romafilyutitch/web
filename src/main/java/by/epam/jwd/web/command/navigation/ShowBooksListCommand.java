@@ -4,20 +4,20 @@ import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
 import by.epam.jwd.web.resource.PathManager;
-import by.epam.jwd.web.service.api.BookService;
-import by.epam.jwd.web.service.api.ServiceFactory;
+import by.epam.jwd.web.service.BookService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
  * Executes command that is get books and forward to books page.
+ *
  * @author roma0
  * @version 1.0
  * @since 1.0
  */
 public class ShowBooksListCommand implements ActionCommand {
-    private final BookService bookService = ServiceFactory.getInstance().getBookService();
+    private final BookService bookService = BookService.getInstance();
 
     private static final String REQUEST_PAGE_PARAMETER_KEY = "page";
     private static final String REQUEST_GENRES_ATTRIBUTE_KEY = "genres";
@@ -30,6 +30,7 @@ public class ShowBooksListCommand implements ActionCommand {
 
     /**
      * Gets single class instance from nested class.
+     *
      * @return class instance.
      */
     public static ShowBooksListCommand getInstance() {
@@ -39,6 +40,7 @@ public class ShowBooksListCommand implements ActionCommand {
     /**
      * Get books page from service if page number is passed or first page
      * otherwise and returns books page to forward.
+     *
      * @param request request that need to be execute.
      * @return books page for forward.
      */
@@ -62,6 +64,7 @@ public class ShowBooksListCommand implements ActionCommand {
     /**
      * Nested class that encapsulates single {@link ShowBooksListCommand} instance.
      * Singleton pattern variation.
+     *
      * @see "Singleton pattern"
      */
     private static class Singleton {

@@ -2,12 +2,10 @@ package by.epam.jwd.web.command.action.user;
 
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.resource.MessageManager;
-import by.epam.jwd.web.service.api.ServiceFactory;
-import by.epam.jwd.web.service.api.UserService;
+import by.epam.jwd.web.resource.PathManager;
+import by.epam.jwd.web.service.UserService;
 import by.epam.jwd.web.validation.Validation;
-import by.epam.jwd.web.validation.ValidationFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,13 +14,14 @@ import java.util.Optional;
 
 /**
  * Executes command that is validation user register data and register new user.
+ *
  * @author roma0
  * @version 1.0
  * @since 1.0
  */
 public class RegisterCommand implements ActionCommand {
-    private final UserService userService = ServiceFactory.getInstance().getUserService();
-    private final Validation<User> userValidation = ValidationFactory.getInstance().getUserValidation();
+    private final UserService userService = UserService.getInstance();
+    private final Validation<User> userValidation = Validation.getUserValidation();
 
     private static final String REQUEST_LOGIN_PARAMETER_KEY = "login";
     private static final String REQUEST_PASSWORD_PARAMETER_KEY = "password";
@@ -36,6 +35,7 @@ public class RegisterCommand implements ActionCommand {
 
     /**
      * Gets single class instance from nested class.
+     *
      * @return class instance.
      */
     public static RegisterCommand getInstance() {
@@ -45,6 +45,7 @@ public class RegisterCommand implements ActionCommand {
     /**
      * Validates register user data and register new user
      * if data is valid or not register user otherwise.
+     *
      * @param request request that need to be execute.
      * @return register page path for forward.
      */
@@ -73,6 +74,7 @@ public class RegisterCommand implements ActionCommand {
     /**
      * Nested class that encapsulates {@link RegisterCommand} instance.
      * Singleton pattern variation.
+     *
      * @see "Singleton pattern"
      */
     private static class Singleton {

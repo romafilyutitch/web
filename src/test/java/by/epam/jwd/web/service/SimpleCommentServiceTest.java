@@ -6,11 +6,6 @@ import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Comment;
 import by.epam.jwd.web.model.Genre;
 import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.service.api.CommentService;
-import by.epam.jwd.web.service.api.ServiceFactory;
-import by.epam.jwd.web.service.impl.SimpleBookService;
-import by.epam.jwd.web.service.impl.SimpleCommentService;
-import by.epam.jwd.web.service.impl.SimpleUserService;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -26,9 +21,9 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 public class SimpleCommentServiceTest {
-    private final CommentService testService = ServiceFactory.getInstance().getCommentService();
+    private final CommentService testService = CommentService.getInstance();
     private User testUser = new User("login", "login");
-    private Book testBook = new Book("book", "book", Genre.FANTASY, 1, "tesxt");
+    private Book testBook = new Book("book", "book", Genre.FANTASY, 1, "text");
     private Comment testComment;
 
     @BeforeClass
@@ -42,7 +37,7 @@ public class SimpleCommentServiceTest {
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         testUser = SimpleUserService.getInstance().save(testUser);
         testBook = SimpleBookService.getInstance().save(testBook);
         testComment = new Comment(testUser, testBook, "text text");
@@ -50,7 +45,7 @@ public class SimpleCommentServiceTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         testService.delete(testComment);
         SimpleUserService.getInstance().delete(testUser);
         SimpleBookService.getInstance().delete(testBook);

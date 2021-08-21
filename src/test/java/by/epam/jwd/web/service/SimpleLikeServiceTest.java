@@ -6,11 +6,6 @@ import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
 import by.epam.jwd.web.model.Like;
 import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.service.api.LikeService;
-import by.epam.jwd.web.service.api.ServiceFactory;
-import by.epam.jwd.web.service.impl.SimpleBookService;
-import by.epam.jwd.web.service.impl.SimpleLikeService;
-import by.epam.jwd.web.service.impl.SimpleUserService;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -27,7 +22,7 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 public class SimpleLikeServiceTest {
-    private final LikeService testService = ServiceFactory.getInstance().getLikeService();
+    private final LikeService testService = LikeService.getInstance();
     private User testUser = new User("login", "user");
     private Book testBook = new Book("test book", "test book", Genre.FANTASY, 1, "text");
     private Like testLike;
@@ -44,7 +39,7 @@ public class SimpleLikeServiceTest {
 
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         testUser = SimpleUserService.getInstance().save(testUser);
         testBook = SimpleBookService.getInstance().save(testBook);
         testLike = new Like(testUser, testBook);
@@ -52,7 +47,7 @@ public class SimpleLikeServiceTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         testService.delete(testLike);
         SimpleUserService.getInstance().delete(testUser);
         SimpleBookService.getInstance().delete(testBook);

@@ -4,9 +4,8 @@ import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Comment;
 import by.epam.jwd.web.resource.PathManager;
-import by.epam.jwd.web.service.api.BookService;
-import by.epam.jwd.web.service.api.CommentService;
-import by.epam.jwd.web.service.api.ServiceFactory;
+import by.epam.jwd.web.service.BookService;
+import by.epam.jwd.web.service.CommentService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,13 +15,14 @@ import java.util.Locale;
 
 /**
  * Executes command that is forward to main page.
+ *
  * @author roma0
  * @version 1.0
  * @since 1.0
  */
 public class MainCommand implements ActionCommand {
-    private final BookService bookService = ServiceFactory.getInstance().getBookService();
-    private final CommentService commentService = ServiceFactory.getInstance().getCommentService();
+    private final BookService bookService = BookService.getInstance();
+    private final CommentService commentService = CommentService.getInstance();
 
     private static final String REQUEST_BOOKS_ATTRIBUTE_KEY = "books";
     private static final String REQUEST_PAGE_PARAMETER_KEY = "page";
@@ -31,10 +31,12 @@ public class MainCommand implements ActionCommand {
     private static final String REQUEST_PAGES_AMOUNT_ATTRIBUTE_KEY = "pagesAmount";
     private static final String SESSION_LANGUAGE_ATTRIBUTE_KEY = "language";
 
-    private MainCommand() {}
+    private MainCommand() {
+    }
 
     /**
      * Gets single class instance from nested class.
+     *
      * @return class instance.
      */
     public static MainCommand getInstance() {
@@ -44,6 +46,7 @@ public class MainCommand implements ActionCommand {
     /**
      * Gets first books page from service and their comments, sets language to english if
      * language is not set and returns main page path to forward.
+     *
      * @param request request that need to be execute.
      * @return main page path for forward.
      */
@@ -81,6 +84,7 @@ public class MainCommand implements ActionCommand {
     /**
      * Nested class that encapsulates single {@link MainCommand} instance.
      * Singleton pattern variation.
+     *
      * @see "Singleton pattern"
      */
     private static class Singleton {

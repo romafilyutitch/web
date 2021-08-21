@@ -1,12 +1,10 @@
-package by.epam.jwd.web.service.impl;
+package by.epam.jwd.web.service;
 
 import by.epam.jwd.web.dao.DAOFactory;
 import by.epam.jwd.web.dao.LikeDao;
-import by.epam.jwd.web.service.ServiceException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Like;
 import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.service.api.LikeService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,11 +14,12 @@ import java.util.Optional;
 /**
  * Service implementation for like service interface.
  * Makes all operations related to like.
+ *
  * @author roma0
  * @version 1.0
  * @since 1.0
  */
-public class SimpleLikeService implements LikeService {
+class SimpleLikeService implements LikeService {
     private static final Logger logger = LogManager.getLogger(SimpleLikeService.class);
     private static final String ALL_LIKES_WAS_FOUND_MESSAGE = "All likes was found size = %d";
     private static final String LIKES_PAGE_WAS_FOUND_MESSAGE = "Likes page number %d was found size = %d";
@@ -31,10 +30,12 @@ public class SimpleLikeService implements LikeService {
 
     private final LikeDao likeDao = DAOFactory.getFactory().getLikeDao();
 
-    private SimpleLikeService() {}
+    private SimpleLikeService() {
+    }
 
     /**
      * Gets single class instance from nested class.
+     *
      * @return class instance.
      */
     public static SimpleLikeService getInstance() {
@@ -43,6 +44,7 @@ public class SimpleLikeService implements LikeService {
 
     /**
      * Finds like that passed user added to passed book.
+     *
      * @param user user that add like to book.
      * @param book book which like was added by user to.
      * @return found like if there is like that passed user added to passed book
@@ -55,6 +57,7 @@ public class SimpleLikeService implements LikeService {
 
     /**
      * Finds and returns result of find all likes.
+     *
      * @return all saved likes collections.
      */
     @Override
@@ -66,10 +69,11 @@ public class SimpleLikeService implements LikeService {
 
     /**
      * Founds likes that is on passed page.
-     * @throws IllegalArgumentException when passed page number is negative
-     * or if passed page number is greater then current pages amount.
+     *
      * @param currentPage number entities page that need to be found.
      * @return found likes that is on passed page collection.
+     * @throws IllegalArgumentException when passed page number is negative
+     *                                  or if passed page number is greater then current pages amount.
      */
     @Override
     public List<Like> findPage(int currentPage) {
@@ -83,9 +87,10 @@ public class SimpleLikeService implements LikeService {
 
     /**
      * Find saved like by id.
-     * @throws ServiceException when saved like is not found by id.
+     *
      * @param likeId id of found entity.
      * @return found saved like that has passed id.
+     * @throws ServiceException when saved like is not found by id.
      */
     @Override
     public Like findById(Long likeId) {
@@ -101,6 +106,7 @@ public class SimpleLikeService implements LikeService {
 
     /**
      * Make save like and assigns generated id to saved like.
+     *
      * @param like that need to be saved.
      * @return saved like that has generated id.
      */
@@ -113,6 +119,7 @@ public class SimpleLikeService implements LikeService {
 
     /**
      * Deletes saved Like.
+     *
      * @param like Like that need to be deleted.
      */
     @Override
@@ -123,6 +130,7 @@ public class SimpleLikeService implements LikeService {
 
     /**
      * Calculates current like pages amount.
+     *
      * @return current pages amount.
      */
     @Override
@@ -133,6 +141,7 @@ public class SimpleLikeService implements LikeService {
     /**
      * Nested class that encapsulates single {@link SimpleLikeService} instance.
      * Singleton pattern variation.
+     *
      * @see "Singleton pattern"
      */
     private static class Singleton {

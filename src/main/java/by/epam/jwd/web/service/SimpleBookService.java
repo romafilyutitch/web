@@ -1,11 +1,9 @@
-package by.epam.jwd.web.service.impl;
+package by.epam.jwd.web.service;
 
 import by.epam.jwd.web.dao.BookDao;
 import by.epam.jwd.web.dao.DAOFactory;
-import by.epam.jwd.web.service.ServiceException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
-import by.epam.jwd.web.service.api.BookService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @version 1.0
  * @since 1.0
  */
-public class SimpleBookService implements BookService {
+class SimpleBookService implements BookService {
     private static final Logger logger = LogManager.getLogger(SimpleBookService.class);
 
     private final BookDao bookDao = DAOFactory.getFactory().getBookDao();
@@ -150,12 +148,13 @@ public class SimpleBookService implements BookService {
 
     /**
      * Deletes saved book that has passed by it's id
+     *
      * @param book book that need to be deleted.
      */
     @Override
     public void delete(Book book) {
         bookDao.delete(book.getId());
-        logger.info(String.format(BOOK_WAS_DELETED_MESSAGE,book));
+        logger.info(String.format(BOOK_WAS_DELETED_MESSAGE, book));
     }
 
     /**

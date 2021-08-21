@@ -5,10 +5,8 @@ import by.epam.jwd.web.model.Subscription;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.resource.CommandManager;
 import by.epam.jwd.web.resource.MessageManager;
-import by.epam.jwd.web.service.api.ServiceFactory;
-import by.epam.jwd.web.service.api.UserService;
+import by.epam.jwd.web.service.UserService;
 import by.epam.jwd.web.validation.Validation;
-import by.epam.jwd.web.validation.ValidationFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
@@ -18,20 +16,20 @@ import java.util.Locale;
 
 /**
  * Executes command that is set {@link Subscription} to definite {@link User}.
+ *
  * @author roma0
  * @version 1.0
  * @since 1.0
  */
 public class SetSubscriptionCommand implements ActionCommand {
-    private final UserService userService = ServiceFactory.getInstance().getUserService();
-    private final Validation<Subscription> subscriptionValidation = ValidationFactory.getInstance().getSubscriptionValidation();
+    private final UserService userService = UserService.getInstance();
+    private final Validation<Subscription> subscriptionValidation = Validation.getSubscriptionValidation();
 
     private static final String REQUEST_USER_ID_PARAMETER_KEY = "id";
     private static final String REQUEST_START_DATE_PARAMETER_KEY = "start_date";
     private static final String REQUEST_END_DATE_PARAMETER_KEY = "end_date";
     private static final String REQUEST_MESSAGE_ATTRIBUTE_KEY = "message";
     private static final String SUBSCRIPTION_REGISTERED_MESSAGE_KEY = "subscription.registered";
-    private static final String INVALID_SUBSCRIPTION_MESSAGE_KEY = "subscription.invalid";
 
     private static final String LOCAL_DATE_PARSE_PATTERN = "dd.MM.yyyy";
 
@@ -40,6 +38,7 @@ public class SetSubscriptionCommand implements ActionCommand {
 
     /**
      * Gets single class instance from nested class.
+     *
      * @return class instance.
      */
     public static SetSubscriptionCommand getInstance() {
@@ -50,6 +49,7 @@ public class SetSubscriptionCommand implements ActionCommand {
      * Sets subscription do definite in request {@link User}.
      * Request must contain id of user that need to set {@link Subscription}
      * and valid {@link Subscription} start date and end date.
+     *
      * @param request request that need to be execute.
      * @return show users command for forward.
      */
@@ -79,6 +79,7 @@ public class SetSubscriptionCommand implements ActionCommand {
     /**
      * Nested class that encapsulated single {@link SetSubscriptionCommand} instance.
      * Singleton pattern variation.
+     *
      * @see "Singleton pattern"
      */
     private static class Singleton {

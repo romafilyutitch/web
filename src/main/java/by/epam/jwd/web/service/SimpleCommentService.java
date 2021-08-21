@@ -1,11 +1,9 @@
-package by.epam.jwd.web.service.impl;
+package by.epam.jwd.web.service;
 
 import by.epam.jwd.web.dao.CommentDao;
 import by.epam.jwd.web.dao.DAOFactory;
-import by.epam.jwd.web.service.ServiceException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Comment;
-import by.epam.jwd.web.service.api.CommentService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,11 +13,12 @@ import java.util.Optional;
 /**
  * Service implementation for comment service interface.
  * Makes all operations related to comment.
+ *
  * @author roma0
  * @version 1.0
  * @since 1.0
  */
-public class SimpleCommentService implements CommentService {
+class SimpleCommentService implements CommentService {
     private static final Logger logger = LogManager.getLogger(SimpleCommentService.class);
 
     private static final String COMMENTS_BY_BOOK_WAS_FOUND_MESSAGE = "Comments by book %s was found size = %d";
@@ -33,10 +32,12 @@ public class SimpleCommentService implements CommentService {
     private final CommentDao commentDao = DAOFactory.getFactory().getCommentDao();
 
 
-    private SimpleCommentService() {}
+    private SimpleCommentService() {
+    }
 
     /**
      * Gets single class instance from nested class.
+     *
      * @return class instance.
      */
     public static SimpleCommentService getInstance() {
@@ -45,6 +46,7 @@ public class SimpleCommentService implements CommentService {
 
     /**
      * Finds comments that have passed book.
+     *
      * @param book which comments need to be found.
      * @return comments that have passed book collection.
      */
@@ -57,6 +59,7 @@ public class SimpleCommentService implements CommentService {
 
     /**
      * Finds and returns result of find all comments.
+     *
      * @return all found comments collection.
      */
     @Override
@@ -68,10 +71,11 @@ public class SimpleCommentService implements CommentService {
 
     /**
      * Finds saved comments that on passed page.
-     * @throws IllegalArgumentException if passed page number is negative
-     * of page number is greater then pages amount.
+     *
      * @param currentPage number entities page that need to be found.
      * @return comments on passed page collection.
+     * @throws IllegalArgumentException if passed page number is negative
+     *                                  of page number is greater then pages amount.
      */
     @Override
     public List<Comment> findPage(int currentPage) {
@@ -85,9 +89,10 @@ public class SimpleCommentService implements CommentService {
 
     /**
      * Finds and returns result of find saved comment that has passed id.
-     * @throws ServiceException when saved comment cannot be found by id.
+     *
      * @param entityId id of found entity.
      * @return found saved comment that has passed id.
+     * @throws ServiceException when saved comment cannot be found by id.
      */
     @Override
     public Comment findById(Long entityId) {
@@ -103,6 +108,7 @@ public class SimpleCommentService implements CommentService {
 
     /**
      * Make save comment and assigns generated id to saved comment.
+     *
      * @param entity entity instance that need to be saved.
      * @return saved comment with assigned id.
      */
@@ -115,6 +121,7 @@ public class SimpleCommentService implements CommentService {
 
     /**
      * Deletes passed comment.
+     *
      * @param comment comment that need to be deleted.
      */
     @Override
@@ -125,6 +132,7 @@ public class SimpleCommentService implements CommentService {
 
     /**
      * Returns current saved comments pages amount.
+     *
      * @return saved comments pages amount.
      */
     @Override
@@ -135,6 +143,7 @@ public class SimpleCommentService implements CommentService {
     /**
      * Nested class that encapsulates single {@link SimpleCommentService} instance.
      * Singleton pattern variation.
+     *
      * @see "Singleton pattern"
      */
     private static class Singleton {

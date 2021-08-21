@@ -4,7 +4,6 @@ import by.epam.jwd.web.connectionPool.ConnectionPool;
 import by.epam.jwd.web.connectionPool.ConnectionPoolInitializationException;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
-import by.epam.jwd.web.service.impl.SimpleBookService;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

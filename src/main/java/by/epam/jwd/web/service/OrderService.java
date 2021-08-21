@@ -1,9 +1,8 @@
-package by.epam.jwd.web.service.api;
+package by.epam.jwd.web.service;
 
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.model.User;
-import by.epam.jwd.web.service.impl.SimpleOrderService;
 
 import java.util.List;
 
