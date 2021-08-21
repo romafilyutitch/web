@@ -47,7 +47,6 @@ public class DeleteOrderCommand implements ActionCommand {
         final Long orderId = Long.valueOf(request.getParameter(REQUEST_ORDER_ID_PARAMETER_KEY));
         final Order order = orderService.findById(orderId);
         final Book book = order.getBook();
-        bookService.addOneCopy(book);
         orderService.delete(orderId);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(ORDER_WAS_DELETED_MESSAGE_KEY));
         return CommandManager.getShowOrdersCommand();

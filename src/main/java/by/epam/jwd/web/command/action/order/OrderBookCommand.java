@@ -3,7 +3,6 @@ package by.epam.jwd.web.command.action.order;
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Order;
-import by.epam.jwd.web.model.Status;
 import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.resource.CommandManager;
 import by.epam.jwd.web.resource.MessageManager;
@@ -12,10 +11,10 @@ import by.epam.jwd.web.service.api.OrderService;
 import by.epam.jwd.web.service.api.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDate;
 
 /**
  * Executes command that is make book order by user and save it in database table.
+ *
  * @author roma0
  * @version 1.0
  * @since 1.0
@@ -35,6 +34,7 @@ public class OrderBookCommand implements ActionCommand {
 
     /**
      * Gets single class instance from nested class.
+     *
      * @return class instance.
      */
     public static OrderBookCommand getInstance() {
@@ -44,6 +44,7 @@ public class OrderBookCommand implements ActionCommand {
     /**
      * Makes book order and save it in database table.
      * Request must contain saved book id that need to order.
+     *
      * @param request request that need to be execute.
      * @return main command for forward.
      */
@@ -57,7 +58,6 @@ public class OrderBookCommand implements ActionCommand {
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(NO_COPIES_MESSAGE_KEY));
         } else {
             orderService.save(order);
-            bookService.removeOneCopy(book);
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(ORDER_REGISTERED_MESSAGE_KEY));
         }
         return CommandManager.getMainCommand();
