@@ -40,30 +40,30 @@
                             <td><fmt:message key="action"/></td>
                         </tr>
                         </thead>
-                        <c:forEach var="order" items="${requestScope.orders}">
+                        <c:forEach var="book" items="${requestScope.orders}">
                             <tr>
-                                <td>${order.user.login}</td>
-                                <td>${order.book.name}</td>
-                                <td>${ctg:localDateFormatter(order.orderDate)}</td>
+                                <td>${book.user.login}</td>
+                                <td>${book.book.name}</td>
+                                <td>${ctg:localDateFormatter(book.orderDate)}</td>
                                 <td>
                                     <c:choose>
-                                        <c:when test="${order.status eq Status.ORDERED}">
+                                        <c:when test="${book.status eq Status.ORDERED}">
                                             <fmt:message key="ordered"/>
                                         </c:when>
-                                        <c:when test="${order.status eq Status.APPROVED}">
+                                        <c:when test="${book.status eq Status.APPROVED}">
                                             <fmt:message key="approved"/>
                                         </c:when>
-                                        <c:when test="${order.status eq Status.RETURNED}">
+                                        <c:when test="${book.status eq Status.RETURNED}">
                                             <fmt:message key="returned"/>
                                         </c:when>
                                     </c:choose>
                                 </td>
                                 <td><c:choose>
-                                    <c:when test="${order.status eq Status.ORDERED}">
-                                        <button class="btn btn-outline-success" onclick="approveOrder(${order.id})"><fmt:message key="approveOrder"/></button>
+                                    <c:when test="${book.status eq Status.ORDERED}">
+                                        <button class="btn btn-outline-success" onclick="approveOrder(${book.id})"><fmt:message key="approveOrder"/></button>
                                     </c:when>
-                                    <c:when test="${order.status eq Status.RETURNED}">
-                                        <button class="btn btn-outline-danger" onclick="deleteOrder(${order.id})"><fmt:message key="deleteOrder"/></button>
+                                    <c:when test="${book.status eq Status.RETURNED}">
+                                        <button class="btn btn-outline-danger" onclick="deleteOrder(${book.id})"><fmt:message key="deleteOrder"/></button>
                                     </c:when>
                                 </c:choose></td>
                             </tr>

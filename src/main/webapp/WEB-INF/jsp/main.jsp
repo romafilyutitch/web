@@ -119,57 +119,57 @@
     </c:if>
     <c:if test="${not empty requestScope.books }">
         <div class="row row-cols-auto">
-            <c:forEach var="order" items="${requestScope.books}">
+            <c:forEach var="book" items="${requestScope.books}">
                 <div class="col-md-2 card offset-md-1" style="width: 20rem; margin-bottom: 5rem">
                     <div class="card-body">
-                        <h5 class="card-title text-center text-success">${order.name}</h5>
-                        <h6 class="card-subtitle mb-2 text-info"><fmt:message key="author"/> ${order.author.name}</h6>
+                        <h5 class="card-title text-center text-success">${book.name}</h5>
+                        <h6 class="card-subtitle mb-2 text-info"><fmt:message key="author"/> ${book.author}</h6>
                         <h6 class="card-subtitle mb-2 text-info"><fmt:message key="genre"/>
                             <c:choose>
-                                <c:when test="${order.genre eq Genre.FICTION}">
+                                <c:when test="${book.genre eq Genre.FICTION}">
                                     <fmt:message key="fiction"/>
                                 </c:when>
-                                <c:when test="${order.genre eq Genre.FANTASY}">
+                                <c:when test="${book.genre eq Genre.FANTASY}">
                                     <fmt:message key="fantasy"/>
                                 </c:when>
-                                <c:when test="${order.genre eq Genre.SCIENCE}">
+                                <c:when test="${book.genre eq Genre.SCIENCE}">
                                     <fmt:message key="science"/>
                                 </c:when>
                             </c:choose>
                         </h6>
                         <c:if test="${not empty sessionScope.user and sessionScope.user.role ne UserRole.UNAUTHORIZED}">
                             <c:choose>
-                                <c:when test="${order.copiesAmount eq 0}">
+                                <c:when test="${book.copiesAmount eq 0}">
                                     <button class="btn btn-outline-primary" disabled>
                                         <fmt:message key="order"/>
-                                        <span class="badge bg-danger">${order.copiesAmount}</span>
+                                        <span class="badge bg-danger">${book.copiesAmount}</span>
                                     </button>
                                 </c:when>
                                 <c:otherwise>
-                                    <button class="btn btn-outline-primary" onclick="orderBook(${order.id})">
+                                    <button class="btn btn-outline-primary" onclick="orderBook(${book.id})">
                                         <fmt:message key="order"/>
-                                        <span class="badge bg-success">${order.copiesAmount}</span>
+                                        <span class="badge bg-success">${book.copiesAmount}</span>
                                     </button>
                                 </c:otherwise>
                             </c:choose>
-                            <button class="btn btn-outline-primary" onclick="addLike(${order.id})">
+                            <button class="btn btn-outline-primary" onclick="addLike(${book.id})">
                                 <fmt:message key="addLike"/>
-                                <span class="badge bg-success">${order.likesAmount}</span>
+                                <span class="badge bg-success">${book.likesAmount}</span>
                             </button>
-                            <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#modal${order.id}">
+                            <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#modal${book.id}">
                                 <fmt:message key="comments"/>
-                                <span class="badge bg-success">${order.commentsAmount}</span>
+                                <span class="badge bg-success">${book.commentsAmount}</span>
                             </button>
-                            <div class="modal fade" id="modal${order.id}" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="modal${book.id}" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="ModalLabel"><fmt:message key="commentsForBook"/> ${order.name}</h5>
+                                            <h5 class="modal-title" id="ModalLabel"><fmt:message key="commentsForBook"/> ${book.name}</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <c:forEach items="${requestScope.comments}" var="comment">
-                                                <c:if test="${comment.book.id eq order.id}">
+                                                <c:if test="${comment.book.id eq book.id}">
                                                     <div class="card card-body">
                                                         <p class="text text-info"><fmt:message key="commentAuthor"/> ${comment.user.login}</p>
                                                         <p class="text text-info"><fmt:message key="commentDate"/> ${ctg:localDateFormatter(comment.date)}</p>
@@ -181,15 +181,15 @@
                                                 </c:if>
                                             </c:forEach>
                                         </div>
-                                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#comment${order.id}" aria-expanded="false" aria-controls="comment${order.id}">
+                                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#comment${book.id}" aria-expanded="false" aria-controls="comment${book.id}">
                                             <fmt:message key="comment"/>
                                         </button>
-                                        <div class="collapse" id="comment${order.id}">
+                                        <div class="collapse" id="comment${book.id}">
                                             <div class="card card-body">
                                                 <div class="mb-3">
                                                     <form class="addCommentForm" action="controller" method="POST" novalidate>
                                                         <input type="hidden" name="command" value="add_comment">
-                                                        <input type="hidden" name="bookId" value="${order.id}">
+                                                        <input type="hidden" name="bookId" value="${book.id}">
                                                         <label for="comment" class="form-label"><fmt:message key="comment"/></label>
                                                         <textarea class="form-control" id="comment" name="text" rows="3" required></textarea>
                                                         <div class="valid-feedback"><fmt:message key="validComment"/></div>

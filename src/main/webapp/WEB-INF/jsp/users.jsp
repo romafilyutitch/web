@@ -48,33 +48,33 @@
                         <td><fmt:message key="setRole"/></td>
                     </tr>
                     </thead>
-                    <c:forEach var="order" items="${requestScope.users}">
+                    <c:forEach var="book" items="${requestScope.users}">
                         <tr>
-                            <td>${order.login}</td>
+                            <td>${book.login}</td>
                             <td>
                                 <c:choose>
-                                    <c:when test="${order.role eq UserRole.READER}">
+                                    <c:when test="${book.role eq UserRole.READER}">
                                         <fmt:message key="reader"/>
                                     </c:when>
-                                    <c:when test="${order.role eq UserRole.LIBRARIAN}">
+                                    <c:when test="${book.role eq UserRole.LIBRARIAN}">
                                         <fmt:message key="librarian"/>
                                     </c:when>
-                                    <c:when test="${order.role eq UserRole.ADMIN}">
+                                    <c:when test="${book.role eq UserRole.ADMIN}">
                                         <fmt:message key="admin"/>
                                     </c:when>
                                 </c:choose>
                             </td>
-                            <td><c:if test="${not empty order.subscription}">
-                                ${ctg:localDateFormatter(order.subscription.startDate)}
+                            <td><c:if test="${not empty book.subscription}">
+                                ${ctg:localDateFormatter(book.subscription.startDate)}
                             </c:if></td>
-                            <td><c:if test="${not empty order.subscription}">
-                                ${ctg:localDateFormatter(order.subscription.endDate)}
+                            <td><c:if test="${not empty book.subscription}">
+                                ${ctg:localDateFormatter(book.subscription.endDate)}
                             </c:if></td>
                             <td>
                                 <form class="needs-validation" action="controller" method="post" novalidate>
                                     <input type="hidden" name="command" value="set_subscription">
                                     <input type="hidden" id="locale" name="locale" value="${sessionScope.language}">
-                                    <input type="hidden" name="id" value="${order.id}">
+                                    <input type="hidden" name="id" value="${book.id}">
                                     <label class="form-label" for="startDate"><fmt:message key="startDate"/></label>
                                     <input class="form-control datepicker" id="startDate" type="text" name="start_date" required pattern="\d{2}.\d{2}.\d{4}">
                                     <div class="valid-feedback"><fmt:message key="validStartDate"/></div>
@@ -87,11 +87,11 @@
                                 </form>
                             </td>
                             <td>
-                                <c:if test="${order.role eq UserRole.READER}">
-                                    <button class="btn btn-outline-success" onclick="promoteUserRole(${order.id})"><fmt:message key="promoteRole"/></button>
+                                <c:if test="${book.role eq UserRole.READER}">
+                                    <button class="btn btn-outline-success" onclick="promoteUserRole(${book.id})"><fmt:message key="promoteRole"/></button>
                                 </c:if>
-                                <c:if test="${order.role eq UserRole.LIBRARIAN}">
-                                    <button class="btn btn-outline-danger" onclick="demoteUserRole(${order.id})"><fmt:message key="demoteRole"/></button>
+                                <c:if test="${book.role eq UserRole.LIBRARIAN}">
+                                    <button class="btn btn-outline-danger" onclick="demoteUserRole(${book.id})"><fmt:message key="demoteRole"/></button>
                                 </c:if>
                             </td>
                         </tr>

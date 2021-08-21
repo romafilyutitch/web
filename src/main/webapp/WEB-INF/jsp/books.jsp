@@ -43,37 +43,37 @@
                         <td><fmt:message key="deleteBook"/></td>
                     </tr>
                     </thead>
-                    <c:forEach var="order" items="${requestScope.books}">
+                    <c:forEach var="book" items="${requestScope.books}">
                         <tr>
-                            <td>${order.name}</td>
-                            <td>${order.author.name}</td>
+                            <td>${book.name}</td>
+                            <td>${book.author}</td>
                             <td>
                                 <c:choose>
-                                    <c:when test="${order.genre eq Genre.FICTION}">
+                                    <c:when test="${book.genre eq Genre.FICTION}">
                                         <fmt:message key="fiction"/>
                                     </c:when>
-                                    <c:when test="${order.genre eq Genre.FANTASY}">
+                                    <c:when test="${book.genre eq Genre.FANTASY}">
                                         <fmt:message key="fantasy"/>
                                     </c:when>
-                                    <c:when test="${order.genre eq Genre.SCIENCE}">
+                                    <c:when test="${book.genre eq Genre.SCIENCE}">
                                         <fmt:message key="science"/>
                                     </c:when>
                                 </c:choose>
                             </td>
-                            <td>${ctg:localDateFormatter(order.date)}</td>
-                            <td>${order.pagesAmount}</td>
-                            <td>${order.copiesAmount}</td>
+                            <td>${ctg:localDateFormatter(book.date)}</td>
+                            <td>${book.pagesAmount}</td>
+                            <td>${book.copiesAmount}</td>
                             <td>
-                                <button class="btn btn-outline-primary" onclick="addOneCopyOfBook(${order.id})"><fmt:message key="addCopy"/></button>
+                                <button class="btn btn-outline-primary" onclick="addOneCopyOfBook(${book.id})"><fmt:message key="addCopy"/></button>
                             </td>
                             <td>
-                                <c:if test="${order.copiesAmount gt 1}">
-                                    <button class="btn btn-outline-primary" onclick="removeOneCopyOfBook(${order.id})"><fmt:message key="removeCopy"/></button>
+                                <c:if test="${book.copiesAmount gt 1}">
+                                    <button class="btn btn-outline-primary" onclick="removeOneCopyOfBook(${book.id})"><fmt:message key="removeCopy"/></button>
                                 </c:if>
                             </td>
                             <td>
-                                <c:if test="${order.copiesAmount eq 1}">
-                                    <button class="btn btn-danger" onclick="deleteBook(${order.id})"><fmt:message key="deleteBook"/></button>
+                                <c:if test="${book.copiesAmount eq 1}">
+                                    <button class="btn btn-danger" onclick="deleteBook(${book.id})"><fmt:message key="deleteBook"/></button>
                                 </c:if>
                             </td>
                         </tr>
