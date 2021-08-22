@@ -40,7 +40,6 @@
                         <td><fmt:message key="copies"/></td>
                         <td><fmt:message key="addCopy"/></td>
                         <td><fmt:message key="removeCopy"/></td>
-                        <td><fmt:message key="deleteBook"/></td>
                     </tr>
                     </thead>
                     <c:forEach var="book" items="${requestScope.books}">
@@ -71,12 +70,6 @@
                                 <c:if test="${book.copiesAmount gt 1}">
                                     <button class="btn btn-outline-primary" onclick="removeOneCopyOfBook(${book.id})">
                                         <fmt:message key="removeCopy"/></button>
-                                </c:if>
-                            </td>
-                            <td>
-                                <c:if test="${book.copiesAmount eq 1}">
-                                    <button class="btn btn-danger" onclick="deleteBook(${book.id})"><fmt:message
-                                            key="deleteBook"/></button>
                                 </c:if>
                             </td>
                         </tr>
