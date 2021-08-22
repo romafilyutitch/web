@@ -19,7 +19,7 @@ public class LocalDateFormatter {
      * @return formatted date in string representation.
      */
     public static String parseLocalDate(LocalDate date) {
-        final DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(Locale.getDefault());
+        final DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(Locale.getDefault());
         return formatter.format(date);
     }
 }

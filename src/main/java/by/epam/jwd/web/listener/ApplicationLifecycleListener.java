@@ -15,6 +15,9 @@ import javax.servlet.annotation.WebListener;
  */
 @WebListener
 public class ApplicationLifecycleListener implements ServletContextListener {
+
+    public static final String CONNECTION_POOL_NOT_INITLAIZED_MESSAGE = "Connection Pool was not initialized";
+
     /**
      * Make connection pool initialization when servlet starts
      * @param sce context event.
@@ -24,7 +27,7 @@ public class ApplicationLifecycleListener implements ServletContextListener {
         try {
             ConnectionPool.getConnectionPool().init();
         } catch (ConnectionPoolInitializationException e) {
-            sce.getServletContext().log("Connection Pool was not initialized", e);
+            sce.getServletContext().log(CONNECTION_POOL_NOT_INITLAIZED_MESSAGE, e);
         }
     }
 
