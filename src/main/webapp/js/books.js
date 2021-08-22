@@ -37,16 +37,6 @@ function removeOneCopyOfBook(bookId) {
         }
     });
 }
-function deleteBook(bookId) {
-    $.ajax({
-        url:"controller",
-        method:"post",
-        data:{command:"delete_book", id:bookId},
-        success:function (response) {
-            $("body").html(response);
-        }
-    });
-}
 function findPage(currentPage) {
     $.ajax({
         url:"controller",
