@@ -6,12 +6,12 @@ import by.epam.jwd.web.model.Comment;
 import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.service.BookService;
 import by.epam.jwd.web.service.CommentService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Executes command that is forward to main page.
@@ -21,14 +21,16 @@ import java.util.Locale;
  * @since 1.0
  */
 public class MainCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(MainCommand.class);
     private final BookService bookService = BookService.getInstance();
     private final CommentService commentService = CommentService.getInstance();
+    private static final String COMMAND_REQUESTED_MESSAGE = "Main command was requested";
+    private static final String COMMAND_EXECUTED_MESSAGE = "Main command was executed";
     private static final String REQUEST_BOOKS_ATTRIBUTE_KEY = "books";
     private static final String REQUEST_PAGE_PARAMETER_KEY = "page";
     private static final String REQUEST_COMMENTS_ATTRIBUTE_KEY = "comments";
     private static final String REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY = "currentPageNumber";
     private static final String REQUEST_PAGES_AMOUNT_ATTRIBUTE_KEY = "pagesAmount";
-    private static final String SESSION_LANGUAGE_ATTRIBUTE_KEY = "language";
 
     private MainCommand() {
     }
@@ -51,17 +53,9 @@ public class MainCommand implements ActionCommand {
      */
     @Override
     public String execute(HttpServletRequest request) {
-        final HttpSession currentSession = request.getSession();
-        final Object locale = currentSession.getAttribute(SESSION_LANGUAGE_ATTRIBUTE_KEY);
-        if (locale == null) {
-            currentSession.setAttribute(SESSION_LANGUAGE_ATTRIBUTE_KEY, Locale.ENGLISH);
-            Locale.setDefault(Locale.ENGLISH);
-        }
-        int currentPageNumber = 1;
+        logger.info(COMMAND_REQUESTED_MESSAGE);
         final String pageParameter = request.getParameter(REQUEST_PAGE_PARAMETER_KEY);
-        if (pageParameter != null) {
-            currentPageNumber = Integer.parseInt(pageParameter);
-        }
+        int currentPageNumber = pageParameter == null ? 1 : Integer.parseInt(pageParameter);
         final List<Book> currentPage = bookService.findPage(currentPageNumber);
         final List<Comment> comments = findComments(currentPage);
         final int pagesAmount = bookService.getPagesAmount();
@@ -69,6 +63,7 @@ public class MainCommand implements ActionCommand {
         request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, currentPage);
         request.setAttribute(REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY, currentPageNumber);
         request.setAttribute(REQUEST_PAGES_AMOUNT_ATTRIBUTE_KEY, pagesAmount);
+        logger.info(COMMAND_EXECUTED_MESSAGE);
         return PathManager.getMainPagePath();
     }
 
