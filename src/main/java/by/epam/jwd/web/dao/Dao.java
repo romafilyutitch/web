@@ -20,7 +20,6 @@ import java.util.Optional;
  *           data to database table structure
  * @see Service
  * @see DAOException
- * @sse "Data access object pattern"
  */
 public interface Dao<T extends DbEntity> {
     /**
