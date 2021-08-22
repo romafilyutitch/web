@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="ctg" uri="customtags"%>
+<%@ taglib prefix="ctg" uri="customtags" %>
 <%@ page import="by.epam.jwd.web.model.Genre" %>
 <fmt:setLocale value="${sessionScope.language}"/>
 <fmt:setBundle basename="books"/>
@@ -28,7 +28,7 @@
     </c:if>
     <div class="row">
         <div class="col">
-            <c:if test="${not empty requestScope.books }" >
+            <c:if test="${not empty requestScope.books }">
                 <table class="table table-hover table-striped">
                     <thead>
                     <tr>
@@ -64,16 +64,19 @@
                             <td>${book.pagesAmount}</td>
                             <td>${book.copiesAmount}</td>
                             <td>
-                                <button class="btn btn-outline-primary" onclick="addOneCopyOfBook(${book.id})"><fmt:message key="addCopy"/></button>
+                                <button class="btn btn-outline-primary" onclick="addOneCopyOfBook(${book.id})">
+                                    <fmt:message key="addCopy"/></button>
                             </td>
                             <td>
                                 <c:if test="${book.copiesAmount gt 1}">
-                                    <button class="btn btn-outline-primary" onclick="removeOneCopyOfBook(${book.id})"><fmt:message key="removeCopy"/></button>
+                                    <button class="btn btn-outline-primary" onclick="removeOneCopyOfBook(${book.id})">
+                                        <fmt:message key="removeCopy"/></button>
                                 </c:if>
                             </td>
                             <td>
                                 <c:if test="${book.copiesAmount eq 1}">
-                                    <button class="btn btn-danger" onclick="deleteBook(${book.id})"><fmt:message key="deleteBook"/></button>
+                                    <button class="btn btn-danger" onclick="deleteBook(${book.id})"><fmt:message
+                                            key="deleteBook"/></button>
                                 </c:if>
                             </td>
                         </tr>
@@ -88,7 +91,8 @@
                 <ul class="pagination pagination-lg justify-content-center">
                     <c:if test="${requestScope.currentPageNumber ne 1}">
                         <li class="page-item">
-                            <button class="page-link" onclick="findPage(${requestScope.currentPageNumber - 1})"><fmt:message key="previous"/></button>
+                            <button class="page-link" onclick="findPage(${requestScope.currentPageNumber - 1})">
+                                <fmt:message key="previous"/></button>
                         </li>
                     </c:if>
                     <c:forEach begin="1" end="${requestScope.pagesAmount}" var="i">
@@ -107,7 +111,8 @@
                     </c:forEach>
                     <c:if test="${requestScope.currentPageNumber lt requestScope.pagesAmount}">
                         <li class="page-item">
-                            <button class="page-link" onclick="findPage(${requestScope.currentPageNumber + 1})"><fmt:message key="next"/></button>
+                            <button class="page-link" onclick="findPage(${requestScope.currentPageNumber + 1})">
+                                <fmt:message key="next"/></button>
                         </li>
                     </c:if>
                 </ul>
@@ -115,63 +120,66 @@
         </div>
     </div>
 </div>
-    <div class="row row-cols-auto justify-content-center">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBookModal">
-            <fmt:message key="addNewBook"/>
-        </button>
-        <div class="modal fade" id="addBookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addBookModalLabel"><fmt:message key="addNewBook"/></h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="addNewBookForm" action="controller" method="post" novalidate>
-                            <input type="hidden" name="command" value="add_book">
-                            <div class="col">
-                                <label for="name" class="form-label"><fmt:message key="name"/></label>
-                                <input id="name" class="form-control" type="text" name="name" required pattern="\w+(\w|\s)*">
-                                <div class="valid-feedback"><fmt:message key="validName"/></div>
-                                <div class="invalid-feedback"><fmt:message key="invalidName"/></div>
-                            </div>
-                            <div class=col">
-                                <label for="author" class="form-label"><fmt:message key="author"/></label>
-                                <input id="author" class="form-control" type="text" name="author" required pattern="\w+(\w|\s)*">
-                                <div class="valid-feedback"><fmt:message key="validAuthor"/></div>
-                                <div class="invalid-feedback"><fmt:message key="invalidAuthor"/></div>
-                            </div>
-                            <div class="col">
-                                <label for="genre" class="form-label"><fmt:message key="genre"/></label>
-                                <select id="genre" class="form-select" name="genre" required>
-                                    <option value="FICTION"><fmt:message key="fiction"/></option>
-                                    <option value="FANTASY"><fmt:message key="fantasy"/></option>
-                                    <option value="SCIENCE"><fmt:message key="science"/></option>
-                                </select>
-                            </div>
-                            <div class="col">
-                                <label for="pages" class="form-label"><fmt:message key="pages"/></label>
-                                <input id="pages" class="form-control" type="number" required min = "1" step = "1" name="pages">
-                                <div class="valid-feedback"><fmt:message key="validPages"/></div>
-                                <div class="invalid-feedback"><fmt:message key="invalidPages"/></div>
-                            </div>
-                            <div class="col">
-                                <label for="text" class="form-label"><fmt:message key="text"/></label>
-                                <textarea id="text" class="form-control" name="text" required></textarea>
-                                <div class="valid-feedback"><fmt:message key="validText"/></div>
-                                <div class="invalid-feedback"><fmt:message key="invalidText"/></div>
-                            </div>
-                            <button class="btn btn-outline-success" type="submit"><fmt:message key="addNewBook"/></button>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="close"/></button>
-                    </div>
+<div class="row row-cols-auto justify-content-center">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBookModal">
+        <fmt:message key="addNewBook"/>
+    </button>
+    <div class="modal fade" id="addBookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addBookModalLabel"><fmt:message key="addNewBook"/></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addNewBookForm" action="controller" method="post" novalidate>
+                        <input type="hidden" name="command" value="add_book">
+                        <div class="col">
+                            <label for="name" class="form-label"><fmt:message key="name"/></label>
+                            <input id="name" class="form-control" type="text" name="name" required
+                                   pattern="\w+(\w|\s)*">
+                            <div class="valid-feedback"><fmt:message key="validName"/></div>
+                            <div class="invalid-feedback"><fmt:message key="invalidName"/></div>
+                        </div>
+                        <div class=col">
+                            <label for="author" class="form-label"><fmt:message key="author"/></label>
+                            <input id="author" class="form-control" type="text" name="author" required
+                                   pattern="\w+(\w|\s)*">
+                            <div class="valid-feedback"><fmt:message key="validAuthor"/></div>
+                            <div class="invalid-feedback"><fmt:message key="invalidAuthor"/></div>
+                        </div>
+                        <div class="col">
+                            <label for="genre" class="form-label"><fmt:message key="genre"/></label>
+                            <select id="genre" class="form-select" name="genre" required>
+                                <option value="FICTION"><fmt:message key="fiction"/></option>
+                                <option value="FANTASY"><fmt:message key="fantasy"/></option>
+                                <option value="SCIENCE"><fmt:message key="science"/></option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="pages" class="form-label"><fmt:message key="pages"/></label>
+                            <input id="pages" class="form-control" type="number" required min="1" step="1" name="pages">
+                            <div class="valid-feedback"><fmt:message key="validPages"/></div>
+                            <div class="invalid-feedback"><fmt:message key="invalidPages"/></div>
+                        </div>
+                        <div class="col">
+                            <label for="text" class="form-label"><fmt:message key="text"/></label>
+                            <textarea id="text" class="form-control" name="text" required></textarea>
+                            <div class="valid-feedback"><fmt:message key="validText"/></div>
+                            <div class="invalid-feedback"><fmt:message key="invalidText"/></div>
+                        </div>
+                        <button class="btn btn-outline-success" type="submit"><fmt:message key="addNewBook"/></button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message
+                            key="close"/></button>
                 </div>
             </div>
         </div>
-        <a class="btn btn-primary" href="controller?command=main"><fmt:message key="main"/></a>
     </div>
+    <a class="btn btn-primary" href="controller?command=main"><fmt:message key="main"/></a>
+</div>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/books.js"></script>
 </body>
 </html>

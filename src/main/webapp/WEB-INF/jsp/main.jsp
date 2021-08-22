@@ -127,13 +127,19 @@
                         <h6 class="card-subtitle mb-2 text-info"><fmt:message key="genre"/>
                             <c:choose>
                                 <c:when test="${book.genre eq Genre.FICTION}">
-                                    <fmt:message key="fiction"/>
+                                    <span class="text-primary">
+                                        <fmt:message key="fiction"/>
+                                    </span>
                                 </c:when>
                                 <c:when test="${book.genre eq Genre.FANTASY}">
-                                    <fmt:message key="fantasy"/>
+                                    <span class="text-success">
+                                        <fmt:message key="fantasy"/>
+                                    </span>
                                 </c:when>
                                 <c:when test="${book.genre eq Genre.SCIENCE}">
-                                    <fmt:message key="science"/>
+                                    <span class="text-danger">
+                                        <fmt:message key="science"/>
+                                    </span>
                                 </c:when>
                             </c:choose>
                         </h6>
