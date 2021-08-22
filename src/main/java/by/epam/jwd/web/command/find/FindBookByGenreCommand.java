@@ -15,33 +15,59 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Command that finds saved books by genre that was passed by client
+ * and returns find result and forms message
+ * @author roma0
+ * @version 1.0
+ * @since 1.0
+ */
 public class FindBookByGenreCommand implements ActionCommand {
     private final static Logger logger = LogManager.getLogger(FindBookByGenreCommand.class);
     private final BookService bookService = BookService.getInstance();
     private final CommentService commentService = CommentService.getInstance();
+    private static final String COMMAND_REQUESTED_MESSAGE = "Find book by genre command was requested";
+    private static final String COMMAND_EXECUTED_MESSAGE = "Find book by genre command was executed";
+    private static final String REQUEST_GENRE_PARAMETER_KEY = "genre";
+    private static final String REQUEST_MESSAGE_ATTRIBUTE_KEY = "message";
+    private static final String REQUEST_BOOKS_PARAMETER_KEY = "books";
+    private static final String REQUEST_COMMENTS_PARAMETER_KEY = "comments";
+    private static final String REQUEST_MESSAGE_PARAMETER_KEY = "message";
+    private static final String NO_BOOKS_BY_GENRE_MESSAGE_KEY = "book.find.genre.notFound";
+    private static final String BOOKS_WERE_FOUND_BY_GENRE_MESSAGE_KEY = "book.find.genre.found";
 
     private FindBookByGenreCommand() {
     }
 
+    /**
+     * Returns class instance
+     * @return instance
+     */
     public static FindBookByGenreCommand getInstance() {
         return Singleton.INSTANCE;
     }
 
+    /**
+     * Finds books by genre that client passed in request.
+     * Request must contain genre parameter.
+     * @param request request that need to be execute
+     * @return command result path or command result command
+     */
     @Override
     public String execute(HttpServletRequest request) {
-        logger.info("Find book by genre command was requested");
-        final String genreParameter = request.getParameter("genre");
+        logger.info(COMMAND_REQUESTED_MESSAGE);
+        final String genreParameter = request.getParameter(REQUEST_GENRE_PARAMETER_KEY);
         final Genre genre = Genre.valueOf(genreParameter.toUpperCase());
         final List<Book> books = bookService.findByGenre(genre);
         if (books.isEmpty()) {
-            request.setAttribute("message", MessageManager.getMessage("book.find.genre.notFound"));
+            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(NO_BOOKS_BY_GENRE_MESSAGE_KEY));
         } else {
             final List<Comment> comments = findComments(books);
-            request.setAttribute("books", books);
-            request.setAttribute("comments", comments);
-            request.setAttribute("message", MessageManager.getMessage("book.find.genre.found"));
+            request.setAttribute(REQUEST_BOOKS_PARAMETER_KEY, books);
+            request.setAttribute(REQUEST_COMMENTS_PARAMETER_KEY, comments);
+            request.setAttribute(REQUEST_MESSAGE_PARAMETER_KEY, MessageManager.getMessage(BOOKS_WERE_FOUND_BY_GENRE_MESSAGE_KEY));
         }
-        logger.info("Find book by genre command was executed");
+        logger.info(COMMAND_EXECUTED_MESSAGE);
         return PathManager.getMainPagePath();
     }
 
