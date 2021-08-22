@@ -7,6 +7,8 @@ import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.service.BookService;
 import by.epam.jwd.web.service.CommentService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -22,9 +24,11 @@ import java.util.List;
  * @since 1.0
  */
 public class FindBookByNameCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(FindBookByNameCommand.class);
     private final BookService bookService = BookService.getInstance();
     private final CommentService commentService = CommentService.getInstance();
-
+    private static final String COMMAND_REQUESTED_MESSAGE = "Find book by name command requested";
+    private static final String COMMAND_EXECUTED_MESSAGE = "Find book by name command executed";
     private static final String REQUEST_BOOK_NAME_PARAMETER_KEY = "name";
     private static final String REQUEST_BOOKS_ATTRIBUTE_KEY = "books";
     private static final String REQUEST_COMMENTS_ATTRIBUTE_KEY = "comments";
@@ -54,17 +58,19 @@ public class FindBookByNameCommand implements ActionCommand {
      */
     @Override
     public String execute(HttpServletRequest request) {
+        logger.info(COMMAND_REQUESTED_MESSAGE);
         final String bookName = request.getParameter(REQUEST_BOOK_NAME_PARAMETER_KEY).trim();
-        final List<Book> foundBooksByName = bookService.findByName(bookName);
-        if (foundBooksByName.isEmpty()) {
+        final List<Book> booksWhereNameLike = bookService.findWhereNameLike(bookName);
+        if (booksWhereNameLike.isEmpty()) {
             request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, Collections.emptyList());
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(BOOK_WAS_NOT_FOUND_BY_NAME_MESSAGE_KEY));
         } else {
-            final List<Comment> bookComments = findComments(foundBooksByName);
-            request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, foundBooksByName);
+            final List<Comment> bookComments = findComments(booksWhereNameLike);
+            request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, booksWhereNameLike);
             request.setAttribute(REQUEST_COMMENTS_ATTRIBUTE_KEY, bookComments);
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(BOOK_WAS_FOUND_BY_NAME_MESSAGE_KEY));
         }
+        logger.info(COMMAND_EXECUTED_MESSAGE);
         return PathManager.getMainPagePath();
     }
 

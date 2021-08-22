@@ -5,6 +5,8 @@ import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,8 +18,10 @@ import javax.servlet.http.HttpSession;
  * @since 1.0
  */
 public class ChangePasswordCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(ChangePasswordCommand.class);
     private final UserService userService = UserService.getInstance();
-
+    private static final String COMMAND_REQUESTED_MESSAGE = "Change password command was requested";
+    private static final String COMMAND_EXECUTED_MESSAGE = "Change password command was executed";
     private static final String REQUEST_USER_PASSWORD_PARAMETER_KEY = "password";
     private static final String REQUEST_MESSAGE_ATTRIBUTE_KEY = "message";
     private static final String USER_PASSWORD_WAS_CHANGED_MESSAGE_KEY = "user.password.changed";
@@ -41,12 +45,14 @@ public class ChangePasswordCommand implements ActionCommand {
      */
     @Override
     public String execute(HttpServletRequest request) {
+        logger.info(COMMAND_REQUESTED_MESSAGE);
         final HttpSession session = request.getSession();
         final User user = (User) session.getAttribute(SESSION_USER_ATTRIBUTE_KEY);
         final String newPassword = request.getParameter(REQUEST_USER_PASSWORD_PARAMETER_KEY);
         final User userWithChangedPassword = userService.changePassword(user, newPassword);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(USER_PASSWORD_WAS_CHANGED_MESSAGE_KEY));
         session.setAttribute(SESSION_USER_ATTRIBUTE_KEY, userWithChangedPassword);
+        logger.info(COMMAND_EXECUTED_MESSAGE);
         return PathManager.getAccountPagePath();
     }
 

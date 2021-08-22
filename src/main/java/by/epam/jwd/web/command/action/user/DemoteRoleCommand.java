@@ -5,6 +5,8 @@ import by.epam.jwd.web.model.User;
 import by.epam.jwd.web.resource.CommandManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,8 +17,10 @@ import javax.servlet.http.HttpServletRequest;
  * @since 1.0
  */
 public class DemoteRoleCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(DemoteRoleCommand.class);
     private final UserService userService = UserService.getInstance();
-
+    private static final String COMMAND_REQUESTED_MESSAGE = "Demote role command was requested";
+    private static final String COMMAND_EXECUTED_MESSAGE = "Demote role command was executed";
     private static final String REQUEST_USER_ID_PARAMETER_KEY = "id";
     private static final String REQUEST_MESSAGE_ATTRIBUTE_KEY = "message";
     private static final String USER_ROLE_WAS_DEMOTED_MESSAGE_KEY = "user.role.demoted";
@@ -40,10 +44,12 @@ public class DemoteRoleCommand implements ActionCommand {
      */
     @Override
     public String execute(HttpServletRequest request) {
+        logger.info(COMMAND_REQUESTED_MESSAGE);
         final Long id = Long.valueOf(request.getParameter(REQUEST_USER_ID_PARAMETER_KEY));
         final User foundUser = userService.findById(id);
         userService.demoteRole(foundUser);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(USER_ROLE_WAS_DEMOTED_MESSAGE_KEY));
+        logger.info(COMMAND_EXECUTED_MESSAGE);
         return CommandManager.getShowUsersCommand();
     }
 

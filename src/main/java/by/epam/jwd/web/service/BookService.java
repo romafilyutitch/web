@@ -4,6 +4,7 @@ import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service interface for service layer that defines {@link Book} service behavior.
@@ -29,12 +30,19 @@ public interface BookService extends Service<Book> {
     void removeOneCopy(Book book);
 
     /**
-     * Finds books by passed name.
-     *
-     * @param name that book need to be found.
+     * Finds Book which names are like passed name.
+     * @param name of those books that hase name like passed
      * @return collection of books which names matches with the passed one.
      */
-    List<Book> findByName(String name);
+    List<Book> findWhereNameLike(String name);
+
+    /**
+     * Finds book by passed name.
+     * @param name to book which need to be found by name
+     * @return not empty optional book if there is book with passed name
+     * or empty optional book otherwise
+     */
+    Optional<Book> findByName(String name);
 
     /**
      * Finds books by passed genre.

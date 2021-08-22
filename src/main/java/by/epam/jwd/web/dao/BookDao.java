@@ -6,6 +6,7 @@ import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.model.Genre;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Book Data access object interface for dao layer. Extends {@link Dao} base interface.
@@ -18,14 +19,20 @@ import java.util.List;
 public interface BookDao extends Dao<Book> {
     /**
      *
-     * Finds and returns result of find books that has passed name.
+     * Finds all book whose names are matches to passed name.
      * @throws DAOException when exception in dao layer occurs
      * @param name name of book that need to be found
-     * @return {@link Book} instance when there is book with passed name
-     *                              in database table or empty optional when
-     *                              there is no {@link Book} that has specified name
+     * @return List of books whose names are matches with passed name.
      */
-    List<Book> findByName(String name);
+    List<Book> findWhereNameLike(String name);
+
+    /**
+     * Finds saved book which has passed name.
+     * @param name for book that need to be found
+     * @return Not empty optional book if there is book with passed name,
+     * empty optional book otherwise.
+     */
+    Optional<Book> findByName(String name);
 
     /**
      * Finds and returns result of find book that have passed author name.

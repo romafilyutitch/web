@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * {@link AbstractDao} abstract class implementation for {@link Book} database entity. Links to book database table
@@ -28,11 +29,13 @@ class MySQLBookDao extends AbstractDao<Book> implements BookDao {
     private static final String DELETE_SQL = "delete from book where id = ?";
 
     private static final String FIND_PAGE_SQL_TEMPLATE = "%s order by book.name limit ?, ?";
-    private static final String FIND_BY_NAME_TEMPLATE = "%s where book.name like ? order by book.name";
+    private static final String FIND_BY_NAME_TEMPLATE = "%s where book.name = ? order by book.name";
+    private static final String FIND_WHERE_NAME_LIKE_TEMPLATE = "%s where book.name like ? order by book.name";
     private static final String FIND_BY_AUTHOR_NAME_TEMPLATE = "%s where book.author = ? order by book.name";
     private static final String FIND_BY_GENRE_TEMPLATE = "%s where genre.id = ? order by book.name";
     private static final String FIND_PAGE_SQL = String.format(FIND_PAGE_SQL_TEMPLATE, FIND_ALL_SQL);
     private static final String FIND_BY_NAME_SQL = String.format(FIND_BY_NAME_TEMPLATE, FIND_ALL_SQL);
+    private static final String FIND_WHERE_NAME_LIKE_SQL = String.format(FIND_WHERE_NAME_LIKE_TEMPLATE, FIND_ALL_SQL);
     private static final String FIND_BY_AUTHOR_NAME_SQL = String.format(FIND_BY_AUTHOR_NAME_TEMPLATE, FIND_ALL_SQL);
     private static final String FIND_BY_GENRE_SQL = String.format(FIND_BY_GENRE_TEMPLATE, FIND_ALL_SQL);
 
@@ -128,17 +131,27 @@ class MySQLBookDao extends AbstractDao<Book> implements BookDao {
     }
 
     /**
-     * Finds and returns result of find {@link Book} instance by specified name.
-     * Returns found books if there are books with passed name in database table
+     * Finds all book whose names are matches to passed name.
      *
-     * @param name name of book that need to be found.
-     * @return Found book in optional if there is book with passed name
-     * or empty optional otherwise
-     * @throws DAOException when database exception occurs
+     * @param name name of book that need to be found
+     * @return List of books whose names are matches with passed name.
+     * @throws DAOException when exception in dao layer occurs
      */
     @Override
-    public List<Book> findByName(String name) {
-        return findPreparedEntities(FIND_BY_NAME_SQL, preparedStatement -> preparedStatement.setString(1, name + "%"));
+    public List<Book> findWhereNameLike(String name) {
+        final String likeStatement = "%" + name + "%";
+        return findPreparedEntities(FIND_WHERE_NAME_LIKE_SQL, preparedStatement -> preparedStatement.setString(1, likeStatement));
+    }
+
+    /**
+     * Finds saved book which has passed name
+     * @param name for book that need to be found
+     * @return not empty optional book if there is saved book with passed name
+     * or empty optional book otherwise.
+     */
+    @Override
+    public Optional<Book> findByName(String name) {
+        return findPreparedEntities(FIND_BY_NAME_SQL, preparedStatement -> preparedStatement.setString(1, name)).stream().findAny();
     }
 
     /**

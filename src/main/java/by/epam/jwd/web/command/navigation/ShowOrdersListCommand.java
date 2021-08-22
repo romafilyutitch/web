@@ -4,6 +4,8 @@ import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.model.Order;
 import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.service.OrderService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -16,8 +18,10 @@ import java.util.List;
  * @since 1.0
  */
 public class ShowOrdersListCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(ShowOrdersListCommand.class);
     private final OrderService orderService = OrderService.getInstance();
-
+    private static final String COMMAND_REQUESTED_MESSAGE = "Show orders list command was requested";
+    private static final String COMMAND_EXECUTED_MESSAGE = "Show orders list command was executed";
     private static final String REQUEST_PAGE_PARAMETER_KEY = "page";
     private static final String REQUEST_ORDERS_ATTRIBUTE_KEY = "orders";
     private static final String REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY = "currentPageNumber";
@@ -44,16 +48,15 @@ public class ShowOrdersListCommand implements ActionCommand {
      */
     @Override
     public String execute(HttpServletRequest request) {
-        int currentPageNumber = 1;
+        logger.info(COMMAND_REQUESTED_MESSAGE);
         final String pageParameter = request.getParameter(REQUEST_PAGE_PARAMETER_KEY);
-        if (pageParameter != null) {
-            currentPageNumber = Integer.parseInt(pageParameter);
-        }
+        int currentPageNumber = pageParameter == null ? 1 : Integer.parseInt(pageParameter);
         final List<Order> currentPage = orderService.findPage(currentPageNumber);
         final int pagesAmount = orderService.getPagesAmount();
         request.setAttribute(REQUEST_ORDERS_ATTRIBUTE_KEY, currentPage);
         request.setAttribute(REQUEST_CURRENT_PAGE_NUMBER_ATTRIBUTE_KEY, currentPageNumber);
         request.setAttribute(REQUEST_PAGES_AMOUNT_ATTRIBUTE_KEY, pagesAmount);
+        logger.info(COMMAND_EXECUTED_MESSAGE);
         return PathManager.getOrdersPagePath();
     }
 

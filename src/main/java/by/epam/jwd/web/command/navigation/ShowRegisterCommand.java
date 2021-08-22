@@ -2,6 +2,8 @@ package by.epam.jwd.web.command.navigation;
 
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.resource.PathManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,6 +14,9 @@ import javax.servlet.http.HttpServletRequest;
  * @since 1.0
  */
 public class ShowRegisterCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(ShowRegisterCommand.class);
+    private static final String COMMAND_REQUESTED_MESSAGE = "Show register command was requested";
+    private static final String COMMAND_EXECUTED_MESSAGE = "Show register command was executed";
 
     private ShowRegisterCommand() {
     }
@@ -31,6 +36,8 @@ public class ShowRegisterCommand implements ActionCommand {
      */
     @Override
     public String execute(HttpServletRequest request) {
+        logger.info(COMMAND_REQUESTED_MESSAGE);
+        logger.info(COMMAND_EXECUTED_MESSAGE);
         return PathManager.getRegisterPagePath();
     }
 

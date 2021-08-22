@@ -22,6 +22,10 @@
            <AppenderRef ref="Console-err" level="error"/>
            <AppenderRef ref="Console-out" level="info"/>
        </Logger>
+       <Logger name="by.epam.jwd.web.command" additivity="false">
+           <AppenderRef ref="Console-err" level="error"/>
+           <AppenderRef ref="Console-out" level="info"/>
+       </Logger>
        <Root level="info">
            <AppenderRef ref="Console-out"/>
        </Root>

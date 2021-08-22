@@ -5,6 +5,8 @@ import by.epam.jwd.web.model.Book;
 import by.epam.jwd.web.resource.CommandManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.BookService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,8 +17,10 @@ import javax.servlet.http.HttpServletRequest;
  * @since 1.0
  */
 public class DeleteBookCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(DeleteBookCommand.class);
     private final BookService bookService = BookService.getInstance();
-
+    private static final String COMMAND_REQUESTED_MESSAGE = "Delete book command was requested";
+    private static final String COMMAND_EXECUTED_MESSAGE = "Delete book command was executed";
     private static final String REQUEST_BOOK_ID_PARAMETER_KEY = "id";
     private static final String REQUEST_MESSAGE_ATTRIBUTE_KEY = "message";
     private static final String BOOK_WAS_DELETED_MESSAGE_KEY = "book.deleted";
@@ -40,10 +44,12 @@ public class DeleteBookCommand implements ActionCommand {
      */
     @Override
     public String execute(HttpServletRequest request) {
+        logger.info(COMMAND_REQUESTED_MESSAGE);
         final Long id = Long.valueOf(request.getParameter(REQUEST_BOOK_ID_PARAMETER_KEY));
         final Book book = bookService.findById(id);
         bookService.delete(book);
         request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(BOOK_WAS_DELETED_MESSAGE_KEY));
+        logger.info(COMMAND_EXECUTED_MESSAGE);
         return CommandManager.getShowBooksCommand();
     }
 

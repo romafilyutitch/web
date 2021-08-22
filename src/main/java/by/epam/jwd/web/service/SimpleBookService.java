@@ -32,8 +32,10 @@ class SimpleBookService implements BookService {
     private static final String BOOK_WAS_SAVED_MESSAGE = "Book was saved %s";
     private static final String BOOK_WAS_DELETED_MESSAGE = "Book was deleted %s";
     private static final String BOOKS_WERE_FOUND_BY_GENRE_MESSAGE = "Books by genre %s were found size = %d";
-    private static final String BOOKS_BY_NAME_WERE_FOUND_MESSAGE = "Books by name %s were found size = %d";
+    private static final String BOOKS_WITH_NAME_LIKE_WERE_FOUND = "Books by name like %s were found size = %d";
     private static final String ALL_BOOKS_WERE_FOUND_MESSAGE = "All books were found size = %d";
+    private static final String NO_BOOKS_WITH_NAME_MESSAGE = "Find book by name but there is no any book with name %s";
+    private static final String BOOK_WAS_FOUND_BY_NAME_MESSAGE = "Book was found by name %s";
 
     private SimpleBookService() {
     }
@@ -172,16 +174,33 @@ class SimpleBookService implements BookService {
 
 
     /**
-     * Finds books that has passed book name.
-     *
-     * @param name that book need to be found.
-     * @return collection of books which names mathces with passed one.
+     * Finds Book which names are like passed name.
+     * @param name of those books that hase name like passed
+     * @return collection of books which names matches with the passed one.
      */
     @Override
-    public List<Book> findByName(String name) {
-        List<Book> booksByName = bookDao.findByName(name);
-        logger.info(String.format(BOOKS_BY_NAME_WERE_FOUND_MESSAGE, name, booksByName.size()));
+    public List<Book> findWhereNameLike(String name) {
+        List<Book> booksByName = bookDao.findWhereNameLike(name);
+        logger.info(String.format(BOOKS_WITH_NAME_LIKE_WERE_FOUND, name, booksByName.size()));
         return booksByName;
+    }
+
+    /**
+     * Finds book by passed name.
+     * @param name to book which need to be found by name
+     * @return not empty optional book if there is book with passed name
+     * or empty optional book otherwise
+     */
+    @Override
+    public Optional<Book> findByName(String name) {
+        final Optional<Book> optionalBook = bookDao.findByName(name);
+        if (optionalBook.isPresent()) {
+            final Book foundBook = optionalBook.get();
+            logger.info(String.format(BOOK_WAS_FOUND_BY_NAME_MESSAGE, foundBook));
+        } else {
+            logger.info(String.format(NO_BOOKS_WITH_NAME_MESSAGE, name));
+        }
+        return optionalBook;
     }
 
     /**

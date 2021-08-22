@@ -19,6 +19,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class MySQLBookDaoTest {
     private final MySQLBookDao testDao = MySQLBookDao.getInstance();
@@ -119,18 +120,30 @@ public class MySQLBookDaoTest {
     }
 
     @Test
-    public void findByName_mustReturnCollectionWithSavedBook_whenSavedBookNameWasPassed() {
-        final List<Book> booksByName = testDao.findByName(testBook.getName());
-        assertNotNull(booksByName);
-        assertTrue(booksByName.contains(testBook));
+    public void findByName_mustReturnSavedBookWithPassedName_whenSavedBookNameWasPassed() {
+        final Optional<Book> optionalBook = testDao.findByName(testBook.getName());
+        assertNotNull(optionalBook);
+        assertTrue(optionalBook.isPresent());
+        assertEquals(optionalBook.get().getName(), testBook.getName());
     }
 
     @Test
-    public void findByName_mustReturnCollectionWithoutDeletedBook_whenDeletedBookNameWasPassed() {
+    public void findByName_mustReturnEmptyOptionalBook_whenThereNotBookWithPassedName() {
         testDao.delete(testBook.getId());
-        final List<Book> booksByName = testDao.findByName(testBook.getName());
-        assertNotNull(booksByName);
-        assertFalse(booksByName.contains(testBook));
+        final Optional<Book> optionalBook = testDao.findByName(testBook.getName());
+        assertNotNull(optionalBook);
+        assertFalse(optionalBook.isPresent());
+    }
+
+    @Test
+    public void findWhereNameLike_mustReturnCollectionWithMatchesBooksWithNameLikePassedName() {
+        final List<Book> booksWithNameLikePassed = testDao.findWhereNameLike(testBook.getName());
+        assertNotNull(booksWithNameLikePassed);
+        for (Book book : booksWithNameLikePassed) {
+            if (!book.getName().contains(testBook.getName())) {
+                fail();
+            }
+        }
     }
 
     @Test

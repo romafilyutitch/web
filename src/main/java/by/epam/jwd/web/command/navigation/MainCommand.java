@@ -23,7 +23,6 @@ import java.util.Locale;
 public class MainCommand implements ActionCommand {
     private final BookService bookService = BookService.getInstance();
     private final CommentService commentService = CommentService.getInstance();
-
     private static final String REQUEST_BOOKS_ATTRIBUTE_KEY = "books";
     private static final String REQUEST_PAGE_PARAMETER_KEY = "page";
     private static final String REQUEST_COMMENTS_ATTRIBUTE_KEY = "comments";

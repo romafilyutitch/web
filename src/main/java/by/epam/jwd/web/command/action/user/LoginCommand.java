@@ -8,6 +8,8 @@ import by.epam.jwd.web.service.UserService;
 import by.epam.jwd.web.service.WrongLoginException;
 import by.epam.jwd.web.service.WrongPasswordException;
 import by.epam.jwd.web.validation.Validation;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,14 +24,16 @@ import java.util.List;
  * @since 1.0
  */
 public class LoginCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(LoginCommand.class);
     private final UserService userService = UserService.getInstance();
     private final Validation<User> userValidation = Validation.getUserValidation();
-
+    private static final String COMMAND_REQUESTED_MESSAGE = "Login command was requested";
+    private static final String COMMAND_EXECUTED_MESSAGE = "Login command was executed";
+    private static final String INVALID_USER_MESSAGE = "Can't login user. Invalid user was get from request";
     private static final String REQUEST_LOGIN_PARAMETER_KEY = "login";
     private static final String REQUEST_PASSWORD_PARAMETER_KEY = "password";
     private static final String REQUEST_MESSAGE_ATTRIBUTE_KEY = "message";
     private static final String SESSION_USER_ATTRIBUTE_KEY = "user";
-    private static final String SESSION_CURRENT_DATE_ATTRIBUTE_KEY = "currentDate";
     private static final String USER_WAS_LOGGED_IN_MESSAGE_KEY = "user.login.loggedIn";
     private static final String WRONG_LOGIN_MESSAGE_KEY = "user.login.wrongLogin";
     private static final String WRONG_PASSWORD_MESSAGE_KEY = "user.login.wrongPassword";
@@ -56,26 +60,33 @@ public class LoginCommand implements ActionCommand {
      */
     @Override
     public String execute(HttpServletRequest request) {
-        final String login = request.getParameter(REQUEST_LOGIN_PARAMETER_KEY);
-        final String password = request.getParameter(REQUEST_PASSWORD_PARAMETER_KEY);
-        final User user = new User(login, password);
-        final List<String> validateMessages = userValidation.validate(user);
-        if (!validateMessages.isEmpty()) {
+        logger.info(COMMAND_REQUESTED_MESSAGE);
+        final User userFromRequest = buildUserFromRequest(request);
+        final List<String> validateMessages = userValidation.validate(userFromRequest);
+        if (validateMessages.isEmpty()) {
+            try {
+                final User savedUser = userService.login(userFromRequest);
+                final HttpSession session = request.getSession();
+                session.setAttribute(SESSION_USER_ATTRIBUTE_KEY, savedUser);
+                request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(USER_WAS_LOGGED_IN_MESSAGE_KEY));
+            } catch (WrongLoginException e) {
+                request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(WRONG_LOGIN_MESSAGE_KEY));
+            } catch (WrongPasswordException e) {
+                request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(WRONG_PASSWORD_MESSAGE_KEY));
+            }
+        } else {
+            logger.info(INVALID_USER_MESSAGE);
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, validateMessages);
             return PathManager.getLoginPagePath();
         }
-        try {
-            final User savedUser = userService.login(user);
-            final HttpSession session = request.getSession();
-            session.setAttribute(SESSION_USER_ATTRIBUTE_KEY, savedUser);
-            session.setAttribute(SESSION_CURRENT_DATE_ATTRIBUTE_KEY, LocalDate.now());
-            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(USER_WAS_LOGGED_IN_MESSAGE_KEY));
-        } catch (WrongLoginException e) {
-            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(WRONG_LOGIN_MESSAGE_KEY));
-        } catch (WrongPasswordException e) {
-            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(WRONG_PASSWORD_MESSAGE_KEY));
-        }
+        logger.info(COMMAND_EXECUTED_MESSAGE);
         return PathManager.getLoginPagePath();
+    }
+
+    private User buildUserFromRequest(HttpServletRequest request) {
+        final String login = request.getParameter(REQUEST_LOGIN_PARAMETER_KEY);
+        final String password = request.getParameter(REQUEST_PASSWORD_PARAMETER_KEY);
+        return new User(login, password);
     }
 
     /**

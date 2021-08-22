@@ -14,14 +14,16 @@ public interface ConnectionPool {
 
     /**
      * Returns free connection from connection pool.
-     * @throws IllegalStateException when connection pool is not initialized
+     * @throws IllegalStateException when connection pool is not initialized.
+     * @throws ConnectionActionException when thread that takes connection is interrupted.
      * @return free connection
      */
     Connection takeFreeConnection();
 
     /**
      * Puts used connection pool to connection pool
-     * @throws IllegalStateException when connection pool is not initialized
+     * @throws IllegalStateException when connection pool is not initialized.
+     * @throws ConnectionActionException when thread that returns connection is interrupted.
      * @param connection used connection that needs to
      *                   be returned to connection pool
      */

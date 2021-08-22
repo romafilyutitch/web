@@ -2,6 +2,8 @@ package by.epam.jwd.web.command.navigation;
 
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.resource.PathManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,6 +14,9 @@ import javax.servlet.http.HttpServletRequest;
  * @since 1.0
  */
 public class ShowLoginCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(ShowLoginCommand.class);
+    private static final String COMMAND_REQUESTED_MESSAGE = "Show login command was requested";
+    private static final String COMMAND_EXECUTED_MESSAGE = "Show login command was executed";
 
     private ShowLoginCommand() {
     }
@@ -31,6 +36,8 @@ public class ShowLoginCommand implements ActionCommand {
      */
     @Override
     public String execute(HttpServletRequest request) {
+        logger.info(COMMAND_REQUESTED_MESSAGE);
+        logger.info(COMMAND_EXECUTED_MESSAGE);
         return PathManager.getLoginPagePath();
     }
 

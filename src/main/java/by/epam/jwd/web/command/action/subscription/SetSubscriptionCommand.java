@@ -7,6 +7,8 @@ import by.epam.jwd.web.resource.CommandManager;
 import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.service.UserService;
 import by.epam.jwd.web.validation.Validation;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
@@ -22,9 +24,12 @@ import java.util.Locale;
  * @since 1.0
  */
 public class SetSubscriptionCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(SetSubscriptionCommand.class);
     private final UserService userService = UserService.getInstance();
     private final Validation<Subscription> subscriptionValidation = Validation.getSubscriptionValidation();
-
+    private static final String COMMAND_REQUESTED_MESSAGE = "Set subscription command was requested";
+    private static final String COMMAND_EXECUTED_MESSAGE = "Set subscription command was executed";
+    private static final String INVALID_SUBSCRIPTION_MESSAGE = "Can't save subscription. Invalid subscription was get from request";
     private static final String REQUEST_USER_ID_PARAMETER_KEY = "id";
     private static final String REQUEST_START_DATE_PARAMETER_KEY = "start_date";
     private static final String REQUEST_END_DATE_PARAMETER_KEY = "end_date";
@@ -55,16 +60,19 @@ public class SetSubscriptionCommand implements ActionCommand {
      */
     @Override
     public String execute(HttpServletRequest request) {
+        logger.info(COMMAND_REQUESTED_MESSAGE);
         final Subscription subscriptionFromRequest = buildSubscriptionFromRequest(request);
-        final List<String> validationMessages = subscriptionValidation.validate(subscriptionFromRequest);
-        if (!validationMessages.isEmpty()) {
-            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, validationMessages);
-            return CommandManager.getShowUsersCommand();
-        }
         final Long userId = Long.valueOf(request.getParameter(REQUEST_USER_ID_PARAMETER_KEY));
         final User foundUser = userService.findById(userId);
-        userService.setSubscription(foundUser, subscriptionFromRequest);
-        request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(SUBSCRIPTION_REGISTERED_MESSAGE_KEY));
+        final List<String> validationMessages = subscriptionValidation.validate(subscriptionFromRequest);
+        if (validationMessages.isEmpty()) {
+            userService.setSubscription(foundUser, subscriptionFromRequest);
+            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(SUBSCRIPTION_REGISTERED_MESSAGE_KEY));
+        } else {
+            logger.info(INVALID_SUBSCRIPTION_MESSAGE);
+            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, validationMessages);
+        }
+        logger.info(COMMAND_EXECUTED_MESSAGE);
         return CommandManager.getShowUsersCommand();
     }
 

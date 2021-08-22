@@ -11,11 +11,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class SimpleBookServiceTest {
     private final SimpleBookService testService = SimpleBookService.getInstance();
@@ -115,25 +117,37 @@ public class SimpleBookServiceTest {
     public void findByGenre_mustReturnListOfBooksWithPassedGenre() {
         final List<Book> foundBooks = testService.findByGenre(testBook.getGenre());
         assertNotNull(foundBooks);
-        if (!foundBooks.isEmpty()) {
-            for (Book foundBook : foundBooks) {
-                assertEquals(testBook.getGenre(), foundBook.getGenre());
+        for (Book foundBook : foundBooks) {
+            if (!foundBook.getGenre().equals(testBook.getGenre())) {
+                fail();
             }
         }
     }
 
     @Test
-    public void findByName_mustReturnCollectionWithSavedBook_whenSavedBookNameWasPassed() {
-        final List<Book> booksByName = testService.findByName(testBook.getName());
-        assertNotNull(booksByName);
-        assertTrue(booksByName.contains(testBook));
+    public void findByName_mustReturnBookWithName_whenSavedBookNameWasPassed() {
+        final Optional<Book> optionalBook = testService.findByName(testBook.getName());
+        assertNotNull(optionalBook);
+        assertTrue(optionalBook.isPresent());
+        assertEquals(optionalBook.get().getName(), testBook.getName());
     }
 
     @Test
-    public void findByName_mustReturnCollectionWithoutDeletedBook_whenDeletedBookNameWasPassed() {
+    public void findByName_mustReturnEmptyOptionalBook_whenDeletedBookNameWasPassed() {
         testService.delete(testBook);
-        final List<Book> booksByName = testService.findByName(testBook.getName());
-        assertNotNull(booksByName);
-        assertFalse(booksByName.contains(testBook));
+        final Optional<Book> optionalBook = testService.findByName(testBook.getName());
+        assertNotNull(optionalBook);
+        assertFalse(optionalBook.isPresent());
+    }
+
+    @Test
+    public void findWhereNameLike_mustReturnCollectionOfBooksWithMatchesNames() {
+        final List<Book> booksWithMatchesNames = testService.findWhereNameLike(testBook.getName());
+        assertNotNull(booksWithMatchesNames);
+        for (Book book : booksWithMatchesNames) {
+            if (!book.getName().contains(testBook.getName())) {
+                fail();
+            }
+        }
     }
 }

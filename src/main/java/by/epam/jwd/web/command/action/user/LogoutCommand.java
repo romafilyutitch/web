@@ -2,7 +2,8 @@ package by.epam.jwd.web.command.action.user;
 
 import by.epam.jwd.web.command.ActionCommand;
 import by.epam.jwd.web.resource.CommandManager;
-import by.epam.jwd.web.resource.PathManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,6 +15,9 @@ import javax.servlet.http.HttpSession;
  * @since 1.0
  */
 public class LogoutCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(LogoutCommand.class);
+    private static final String COMMAND_REQUESTED_MESSAGE = "Logout command was requested";
+    private static final String COMMAND_EXECUTED_MESSAGE = "Logout command was executed";
 
     private LogoutCommand() {
     }
@@ -33,8 +37,10 @@ public class LogoutCommand implements ActionCommand {
      */
     @Override
     public String execute(HttpServletRequest request) {
+        logger.info(COMMAND_REQUESTED_MESSAGE);
         final HttpSession session = request.getSession();
         session.invalidate();
+        logger.info(COMMAND_EXECUTED_MESSAGE);
         return CommandManager.getMainCommand();
     }
 

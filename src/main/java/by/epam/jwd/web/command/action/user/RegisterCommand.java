@@ -6,6 +6,8 @@ import by.epam.jwd.web.resource.MessageManager;
 import by.epam.jwd.web.resource.PathManager;
 import by.epam.jwd.web.service.UserService;
 import by.epam.jwd.web.validation.Validation;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,9 +22,12 @@ import java.util.Optional;
  * @since 1.0
  */
 public class RegisterCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(RegisterCommand.class);
     private final UserService userService = UserService.getInstance();
     private final Validation<User> userValidation = Validation.getUserValidation();
-
+    private static final String COMMAND_REQUESTED_MESSAGE = "Register command was requested";
+    private static final String COMMAND_EXECUTED_MESSAGE = "Register command was executed";
+    private static final String INVALID_USER_MESSAGE = "Can't register user. Invalid user was get from request";
     private static final String REQUEST_LOGIN_PARAMETER_KEY = "login";
     private static final String REQUEST_PASSWORD_PARAMETER_KEY = "password";
     private static final String REQUEST_MESSAGE_ATTRIBUTE_KEY = "message";
@@ -51,24 +56,31 @@ public class RegisterCommand implements ActionCommand {
      */
     @Override
     public String execute(HttpServletRequest request) {
-        final HttpSession currentSession = request.getSession();
+        logger.info(COMMAND_REQUESTED_MESSAGE);
+        final User userFromRequest = buildUserFromRequest(request);
+        final List<String> validationMessages = userValidation.validate(userFromRequest);
+        if (validationMessages.isEmpty()) {
+            final Optional<User> optionalUserByLogin = userService.findByLogin(userFromRequest.getLogin());
+            if (optionalUserByLogin.isPresent()) {
+                request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(USER_WITH_ENTERED_LOGIN_EXITS_MESSAGE_KEY));
+            } else {
+                final User registeredUser = userService.save(userFromRequest);
+                final HttpSession currentSession = request.getSession();
+                currentSession.setAttribute(SESSION_USER_ATTRIBUTE_KEY, registeredUser);
+                request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(USER_WAS_REGISTERED_MESSAGE_KEY));
+            }
+        } else {
+            logger.info(INVALID_USER_MESSAGE);
+            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, validationMessages);
+        }
+        logger.info(COMMAND_EXECUTED_MESSAGE);
+        return PathManager.getRegisterPagePath();
+    }
+
+    private User buildUserFromRequest(HttpServletRequest request) {
         final String login = request.getParameter(REQUEST_LOGIN_PARAMETER_KEY);
         final String password = request.getParameter(REQUEST_PASSWORD_PARAMETER_KEY);
-        final User user = new User(login, password);
-        final List<String> validationMessages = userValidation.validate(user);
-        if (!validationMessages.isEmpty()) {
-            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, validationMessages);
-            return PathManager.getRegisterPagePath();
-        }
-        final Optional<User> optionalUserByLogin = userService.findByLogin(login);
-        if (optionalUserByLogin.isPresent()) {
-            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(USER_WITH_ENTERED_LOGIN_EXITS_MESSAGE_KEY));
-        } else {
-            final User registeredUser = userService.save(user);
-            currentSession.setAttribute(SESSION_USER_ATTRIBUTE_KEY, registeredUser);
-            request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(USER_WAS_REGISTERED_MESSAGE_KEY));
-        }
-        return PathManager.getRegisterPagePath();
+        return new User(login, password);
     }
 
     /**
