@@ -84,9 +84,9 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="list-group">
-                                        <button class="list-group-item list-group-item-action" onclick="findFiction()"><fmt:message key="fiction"/></button>
-                                        <button class="list-group-item list-group-item-action" onclick="findFantasy()"><fmt:message key="fantasy"/></button>
-                                        <button class="list-group-item list-group-item-action" onclick="findScience()"><fmt:message key="science"/></button>
+                                        <button class="list-group-item list-group-item-action" onclick="findByGenre('fiction')"><fmt:message key="fiction"/></button>
+                                        <button class="list-group-item list-group-item-action" onclick="findByGenre('fantasy')"><fmt:message key="fantasy"/></button>
+                                        <button class="list-group-item list-group-item-action" onclick="findByGenre('science')"><fmt:message key="science"/></button>
                                     </div>
                                 </div>
                                 <div class="modal-footer">

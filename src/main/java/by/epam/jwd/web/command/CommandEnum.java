@@ -3,10 +3,6 @@ package by.epam.jwd.web.command;
 import by.epam.jwd.web.command.action.book.AddBookCommand;
 import by.epam.jwd.web.command.action.book.AddCopyCommand;
 import by.epam.jwd.web.command.action.book.DeleteBookCommand;
-import by.epam.jwd.web.command.find.FindBookByNameCommand;
-import by.epam.jwd.web.command.find.FindFantasyCommand;
-import by.epam.jwd.web.command.find.FindFictionCommand;
-import by.epam.jwd.web.command.find.FindScienceCommand;
 import by.epam.jwd.web.command.action.book.RemoveCopyCommand;
 import by.epam.jwd.web.command.action.comment.AddCommentCommand;
 import by.epam.jwd.web.command.action.comment.DeleteCommentCommand;
@@ -24,6 +20,8 @@ import by.epam.jwd.web.command.action.user.LoginCommand;
 import by.epam.jwd.web.command.action.user.LogoutCommand;
 import by.epam.jwd.web.command.action.user.PromoteRoleCommand;
 import by.epam.jwd.web.command.action.user.RegisterCommand;
+import by.epam.jwd.web.command.find.FindBookByGenreCommand;
+import by.epam.jwd.web.command.find.FindBookByNameCommand;
 import by.epam.jwd.web.command.language.SetLanguageCommand;
 import by.epam.jwd.web.command.navigation.MainCommand;
 import by.epam.jwd.web.command.navigation.ShowAccountCommand;
@@ -44,6 +42,7 @@ import java.util.List;
  * perform command.
  * Also permission based of current user role is defined for
  * each command.
+ *
  * @author roma0
  * @version 1.0
  * @since 1.0
@@ -61,9 +60,7 @@ public enum CommandEnum {
     LOGOUT(LogoutCommand.getInstance(), UserRole.READER, UserRole.ADMIN, UserRole.LIBRARIAN),
     REGISTER(RegisterCommand.getInstance(), UserRole.UNAUTHORIZED),
     FIND_BOOK_BY_NAME(FindBookByNameCommand.getInstance(), UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
-    FIND_FICTION(FindFictionCommand.getInstance(), UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
-    FIND_FANTASY(FindFantasyCommand.getInstance(), UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
-    FIND_SCIENCE(FindScienceCommand.getInstance(), UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
+    FIND_BOOK_BY_GENRE(FindBookByGenreCommand.getInstance(), UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
     ADD_COPY(AddCopyCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN),
     REMOVE_COPY(RemoveCopyCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN),
     ADD_BOOK(AddBookCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN),
@@ -89,8 +86,9 @@ public enum CommandEnum {
     /**
      * Constructor that defines command and role of user
      * that may use that command.
+     *
      * @param command request command
-     * @param roles role of users that may to use this command
+     * @param roles   role of users that may to use this command
      */
     CommandEnum(ActionCommand command, UserRole... roles) {
         this.command = command;
@@ -100,6 +98,7 @@ public enum CommandEnum {
     /**
      * Returns all user roles that may use current command.
      * Used to define whether user with its role execute current command.
+     *
      * @return user roles that may use current command.
      */
     public List<UserRole> getAllowedRoles() {
@@ -110,6 +109,7 @@ public enum CommandEnum {
      * Returns current {@link ActionCommand} instance.
      * Used by {@link CommandFactory} to get {@link ActionCommand} instance for
      * command pattern to execute command.
+     *
      * @return current enum command.
      */
     public ActionCommand getCurrentCommand() {

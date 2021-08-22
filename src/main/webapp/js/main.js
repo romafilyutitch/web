@@ -36,36 +36,17 @@ $(document).ready(function(){
         })
     })
 })
-function findFiction() {
+function findByGenre(genre) {
     $.ajax({
         url:"controller",
         method:"get",
-        data:{command:"find_fiction"},
+        data:{command:"find_book_by_genre", genre:genre},
         success:function(response) {
             $("body").html(response);
         }
     })
 }
-function findFantasy() {
-    $.ajax({
-        url:"controller",
-        method:"get",
-        data:{command:"find_fantasy"},
-        success:function(response) {
-            $("body").html(response);
-        }
-    })
-}
-function findScience() {
-    $.ajax({
-        url:"controller",
-        method:"get",
-        data:{command:"find_science"},
-        success:function(response) {
-            $("body").html(response);
-        }
-    })
-}
+
 function findAllBooks() {
     $.ajax({
         url:"controller",
