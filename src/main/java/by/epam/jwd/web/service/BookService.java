@@ -53,6 +53,27 @@ public interface BookService extends Service<Book> {
     List<Book> findByGenre(Genre genre);
 
     /**
+     * Performs sort of passed books by their names
+     * @param books books that need to be sorted
+     * @return sorted books by name
+     */
+    List<Book> sortByName(List<Book> books);
+
+    /**
+     * Performs sort of passed books by their likes amount in descending order
+     * @param books that need to be sorted
+     * @return sorted books.
+     */
+    List<Book> sortByLikes(List<Book> books);
+
+    /**
+     * Performs sort of passed books by their comments amount in descending order
+     * @param books that need to be sorted
+     * @return sorted books.
+     */
+    List<Book> sortByComments(List<Book> books);
+
+    /**
      * Returns book service interface implementation instance.
      * @return book service instance
      */

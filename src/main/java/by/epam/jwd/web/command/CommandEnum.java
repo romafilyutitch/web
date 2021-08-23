@@ -31,6 +31,9 @@ import by.epam.jwd.web.command.navigation.ShowOrdersListCommand;
 import by.epam.jwd.web.command.navigation.ShowRegisterCommand;
 import by.epam.jwd.web.command.navigation.ShowUserOrdersPageCommand;
 import by.epam.jwd.web.command.navigation.ShowUsersListCommand;
+import by.epam.jwd.web.command.sort.SortBooksByCommentsCommand;
+import by.epam.jwd.web.command.sort.SortBooksByLikesCommand;
+import by.epam.jwd.web.command.sort.SortBooksByNameCommand;
 import by.epam.jwd.web.model.UserRole;
 
 import java.util.Arrays;
@@ -61,6 +64,9 @@ public enum CommandEnum {
     REGISTER(RegisterCommand.getInstance(), UserRole.UNAUTHORIZED),
     FIND_BOOK_BY_NAME(FindBookByNameCommand.getInstance(), UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
     FIND_BOOK_BY_GENRE(FindBookByGenreCommand.getInstance(), UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
+    SORT_BOOK_BY_NAME(SortBooksByNameCommand.getInstance(), UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
+    SORT_BOOK_BY_LIKES(SortBooksByLikesCommand.getInstance(), UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
+    SORT_BOOK_BY_COMMENTS(SortBooksByCommentsCommand.getInstance(), UserRole.UNAUTHORIZED, UserRole.READER, UserRole.LIBRARIAN, UserRole.ADMIN),
     ADD_COPY(AddCopyCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN),
     REMOVE_COPY(RemoveCopyCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN),
     ADD_BOOK(AddBookCommand.getInstance(), UserRole.ADMIN, UserRole.LIBRARIAN),

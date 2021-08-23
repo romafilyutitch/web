@@ -7,6 +7,7 @@ import by.epam.jwd.web.model.Genre;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -21,7 +22,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 class SimpleBookService implements BookService {
     private static final Logger logger = LogManager.getLogger(SimpleBookService.class);
-
     private final BookDao bookDao = DAOFactory.getFactory().getBookDao();
 
     private static final String PAGE_WAS_FOUND_MESSAGE = "Page of books number %d was found size = %d";
@@ -36,6 +36,9 @@ class SimpleBookService implements BookService {
     private static final String ALL_BOOKS_WERE_FOUND_MESSAGE = "All books were found size = %d";
     private static final String NO_BOOKS_WITH_NAME_MESSAGE = "Find book by name but there is no any book with name %s";
     private static final String BOOK_WAS_FOUND_BY_NAME_MESSAGE = "Book was found by name %s";
+    private static final String BOOKS_WERE_SORTED_BY_NAME_MESSAGE = "Books were sorted by name";
+    private static final String BOOKS_WERE_SORTED_BY_LIKES_MESSAGE = "Books were sorted by likes";
+    private static final String BOOKS_WERE_SORTED_BY_COMMENTS_MESSAGE = "Books were sorted by comments";
 
     private SimpleBookService() {
     }
@@ -201,6 +204,27 @@ class SimpleBookService implements BookService {
             logger.info(String.format(NO_BOOKS_WITH_NAME_MESSAGE, name));
         }
         return optionalBook;
+    }
+
+    @Override
+    public List<Book> sortByName(List<Book> books) {
+        books.sort(Comparator.comparing(Book::getName));
+        logger.info(BOOKS_WERE_SORTED_BY_NAME_MESSAGE);
+        return books;
+    }
+
+    @Override
+    public List<Book> sortByLikes(List<Book> books) {
+        books.sort(Comparator.comparingInt(Book::getLikesAmount).reversed());
+        logger.info(BOOKS_WERE_SORTED_BY_LIKES_MESSAGE);
+        return books;
+    }
+
+    @Override
+    public List<Book> sortByComments(List<Book> books) {
+        books.sort(Comparator.comparingInt(Book::getCommentsAmount).reversed());
+        logger.info(BOOKS_WERE_SORTED_BY_COMMENTS_MESSAGE);
+        return books;
     }
 
     /**

@@ -90,6 +90,7 @@ public class MySQLLikeDaoTest {
         final Book savedBook = MySQLBookDao.getInstance().save(newBook);
         testLike = new Like(testLike.getId(), testLike.getUser(), savedBook);
         final Like updatedLike = testDao.update(testLike);
+        testDao.delete(updatedLike.getId());
         MySQLBookDao.getInstance().delete(savedBook.getId());
         assertNotNull(updatedLike);
         assertEquals(savedBook, updatedLike.getBook());

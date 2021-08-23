@@ -10,7 +10,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,7 +56,7 @@ public class MainCommand implements ActionCommand {
         final String pageParameter = request.getParameter(REQUEST_PAGE_PARAMETER_KEY);
         int currentPageNumber = pageParameter == null ? 1 : Integer.parseInt(pageParameter);
         final List<Book> currentPage = bookService.findPage(currentPageNumber);
-        final List<Comment> comments = findComments(currentPage);
+        final List<Comment> comments = commentService.findByBooks(currentPage);
         final int pagesAmount = bookService.getPagesAmount();
         request.setAttribute(REQUEST_COMMENTS_ATTRIBUTE_KEY, comments);
         request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, currentPage);
@@ -65,14 +64,6 @@ public class MainCommand implements ActionCommand {
         request.setAttribute(REQUEST_PAGES_AMOUNT_ATTRIBUTE_KEY, pagesAmount);
         logger.info(COMMAND_EXECUTED_MESSAGE);
         return PathManager.getMainPagePath();
-    }
-
-    private List<Comment> findComments(List<Book> books) {
-        final List<Comment> comments = new ArrayList<>();
-        for (Book book : books) {
-            comments.addAll(commentService.findByBook(book));
-        }
-        return comments;
     }
 
     /**

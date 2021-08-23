@@ -20,6 +20,13 @@ public interface CommentService extends Service<Comment>{
     List<Comment> findByBook(Book book);
 
     /**
+     * Finds comments that added to passed books
+     * @param books list of books that contains comments that need to be found
+     * @return books comments
+     */
+    List<Comment> findByBooks(List<Book> books);
+
+    /**
      * Returns Comment service implementation instance
      * @return Comment service instance;
      */

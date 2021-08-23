@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -149,5 +150,29 @@ public class SimpleBookServiceTest {
                 fail();
             }
         }
+    }
+
+    @Test
+    public void sortByName_mustReturnSortedBooksByName() {
+        final List<Book> allBooks = testService.findAll();
+        final List<Book> sortedBooks = testService.sortByName(allBooks);
+        allBooks.sort(Comparator.comparing(Book::getName));
+        assertEquals(allBooks, sortedBooks);
+    }
+
+    @Test
+    public void sortByLikes_mustReturnSortedBooksByLikeInDescendingOrder() {
+        final List<Book> allBooks = testService.findAll();
+        final List<Book> sortByLikes = testService.sortByLikes(allBooks);
+        allBooks.sort(Comparator.comparingInt(Book::getLikesAmount).reversed());
+        assertEquals(allBooks, sortByLikes);
+    }
+
+    @Test
+    public void sortByComments_mustReturnSortedBooksByCommentInDescendingOrder() {
+        final List<Book> allBooks = testService.findAll();
+        final List<Book> sortByComments = testService.sortByComments(allBooks);
+        allBooks.sort(Comparator.comparingInt(Book::getCommentsAmount).reversed());
+        assertEquals(allBooks, sortByComments);
     }
 }

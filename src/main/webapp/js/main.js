@@ -117,4 +117,36 @@ function logout() {
         }
     })
 }
+function sortBooksByName() {
+    $.ajax({
+        url:"controller",
+        method:"get",
+        data:{command:"sort_book_by_name"},
+        success:function(response) {
+            $("body").html(response);
+        }
+    })
+}
+
+function sortBooksByLikes() {
+    $.ajax({
+        url:"controller",
+        method:"get",
+        data:{command:"sort_book_by_likes"},
+        success:function(response) {
+            $("body").html(response);
+        }
+    })
+}
+
+function sortBooksByComments() {
+    $.ajax({
+        url:"controller",
+        method:"get",
+        data:{command:"sort_book_by_comments"},
+        success:function (response) {
+            $("body").html(response);
+        }
+    })
+}
 

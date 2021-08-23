@@ -12,12 +12,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Command that finds saved books by genre that was passed by client
  * and returns find result and forms message
+ *
  * @author roma0
  * @version 1.0
  * @since 1.0
@@ -41,6 +41,7 @@ public class FindBookByGenreCommand implements ActionCommand {
 
     /**
      * Returns class instance
+     *
      * @return instance
      */
     public static FindBookByGenreCommand getInstance() {
@@ -50,6 +51,7 @@ public class FindBookByGenreCommand implements ActionCommand {
     /**
      * Finds books by genre that client passed in request.
      * Request must contain genre parameter.
+     *
      * @param request request that need to be execute
      * @return command result path or command result command
      */
@@ -62,21 +64,13 @@ public class FindBookByGenreCommand implements ActionCommand {
         if (books.isEmpty()) {
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(NO_BOOKS_BY_GENRE_MESSAGE_KEY));
         } else {
-            final List<Comment> comments = findComments(books);
+            final List<Comment> comments = commentService.findByBooks(books);
             request.setAttribute(REQUEST_BOOKS_PARAMETER_KEY, books);
             request.setAttribute(REQUEST_COMMENTS_PARAMETER_KEY, comments);
             request.setAttribute(REQUEST_MESSAGE_PARAMETER_KEY, MessageManager.getMessage(BOOKS_WERE_FOUND_BY_GENRE_MESSAGE_KEY));
         }
         logger.info(COMMAND_EXECUTED_MESSAGE);
         return PathManager.getMainPagePath();
-    }
-
-    private List<Comment> findComments(List<Book> books) {
-        final List<Comment> comments = new ArrayList<>();
-        for (Book book : books) {
-            comments.addAll(commentService.findByBook(book));
-        }
-        return comments;
     }
 
     private static class Singleton {

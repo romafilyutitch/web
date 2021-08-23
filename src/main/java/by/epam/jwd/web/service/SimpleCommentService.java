@@ -7,6 +7,7 @@ import by.epam.jwd.web.model.Comment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,7 @@ class SimpleCommentService implements CommentService {
     private static final String SAVED_COMMENT_WAS_FOUND_BY_ID = "Saved comment was found by id %s";
     private static final String COMMENT_WAS_SAVED_MESSAGE = "Comment was saved %s ";
     private static final String COMMENT_WAS_DELETED_MESSAGE = "Comment with was deleted %s";
+    private static final String COMMENTS_FOR_LIST_OF_BOOK_FOUND_MESSAGE = "Comments for list of book were found";
 
     private final CommentDao commentDao = DAOFactory.getFactory().getCommentDao();
 
@@ -55,6 +57,19 @@ class SimpleCommentService implements CommentService {
         final List<Comment> foundBookComments = commentDao.findByBook(book);
         logger.info(String.format(COMMENTS_BY_BOOK_WAS_FOUND_MESSAGE, book.getName(), foundBookComments.size()));
         return foundBookComments;
+    }
+
+    /**
+     * Finds comments that added to passed books.
+     * @param books list of books that contains comments that need to be found
+     * @return list of comments of passed books
+     */
+    @Override
+    public List<Comment> findByBooks(List<Book> books) {
+        final List<Comment> foundComments = new ArrayList<>();
+        books.forEach(book -> foundComments.addAll(commentDao.findByBook(book)));
+        logger.info(COMMENTS_FOR_LIST_OF_BOOK_FOUND_MESSAGE);
+        return foundComments;
     }
 
     /**

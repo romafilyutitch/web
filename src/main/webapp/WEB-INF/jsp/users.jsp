@@ -7,7 +7,7 @@
 <fmt:setBundle basename="users"/>
 <html>
 <head>
-    <title>Users</title>
+    <title><fmt:message key="title"/></title>
     <link rel="stylesheet" href="webjars/bootstrap/5.0.1/css/bootstrap.css"/>
     <link rel="stylesheet" href="webjars/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.css">
     <script type="text/javascript" src="webjars/jquery/2.1.1/jquery.js"></script>

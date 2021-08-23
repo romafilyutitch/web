@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -71,6 +72,13 @@ public class SimpleCommentServiceTest {
         final List<Comment> foundComments = testService.findByBook(testComment.getBook());
         assertNotNull(foundComments);
         assertFalse(foundComments.contains(testComment));
+    }
+
+    @Test
+    public void findByBooks_mustReturnCommentsListWithTestComment() {
+        List<Book> books = Collections.singletonList(testComment.getBook());
+        final List<Comment> foundComments = testService.findByBooks(books);
+        assertTrue(foundComments.contains(testComment));
     }
 
     @Test

@@ -11,7 +11,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -65,21 +64,13 @@ public class FindBookByNameCommand implements ActionCommand {
             request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, Collections.emptyList());
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(BOOK_WAS_NOT_FOUND_BY_NAME_MESSAGE_KEY));
         } else {
-            final List<Comment> bookComments = findComments(booksWhereNameLike);
+            final List<Comment> bookComments = commentService.findByBooks(booksWhereNameLike);
             request.setAttribute(REQUEST_BOOKS_ATTRIBUTE_KEY, booksWhereNameLike);
             request.setAttribute(REQUEST_COMMENTS_ATTRIBUTE_KEY, bookComments);
             request.setAttribute(REQUEST_MESSAGE_ATTRIBUTE_KEY, MessageManager.getMessage(BOOK_WAS_FOUND_BY_NAME_MESSAGE_KEY));
         }
         logger.info(COMMAND_EXECUTED_MESSAGE);
         return PathManager.getMainPagePath();
-    }
-
-    private List<Comment> findComments(List<Book> books) {
-        final List<Comment> comments = new ArrayList<>();
-        for (Book book : books) {
-            comments.addAll(commentService.findByBook(book));
-        }
-        return comments;
     }
 
     /**
